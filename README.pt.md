@@ -18,7 +18,7 @@ Para rodar ou compilar este projeto, você precisará ter instalado em sua máqu
 - [Node.js](https://nodejs.org/) (v18 ou superior)
 - [Rust](https://www.rust-lang.org/tools/install)
 - [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (Necessário para compilar Rust no Windows)
-
+`
 ### Como Rodar
 
 1. Clone o repositório e acesse a pasta do projeto:
