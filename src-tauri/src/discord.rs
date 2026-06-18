@@ -29,7 +29,7 @@ use log::{error, info, warn};
 
 /// Discord Application ID placeholder.
 /// Replace with your actual Discord Application ID (as u64).
-const DISCORD_APP_ID: u64 = 1_000_000_000_000_000_000; // DISCORD_APP_ID_PLACEHOLDER
+const DISCORD_APP_ID: u64 = 1517170930764480552; // DISCORD_APP_ID_PLACEHOLDER
 
 // ---------------------------------------------------------------------------
 // DiscordHandle — send-side interface for the rest of the app
