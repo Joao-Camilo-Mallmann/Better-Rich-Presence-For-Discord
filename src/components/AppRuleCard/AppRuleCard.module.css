@@ -1,0 +1,198 @@
+.card {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+}
+
+.disabled {
+  opacity: 0.6;
+}
+
+.disabled:hover {
+  opacity: 0.8;
+}
+
+.header {
+  padding: var(--space-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.displayName {
+  font-size: var(--font-size-md);
+  color: var(--text-normal);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+.processName {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.preview {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Toggle Switch */
+.toggle {
+  width: 40px;
+  height: 24px;
+  background-color: var(--bg-tertiary);
+  border-radius: 12px;
+  position: relative;
+  transition: background-color var(--transition-normal);
+}
+
+.toggleOn {
+  background-color: var(--status-green);
+}
+
+.toggleKnob {
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: transform var(--transition-normal);
+  box-shadow: var(--shadow-low);
+}
+
+.toggleOn .toggleKnob {
+  transform: translateX(16px);
+}
+
+/* Editor */
+.editor {
+  padding: var(--space-4);
+  background-color: var(--bg-tertiary);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  animation: slideDown var(--transition-normal);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.formRow {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.formGroup label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+.formGroup input, .formGroup select {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-normal);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.formGroup input:focus, .formGroup select:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+}
+
+.editorActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+}
+
+.rightActions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.btnSave, .btnCancel, .btnDelete {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: background-color var(--transition-fast);
+}
+
+.btnSave {
+  background-color: var(--accent-primary);
+  color: white;
+}
+
+.btnSave:hover {
+  background-color: var(--accent-hover);
+}
+
+.btnCancel {
+  background-color: transparent;
+  color: var(--text-normal);
+}
+
+.btnCancel:hover {
+  text-decoration: underline;
+}
+
+.btnDelete {
+  background-color: transparent;
+  color: var(--danger);
+}
+
+.btnDelete:hover {
+  text-decoration: underline;
+}

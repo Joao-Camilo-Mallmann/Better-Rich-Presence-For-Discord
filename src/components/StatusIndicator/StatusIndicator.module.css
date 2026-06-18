@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.connected {
+  background-color: var(--status-green);
+  box-shadow: 0 0 8px rgba(35, 165, 89, 0.4);
+}
+
+.waiting, .updating {
+  background-color: var(--status-yellow);
+  animation: pulse 2s infinite;
+}
+
+.disconnected {
+  background-color: var(--status-red);
+}
+
+.paused {
+  background-color: var(--status-purple);
+}
+
+.text {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-medium);
+}

@@ -1,0 +1,24 @@
+.appContainer {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-tertiary);
+}
+
+.contentArea {
+  flex: 1;
+  background-color: var(--bg-primary);
+  border-top-left-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-top: 0;
+  box-shadow: -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-8) var(--space-10);
+  animation: fadeIn var(--transition-normal);
+}
