@@ -3,11 +3,17 @@ import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Apps } from "./pages/Apps/Apps";
 import { Settings } from "./pages/Settings/Settings";
 import { LogViewer } from "./components/LogViewer/LogViewer";
+import { LandingPage } from "./pages/LandingPage/LandingPage";
+
+const isTauri = typeof window !== "undefined" && (window as any).__TAURI_INTERNALS__ !== undefined;
 
 function App() {
   const [rpcActive, setRpcActive] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [showLogs, setShowLogs] = useState(false);
+  const [viewMode, setViewMode] = useState<"landing" | "app">(() => {
+    return isTauri ? "app" : "landing";
+  });
 
   const [systemTheme, setSystemTheme] = useState<"indigo" | "dark" | "amoled" | "light">(() => {
     return (localStorage.getItem("system_theme") as any) || "indigo";
@@ -18,13 +24,27 @@ function App() {
     document.documentElement.setAttribute("data-theme", systemTheme);
   }, [systemTheme]);
 
+  if (viewMode === "landing") {
+    return <LandingPage onEnterApp={() => setViewMode("app")} />;
+  }
+
   return (
     <div className="w-full h-screen flex flex-col bg-canvas text-ink overflow-hidden">
       {/* Header */}
       <header className="flex justify-between items-center px-4 py-3 border-b border-hairline bg-surface-indigo shrink-0">
-        <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Better RPC Logo" width="28" height="21" className="object-contain" />
-          <h1 className="text-md font-bold tracking-tight text-ink font-display">Better RPC</h1>
+        <div className="flex items-center gap-3">
+          {!isTauri && (
+            <button 
+              onClick={() => setViewMode("landing")}
+              className="text-xs font-bold text-muted-ink hover:text-ink transition-colors px-2.5 py-1.5 border border-hairline/60 bg-surface-onyx/40 rounded-xs cursor-pointer hover:scale-[1.02] active:scale-95"
+            >
+              ⬅ Voltar ao Site
+            </button>
+          )}
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="Better RPC Logo" width="28" height="21" className="object-contain" />
+            <h1 className="text-md font-bold tracking-tight text-ink font-display">Better RPC</h1>
+          </div>
         </div>
         
         {/* Header Controls */}
