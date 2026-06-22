@@ -16,7 +16,6 @@ use serde::{Deserialize, Serialize};
 /// Priority is fixed: Game(0) > Manual(1) > Work(2) > Browser(3) > Idle(4).
 /// A source with a **lower** priority number takes precedence.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
 pub enum PresenceSource {
     Game,
     Manual,
@@ -50,7 +49,6 @@ impl Default for PresenceSource {
 
 /// Lifecycle state of the Discord connection and presence engine.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
 pub enum PresenceState {
     /// Not connected to Discord.
     Disconnected,

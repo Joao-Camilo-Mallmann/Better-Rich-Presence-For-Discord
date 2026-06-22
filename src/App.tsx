@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Apps } from "./pages/Apps/Apps";
 import { Settings } from "./pages/Settings/Settings";
+import { LogViewer } from "./components/LogViewer/LogViewer";
 
 function App() {
   const [rpcActive, setRpcActive] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
+  const [showLogs, setShowLogs] = useState(false);
 
   return (
     <div className="w-full h-screen flex flex-col bg-canvas text-ink overflow-hidden">
@@ -43,6 +45,23 @@ function App() {
         {/* Library Section (Apps manager) */}
         <section className={`transition-opacity duration-150 ${!rpcActive ? "opacity-50 pointer-events-none" : ""}`}>
           <Apps />
+        </section>
+
+        {/* Collapsible Logs History */}
+        <section className="border-t border-hairline/20 pt-4">
+          <button 
+            onClick={() => setShowLogs(!showLogs)}
+            className="w-full flex justify-between items-center text-xs font-bold tracking-wider text-muted-ink hover:text-ink transition-colors py-2 px-1 uppercase"
+          >
+            <span>📜 Histórico de Logs</span>
+            <span>{showLogs ? "▲" : "▼"}</span>
+          </button>
+          
+          {showLogs && (
+            <div className="mt-2 p-3 bg-surface-indigo rounded-md border border-hairline">
+              <LogViewer />
+            </div>
+          )}
         </section>
 
         {/* Collapsible Advanced Settings */}

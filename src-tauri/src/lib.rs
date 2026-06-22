@@ -8,6 +8,49 @@ pub mod watcher;
 use crate::commands::AppState;
 use crate::types::{AppRule, ConnectionInfo, EngineEvent, PresenceSource, PresenceState, Settings};
 use std::sync::Arc;
+use tauri::Emitter;
+use log::{Log, Metadata, Record, Level};
+use std::sync::OnceLock;
+
+static APP_HANDLE: OnceLock<tauri::AppHandle> = OnceLock::new();
+
+struct AppLogger;
+
+impl Log for AppLogger {
+    fn enabled(&self, metadata: &Metadata) -> bool {
+        metadata.level() <= Level::Trace
+    }
+
+    fn log(&self, record: &Record) {
+        if self.enabled(record.metadata()) {
+            let level_str = record.level().to_string();
+            let msg = format!("{}", record.args());
+            
+            // Print to standard output
+            println!("[{}] {}", level_str, msg);
+            
+            // Emit to frontend if AppHandle is set
+            if let Some(app) = APP_HANDLE.get() {
+                let _ = app.emit("app-log", LogPayload {
+                    level: level_str,
+                    message: msg,
+                    timestamp: chrono::Local::now().format("%H:%M:%S").to_string(),
+                });
+            }
+        }
+    }
+
+    fn flush(&self) {}
+}
+
+#[derive(Clone, serde::Serialize)]
+struct LogPayload {
+    level: String,
+    message: String,
+    timestamp: String,
+}
+
+static LOGGER: AppLogger = AppLogger;
 use tauri::{
     menu::{MenuBuilder, MenuItemBuilder},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
@@ -22,6 +65,9 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, Some(vec!["--minimized"])))
         .setup(|app| {
+            let _ = APP_HANDLE.set(app.handle().clone());
+            let _ = log::set_logger(&LOGGER);
+            log::set_max_level(log::LevelFilter::Trace);
             // 1. Load settings from store
             let settings_store = app.store("settings.json").expect("Failed to create settings store");
             let settings = if let Some(config) = settings_store.get("config") {
@@ -32,14 +78,25 @@ pub fn run() {
             
             // 2. Load app_rules from store
             let rules_store = app.store("rules.json").expect("Failed to create rules store");
-            let app_rules = if let Some(rules_val) = rules_store.get("app_rules") {
+            let mut app_rules = if let Some(rules_val) = rules_store.get("app_rules") {
                 serde_json::from_value::<Vec<AppRule>>(rules_val).unwrap_or_else(|_| presets::default_app_rules())
             } else {
-                let default_rules = presets::default_app_rules();
-                let _ = rules_store.set("app_rules", serde_json::to_value(&default_rules).unwrap());
-                let _ = rules_store.save();
-                default_rules
+                presets::default_app_rules()
             };
+
+            // Proactively merge any missing default rules into the user's rules
+            let mut modified = false;
+            for default_rule in presets::default_app_rules() {
+                if !app_rules.iter().any(|r| r.process_name.to_lowercase() == default_rule.process_name.to_lowercase()) {
+                    app_rules.push(default_rule);
+                    modified = true;
+                }
+            }
+
+            if modified || rules_store.get("app_rules").is_none() {
+                let _ = rules_store.set("app_rules", serde_json::to_value(&app_rules).unwrap());
+                let _ = rules_store.save();
+            }
 
             // 3. Set up tray
             let quit_i = MenuItemBuilder::with_id("quit", "Sair").build(app)?;

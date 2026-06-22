@@ -9,6 +9,8 @@ pub fn default_app_rules() -> Vec<AppRule> {
     vec![
         AppRule::new("code.exe", "VSCode", "Editando {file}", "No VS Code", "vscode", PresenceSource::Work),
         AppRule::new("cursor.exe", "Cursor", "Editando {file}", "No Cursor", "cursor", PresenceSource::Work),
+        AppRule::new("antigravity ide.exe", "Antigravity IDE", "Editando {file}", "No Antigravity IDE", "antigravity", PresenceSource::Work),
+        AppRule::new("antigravity-ide.exe", "Antigravity IDE", "Editando {file}", "No Antigravity IDE", "antigravity", PresenceSource::Work),
         AppRule::new("idea64.exe", "IntelliJ IDEA", "Programando no IntelliJ", "Desenvolvendo", "intellij", PresenceSource::Work),
         AppRule::new("studio64.exe", "Android Studio", "Programando no Android Studio", "Desenvolvendo", "androidstudio", PresenceSource::Work),
         AppRule::new("devenv.exe", "Visual Studio", "Programando no Visual Studio", "Desenvolvendo", "visualstudio", PresenceSource::Work),

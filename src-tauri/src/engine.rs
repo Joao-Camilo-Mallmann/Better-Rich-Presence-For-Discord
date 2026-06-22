@@ -7,9 +7,10 @@ use crate::discord::DiscordHandle;
 use crate::types::{
     AppRule, EngineCommand, EngineEvent, PresenceData, PresenceSource, PresenceState, Settings
 };
+use crate::commands::AppState;
 use log::{debug, info};
 use std::sync::Arc;
-use tauri::{AppHandle, Emitter};
+use tauri::{AppHandle, Emitter, Manager};
 use tokio::sync::{mpsc, RwLock};
 use tokio::time::{sleep, Duration, Instant};
 
@@ -53,9 +54,16 @@ impl PresenceEngine {
         
         let mut settle_task: Option<tauri::async_runtime::JoinHandle<()>> = None;
         let (settle_tx, mut settle_rx) = mpsc::channel::<PresenceData>(10);
+        let mut connection_check_interval = tokio::time::interval(Duration::from_secs(1));
+
+        // Initial sync of state to frontend
+        self.sync_state().await;
 
         loop {
             tokio::select! {
+                _ = connection_check_interval.tick() => {
+                    self.sync_state().await;
+                }
                 Some(event) = rx.recv() => {
                     match event {
                         EngineEvent::WindowChanged { process_name, window_title } => {
@@ -88,6 +96,13 @@ impl PresenceEngine {
                                     }
                                     if state == "Desenvolvendo" {
                                         state = "No VS Code".to_string();
+                                    }
+                                } else if lower_proc == "antigravity ide.exe" || lower_proc == "antigravity-ide.exe" {
+                                    if details == "Programando no Antigravity IDE" {
+                                        details = "Editando {file}".to_string();
+                                    }
+                                    if state == "Desenvolvendo" {
+                                        state = "No Antigravity IDE".to_string();
                                     }
                                 }
                                 
@@ -189,12 +204,77 @@ impl PresenceEngine {
         }
     }
 
+    async fn sync_state(&mut self) {
+        if let Some(state) = self.app_handle.try_state::<AppState>() {
+            let is_connected = self.discord_handle.is_connected();
+            
+            // 1. Check if connection status changed
+            let mut conn_changed = false;
+            let mut conn_info = state.connection_info.write().await;
+            if conn_info.connected != is_connected {
+                conn_info.connected = is_connected;
+                conn_info.state = if is_connected {
+                    PresenceState::Connected
+                } else {
+                    PresenceState::Disconnected
+                };
+                conn_changed = true;
+                
+                // If we just transitioned to connected, make sure we push the current activity
+                if is_connected {
+                    info!("[Engine] Discord reconnected, sending current activity");
+                    self.discord_handle.send(EngineCommand::SetActivity(self.current_data.clone()));
+                }
+            }
+            
+            // Also keep engine's local current_state in sync
+            let new_state = conn_info.state;
+            let state_changed = self.current_state != new_state;
+            if state_changed {
+                self.current_state = new_state;
+                *state.presence_state.write().await = new_state;
+            }
+            
+            // Drop connection info lock before emitting to avoid deadlocks
+            let conn_payload = conn_info.clone();
+            drop(conn_info);
+            
+            if conn_changed {
+                let _ = self.app_handle.emit("connection-changed", &conn_payload);
+            }
+            if state_changed {
+                let _ = self.app_handle.emit("state-changed", &new_state);
+            }
+
+            // 2. Sync presence data
+            let mut presence_changed = false;
+            let mut current_presence = state.current_presence.write().await;
+            if current_presence.as_ref() != Some(&self.current_data) {
+                *current_presence = Some(self.current_data.clone());
+                presence_changed = true;
+            }
+            drop(current_presence);
+
+            // 3. Sync source
+            let mut current_source = state.current_source.write().await;
+            if *current_source != self.current_source {
+                *current_source = self.current_source;
+            }
+            drop(current_source);
+
+            // Emit events if changed
+            if presence_changed {
+                let _ = self.app_handle.emit("presence-updated", &self.current_data);
+            }
+        }
+    }
+
     async fn apply_presence(&mut self, mut new_data: PresenceData) {
         // Diff check
         if new_data.details == self.current_data.details &&
            new_data.state == self.current_data.state &&
            new_data.large_image == self.current_data.large_image &&
-           new_data.source == self.current_data.source {
+           new_data.source == self.current_source {
                return; // Nothing changed meaningfully
         }
         
@@ -210,6 +290,7 @@ impl PresenceEngine {
                 sleep(wait_time).await;
             }
         }
+        drop(settings);
 
         // Keep timestamp if source is the same to avoid timer reset
         if new_data.source == self.current_source && self.current_data.timestamp > 0 {
@@ -220,15 +301,13 @@ impl PresenceEngine {
 
         self.current_data = new_data.clone();
         self.current_source = new_data.source.clone();
-        self.current_state = PresenceState::Connected; // Assuming connected if we send updates
         self.last_update_time = Some(Instant::now());
 
         // Update Discord
         self.discord_handle.send(EngineCommand::SetActivity(self.current_data.clone()));
 
-        // Emit to frontend
-        let _ = self.app_handle.emit("presence-updated", &self.current_data);
-        let _ = self.app_handle.emit("state-changed", &self.current_state);
+        // Sync to shared state and emit events
+        self.sync_state().await;
     }
 }
 
@@ -259,6 +338,7 @@ fn resolve_auto_image(process_name: &str, display_name: &str) -> String {
         // Dev / Editors
         n if n.contains("vscode") || n.contains("visual studio code") => "visualstudio.com",
         n if n.contains("cursor") => "cursor.com",
+        n if n.contains("antigravity") => "deepmind.com",
         n if n.contains("intellij") => "jetbrains.com",
         n if n.contains("android studio") => "developer.android.com",
         n if n.contains("visual studio") => "visualstudio.com",
@@ -370,6 +450,7 @@ fn parse_file_name(window_title: &str, process_name: &str) -> String {
         let suffix = match process_name.to_lowercase().as_str() {
             "cursor.exe" => " - Cursor",
             "code.exe" => " - Visual Studio Code",
+            "antigravity ide.exe" | "antigravity-ide.exe" => " - Antigravity IDE",
             _ => "",
         };
         if !suffix.is_empty() && window_title.ends_with(suffix) {
