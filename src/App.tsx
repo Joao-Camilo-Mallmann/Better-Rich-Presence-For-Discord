@@ -3,7 +3,7 @@ import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Apps } from "./pages/Apps/Apps";
 import { Settings } from "./pages/Settings/Settings";
 import { LogViewer } from "./components/LogViewer/LogViewer";
-import { LandingPage } from "./pages/https://better-rich-presence-for-discord.vercel.app/LandingPage/LandingPage";
+import { LandingPage } from "./pages/LandingPage/LandingPage";
 
 const isTauri = typeof window !== "undefined" && (window as any).__TAURI_INTERNALS__ !== undefined;
 
