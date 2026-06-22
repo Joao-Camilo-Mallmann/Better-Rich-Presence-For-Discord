@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Apps } from "./pages/Apps/Apps";
 import { Settings } from "./pages/Settings/Settings";
@@ -9,6 +9,15 @@ function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showLogs, setShowLogs] = useState(false);
 
+  const [systemTheme, setSystemTheme] = useState<"indigo" | "dark" | "amoled" | "light">(() => {
+    return (localStorage.getItem("system_theme") as any) || "indigo";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("system_theme", systemTheme);
+    document.documentElement.setAttribute("data-theme", systemTheme);
+  }, [systemTheme]);
+
   return (
     <div className="w-full h-screen flex flex-col bg-canvas text-ink overflow-hidden">
       {/* Header */}
@@ -18,22 +27,43 @@ function App() {
           <h1 className="text-md font-bold tracking-tight text-ink font-display">Better RPC</h1>
         </div>
         
-        {/* Engine Switch */}
-        <div className="flex items-center gap-2">
-          <span className={`text-xs font-bold tracking-wider ${rpcActive ? "text-green-accent" : "text-muted-ink"}`}>
-            {rpcActive ? "ATIVO" : "INATIVO"}
-          </span>
-          <label className="relative inline-block w-9 h-5 shrink-0">
-            <input 
-              type="checkbox" 
-              className="peer sr-only"
-              checked={rpcActive}
-              onChange={(e) => setRpcActive(e.target.checked)}
-            />
-            <span className="absolute cursor-pointer inset-0 bg-white/20 transition-colors duration-200 rounded-full before:absolute before:content-[''] before:h-3.5 before:w-3.5 before:left-[3px] before:bottom-[3px] before:bg-white before:transition-transform before:duration-200 before:rounded-full before:shadow-sm peer-checked:bg-green-accent peer-checked:before:translate-x-4"></span>
-          </label>
+        {/* Header Controls */}
+        <div className="flex items-center gap-4">
+          {/* Theme Selector */}
+          <div className="flex items-center gap-1.5 bg-surface-onyx/40 px-2.5 py-1 rounded-sm border border-hairline/45">
+            <span className="text-[10px] text-muted-ink font-bold uppercase select-none">Tema:</span>
+            <select
+              value={systemTheme}
+              onChange={(e) => setSystemTheme(e.target.value as any)}
+              className="bg-transparent text-ink text-xs font-semibold focus:outline-none cursor-pointer border-0 p-0"
+            >
+              <option value="indigo" className="bg-surface-indigo">🌌 Índigo</option>
+              <option value="dark" className="bg-surface-indigo">🌑 Escuro</option>
+              <option value="amoled" className="bg-surface-indigo">🖤 AMOLED</option>
+              <option value="light" className="bg-surface-indigo">☀️ Claro</option>
+            </select>
+          </div>
+
+          <div className="w-[1px] h-4 bg-hairline/60" />
+
+          {/* Engine Switch */}
+          <div className="flex items-center gap-2">
+            <span className={`text-xs font-bold tracking-wider ${rpcActive ? "text-green-accent" : "text-muted-ink"}`}>
+              {rpcActive ? "ATIVO" : "INATIVO"}
+            </span>
+            <label className="relative inline-block w-9 h-5 shrink-0">
+              <input 
+                type="checkbox" 
+                className="peer sr-only"
+                checked={rpcActive}
+                onChange={(e) => setRpcActive(e.target.checked)}
+              />
+              <span className="absolute cursor-pointer inset-0 bg-white/20 transition-colors duration-200 rounded-full before:absolute before:content-[''] before:h-3.5 before:w-3.5 before:left-[3px] before:bottom-[3px] before:bg-white before:transition-transform before:duration-200 before:rounded-full before:shadow-sm peer-checked:bg-green-accent peer-checked:before:translate-x-4"></span>
+            </label>
+          </div>
         </div>
       </header>
+
 
       {/* Main Viewport */}
       <main className="flex-1 overflow-y-auto flex flex-col gap-6 p-4">

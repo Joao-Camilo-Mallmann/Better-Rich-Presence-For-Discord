@@ -42,3 +42,15 @@ export interface Settings {
   debounce_seconds: number;
   settle_delay_seconds: number;
 }
+
+export interface DiscordProfile {
+  displayName: string;
+  username: string;
+  avatarUrl: string;
+  customStatus: string;
+  status: "online" | "idle" | "dnd" | "offline";
+  themePrimary: string;
+  themeSecondary: string;
+  isGradient: boolean;
+}
+
