@@ -1,18 +1,17 @@
-import { useState, useEffect } from "react";
-import { Dashboard } from "./pages/Dashboard/Dashboard";
-import { Apps } from "./pages/Apps/Apps";
-import { Settings } from "./pages/Settings/Settings";
+import { useEffect, useState } from "react";
 import { LogViewer } from "./components/LogViewer/LogViewer";
-import { LandingPage } from "./pages/LandingPage/LandingPage";
-
-const isTauri = typeof window !== "undefined" && (window as any).__TAURI_INTERNALS__ !== undefined;
+import { Apps } from "./pages/Apps/Apps";
+import { Dashboard } from "./pages/Dashboard/Dashboard";
+import { Settings } from "./pages/Settings/Settings";
 
 function App() {
   const [rpcActive, setRpcActive] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [showLogs, setShowLogs] = useState(false);
 
-  const [systemTheme, setSystemTheme] = useState<"indigo" | "dark" | "amoled" | "light">(() => {
+  const [systemTheme, setSystemTheme] = useState<
+    "indigo" | "dark" | "amoled" | "light"
+  >(() => {
     return (localStorage.getItem("system_theme") as any) || "indigo";
   });
 
@@ -21,35 +20,49 @@ function App() {
     document.documentElement.setAttribute("data-theme", systemTheme);
   }, [systemTheme]);
 
-  if (!isTauri) {
-    return <LandingPage />;
-  }
-
   return (
     <div className="w-full h-screen flex flex-col bg-canvas text-ink overflow-hidden">
       {/* Header */}
       <header className="flex justify-between items-center px-4 py-3 border-b border-hairline bg-surface-indigo shrink-0">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="Better RPC Logo" width="28" height="21" className="object-contain" />
-            <h1 className="text-md font-bold tracking-tight text-ink font-display">Better RPC</h1>
+            <img
+              src="/logo.png"
+              alt="Better RPC Logo"
+              width="28"
+              height="21"
+              className="object-contain"
+            />
+            <h1 className="text-md font-bold tracking-tight text-ink font-display">
+              Better RPC
+            </h1>
           </div>
         </div>
-        
+
         {/* Header Controls */}
         <div className="flex items-center gap-4">
           {/* Theme Selector */}
           <div className="flex items-center gap-1.5 bg-surface-onyx/40 px-2.5 py-1 rounded-sm border border-hairline/45">
-            <span className="text-[10px] text-muted-ink font-bold uppercase select-none">Tema:</span>
+            <span className="text-[10px] text-muted-ink font-bold uppercase select-none">
+              Tema:
+            </span>
             <select
               value={systemTheme}
               onChange={(e) => setSystemTheme(e.target.value as any)}
               className="bg-transparent text-ink text-xs font-semibold focus:outline-none cursor-pointer border-0 p-0"
             >
-              <option value="indigo" className="bg-surface-indigo">🌌 Índigo</option>
-              <option value="dark" className="bg-surface-indigo">🌑 Escuro</option>
-              <option value="amoled" className="bg-surface-indigo">🖤 AMOLED</option>
-              <option value="light" className="bg-surface-indigo">☀️ Claro</option>
+              <option value="indigo" className="bg-surface-indigo">
+                🌌 Índigo
+              </option>
+              <option value="dark" className="bg-surface-indigo">
+                🌑 Escuro
+              </option>
+              <option value="amoled" className="bg-surface-indigo">
+                🖤 AMOLED
+              </option>
+              <option value="light" className="bg-surface-indigo">
+                ☀️ Claro
+              </option>
             </select>
           </div>
 
@@ -57,12 +70,14 @@ function App() {
 
           {/* Engine Switch */}
           <div className="flex items-center gap-2">
-            <span className={`text-xs font-bold tracking-wider ${rpcActive ? "text-green-accent" : "text-muted-ink"}`}>
+            <span
+              className={`text-xs font-bold tracking-wider ${rpcActive ? "text-green-accent" : "text-muted-ink"}`}
+            >
               {rpcActive ? "ATIVO" : "INATIVO"}
             </span>
             <label className="relative inline-block w-9 h-5 shrink-0">
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 className="peer sr-only"
                 checked={rpcActive}
                 onChange={(e) => setRpcActive(e.target.checked)}
@@ -73,29 +88,32 @@ function App() {
         </div>
       </header>
 
-
       {/* Main Viewport */}
       <main className="flex-1 overflow-y-auto flex flex-col gap-6 p-4">
         {/* Dashboard Preview Section (PresenceCard inside Dashboard) */}
-        <section className={`transition-opacity duration-150 ${!rpcActive ? "opacity-50 pointer-events-none" : ""}`}>
+        <section
+          className={`transition-opacity duration-150 ${!rpcActive ? "opacity-50 pointer-events-none" : ""}`}
+        >
           <Dashboard />
         </section>
 
         {/* Library Section (Apps manager) */}
-        <section className={`transition-opacity duration-150 ${!rpcActive ? "opacity-50 pointer-events-none" : ""}`}>
+        <section
+          className={`transition-opacity duration-150 ${!rpcActive ? "opacity-50 pointer-events-none" : ""}`}
+        >
           <Apps />
         </section>
 
         {/* Collapsible Logs History */}
         <section className="border-t border-hairline/20 pt-4">
-          <button 
+          <button
             onClick={() => setShowLogs(!showLogs)}
             className="w-full flex justify-between items-center text-xs font-bold tracking-wider text-muted-ink hover:text-ink transition-colors py-2 px-1 uppercase"
           >
             <span>📜 Histórico de Logs</span>
             <span>{showLogs ? "▲" : "▼"}</span>
           </button>
-          
+
           {showLogs && (
             <div className="mt-2 p-3 bg-surface-indigo rounded-md border border-hairline">
               <LogViewer />
@@ -105,14 +123,14 @@ function App() {
 
         {/* Collapsible Advanced Settings */}
         <section className="mt-auto border-t border-hairline/20 pt-4 pb-2">
-          <button 
+          <button
             onClick={() => setShowSettings(!showSettings)}
             className="w-full flex justify-between items-center text-xs font-bold tracking-wider text-muted-ink hover:text-ink transition-colors py-2 px-1 uppercase"
           >
             <span>⚙️ Configurações Avançadas</span>
             <span>{showSettings ? "▲" : "▼"}</span>
           </button>
-          
+
           {showSettings && (
             <div className="mt-2 p-3 bg-surface-indigo rounded-md border border-hairline">
               <Settings />
