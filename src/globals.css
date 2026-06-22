@@ -118,17 +118,17 @@
     background-image: var(--bg-image);
     background-size: 200% 200%;
     animation: gradientMesh 15s ease infinite;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     user-select: none;
     -webkit-user-select: none;
-    height: 100vh;
+    min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   #root {
     width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
