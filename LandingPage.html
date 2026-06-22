@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags ("SEO Brabo") -->
+  <title>Better Discord Rich Presence | Seu RPC Customizado de Forma Simples</title>
+  <meta name="title" content="Better Discord Rich Presence | Seu RPC Customizado de Forma Simples" />
+  <meta name="description" content="Personalize seu status no Discord em tempo real. Suporte nativo para VS Code, Spotify, navegadores e jogos. Super leve (Tauri + Rust), seguro e 100% gratuito." />
+  <meta name="keywords" content="discord, rich presence, custom rpc, status discord, discord rpc customizer, tauri, rust, open source, github discord rpc" />
+  <meta name="author" content="Better RPC Community" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Facebook / Discord Embeds -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://better-rich-presence-for-discord.vercel.app/" />
+  <meta property="og:title" content="Better Discord Rich Presence | Seu RPC Customizado de Forma Simples" />
+  <meta property="og:description" content="Personalize seu status no Discord em tempo real para múltiplos programas. Leve, seguro, sem nhenhenhé e 100% Open Source!" />
+  <meta property="og:image" content="/logo.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://better-rich-presence-for-discord.vercel.app/" />
+  <meta property="twitter:title" content="Better Discord Rich Presence | Seu RPC Customizado de Forma Simples" />
+  <meta property="twitter:description" content="Personalize seu status no Discord em tempo real para múltiplos programas. Leve, seguro, sem nhenhenhé e 100% Open Source!" />
+  <meta property="twitter:image" content="/logo.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/logo.png" />
+
+  <!-- Google Fonts: Space Grotesk & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- JSON-LD Structured Data (Google Rich Snippets) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Better Discord Rich Presence",
+      "operatingSystem": "Windows, macOS, Linux",
+      "applicationCategory": "UtilitiesApplication, GameApplication",
+      "downloadUrl": "https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases",
+      "softwareVersion": "0.1.0",
+      "releaseNotes": "https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases",
+      "license": "https://opensource.org/licenses/MIT",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Discord Rich Presence customizer client that detects multiple programs like VS Code, Spotify, and games, updating your profile in real-time in a lightweight and intuitive way.",
+      "creator": {
+        "@type": "Organization",
+        "name": "Better RPC Community",
+        "url": "https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord"
+      }
+    }
+  </script>
+
+  <style>
+    /* Design Tokens from DESIGN.md & custom overrides */
+    :root {
+      --color-primary: #5865f2; /* Blurple */
+      --color-green: #35ed7e; /* Electric Green */
+      --color-magenta: #ec48bd; /* Vibrant Magenta */
+      --color-bg: #23272a; /* Onyx (fundo solicitado pelo usuario) */
+      --color-surface-indigo: #1e2353; /* Raised Indigo */
+      --color-surface-black: #000000;
+      --color-ink: #ffffff;
+      --color-ink-dark: #000000;
+      --color-muted: #9ba3af; /* Soft ink dark */
+      --color-hairline: rgba(255, 255, 255, 0.08);
+      
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-ink);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Layout Containers */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Ambient Blur */
+    .ambient-bg {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 1400px;
+      height: 600px;
+      background: radial-gradient(circle at top, rgba(88, 101, 242, 0.15) 0%, rgba(236, 72, 189, 0.06) 50%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header Nav */
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--color-hairline);
+    }
+
+    header .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container img {
+      width: 32px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .logo-container span {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--color-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-ink);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-green {
+      background-color: var(--color-green);
+      color: var(--color-ink-dark);
+      box-shadow: 0 4px 20px rgba(53, 237, 126, 0.25);
+    }
+
+    .btn-green:hover {
+      background-color: #42f588;
+      box-shadow: 0 6px 24px rgba(53, 237, 126, 0.4);
+    }
+
+    .btn-blurple {
+      background-color: var(--color-primary);
+      color: var(--color-ink);
+      box-shadow: 0 4px 20px rgba(88, 101, 242, 0.25);
+    }
+
+    .btn-blurple:hover {
+      background-color: #6a76f5;
+      box-shadow: 0 6px 24px rgba(88, 101, 242, 0.4);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--color-hairline);
+      background-color: rgba(30, 35, 83, 0.3);
+      color: var(--color-ink);
+    }
+
+    .btn-outline:hover {
+      background-color: rgba(30, 35, 83, 0.6);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      z-index: 10;
+      padding: 80px 0 60px 0;
+      text-align: center;
+    }
+
+    .hero-tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(236, 72, 189, 0.12);
+      border: 1px solid rgba(236, 72, 189, 0.3);
+      color: var(--color-magenta);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 3.5rem;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      max-width: 900px;
+      margin: 0 auto 20px auto;
+    }
+
+    h1 span.gradient-text {
+      background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-magenta) 50%, var(--color-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--color-muted);
+      max-width: 650px;
+      margin: 0 auto 36px auto;
+    }
+
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Discord Profile Card Simulation */
+    .preview-section {
+      padding: 20px 0 60px 0;
+      display: flex;
+      justify-content: center;
+      z-index: 10;
+      position: relative;
+    }
+
+    .discord-card {
+      background-color: #111214;
+      width: 320px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--color-hairline);
+      text-align: left;
+    }
+
+    .discord-banner {
+      height: 60px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-magenta));
+      position: relative;
+    }
+
+    .discord-avatar-wrap {
+      position: absolute;
+      top: 20px;
+      left: 16px;
+      position: relative;
+      margin-bottom: -32px;
+      display: inline-block;
+      width: 72px;
+      height: 72px;
+    }
+
+    .discord-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--color-bg);
+      border: 6px solid #111214;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    .discord-status-dot {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 16px;
+      height: 16px;
+      background-color: var(--color-green);
+      border-radius: 50%;
+      border: 3px solid #111214;
+    }
+
+    .discord-content {
+      padding: 48px 16px 16px 16px;
+      background-color: #111214;
+    }
+
+    .discord-user {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .discord-user .tag {
+      font-size: 0.8rem;
+      color: #b5bac1;
+      font-weight: 500;
+    }
+
+    .discord-divider {
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.08);
+      margin: 12px 0;
+    }
+
+    .presence-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .presence-title {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #b5bac1;
+      letter-spacing: 0.02em;
+    }
+
+    .presence-body {
+      display: flex;
+      gap: 12px;
+    }
+
+    .presence-assets {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+    }
+
+    .presence-large-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      background-color: var(--color-surface-indigo);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .presence-small-img {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background-color: #23272a;
+      border: 2px solid #111214;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+    }
+
+    .presence-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 0.82rem;
+      color: #dbdee1;
+      line-height: 1.35;
+    }
+
+    .presence-text .app-name {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .presence-text .time-elapsed {
+      margin-top: 2px;
+      color: #b5bac1;
+    }
+
+    .presence-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .presence-btn {
+      background-color: #4e5058;
+      color: #fff;
+      text-align: center;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+
+    .presence-btn:hover {
+      background-color: #6d6f78;
+    }
+
+    /* Grid Section (Features) */
+    .features-section {
+      padding: 60px 0;
+      border-top: 1px solid var(--color-hairline);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background-color: rgba(30, 35, 83, 0.3);
+      border: 1px solid var(--color-hairline);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(88, 101, 242, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .feature-card h3 {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      line-height: 1.5;
+    }
+
+    /* Dev Contribution Section */
+    .dev-section {
+      padding: 60px 0;
+      border-top: 1px solid var(--color-hairline);
+    }
+
+    .dev-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .dev-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+    }
+
+    .dev-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .dev-tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(53, 237, 126, 0.12);
+      border: 1px solid rgba(53, 237, 126, 0.3);
+      color: var(--color-green);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      width: fit-content;
+    }
+
+    .dev-content h2 {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      font-size: 2.2rem;
+      line-height: 1.1;
+    }
+
+    .dev-content p {
+      font-size: 1rem;
+      color: var(--color-muted);
+      line-height: 1.6;
+    }
+
+    .dev-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .dev-bullet {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .dev-bullet span.check {
+      color: var(--color-green);
+      font-weight: bold;
+    }
+
+    .code-preview {
+      background-color: #111214;
+      border: 1px solid var(--color-hairline);
+      border-radius: 12px;
+      padding: 24px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.8rem;
+      color: #dbdee1;
+      overflow-x: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .code-comment {
+      color: var(--color-magenta);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--color-hairline);
+      padding: 60px 0 80px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .footer-flex {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: var(--color-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    .copyright {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .giant-wordmark {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 8rem;
+      color: rgba(255, 255, 255, 0.015);
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      .nav-links {
+        display: none;
+      }
+      .giant-wordmark {
+        font-size: 5rem;
+        bottom: -30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-bg"></div>
+
+  <!-- Navbar -->
+  <header>
+    <div class="container nav-flex">
+      <div class="logo-container">
+        <img src="/logo.png" alt="Better RPC Logo">
+        <span>Better RPC</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#features">Recursos</a></li>
+        <li><a href="#developers">Desenvolvedores</a></li>
+      </ul>
+      <div>
+        <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.8rem;">
+          ⭐ Ver no GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-tagline">✨ 100% Código Aberto e Seguro</div>
+      <h1>Seu Discord, <span class="gradient-text">Suas Regras</span></h1>
+      <p class="hero-desc">
+        Mostre exatamente o que você está fazendo no seu perfil do Discord de forma automática e integrada. Chega de configurações complicadas.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases" target="_blank" rel="noopener noreferrer" class="btn btn-green">
+          📥 Baixar App Grátis
+        </a>
+        <a href="#developers" class="btn btn-outline">
+          💻 Contribuir
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- simulated Discord card preview -->
+  <section class="preview-section">
+    <div class="discord-card">
+      <div class="discord-banner"></div>
+      <div style="padding: 0 16px;">
+        <div class="discord-avatar-wrap">
+          <div class="discord-avatar">💻</div>
+          <div class="discord-status-dot"></div>
+        </div>
+      </div>
+      <div class="discord-content">
+        <div class="discord-user">
+          Você no Discord
+          <span class="tag">@usuario_customizado</span>
+        </div>
+        
+        <div class="discord-divider"></div>
+        
+        <div class="presence-section">
+          <div class="presence-title">Jogando agora</div>
+          <div class="presence-body">
+            <div class="presence-assets">
+              <div class="presence-large-img">⚡</div>
+              <div class="presence-small-img">📝</div>
+            </div>
+            <div class="presence-text">
+              <span class="app-name">Visual Studio Code</span>
+              <span>Editando src/App.tsx</span>
+              <span>Linha 42: Coluna 12</span>
+              <span class="time-elapsed" id="timer">decorrido: 00:00</span>
+            </div>
+          </div>
+          <div class="presence-buttons">
+            <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" class="presence-btn">Obter o Better RPC</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Features Section -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <h2 class="section-title">Sem Enrolação: O que ele faz?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔌</div>
+          <h3>Zero Configuração</h3>
+          <p>
+            Vem com suporte nativo pré-configurado para mais de 20 dos aplicativos mais populares como VS Code, Spotify, Steam, navegadores e pacote Adobe.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3>Gráficos & Botões</h3>
+          <p>
+            Adicione imagens grandes e pequenas, contadores de tempo decorrido e botões de ação clicáveis diretamente no seu status sem pagar pelo Nitro.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Motor Inteligente</h3>
+          <p>
+            O app prioriza jogos automaticamente em relação a aplicativos de trabalho e conta com lógica anti-oscilação para transições de janela suaves.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3>Extremamente Leve</h3>
+          <p>
+            Construído em Tauri + Rust, ele consome quase zero de memória RAM e CPU, rodando silenciosamente no segundo plano do seu sistema.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Developers Invitation Section -->
+  <section class="dev-section" id="developers">
+    <div class="container dev-grid">
+      <div class="dev-content">
+        <div class="dev-tagline">Para Desenvolvedores</div>
+        <h2>Ajude-nos a Expandir a Biblioteca</h2>
+        <p>
+          O Better RPC é mantido pela comunidade. Se você quer adicionar suporte para um aplicativo que você usa, basta criar um mapeamento JSON rápido e declarativo.
+        </p>
+        <div class="dev-bullets">
+          <div class="dev-bullet">
+            <span class="check">✔</span>
+            <span>Mapeamento de processos via Expressões Regulares (Regex)</span>
+          </div>
+          <div class="dev-bullet">
+            <span class="check">✔</span>
+            <span>Interface moderna em TypeScript + React</span>
+          </div>
+          <div class="dev-bullet">
+            <span class="check">✔</span>
+            <span>Core ultrarrápido programado em Rust</span>
+          </div>
+        </div>
+        <div style="margin-top: 12px;">
+          <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer" class="btn btn-blurple">
+            ⭐ Contribuir no GitHub
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="code-preview">
+          <span class="code-comment">// Exemplo de regra JSON customizada:</span>
+          <pre style="margin-top: 12px; white-space: pre-wrap;">
+{
+  "name": "My Custom Editor",
+  "processName": "my-editor",
+  "rules": [
+    {
+      "windowTitleRegex": "^Editing - (.*)",
+      "details": "Desenvolvendo código",
+      "state": "Arquivo: $1"
+    }
+  ]
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-flex">
+      <div class="logo-container">
+        <img src="/logo.png" alt="Better RPC Logo">
+        <span style="font-size: 0.95rem;">Better RPC</span>
+      </div>
+      <div class="footer-links">
+        <a href="#features">Recursos</a>
+        <a href="#developers">Desenvolvedores</a>
+        <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE" target="_blank">Licença MIT</a>
+      </div>
+      <div class="copyright">
+        &copy; <span id="year">2026</span> Better Rich Presence For Discord.
+      </div>
+    </div>
+    <div class="giant-wordmark">Better RPC</div>
+  </footer>
+
+  <script>
+    // Live ticking timer for Discord presence card simulation
+    const startTime = Date.now();
+    const timerElement = document.getElementById('timer');
+    
+    function updateTimer() {
+      const elapsedMs = Date.now() - startTime;
+      const totalSecs = Math.floor(elapsedMs / 1000);
+      const mins = Math.floor(totalSecs / 60).toString().padStart(2, '0');
+      const secs = (totalSecs % 60).toString().padStart(2, '0');
+      timerElement.textContent = `decorrido: ${mins}:${secs}`;
+    }
+    
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
