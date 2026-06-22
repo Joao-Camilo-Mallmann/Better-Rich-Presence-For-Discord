@@ -111,13 +111,13 @@ impl DiscordManager {
         client.on_ready(move |_ctx| {
             info!("[Discord] RPC client is READY");
             connected_on_ready.store(true, Ordering::Relaxed);
-        });
+        }).persist();
 
         let connected_on_error = Arc::clone(&connected);
         client.on_error(move |_ctx| {
             error!("[Discord] RPC client encountered an error");
             connected_on_error.store(false, Ordering::Relaxed);
-        });
+        }).persist();
 
         // Attempt to start the IPC connection
         info!("[Discord] Starting IPC client (app_id={})", DISCORD_APP_ID);
@@ -170,13 +170,13 @@ impl DiscordManager {
                         client.on_ready(move |_ctx| {
                             info!("[Discord] RPC client reconnected (READY)");
                             connected_ready.store(true, Ordering::Relaxed);
-                        });
+                        }).persist();
 
                         let connected_err = Arc::clone(&connected);
                         client.on_error(move |_ctx| {
                             error!("[Discord] RPC client error during reconnect");
                             connected_err.store(false, Ordering::Relaxed);
-                        });
+                        }).persist();
 
                         client.start();
                         thread::sleep(Duration::from_secs(2));
@@ -216,7 +216,7 @@ impl DiscordManager {
             act.details(&details)
                 .state(&state)
                 .assets(|assets| assets.large_image(&large_image).large_text(&large_text))
-                .timestamps(|ts| ts.start(timestamp))
+                .timestamps(|ts| ts.start(timestamp.max(0) as u64))
         }) {
             Ok(_) => {
                 connected.store(true, Ordering::Relaxed);

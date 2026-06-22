@@ -1,4 +1,8 @@
-# Better Rich Presence For Discord
+<div align="center">
+  <img src="public/logo.png" alt="Better Rich Presence For Discord Logo" width="200" />
+</div>
+
+# flow
 
 _[Leia isso em Português](README.pt.md)_
 

@@ -3,14 +3,14 @@
 //! Watches for active window changes and idle state using Win32 API.
 
 use crate::types::EngineEvent;
-use log::{error, trace};
+use log::trace;
 use sysinfo::System;
 use tokio::sync::mpsc::Sender;
 use tokio::time::{interval, Duration};
 
 /// Spawns a tokio task that polls for window and idle changes.
 pub fn start_window_watcher(tx: Sender<EngineEvent>) {
-    tokio::spawn(async move {
+    tauri::async_runtime::spawn(async move {
         let mut sys = System::new();
         let mut last_process_name = String::new();
         let mut last_window_title = String::new();
@@ -64,10 +64,7 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>) {
 
 #[cfg(target_os = "windows")]
 mod win32 {
-    use log::error;
     use sysinfo::System;
-    use windows::Win32::Foundation::{HWND, RECT};
-    use windows::Win32::System::Threading::PROCESS_QUERY_INFORMATION;
     use windows::Win32::UI::Input::KeyboardAndMouse::{GetLastInputInfo, LASTINPUTINFO};
     use windows::Win32::UI::WindowsAndMessaging::{
         GetForegroundWindow, GetWindowTextW, GetWindowThreadProcessId,
@@ -80,7 +77,7 @@ mod win32 {
         };
 
         unsafe {
-            if GetLastInputInfo(&mut last_input).is_ok() {
+            if GetLastInputInfo(&mut last_input).as_bool() {
                 let tick_count = windows::Win32::System::SystemInformation::GetTickCount();
                 return tick_count.saturating_sub(last_input.dwTime);
             }
@@ -91,7 +88,7 @@ mod win32 {
     pub fn get_foreground_window_info(sys: &mut System) -> Option<(String, String)> {
         unsafe {
             let hwnd = GetForegroundWindow();
-            if hwnd.0 == 0 {
+            if hwnd.0.is_null() {
                 return None;
             }
 
@@ -107,11 +104,14 @@ mod win32 {
             let window_title = String::from_utf16_lossy(&title_buf[..len as usize]);
 
             // Refresh only the specific process to save CPU
+            let pid_val = sysinfo::Pid::from_u32(pid);
             sys.refresh_processes_specifics(
-                sysinfo::ProcessRefreshKind::new(),
-            );
-            sys.refresh_processes_specifics(
-                sysinfo::ProcessRefreshKind::everything().without_cpu().without_memory().without_disk_usage()
+                sysinfo::ProcessesToUpdate::Some(&[pid_val]),
+                true,
+                sysinfo::ProcessRefreshKind::everything()
+                    .without_cpu()
+                    .without_memory()
+                    .without_disk_usage(),
             );
 
             let process_name = sys
@@ -121,6 +121,10 @@ mod win32 {
                 
             // sysinfo often returns uppercase for some process names, standardize it to lowercase for matching
             let process_name = process_name.to_lowercase();
+
+            if process_name == "better-rich-presence.exe" || process_name == "better_rich_presence.exe" {
+                return None;
+            }
 
             Some((process_name, window_title))
         }

@@ -1,172 +1,120 @@
 import { useState } from "react";
-import styles from "./Apps.module.css";
+import { invoke } from "@tauri-apps/api/core";
 import { useAppRules } from "../../hooks/useAppRules";
 import { AppRuleCard } from "../../components/AppRuleCard/AppRuleCard";
-import { PresenceSource, AppRule } from "../../types";
+import { PresenceSource } from "../../types";
 
 export function Apps() {
-  const { rules, loading, updateRule, deleteRule, addRule, resetToDefaults } = useAppRules();
-  const [searchTerm, setSearchTerm] = useState("");
+  const { rules, loading, updateRule, deleteRule, addRule } = useAppRules();
   const [filterSource, setFilterSource] = useState<"All" | PresenceSource>("All");
-  const [showAddForm, setShowAddForm] = useState(false);
-
-  // New Rule Form State
-  const [newRule, setNewRule] = useState<AppRule>({
-    process_name: "",
-    display_name: "",
-    details: "",
-    state: "",
-    large_image: "default",
-    source: "Work",
-    priority: 2,
-    enabled: true,
-  });
+  const [showPicker, setShowPicker] = useState(false);
+  const [pickerSearch, setPickerSearch] = useState("");
+  const [systemProcesses, setSystemProcesses] = useState<{ process_name: string; display_name: string }[]>([]);
+  const [loadingProcesses, setLoadingProcesses] = useState(false);
 
   const filteredRules = rules.filter(r => {
-    const matchesSearch = r.process_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          r.display_name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterSource === "All" || r.source === filterSource;
-    return matchesSearch && matchesFilter;
+    return filterSource === "All" || r.source === filterSource;
   });
 
-  const handleAddRule = async () => {
-    if (!newRule.process_name || !newRule.display_name) return;
-    
-    // Assign correct priority based on source
-    let priority = 2; // Work
-    if (newRule.source === "Game") priority = 0;
-    if (newRule.source === "Manual") priority = 1;
-    if (newRule.source === "Browser") priority = 3;
-    if (newRule.source === "Idle") priority = 4;
+  const handleOpenPicker = async () => {
+    try {
+      setLoadingProcesses(true);
+      const procs = await invoke<{ process_name: string; display_name: string }[]>("get_running_processes");
+      setSystemProcesses(procs);
+    } catch (err) {
+      console.error("Failed to load running processes:", err);
+      setSystemProcesses([]);
+    } finally {
+      setLoadingProcesses(false);
+    }
+    setShowPicker(true);
+  };
 
-    await addRule({ ...newRule, priority });
-    setShowAddForm(false);
-    setNewRule({
-      process_name: "",
-      display_name: "",
-      details: "",
-      state: "",
-      large_image: "default",
-      source: "Work",
-      priority: 2,
+  const selectProcess = async (proc: { process_name: string; display_name: string }) => {
+    const process_lower = proc.process_name.toLowerCase();
+    
+    // Simple heuristic
+    let source: PresenceSource = "Work";
+    let details = `Trabalhando no ${proc.display_name}`;
+    let state = `No ${proc.display_name}`;
+    let priority = 2;
+
+    const gameKeywords = ["game", "play", "cs2", "eldenring", "minecraft", "steam", "gta", "valorant", "counterstrike"];
+    const browserKeywords = ["chrome", "firefox", "edge", "opera", "brave", "safari", "browser", "explorer", "spotify"];
+
+    if (gameKeywords.some(kw => process_lower.includes(kw))) {
+      source = "Game";
+      details = `Jogando ${proc.display_name}`;
+      state = "Em jogo";
+      priority = 0;
+    } else if (browserKeywords.some(kw => process_lower.includes(kw))) {
+      source = "Browser";
+      details = `Navegando no ${proc.display_name}`;
+      state = "Navegando";
+      priority = 3;
+    }
+
+    if (process_lower.includes("code") || process_lower.includes("cursor") || process_lower.includes("studio") || process_lower.includes("devenv") || process_lower.includes("figma")) {
+      details = "Editando {file}";
+      state = `No ${proc.display_name}`;
+    }
+
+    // Avoid duplicate rules
+    if (rules.some(r => r.process_name === proc.process_name)) {
+      setShowPicker(false);
+      return;
+    }
+
+    await addRule({
+      process_name: proc.process_name,
+      display_name: proc.display_name,
+      details,
+      state,
+      large_image: "auto",
+      source,
+      priority,
       enabled: true,
     });
+    setShowPicker(false);
+    setPickerSearch("");
   };
 
   if (loading) {
-    return <div className={styles.loading}>Carregando regras...</div>;
+    return <div className="text-muted-ink p-4 text-center">Carregando regras...</div>;
   }
 
   return (
-    <div className={styles.page}>
-      <header className={styles.header}>
-        <div>
-          <h2 className={styles.title}>Biblioteca de Aplicativos</h2>
-          <p className={styles.subtitle}>Gerencie quais programas acionam o Rich Presence</p>
-        </div>
-        <div className={styles.headerActions}>
-          <button className={styles.btnReset} onClick={resetToDefaults}>
-            Resetar Padrões
-          </button>
-          <button className={styles.btnAdd} onClick={() => setShowAddForm(!showAddForm)}>
-            {showAddForm ? "Cancelar" : "+ Adicionar App"}
-          </button>
-        </div>
-      </header>
-
-      {showAddForm && (
-        <div className={styles.addForm}>
-          <h3>Novo Aplicativo</h3>
-          <div className={styles.formGrid}>
-            <div className={styles.formGroup}>
-              <label>Processo (ex: code.exe)</label>
-              <input 
-                type="text" 
-                value={newRule.process_name}
-                onChange={e => setNewRule({...newRule, process_name: e.target.value})}
-                placeholder="nome_do_processo.exe"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>Nome de Exibição</label>
-              <input 
-                type="text" 
-                value={newRule.display_name}
-                onChange={e => setNewRule({...newRule, display_name: e.target.value})}
-                placeholder="Visual Studio Code"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>Detalhes</label>
-              <input 
-                type="text" 
-                value={newRule.details}
-                onChange={e => setNewRule({...newRule, details: e.target.value})}
-                placeholder="Programando"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>Estado</label>
-              <input 
-                type="text" 
-                value={newRule.state}
-                onChange={e => setNewRule({...newRule, state: e.target.value})}
-                placeholder="Desenvolvendo"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>Categoria</label>
-              <select 
-                value={newRule.source}
-                onChange={e => setNewRule({...newRule, source: e.target.value as PresenceSource})}
-              >
-                <option value="Game">Jogo</option>
-                <option value="Work">Trabalho</option>
-                <option value="Browser">Navegador</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label>Imagem (Asset)</label>
-              <input 
-                type="text" 
-                value={newRule.large_image}
-                onChange={e => setNewRule({...newRule, large_image: e.target.value})}
-                placeholder="default"
-              />
-            </div>
-          </div>
-          <button 
-            className={styles.btnSubmit} 
-            onClick={handleAddRule}
-            disabled={!newRule.process_name || !newRule.display_name}
-          >
-            Salvar Aplicativo
-          </button>
-        </div>
-      )}
-
-      <div className={styles.controls}>
-        <input 
-          type="text" 
-          className={styles.search} 
-          placeholder="Buscar aplicativos..." 
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <div className={styles.filters}>
-          {["All", "Work", "Browser", "Game"].map(f => (
-            <button 
-              key={f}
-              className={`${styles.filterBtn} ${filterSource === f ? styles.filterActive : ""}`}
-              onClick={() => setFilterSource(f as any)}
-            >
-              {f === "All" ? "Todos" : f}
-            </button>
-          ))}
-        </div>
+    <div className="flex flex-col gap-4">
+      {/* Header Section */}
+      <div className="flex justify-between items-center">
+        <h3 className="text-[10px] text-muted-ink uppercase tracking-wider font-extrabold font-display">Aplicativos</h3>
+        <button 
+          onClick={handleOpenPicker}
+          className="bg-green-accent text-black text-xs px-3 py-1.5 rounded-sm font-bold hover:brightness-95 transition"
+        >
+          + Buscar do Sistema
+        </button>
       </div>
 
-      <div className={styles.rulesList}>
+      {/* Categories chips filter */}
+      <div className="flex flex-wrap gap-1.5">
+        {["All", "Work", "Browser", "Game"].map(f => (
+          <button 
+            key={f}
+            className={`px-2.5 py-1 rounded-sm text-xs transition ${
+              filterSource === f 
+                ? "bg-white/15 text-ink font-semibold" 
+                : "text-muted-ink bg-transparent hover:bg-white/5 hover:text-ink"
+            }`}
+            onClick={() => setFilterSource(f as any)}
+          >
+            {f === "All" ? "Todos" : f}
+          </button>
+        ))}
+      </div>
+
+      {/* Rules list */}
+      <div className="flex flex-col gap-2">
         {filteredRules.length > 0 ? (
           filteredRules.map(rule => (
             <AppRuleCard 
@@ -177,11 +125,79 @@ export function Apps() {
             />
           ))
         ) : (
-          <div className={styles.emptyState}>
-            Nenhum aplicativo encontrado.
+          <div className="text-center p-6 text-xs text-muted-ink bg-surface-indigo/30 rounded-md border border-dashed border-hairline/25">
+            Nenhum aplicativo ativado.
           </div>
         )}
       </div>
+
+      {/* System Process Picker Modal */}
+      {showPicker && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+          <div className="bg-surface-indigo border border-hairline rounded-md w-full max-w-[340px] max-h-[460px] flex flex-col p-4 shadow-xl">
+            <div className="flex justify-between items-center mb-3">
+              <h4 className="text-sm font-bold text-ink font-display uppercase tracking-wider">Selecionar do Sistema</h4>
+              <button 
+                onClick={() => {
+                  setShowPicker(false);
+                  setPickerSearch("");
+                }} 
+                className="text-muted-ink hover:text-ink text-sm"
+              >
+                ✕
+              </button>
+            </div>
+            <input 
+              type="text"
+              placeholder="Pesquisar processo..."
+              value={pickerSearch}
+              onChange={(e) => setPickerSearch(e.target.value)}
+              className="bg-surface-onyx border border-hairline/50 text-ink text-sm px-3 py-2 rounded-sm mb-3 focus:border-primary focus:outline-none w-full"
+            />
+            {loadingProcesses ? (
+              <div className="text-center py-8 text-xs text-muted-ink">Carregando processos...</div>
+            ) : (
+              <div className="flex-1 overflow-y-auto flex flex-col gap-1 pr-1">
+                {systemProcesses
+                  .filter(p => 
+                    p.display_name.toLowerCase().includes(pickerSearch.toLowerCase()) || 
+                    p.process_name.toLowerCase().includes(pickerSearch.toLowerCase())
+                  ).length > 0 ? (
+                    systemProcesses
+                      .filter(p => 
+                        p.display_name.toLowerCase().includes(pickerSearch.toLowerCase()) || 
+                        p.process_name.toLowerCase().includes(pickerSearch.toLowerCase())
+                      )
+                      .map(p => {
+                        const isAlreadyAdded = rules.some(r => r.process_name === p.process_name);
+                        return (
+                          <button
+                            key={p.process_name}
+                            onClick={() => !isAlreadyAdded && selectProcess(p)}
+                            disabled={isAlreadyAdded}
+                            className={`flex justify-between items-center p-2 rounded-xs hover:bg-white/5 text-left text-sm transition ${
+                              isAlreadyAdded ? "opacity-40 cursor-not-allowed" : ""
+                            }`}
+                          >
+                            <div>
+                              <div className="font-semibold text-ink">{p.display_name}</div>
+                              <div className="text-xs text-muted-ink font-mono">{p.process_name}</div>
+                            </div>
+                            <span className="text-[9px] font-bold text-muted-ink uppercase border border-hairline/25 px-1.5 py-0.5 rounded-xs bg-surface-onyx">
+                              {isAlreadyAdded ? "Ativo" : "Adicionar"}
+                            </span>
+                          </button>
+                        );
+                      })
+                  ) : (
+                    <div className="text-center py-8 text-xs text-muted-ink">Nenhum processo em execução encontrado.</div>
+                  )
+                }
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

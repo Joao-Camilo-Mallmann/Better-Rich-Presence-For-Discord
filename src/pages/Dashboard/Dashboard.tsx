@@ -1,4 +1,3 @@
-import styles from "./Dashboard.module.css";
 import { usePresence } from "../../hooks/usePresence";
 import { PresenceCard } from "../../components/PresenceCard/PresenceCard";
 import { useEffect, useState } from "react";
@@ -26,35 +25,26 @@ export function Dashboard() {
   }, [presence?.timestamp]);
 
   return (
-    <div className={styles.page}>
-      <header className={styles.header}>
-        <h2 className={styles.title}>Dashboard</h2>
-        <p className={styles.subtitle}>Visão geral da sua presença no Discord</p>
-      </header>
-
-      <section className={styles.previewSection}>
-        <h3 className={styles.sectionTitle}>Pré-visualização</h3>
+    <div className="flex flex-col gap-4">
+      {/* Live Preview */}
+      <div className="flex flex-col gap-2">
+        <h3 className="text-[10px] text-muted-ink uppercase tracking-wider font-extrabold font-display">Pré-visualização</h3>
         <PresenceCard presence={presence} />
-      </section>
+      </div>
 
-      <section className={styles.statsGrid}>
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Status da Conexão</div>
-          <div className={styles.statValue}>
-            {connectionInfo.state === "Connected" ? "Online" : "Offline"}
-          </div>
-        </div>
-        
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Fonte Atual</div>
-          <div className={styles.statValue}>{source}</div>
-        </div>
-
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Tempo de Atividade</div>
-          <div className={styles.statValue}>{elapsed}</div>
-        </div>
-      </section>
+      {/* Stats Summary Row */}
+      <div className="flex flex-wrap gap-2 text-xs">
+        <span className="bg-surface-indigo border border-hairline/30 px-3 py-1.5 rounded-sm font-semibold flex items-center gap-1.5 shadow-sm">
+          <span className={`w-2 h-2 rounded-full ${connectionInfo.state === "Connected" ? "bg-green-accent animate-pulse" : "bg-danger"}`} />
+          {connectionInfo.state === "Connected" ? "Conectado" : "Desconectado"}
+        </span>
+        <span className="bg-surface-indigo border border-hairline/30 px-3 py-1.5 rounded-sm font-semibold text-muted-ink shadow-sm">
+          Fonte: <span className="text-ink font-bold">{source}</span>
+        </span>
+        <span className="bg-surface-indigo border border-hairline/30 px-3 py-1.5 rounded-sm font-semibold text-muted-ink shadow-sm">
+          Uptime: <span className="text-ink font-bold">{elapsed}</span>
+        </span>
+      </div>
     </div>
   );
 }

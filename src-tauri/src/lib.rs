@@ -6,7 +6,7 @@ pub mod types;
 pub mod watcher;
 
 use crate::commands::AppState;
-use crate::types::{AppRule, ConnectionInfo, EngineCommand, EngineEvent, PresenceData, PresenceSource, PresenceState, Settings};
+use crate::types::{AppRule, ConnectionInfo, EngineEvent, PresenceSource, PresenceState, Settings};
 use std::sync::Arc;
 use tauri::{
     menu::{MenuBuilder, MenuItemBuilder},
@@ -84,7 +84,7 @@ pub fn run() {
             let (_discord_manager, discord_handle) = discord::DiscordManager::new();
 
             // Store handle to cleanly disconnect on exit
-            let discord_handle_clone = discord_handle.clone();
+            let _discord_handle_clone = discord_handle.clone();
             
             // 6. Shared State
             let app_state = AppState {
@@ -133,6 +133,7 @@ pub fn run() {
             commands::reset_app_rules_to_defaults,
             commands::get_settings,
             commands::update_settings,
+            commands::get_running_processes,
         ])
         .on_window_event(|window, event| match event {
             tauri::WindowEvent::CloseRequested { api, .. } => {
