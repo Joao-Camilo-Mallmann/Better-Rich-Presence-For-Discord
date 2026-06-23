@@ -34,7 +34,7 @@ export default defineConfig(async () => ({
     rollupOptions: {
       input: {
         main: "index.html",
-        landing: "LandingPage.html",
+        landing: "public/LandingPage.html",
       },
     },
   },

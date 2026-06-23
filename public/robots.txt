@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://better-rich-presence-for-discord.vercel.app/sitemap.xml
+Sitemap: https://better-rich-presence-for-discord.netlify.app/sitemap.xml
