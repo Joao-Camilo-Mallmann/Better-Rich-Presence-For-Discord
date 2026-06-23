@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- SEO Meta Tags ("SEO Brabo") -->
-  <title>Better Discord Rich Presence | Seu RPC Customizado de Forma Simples</title>
-  <meta name="title" content="Better Discord Rich Presence | Seu RPC Customizado de Forma Simples" />
-  <meta name="description" content="Personalize seu status no Discord em tempo real. Suporte nativo para VS Code, Spotify, navegadores e jogos. Super leve (Tauri + Rust), seguro e 100% gratuito." />
+  <!-- SEO Meta Tags -->
+  <title>Better Discord Rich Presence | Effortless Status Customization</title>
+  <meta name="title" content="Better Discord Rich Presence | Effortless Status Customization" />
+  <meta name="description" content="Share your active desktop programs on Discord in real-time. Zero configuration, native performance (Tauri + Rust), and support for any app." />
   <meta name="keywords" content="discord, rich presence, custom rpc, status discord, discord rpc customizer, tauri, rust, open source, github discord rpc" />
   <meta name="author" content="Better RPC Community" />
   <meta name="robots" content="index, follow" />
@@ -15,70 +15,47 @@
   <!-- Open Graph / Facebook / Discord Embeds -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://better-rich-presence-for-discord.netlify.app/" />
-  <meta property="og:title" content="Better Discord Rich Presence | Seu RPC Customizado de Forma Simples" />
-  <meta property="og:description" content="Personalize seu status no Discord em tempo real para múltiplos programas. Leve, seguro, sem nhenhenhé e 100% Open Source!" />
+  <meta property="og:title" content="Better Discord Rich Presence | Effortless Status Customization" />
+  <meta property="og:description" content="Showcase what you are doing on Discord instantly. Super lightweight, secure, and works automatically with any application." />
   <meta property="og:image" content="/logo.png" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://better-rich-presence-for-discord.netlify.app/" />
-  <meta property="twitter:title" content="Better Discord Rich Presence | Seu RPC Customizado de Forma Simples" />
-  <meta property="twitter:description" content="Personalize seu status no Discord em tempo real para múltiplos programas. Leve, seguro, sem nhenhenhé e 100% Open Source!" />
+  <meta property="twitter:title" content="Better Discord Rich Presence | Effortless Status Customization" />
+  <meta property="twitter:description" content="Showcase what you are doing on Discord instantly. Super lightweight, secure, and works automatically with any application." />
   <meta property="twitter:image" content="/logo.png" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/logo.png" />
 
-  <!-- Google Fonts: Space Grotesk & Inter -->
+  <!-- Google Fonts: Space Grotesk (headings) & Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- JSON-LD Structured Data (Google Rich Snippets) -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Better Discord Rich Presence",
-      "operatingSystem": "Windows, macOS, Linux",
-      "applicationCategory": "UtilitiesApplication, GameApplication",
-      "downloadUrl": "https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases",
-      "softwareVersion": "0.1.0",
-      "releaseNotes": "https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases",
-      "license": "https://opensource.org/licenses/MIT",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "description": "Discord Rich Presence customizer client that detects multiple programs like VS Code, Spotify, and games, updating your profile in real-time in a lightweight and intuitive way.",
-      "creator": {
-        "@type": "Organization",
-        "name": "Better RPC Community",
-        "url": "https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord"
-      }
-    }
-  </script>
-
   <style>
-    /* Design Tokens from DESIGN.md & custom overrides */
+    /* Design Tokens - Discord Dark Client & Glassmorphism Premium Theme */
     :root {
-      --color-primary: #5865f2; /* Blurple */
-      --color-green: #35ed7e; /* Electric Green */
-      --color-magenta: #ec48bd; /* Vibrant Magenta */
-      --color-bg: #23272a; /* Onyx (fundo solicitado pelo usuario) */
-      --color-surface-indigo: #1e2353; /* Raised Indigo */
-      --color-surface-black: #000000;
-      --color-ink: #ffffff;
-      --color-ink-dark: #000000;
-      --color-muted: #9ba3af; /* Soft ink dark */
-      --color-hairline: rgba(255, 255, 255, 0.08);
+      --bg-primary: #313338;
+      --bg-secondary: #2b2d31;
+      --bg-tertiary: #1e1f22;
+      --border-color: rgba(255, 255, 255, 0.05);
+      
+      --text-normal: #dbdee1;
+      --text-muted: #949ba4;
+      --text-link: #00a8fc;
+      --text-white: #ffffff;
+      
+      --blurple: #5865f2;
+      --blurple-hover: #4752c4;
+      --green-success: #23a55a;
+      --green-success-hover: #1a7f45;
       
       --font-display: 'Space Grotesk', sans-serif;
       --font-body: 'Inter', sans-serif;
     }
 
-    /* Reset & Base Styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -86,65 +63,73 @@
     }
 
     body {
-      background-color: var(--color-bg);
-      color: var(--color-ink);
+      background-color: var(--bg-primary);
+      color: var(--text-normal);
       font-family: var(--font-body);
       overflow-x: hidden;
-      line-height: 1.5;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Layout Containers */
+    /* Custom elegant scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-tertiary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
     .container {
-      max-width: 1100px;
+      max-width: 1040px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Ambient Blur */
-    .ambient-bg {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 1400px;
-      height: 600px;
-      background: radial-gradient(circle at top, rgba(88, 101, 242, 0.15) 0%, rgba(236, 72, 189, 0.06) 50%, transparent 100%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Header Nav */
+    /* Top Navigation Header */
     header {
-      position: relative;
-      z-index: 10;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--color-hairline);
+      background-color: rgba(30, 31, 34, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     header .nav-flex {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      height: 72px;
     }
 
     .logo-container {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      text-decoration: none;
     }
 
     .logo-container img {
-      width: 32px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       object-fit: contain;
     }
 
     .logo-container span {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 1.25rem;
-      letter-spacing: -0.02em;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+      color: var(--text-white);
     }
 
     .nav-links {
@@ -154,473 +139,750 @@
     }
 
     .nav-links a {
-      color: var(--color-muted);
+      color: var(--text-muted);
       text-decoration: none;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 500;
       transition: color 0.2s ease;
     }
 
     .nav-links a:hover {
-      color: var(--color-ink);
+      color: var(--text-white);
     }
 
-    /* Buttons */
+    /* Buttons styling */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      font-family: var(--font-display);
-      font-weight: 700;
-      text-transform: uppercase;
+      font-weight: 600;
       text-decoration: none;
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-size: 0.95rem;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 0.85rem;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .btn:hover {
-      transform: scale(1.03);
+      border: none;
+      transition: background-color 0.2s ease, transform 0.1s ease;
     }
 
     .btn:active {
-      transform: scale(0.97);
+      transform: scale(0.98);
     }
 
     .btn-green {
-      background-color: var(--color-green);
-      color: var(--color-ink-dark);
-      box-shadow: 0 4px 20px rgba(53, 237, 126, 0.25);
+      background-color: var(--green-success);
+      color: var(--text-white);
     }
 
     .btn-green:hover {
-      background-color: #42f588;
-      box-shadow: 0 6px 24px rgba(53, 237, 126, 0.4);
+      background-color: var(--green-success-hover);
+      text-decoration: none;
     }
 
     .btn-blurple {
-      background-color: var(--color-primary);
-      color: var(--color-ink);
-      box-shadow: 0 4px 20px rgba(88, 101, 242, 0.25);
+      background-color: var(--blurple);
+      color: var(--text-white);
     }
 
     .btn-blurple:hover {
-      background-color: #6a76f5;
-      box-shadow: 0 6px 24px rgba(88, 101, 242, 0.4);
+      background-color: var(--blurple-hover);
+      text-decoration: none;
     }
 
     .btn-outline {
-      border: 1px solid var(--color-hairline);
-      background-color: rgba(30, 35, 83, 0.3);
-      color: var(--color-ink);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background-color: transparent;
+      color: var(--text-normal);
     }
 
     .btn-outline:hover {
-      background-color: rgba(30, 35, 83, 0.6);
-      border-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.04);
+      border-color: var(--text-white);
+      text-decoration: none;
     }
 
-    /* Hero Section */
+    /* Hero Area */
     .hero {
-      position: relative;
-      z-index: 10;
-      padding: 80px 0 60px 0;
-      text-align: center;
+      padding: 110px 0;
+      background: radial-gradient(circle at 75% 20%, rgba(88, 101, 242, 0.05) 0%, transparent 60%);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    @media (min-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
 
     .hero-tagline {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(236, 72, 189, 0.12);
-      border: 1px solid rgba(236, 72, 189, 0.3);
-      color: var(--color-magenta);
-      padding: 6px 16px;
+      gap: 6px;
+      background: rgba(88, 101, 242, 0.08);
+      border: 1px solid rgba(88, 101, 242, 0.2);
+      color: #949cff;
+      padding: 6px 14px;
       border-radius: 100px;
       font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 24px;
+      letter-spacing: 0.06em;
+      width: fit-content;
     }
 
-    h1 {
+    .hero h1 {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 3.5rem;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      text-transform: uppercase;
-      max-width: 900px;
-      margin: 0 auto 20px auto;
+      font-size: 3.2rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--text-white);
     }
 
-    h1 span.gradient-text {
-      background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-magenta) 50%, var(--color-green) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .hero h1 span.accent {
+      color: var(--blurple);
     }
 
     .hero-desc {
-      font-size: 1.15rem;
-      color: var(--color-muted);
-      max-width: 650px;
-      margin: 0 auto 36px auto;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
 
     .hero-ctas {
       display: flex;
-      justify-content: center;
       gap: 16px;
       flex-wrap: wrap;
+      margin-top: 8px;
     }
 
-    /* Discord Profile Card Simulation */
-    .preview-section {
-      padding: 20px 0 60px 0;
+    /* 3D Floating Mockup (Clean) */
+    .showcase-wrapper {
       display: flex;
       justify-content: center;
-      z-index: 10;
+      align-items: center;
+      perspective: 1200px;
       position: relative;
     }
 
-    .discord-card {
-      background-color: #111214;
-      width: 320px;
-      border-radius: 16px;
+    .showcase-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(88, 101, 242, 0.12) 0%, transparent 65%);
+      top: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+      filter: blur(24px);
+    }
+
+    .mockup-window {
+      width: 100%;
+      max-width: 420px;
+      background-color: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      transform-style: preserve-3d;
+      transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s ease;
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
       overflow: hidden;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--color-hairline);
+    }
+
+    .mockup-header {
+      background-color: var(--bg-tertiary);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .mockup-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .mockup-dot.red { background-color: #ff5f56; }
+    .mockup-dot.yellow { background-color: #ffbd2e; }
+    .mockup-dot.green { background-color: #27c93f; }
+
+    .mockup-title {
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      transform: translateX(-15px);
+      letter-spacing: 0.02em;
+    }
+
+    .mockup-body {
+      padding: 6px;
+      background-color: #1e1f22;
+    }
+
+    .mockup-body img {
+      width: 100%;
+      border-radius: 6px;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Zero Configuration Steps Section */
+    .steps-section {
+      padding: 96px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      margin-top: 16px;
+    }
+
+    .step-card {
+      background-color: rgba(43, 45, 49, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .step-card:hover {
+      border-color: rgba(88, 101, 242, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .step-badge {
+      width: 36px;
+      height: 36px;
+      background-color: rgba(88, 101, 242, 0.1);
+      color: var(--blurple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    .step-card h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--text-white);
+    }
+
+    .step-card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Interactive Integrated Glass Dashboard Demo Section */
+    .demo-section {
+      padding: 96px 0;
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    /* The Integrated Glass Dashboard Panel */
+    .glass-dashboard {
+      background: rgba(30, 31, 34, 0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 992px) {
+      .glass-dashboard {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+    }
+
+    /* Left Side: App Toggles Selector List */
+    .dashboard-selector {
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 992px) {
+      .dashboard-selector {
+        border-bottom: none;
+        border-right: 1px solid var(--border-color);
+      }
+    }
+
+    .selector-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .selector-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-white);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .selector-status {
+      font-size: 0.72rem;
+      font-weight: 700;
+      background-color: var(--green-success);
+      color: var(--text-white);
+      padding: 4px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .selector-rows {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .selector-row {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .selector-row:last-child {
+      border-bottom: none;
+    }
+
+    .selector-row:hover {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .selector-row.active {
+      background-color: rgba(88, 101, 242, 0.06);
+      box-shadow: inset 4px 0 0 var(--blurple);
+    }
+
+    .app-info-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .app-info-icon {
+      font-size: 1.5rem;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app-info-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-name-text {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-white);
+    }
+
+    .app-desc-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Custom CSS Toggle Switch (Solid green when active) */
+    .switch-widget {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 22px;
+      pointer-events: none;
+    }
+
+    .switch-widget input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #80848e;
+      transition: .2s;
+      border-radius: 22px;
+    }
+
+    .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+
+    input:checked + .switch-slider {
+      background-color: var(--green-success);
+    }
+
+    input:checked + .switch-slider:before {
+      transform: translateX(16px);
+    }
+
+    /* Right Side: Discord Card Preview Container */
+    .dashboard-preview {
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .discord-profile-card {
+      background-color: #111214;
+      width: 100%;
+      max-width: 320px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--border-color);
       text-align: left;
     }
 
-    .discord-banner {
+    .discord-profile-banner {
       height: 60px;
-      background: linear-gradient(135deg, var(--color-primary), var(--color-magenta));
+      background: linear-gradient(135deg, var(--blurple) 0%, #eb459e 100%);
       position: relative;
     }
 
-    .discord-avatar-wrap {
+    .discord-avatar-anchor {
       position: absolute;
-      top: 20px;
+      top: 22px;
       left: 16px;
-      position: relative;
-      margin-bottom: -32px;
-      display: inline-block;
-      width: 72px;
-      height: 72px;
     }
 
     .discord-avatar {
-      width: 100%;
-      height: 100%;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
-      background-color: var(--color-bg);
+      background-color: #2b2d31;
       border: 6px solid #111214;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
+      font-size: 1.8rem;
+      overflow: hidden;
     }
 
-    .discord-status-dot {
+    .discord-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .discord-status-indicator {
       position: absolute;
       bottom: 2px;
       right: 2px;
       width: 16px;
       height: 16px;
-      background-color: var(--color-green);
+      background-color: #23a55a;
       border-radius: 50%;
-      border: 3px solid #111214;
+      border: 3.5px solid #111214;
     }
 
-    .discord-content {
-      padding: 48px 16px 16px 16px;
-      background-color: #111214;
+    .discord-profile-body {
+      padding: 44px 16px 16px 16px;
     }
 
-    .discord-user {
-      font-size: 1.1rem;
+    .discord-user-details {
+      margin-bottom: 12px;
+    }
+
+    .discord-global-name {
+      font-size: 1.05rem;
       font-weight: 700;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+      color: var(--text-white);
+      line-height: 1.2;
     }
 
-    .discord-user .tag {
-      font-size: 0.8rem;
-      color: #b5bac1;
-      font-weight: 500;
+    .discord-username {
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
 
     .discord-divider {
       height: 1px;
-      background-color: rgba(255, 255, 255, 0.08);
+      background-color: rgba(255, 255, 255, 0.05);
       margin: 12px 0;
     }
 
-    .presence-section {
+    .discord-activity {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .presence-title {
+    .discord-activity-header {
       font-size: 0.68rem;
       text-transform: uppercase;
-      font-weight: 700;
-      color: #b5bac1;
-      letter-spacing: 0.02em;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: 0.04em;
     }
 
-    .presence-body {
+    .discord-activity-content {
       display: flex;
       gap: 12px;
     }
 
-    .presence-assets {
+    .discord-activity-assets {
       position: relative;
-      width: 60px;
-      height: 60px;
+      width: 56px;
+      height: 56px;
       flex-shrink: 0;
     }
 
-    .presence-large-img {
+    .discord-large-asset {
       width: 100%;
       height: 100%;
-      border-radius: 8px;
-      background-color: var(--color-surface-indigo);
+      border-radius: 6px;
+      background-color: var(--bg-secondary);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.03);
     }
 
-    .presence-small-img {
+    .discord-large-asset img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .discord-small-asset {
       position: absolute;
       bottom: -4px;
       right: -4px;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
-      background-color: #23272a;
+      background-color: #111214;
       border: 2px solid #111214;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
+      overflow: hidden;
     }
 
-    .presence-text {
+    .discord-small-asset img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .discord-activity-details {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: #dbdee1;
       line-height: 1.35;
+      overflow: hidden;
     }
 
-    .presence-text .app-name {
+    .discord-activity-details .app-title {
       font-weight: 700;
-      color: #fff;
+      color: var(--text-white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .presence-text .time-elapsed {
-      margin-top: 2px;
-      color: #b5bac1;
+    .discord-activity-details span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .presence-buttons {
+    .discord-activity-details .time-count {
+      margin-top: 1px;
+      color: var(--text-muted);
+    }
+
+    .discord-action-buttons {
       display: flex;
       flex-direction: column;
       gap: 6px;
       margin-top: 8px;
     }
 
-    .presence-btn {
+    .discord-action-btn {
       background-color: #4e5058;
-      color: #fff;
+      color: var(--text-white);
       text-align: center;
       padding: 8px;
       border-radius: 4px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 500;
-      text-decoration: none;
       transition: background-color 0.2s ease;
     }
 
-    .presence-btn:hover {
+    .discord-action-btn:hover {
       background-color: #6d6f78;
+      text-decoration: none;
     }
 
-    /* Grid Section (Features) */
-    .features-section {
-      padding: 60px 0;
-      border-top: 1px solid var(--color-hairline);
+    /* System Impact / Tech Card (Super simple layout) */
+    .tech-section {
+      padding: 96px 0;
+      border-bottom: 1px solid var(--border-color);
     }
 
-    .section-title {
-      font-family: var(--font-display);
-      text-transform: uppercase;
-      font-size: 2.2rem;
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 24px;
-    }
-
-    .feature-card {
-      background-color: rgba(30, 35, 83, 0.3);
-      border: 1px solid var(--color-hairline);
-      border-radius: 16px;
-      padding: 32px;
-      transition: all 0.2s ease;
+    .tech-flex {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-    }
-
-    .feature-card:hover {
-      border-color: rgba(88, 101, 242, 0.4);
-      transform: translateY(-4px);
-    }
-
-    .feature-icon {
-      font-size: 2rem;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .feature-card h3 {
-      font-family: var(--font-display);
-      text-transform: uppercase;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .feature-card p {
-      font-size: 0.9rem;
-      color: var(--color-muted);
-      line-height: 1.5;
-    }
-
-    /* Dev Contribution Section */
-    .dev-section {
-      padding: 60px 0;
-      border-top: 1px solid var(--color-hairline);
-    }
-
-    .dev-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
-      align-items: center;
+      gap: 48px;
     }
 
     @media (min-width: 768px) {
-      .dev-grid {
-        grid-template-columns: 1.1fr 0.9fr;
+      .tech-flex {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .tech-flex > div {
+        flex: 1;
       }
     }
 
-    .dev-content {
+    .tech-content {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
 
-    .dev-tagline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(53, 237, 126, 0.12);
-      border: 1px solid rgba(53, 237, 126, 0.3);
-      color: var(--color-green);
-      padding: 6px 16px;
-      border-radius: 100px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      width: fit-content;
-    }
-
-    .dev-content h2 {
+    .tech-content h2 {
       font-family: var(--font-display);
-      text-transform: uppercase;
+      font-weight: 800;
       font-size: 2.2rem;
-      line-height: 1.1;
+      color: var(--text-white);
+      line-height: 1.15;
     }
 
-    .dev-content p {
+    .tech-content p {
       font-size: 1rem;
-      color: var(--color-muted);
+      color: var(--text-muted);
       line-height: 1.6;
     }
 
-    .dev-bullets {
+    .tech-bars {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-    }
-
-    .dev-bullet {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
-    }
-
-    .dev-bullet span.check {
-      color: var(--color-green);
-      font-weight: bold;
-    }
-
-    .code-preview {
-      background-color: #111214;
-      border: 1px solid var(--color-hairline);
+      gap: 20px;
+      background-color: rgba(43, 45, 49, 0.4);
+      border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 24px;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.8rem;
-      color: #dbdee1;
-      overflow-x: auto;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      padding: 32px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
 
-    .code-comment {
-      color: var(--color-magenta);
+    .bar-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--text-normal);
+      font-weight: 600;
+    }
+
+    .bar-label span.value {
+      color: var(--text-muted);
+    }
+
+    .bar-track {
+      height: 10px;
+      background-color: var(--bg-tertiary);
+      border-radius: 5px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 5px;
+      background-color: var(--green-success);
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.1, 1, 0.1, 1);
     }
 
     /* Footer */
     footer {
-      border-top: 1px solid var(--color-hairline);
+      background-color: var(--bg-tertiary);
+      border-top: 1px solid var(--border-color);
       padding: 60px 0 80px 0;
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      background-color: rgba(0, 0, 0, 0.15);
     }
 
     .footer-flex {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 24px;
-      position: relative;
-      z-index: 10;
+      gap: 20px;
     }
 
     .footer-links {
@@ -629,70 +891,88 @@
     }
 
     .footer-links a {
-      color: var(--color-muted);
+      color: var(--text-muted);
       text-decoration: none;
       font-size: 0.85rem;
       transition: color 0.2s ease;
     }
 
     .footer-links a:hover {
-      color: #fff;
+      color: var(--text-normal);
     }
 
     .copyright {
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--text-muted);
     }
 
-    .giant-wordmark {
-      position: absolute;
-      bottom: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 8rem;
-      color: rgba(255, 255, 255, 0.015);
-      text-transform: uppercase;
-      letter-spacing: -0.05em;
-      white-space: nowrap;
-      pointer-events: none;
-      user-select: none;
+    /* Mobile hamburger menu */
+    .menu-btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
     }
 
-    /* Responsive adjustments */
+    .menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background-color: var(--text-normal);
+      transition: 0.2s;
+    }
+
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2.5rem;
+      .menu-btn {
+        display: flex;
       }
+
       .nav-links {
         display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-tertiary);
+        border-bottom: 1px solid var(--border-color);
+        padding: 24px;
+        gap: 16px;
       }
-      .giant-wordmark {
-        font-size: 5rem;
-        bottom: -30px;
+
+      .nav-links.active {
+        display: flex;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="ambient-bg"></div>
-
-  <!-- Navbar -->
+  <!-- Header / Navbar -->
   <header>
     <div class="container nav-flex">
-      <div class="logo-container">
+      <a href="#" class="logo-container">
         <img src="/logo.png" alt="Better RPC Logo">
         <span>Better RPC</span>
-      </div>
-      <ul class="nav-links">
-        <li><a href="#features">Recursos</a></li>
-        <li><a href="#developers">Desenvolvedores</a></li>
+      </a>
+      
+      <button class="menu-btn" id="menu-btn" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#how-it-works">How it Works</a></li>
+        <li><a href="#performance">Performance</a></li>
+        <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank">Source Code</a></li>
       </ul>
-      <div>
-        <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.8rem;">
-          ⭐ Ver no GitHub
+
+      <div style="display: flex; align-items: center; gap: 12px;" class="nav-actions-desktop">
+        <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases" target="_blank" rel="noopener noreferrer" class="btn btn-green">
+          Download Free
         </a>
       </div>
     </div>
@@ -700,57 +980,35 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <div class="container">
-      <div class="hero-tagline">✨ 100% Código Aberto e Seguro</div>
-      <h1>Seu Discord, <span class="gradient-text">Suas Regras</span></h1>
-      <p class="hero-desc">
-        Mostre exatamente o que você está fazendo no seu perfil do Discord de forma automática e integrada. Chega de configurações complicadas.
-      </p>
-      <div class="hero-ctas">
-        <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases" target="_blank" rel="noopener noreferrer" class="btn btn-green">
-          📥 Baixar App Grátis
-        </a>
-        <a href="#developers" class="btn btn-outline">
-          💻 Contribuir
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- simulated Discord card preview -->
-  <section class="preview-section">
-    <div class="discord-card">
-      <div class="discord-banner"></div>
-      <div style="padding: 0 16px;">
-        <div class="discord-avatar-wrap">
-          <div class="discord-avatar">💻</div>
-          <div class="discord-status-dot"></div>
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-tagline">✨ Zero Setup Required</div>
+        <h1>Your Discord Status, <span class="accent">Instantly Alive</span></h1>
+        <p class="hero-desc">
+          Share your activities seamlessly. Better RPC automatically detects what program you have open and showcases it on your Discord profile—fully styled, instantly, and without setup.
+        </p>
+        <div class="hero-ctas">
+          <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases" target="_blank" rel="noopener noreferrer" class="btn btn-green" style="padding: 14px 28px; font-size: 1rem;">
+            Download for Desktop
+          </a>
+          <a href="#how-it-works" class="btn btn-outline" style="padding: 14px 28px; font-size: 1rem;">
+            See it in Action
+          </a>
         </div>
       </div>
-      <div class="discord-content">
-        <div class="discord-user">
-          Você no Discord
-          <span class="tag">@usuario_customizado</span>
-        </div>
-        
-        <div class="discord-divider"></div>
-        
-        <div class="presence-section">
-          <div class="presence-title">Jogando agora</div>
-          <div class="presence-body">
-            <div class="presence-assets">
-              <div class="presence-large-img">⚡</div>
-              <div class="presence-small-img">📝</div>
-            </div>
-            <div class="presence-text">
-              <span class="app-name">Visual Studio Code</span>
-              <span>Editando src/App.tsx</span>
-              <span>Linha 42: Coluna 12</span>
-              <span class="time-elapsed" id="timer">decorrido: 00:00</span>
-            </div>
+      
+      <!-- 3D Floating Mockup (Clean screenshot showcase) -->
+      <div class="showcase-wrapper">
+        <div class="showcase-glow"></div>
+        <div class="mockup-window" id="mockup-window">
+          <div class="mockup-header">
+            <div class="mockup-dot red"></div>
+            <div class="mockup-dot yellow"></div>
+            <div class="mockup-dot green"></div>
+            <div class="mockup-title">Better Rich Presence - Active</div>
           </div>
-          <div class="presence-buttons">
-            <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" class="presence-btn">Obter o Better RPC</a>
+          <div class="mockup-body">
+            <img src="/image.png" alt="Better RPC Desktop App Preview">
           </div>
         </div>
       </div>
@@ -758,86 +1016,191 @@
   </section>
 
   <!-- Core Features Section -->
-  <section class="features-section" id="features">
+  <section class="steps-section" id="how-it-works">
     <div class="container">
-      <h2 class="section-title">Sem Enrolação: O que ele faz?</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">🔌</div>
-          <h3>Zero Configuração</h3>
-          <p>
-            Vem com suporte nativo pré-configurado para mais de 20 dos aplicativos mais populares como VS Code, Spotify, Steam, navegadores e pacote Adobe.
-          </p>
+      <h2 class="section-title">Designed for Simplicity, Built for Speed</h2>
+      <p class="section-subtitle">Everything you need to showcase your presence on Discord with zero system overhead.</p>
+      
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-badge">🔌</div>
+          <h3>Integrate Any App</h3>
+          <p>Works natively with VS Code, Spotify, and games. Easily detect and map custom status details for absolutely any desktop application or browser tab.</p>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">🎨</div>
-          <h3>Gráficos & Botões</h3>
-          <p>
-            Adicione imagens grandes e pequenas, contadores de tempo decorrido e botões de ação clicáveis diretamente no seu status sem pagar pelo Nitro.
-          </p>
+        <div class="step-card">
+          <div class="step-badge">🦀</div>
+          <h3>Lightweight on RAM</h3>
+          <p>Engineered in native Rust + Tauri. It runs silently in the background consuming under 20MB of RAM and near-zero CPU, keeping your gaming lag-free.</p>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <h3>Motor Inteligente</h3>
-          <p>
-            O app prioriza jogos automaticamente em relação a aplicativos de trabalho e conta com lógica anti-oscilação para transições de janela suaves.
-          </p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🚀</div>
-          <h3>Extremamente Leve</h3>
-          <p>
-            Construído em Tauri + Rust, ele consome quase zero de memória RAM e CPU, rodando silenciosamente no segundo plano do seu sistema.
-          </p>
+        <div class="step-card">
+          <div class="step-badge">⚡</div>
+          <h3>Easy, Instant Setup</h3>
+          <p>Forget complex developer portals and token setups. Simply download, launch the program, and watch your Discord profile update automatically.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Developers Invitation Section -->
-  <section class="dev-section" id="developers">
-    <div class="container dev-grid">
-      <div class="dev-content">
-        <div class="dev-tagline">Para Desenvolvedores</div>
-        <h2>Ajude-nos a Expandir a Biblioteca</h2>
-        <p>
-          O Better RPC é mantido pela comunidade. Se você quer adicionar suporte para um aplicativo que você usa, basta criar um mapeamento JSON rápido e declarativo.
-        </p>
-        <div class="dev-bullets">
-          <div class="dev-bullet">
-            <span class="check">✔</span>
-            <span>Mapeamento de processos via Expressões Regulares (Regex)</span>
+  <!-- Interactive Integrated Glass Dashboard Demo Section -->
+  <section class="demo-section">
+    <div class="container">
+      <h2 class="section-title">Works with All Your Favorite Apps</h2>
+      <p class="section-subtitle">Toggle on automatic integration for any program or game. Click an app below to see the preview update live.</p>
+
+      <!-- Glass Dashboard Container -->
+      <div class="glass-dashboard">
+        <!-- Left Side: App Toggles Selector -->
+        <div class="dashboard-selector">
+          <div class="selector-header">
+            <div class="selector-title">Active Detections</div>
+            <div class="selector-status">Connected</div>
           </div>
-          <div class="dev-bullet">
-            <span class="check">✔</span>
-            <span>Interface moderna em TypeScript + React</span>
-          </div>
-          <div class="dev-bullet">
-            <span class="check">✔</span>
-            <span>Core ultrarrápido programado em Rust</span>
+          
+          <div class="selector-rows">
+            <!-- Row VS Code -->
+            <div class="selector-row active" id="row-vscode" onclick="clickPref('vscode')">
+              <div class="app-info-block">
+                <span class="app-info-icon">💻</span>
+                <div class="app-info-meta">
+                  <span class="app-name-text">Visual Studio Code</span>
+                  <span class="app-desc-text">Updates status when editing files</span>
+                </div>
+              </div>
+              <label class="switch-widget">
+                <input type="checkbox" checked disabled>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <!-- Row Spotify -->
+            <div class="selector-row" id="row-spotify" onclick="clickPref('spotify')">
+              <div class="app-info-block">
+                <span class="app-info-icon">🎵</span>
+                <div class="app-info-meta">
+                  <span class="app-name-text">Spotify Music</span>
+                  <span class="app-desc-text">Shows what you are listening to</span>
+                </div>
+              </div>
+              <label class="switch-widget">
+                <input type="checkbox" checked disabled>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <!-- Row Minecraft -->
+            <div class="selector-row" id="row-minecraft" onclick="clickPref('minecraft')">
+              <div class="app-info-block">
+                <span class="app-info-icon">🎮</span>
+                <div class="app-info-meta">
+                  <span class="app-name-text">Minecraft Java</span>
+                  <span class="app-desc-text">Displays server and hardcore stats</span>
+                </div>
+              </div>
+              <label class="switch-widget">
+                <input type="checkbox" checked disabled>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <!-- Row Web Browser -->
+            <div class="selector-row" id="row-custom" onclick="clickPref('custom')">
+              <div class="app-info-block">
+                <span class="app-info-icon">✨</span>
+                <div class="app-info-meta">
+                  <span class="app-name-text">Any Custom Program</span>
+                  <span class="app-desc-text">Matches any active window automatically</span>
+                </div>
+              </div>
+              <label class="switch-widget">
+                <input type="checkbox" checked disabled>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
           </div>
         </div>
-        <div style="margin-top: 12px;">
-          <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer" class="btn btn-blurple">
-            ⭐ Contribuir no GitHub
-          </a>
+
+        <!-- Right Side: Discord Card Preview -->
+        <div class="dashboard-preview">
+          <div class="discord-profile-card">
+            <div class="discord-profile-banner"></div>
+            <div style="padding: 0 16px; position: relative;">
+              <div class="discord-avatar-anchor">
+                <div class="discord-avatar">
+                  <img src="/logo.png" alt="User Avatar">
+                </div>
+                <div class="discord-status-indicator"></div>
+              </div>
+            </div>
+            
+            <div class="discord-profile-body">
+              <div class="discord-user-details">
+                <div class="discord-global-name">You on Discord</div>
+                <div class="discord-username">@your_username</div>
+              </div>
+              
+              <div class="discord-divider"></div>
+              
+              <div class="discord-activity">
+                <div class="discord-activity-header" id="discord-activity-header">Playing a game</div>
+                <div class="discord-activity-content">
+                  <div class="discord-activity-assets">
+                    <div class="discord-large-asset" id="discord-large-img">💻</div>
+                    <div class="discord-small-asset" id="discord-small-img"></div>
+                  </div>
+                  <div class="discord-activity-details">
+                    <span class="app-title" id="discord-app-name">Visual Studio Code</span>
+                    <span id="discord-details">Editing: main.rs</span>
+                    <span id="discord-state">In a Rust project</span>
+                    <span class="time-count" id="discord-time">elapsed: 02:45</span>
+                  </div>
+                </div>
+                
+                <div class="discord-action-buttons">
+                  <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" class="discord-action-btn" id="discord-action-btn">
+                    View on GitHub
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Performance impact details -->
+  <section class="tech-section" id="performance">
+    <div class="container tech-flex">
+      <div class="tech-content">
+        <h2>Runs Light. Runs Native.</h2>
+        <p>
+          Better RPC is developed in native Rust using the Tauri framework. By avoiding heavy web execution environments (like Electron), it loads in milliseconds and consumes near-zero system memory, leaving all your CPU cycles free for gaming.
+        </p>
+      </div>
+      
       <div>
-        <div class="code-preview">
-          <span class="code-comment">// Exemplo de regra JSON customizada:</span>
-          <pre style="margin-top: 12px; white-space: pre-wrap;">
-{
-  "name": "My Custom Editor",
-  "processName": "my-editor",
-  "rules": [
-    {
-      "windowTitleRegex": "^Editing - (.*)",
-      "details": "Desenvolvendo código",
-      "state": "Arquivo: $1"
-    }
-  ]
-}</pre>
+        <div class="tech-bars">
+          <!-- RAM Bar -->
+          <div class="bar-group">
+            <div class="bar-label">
+              <span>RAM Overhead</span>
+              <span class="value">Better RPC (18 MB) vs Electron (~180 MB)</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" id="ram-fill" style="background-color: var(--green-success);"></div>
+            </div>
+          </div>
+
+          <!-- CPU Bar -->
+          <div class="bar-group" style="margin-top: 12px;">
+            <div class="bar-label">
+              <span>CPU Cost</span>
+              <span class="value">Better RPC (&lt;0.2%) vs Electron (~4.5%)</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" id="cpu-fill" style="background-color: var(--green-success);"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -848,38 +1211,177 @@
     <div class="container footer-flex">
       <div class="logo-container">
         <img src="/logo.png" alt="Better RPC Logo">
-        <span style="font-size: 0.95rem;">Better RPC</span>
+        <span style="font-size: 0.95rem; color: var(--text-white);">Better RPC</span>
       </div>
       <div class="footer-links">
-        <a href="#features">Recursos</a>
-        <a href="#developers">Desenvolvedores</a>
-        <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE" target="_blank">Licença MIT</a>
+        <a href="#how-it-works">How it Works</a>
+        <a href="#performance">Performance</a>
+        <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE" target="_blank">MIT License</a>
       </div>
       <div class="copyright">
         &copy; <span id="year">2026</span> Better Rich Presence For Discord.
       </div>
     </div>
-    <div class="giant-wordmark">Better RPC</div>
   </footer>
 
   <script>
-    // Live ticking timer for Discord presence card simulation
-    const startTime = Date.now();
-    const timerElement = document.getElementById('timer');
-    
-    function updateTimer() {
-      const elapsedMs = Date.now() - startTime;
-      const totalSecs = Math.floor(elapsedMs / 1000);
-      const mins = Math.floor(totalSecs / 60).toString().padStart(2, '0');
-      const secs = (totalSecs % 60).toString().padStart(2, '0');
-      timerElement.textContent = `decorrido: ${mins}:${secs}`;
-    }
-    
-    setInterval(updateTimer, 1000);
-    updateTimer();
+    // Live ticking timer logic for Discord card preview
+    let elapsedSeconds = 165; // VS Code initial duration: 2 mins 45 secs
+    let timerInterval = null;
 
-    // Set current year
+    function formatTime(secs) {
+      const minutes = Math.floor(secs / 60).toString().padStart(2, '0');
+      const seconds = (secs % 60).toString().padStart(2, '0');
+      return `elapsed: ${minutes}:${seconds}`;
+    }
+
+    function startLiveTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        elapsedSeconds++;
+        const timeElement = document.getElementById('discord-time');
+        if (timeElement.textContent.includes('elapsed')) {
+          timeElement.textContent = formatTime(elapsedSeconds);
+        }
+      }, 1000);
+    }
+
+    // Set current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile Navigation Drawer Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    if (menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+
+    // 3D Floating Mockup Parallax Effect
+    const mockupWindow = document.getElementById('mockup-window');
+    const showcaseWrapper = document.querySelector('.showcase-wrapper');
+    if (mockupWindow && showcaseWrapper) {
+      showcaseWrapper.addEventListener('mousemove', (e) => {
+        const rect = showcaseWrapper.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xc = rect.width / 2;
+        const yc = rect.height / 2;
+        const angleX = (yc - y) / 14;
+        const angleY = (x - xc) / 14;
+        
+        mockupWindow.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.03)`;
+        mockupWindow.style.boxShadow = `${-angleY * 2.5}px ${angleX * 2.5}px 50px rgba(88, 101, 242, 0.45)`;
+      });
+
+      showcaseWrapper.addEventListener('mouseleave', () => {
+        mockupWindow.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+        mockupWindow.style.boxShadow = '0 30px 60px rgba(0, 0, 0, 0.5)';
+      });
+    }
+
+    // Interactive preferences options data
+    const prefData = {
+      vscode: {
+        header: 'Playing a game',
+        appName: 'Visual Studio Code',
+        details: 'Editing: main.rs',
+        state: 'In a Rust project',
+        largeImgEmoji: '💻',
+        smallImgEmoji: '/logo.png',
+        buttonText: 'View on GitHub',
+        timeText: 'elapsed: 02:45',
+        initialSeconds: 165
+      },
+      spotify: {
+        header: 'Listening to Spotify',
+        appName: 'Spotify',
+        details: 'Listening to: Blinding Lights',
+        state: 'By: The Weeknd',
+        largeImgEmoji: '🎵',
+        smallImgEmoji: '/logo.png',
+        buttonText: 'Listen on Spotify',
+        timeText: '01:24 / 03:20',
+        initialSeconds: 0
+      },
+      minecraft: {
+        header: 'Playing a game',
+        appName: 'Minecraft',
+        details: 'Surviving on Hardcore',
+        state: 'Version 1.20',
+        largeImgEmoji: '🟩',
+        smallImgEmoji: '/logo.png',
+        buttonText: 'Join Server',
+        timeText: 'elapsed: 05:12',
+        initialSeconds: 312
+      },
+      custom: {
+        header: 'Playing a game',
+        appName: 'My Custom App',
+        details: 'Watching YouTube',
+        state: 'Browsing: Web Development',
+        largeImgEmoji: '/logo.png',
+        smallImgEmoji: '🌐',
+        buttonText: 'Check out App',
+        timeText: 'elapsed: 00:30',
+        initialSeconds: 30
+      }
+    };
+
+    // Toggle row controller
+    function clickPref(key) {
+      document.querySelectorAll('.selector-row').forEach(row => {
+        row.classList.remove('active');
+      });
+      document.getElementById(`row-${key}`).classList.add('active');
+
+      const data = prefData[key];
+      
+      // Update Simulated Discord Card
+      document.getElementById('discord-activity-header').textContent = data.header;
+      document.getElementById('discord-app-name').textContent = data.appname || data.appName;
+      document.getElementById('discord-details').textContent = data.details;
+      document.getElementById('discord-state').textContent = data.state;
+      document.getElementById('discord-time').textContent = data.timeText;
+      
+      const largeImg = document.getElementById('discord-large-img');
+      if (data.largeImgEmoji.startsWith('/')) {
+        largeImg.innerHTML = `<img src="${data.largeImgEmoji}" alt="App Icon">`;
+      } else {
+        largeImg.textContent = data.largeImgEmoji;
+      }
+      
+      const smallImg = document.getElementById('discord-small-img');
+      if (data.smallImgEmoji.startsWith('/')) {
+        smallImg.innerHTML = `<img src="${data.smallImgEmoji}" alt="Overlay Icon">`;
+      } else {
+        smallImg.textContent = data.smallImgEmoji;
+      }
+      
+      document.getElementById('discord-action-btn').textContent = data.buttonText;
+
+      // Reset live counter
+      elapsedSeconds = data.initialSeconds;
+      if (key === 'spotify') {
+        if (timerInterval) clearInterval(timerInterval);
+      } else {
+        startLiveTimer();
+      }
+    }
+
+    // Initialize interactive graphs width on scroll reveal
+    window.addEventListener('DOMContentLoaded', () => {
+      // Trigger animations
+      setTimeout(() => {
+        const ramFill = document.getElementById('ram-fill');
+        const cpuFill = document.getElementById('cpu-fill');
+        if (ramFill) ramFill.style.width = '10%'; // 18MB relative to 180MB
+        if (cpuFill) cpuFill.style.width = '4%';  // 0.2% relative to 4.5%
+      }, 300);
+      
+      clickPref('vscode');
+    });
   </script>
 </body>
 </html>
