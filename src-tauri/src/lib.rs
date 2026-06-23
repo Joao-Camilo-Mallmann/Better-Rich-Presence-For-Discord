@@ -1,12 +1,8 @@
 pub mod commands;
-pub mod discord;
-pub mod engine;
-pub mod presets;
-pub mod types;
-pub mod watcher;
+pub mod models;
+pub mod services;
 
-use crate::commands::AppState;
-use crate::types::{AppRule, ConnectionInfo, EngineEvent, PresenceSource, PresenceState, Settings};
+use crate::models::types::{AppRule, AppState, ConnectionInfo, EngineEvent, PresenceSource, PresenceState, Settings};
 use std::sync::Arc;
 use tauri::Emitter;
 use log::{Log, Metadata, Record, Level};
@@ -57,11 +53,11 @@ use tauri::{
     Manager,
 };
 use tauri_plugin_store::StoreExt;
-use tokio::sync::{mpsc, RwLock};
+use tokio::sync::mpsc;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
+    let mut app = tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, Some(vec!["--minimized"])))
         .setup(|app| {
@@ -79,14 +75,14 @@ pub fn run() {
             // 2. Load app_rules from store
             let rules_store = app.store("rules.json").expect("Failed to create rules store");
             let mut app_rules = if let Some(rules_val) = rules_store.get("app_rules") {
-                serde_json::from_value::<Vec<AppRule>>(rules_val).unwrap_or_else(|_| presets::default_app_rules())
+                serde_json::from_value::<Vec<AppRule>>(rules_val).unwrap_or_else(|_| models::presets::default_app_rules())
             } else {
-                presets::default_app_rules()
+                models::presets::default_app_rules()
             };
 
             // Proactively merge any missing default rules into the user's rules
             let mut modified = false;
-            for default_rule in presets::default_app_rules() {
+            for default_rule in models::presets::default_app_rules() {
                 if !app_rules.iter().any(|r| r.process_name.to_lowercase() == default_rule.process_name.to_lowercase()) {
                     app_rules.push(default_rule);
                     modified = true;
@@ -138,43 +134,23 @@ pub fn run() {
             let (tx, rx) = mpsc::channel::<EngineEvent>(100);
 
             // 5. Create DiscordManager
-            let (_discord_manager, discord_handle) = discord::DiscordManager::new();
+            let (_discord_manager, discord_handle) = services::discord::DiscordManager::new();
 
-            // Store handle to cleanly disconnect on exit
-            let _discord_handle_clone = discord_handle.clone();
-            
-            // 6. Shared State
-            let app_state = AppState {
-                app_rules: Arc::new(RwLock::new(app_rules)),
-                current_presence: Arc::new(RwLock::new(None)),
-                presence_state: Arc::new(RwLock::new(PresenceState::Disconnected)),
-                current_source: Arc::new(RwLock::new(PresenceSource::Idle)),
-                connection_info: Arc::new(RwLock::new(ConnectionInfo::default())),
-                settings: Arc::new(RwLock::new(settings)),
-            };
-
-            let rules_ref = Arc::clone(&app_state.app_rules);
-            let settings_ref = Arc::clone(&app_state.settings);
-
-            app.manage(app_state);
-
-            // 7. Spawn Watcher Task
-            watcher::start_window_watcher(tx.clone());
-
-            // 8. Spawn Engine Task
-            engine::start_engine(
-                rx,
-                discord_handle,
+            // 6. Shared State (Consolidated)
+            let app_state = AppState::new(
                 app.handle().clone(),
-                rules_ref,
-                settings_ref,
+                discord_handle,
+                app_rules,
+                settings,
             );
 
-            // Ensure Discord disconnects cleanly on exit
-            let _ = app.handle().clone();
-            std::thread::spawn(move || {
-                // Not ideal but works for now to catch process termination if possible
-            });
+            app.manage(app_state.clone());
+
+            // 7. Spawn Watcher Task
+            services::watcher::start_window_watcher(tx.clone());
+
+            // 8. Spawn Engine Task
+            services::engine::start_engine(rx, app_state);
 
             Ok(())
         })
@@ -199,6 +175,16 @@ pub fn run() {
             }
             _ => {}
         })
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .build(tauri::generate_context!())
+        .expect("error while building tauri application");
+
+    app.run(|app_handle, event| match event {
+        tauri::RunEvent::Exit => {
+            if let Some(state) = app_handle.try_state::<AppState>() {
+                log::info!("Application exiting, cleanly disconnecting Discord RPC...");
+                state.discord_handle.send(crate::models::types::EngineCommand::Disconnect);
+            }
+        }
+        _ => {}
+    });
 }

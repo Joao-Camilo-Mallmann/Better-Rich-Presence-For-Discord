@@ -18,7 +18,7 @@
 //! The RPC thread owns the `Client`, processes `EngineCommand`s, and implements
 //! an exponential-backoff watchdog for automatic reconnection.
 
-use crate::types::{EngineCommand, PresenceData};
+use crate::models::types::{EngineCommand, PresenceData};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{Receiver, Sender};
 use std::sync::Arc;

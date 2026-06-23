@@ -1,8 +1,8 @@
 //! # Watcher Module
 //!
-//! Watches for active window changes and idle state using Win32 API.
+//! Watches for active window changes and idle state using OS-specific APIs.
 
-use crate::types::EngineEvent;
+use crate::models::types::EngineEvent;
 use log::trace;
 use sysinfo::System;
 use tokio::sync::mpsc::Sender;
@@ -26,11 +26,15 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>) {
             let (is_idle, idle_minutes) = {
                 let idle_ms = win32::get_idle_time_ms();
                 let idle_mins = (idle_ms / 1000 / 60) as u32;
-                // Idle check is handled downstream by engine settings,
-                // but we emit idle events so the engine can decide based on threshold.
                 (idle_mins > 0, idle_mins)
             };
-            #[cfg(not(target_os = "windows"))]
+            #[cfg(target_os = "linux")]
+            let (is_idle, idle_minutes) = {
+                let idle_ms = linux::get_idle_time_ms();
+                let idle_mins = (idle_ms / 1000 / 60) as u32;
+                (idle_mins > 0, idle_mins)
+            };
+            #[cfg(not(any(target_os = "windows", target_os = "linux")))]
             let (is_idle, idle_minutes) = (false, 0);
 
             if is_idle != was_idle {
@@ -41,7 +45,9 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>) {
             // 2. Check Active Window
             #[cfg(target_os = "windows")]
             let window_info = win32::get_foreground_window_info(&mut sys);
-            #[cfg(not(target_os = "windows"))]
+            #[cfg(target_os = "linux")]
+            let window_info = linux::get_foreground_window_info(&mut sys);
+            #[cfg(not(any(target_os = "windows", target_os = "linux")))]
             let window_info = None;
 
             if let Some((process_name, window_title)) = window_info {
@@ -128,5 +134,75 @@ mod win32 {
 
             Some((process_name, window_title))
         }
+    }
+}
+
+#[cfg(target_os = "linux")]
+mod linux {
+    use sysinfo::System;
+
+    pub fn get_idle_time_ms() -> u32 {
+        // Run xprintidle command to get idle time in milliseconds
+        if let Ok(output) = std::process::Command::new("xprintidle").output() {
+            if let Ok(str_val) = String::from_utf8(output.stdout) {
+                if let Ok(ms) = str_val.trim().parse::<u32>() {
+                    return ms;
+                }
+            }
+        }
+        0
+    }
+
+    pub fn get_foreground_window_info(_sys: &mut System) -> Option<(String, String)> {
+        // 1. Run xprop to get the active window ID
+        let output = std::process::Command::new("xprop")
+            .args(&["-root", "_NET_ACTIVE_WINDOW"])
+            .output()
+            .ok()?;
+            
+        let output_str = String::from_utf8_lossy(&output.stdout);
+        
+        // Output format is: _NET_ACTIVE_WINDOW(WINDOW): window id # 0x420000a
+        let id_str = output_str.split("window id #").nth(1)?.trim();
+        if id_str.is_empty() || id_str == "0x0" {
+            return None;
+        }
+
+        // 2. Run xprop to get WM_CLASS and _NET_WM_NAME for this window
+        let info_output = std::process::Command::new("xprop")
+            .args(&["-id", id_str, "WM_CLASS", "_NET_WM_NAME"])
+            .output()
+            .ok()?;
+            
+        let info_str = String::from_utf8_lossy(&info_output.stdout);
+        
+        let mut wm_class = String::new();
+        let mut window_title = String::new();
+
+        for line in info_str.lines() {
+            if line.starts_with("WM_CLASS") {
+                // WM_CLASS(STRING) = "cursor", "Cursor"
+                if let Some(val) = line.split('=').nth(1) {
+                    if let Some(last_class) = val.split(',').last() {
+                        wm_class = last_class.replace('"', "").trim().to_lowercase();
+                    }
+                }
+            } else if line.starts_with("_NET_WM_NAME") {
+                // _NET_WM_NAME(UTF8_STRING) = "filename - folder - Cursor"
+                if let Some(val) = line.split('=').nth(1) {
+                    window_title = val.replace('"', "").trim().to_string();
+                }
+            }
+        }
+
+        if wm_class.is_empty() {
+            return None;
+        }
+
+        if wm_class == "better-rich-presence" || wm_class == "better_rich_presence" {
+            return None;
+        }
+
+        Some((wm_class, window_title))
     }
 }

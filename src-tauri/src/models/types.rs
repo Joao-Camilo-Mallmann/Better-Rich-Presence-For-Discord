@@ -250,3 +250,222 @@ impl Default for Settings {
         }
     }
 }
+
+// ---------------------------------------------------------------------------
+// AppError — custom error type returned to the frontend
+// ---------------------------------------------------------------------------
+
+#[derive(Debug, Clone, serde::Serialize)]
+#[serde(tag = "type", content = "message")]
+pub enum AppError {
+    Store(String),
+    Serialization(String),
+    System(String),
+}
+
+impl std::fmt::Display for AppError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Store(msg) => write!(f, "Erro de armazenamento: {}", msg),
+            Self::Serialization(msg) => write!(f, "Erro de serialização: {}", msg),
+            Self::System(msg) => write!(f, "Erro do sistema: {}", msg),
+        }
+    }
+}
+
+impl std::error::Error for AppError {}
+
+impl From<serde_json::Error> for AppError {
+    fn from(err: serde_json::Error) -> Self {
+        Self::Serialization(err.to_string())
+    }
+}
+
+impl From<std::io::Error> for AppError {
+    fn from(err: std::io::Error) -> Self {
+        Self::System(err.to_string())
+    }
+}
+
+// ---------------------------------------------------------------------------
+// AppStateInner — raw shared state
+// ---------------------------------------------------------------------------
+
+#[derive(Debug, Clone)]
+pub struct AppStateInner {
+    pub app_rules: Vec<AppRule>,
+    pub current_presence: Option<PresenceData>,
+    pub presence_state: PresenceState,
+    pub current_source: PresenceSource,
+    pub connection_info: ConnectionInfo,
+    pub settings: Settings,
+}
+
+// ---------------------------------------------------------------------------
+// AppState — unified application state manager
+// ---------------------------------------------------------------------------
+
+use std::sync::Arc;
+use tokio::sync::RwLock;
+use crate::services::discord::DiscordHandle;
+use tauri_plugin_store::StoreExt;
+
+#[derive(Clone)]
+pub struct AppState {
+    pub inner: Arc<RwLock<AppStateInner>>,
+    pub app_handle: tauri::AppHandle,
+    pub discord_handle: DiscordHandle,
+}
+
+impl AppState {
+    pub fn new(
+        app_handle: tauri::AppHandle,
+        discord_handle: DiscordHandle,
+        app_rules: Vec<AppRule>,
+        settings: Settings,
+    ) -> Self {
+        let inner = AppStateInner {
+            app_rules,
+            current_presence: None,
+            presence_state: PresenceState::Disconnected,
+            current_source: PresenceSource::Idle,
+            connection_info: ConnectionInfo::default(),
+            settings,
+        };
+        Self {
+            inner: Arc::new(RwLock::new(inner)),
+            app_handle,
+            discord_handle,
+        }
+    }
+
+    // App Rules Methods
+    pub async fn get_app_rules(&self) -> Vec<AppRule> {
+        self.inner.read().await.app_rules.clone()
+    }
+
+    pub async fn update_app_rule(&self, rule: AppRule) -> Result<(), AppError> {
+        let mut inner = self.inner.write().await;
+        if let Some(pos) = inner.app_rules.iter().position(|r| r.process_name == rule.process_name) {
+            inner.app_rules[pos] = rule;
+            self.save_rules_to_store(&inner.app_rules)?;
+        }
+        Ok(())
+    }
+
+    pub async fn add_app_rule(&self, rule: AppRule) -> Result<(), AppError> {
+        let mut inner = self.inner.write().await;
+        if !inner.app_rules.iter().any(|r| r.process_name == rule.process_name) {
+            inner.app_rules.push(rule);
+            self.save_rules_to_store(&inner.app_rules)?;
+        }
+        Ok(())
+    }
+
+    pub async fn delete_app_rule(&self, process_name: &str) -> Result<(), AppError> {
+        let mut inner = self.inner.write().await;
+        inner.app_rules.retain(|r| r.process_name != process_name);
+        self.save_rules_to_store(&inner.app_rules)?;
+        Ok(())
+    }
+
+    pub async fn reset_app_rules_to_defaults(&self) -> Result<(), AppError> {
+        let mut inner = self.inner.write().await;
+        inner.app_rules = crate::models::presets::default_app_rules();
+        self.save_rules_to_store(&inner.app_rules)?;
+        Ok(())
+    }
+
+    fn save_rules_to_store(&self, rules: &[AppRule]) -> Result<(), AppError> {
+        let store = self.app_handle.store("rules.json")
+            .map_err(|e| AppError::Store(e.to_string()))?;
+        store.set("app_rules", serde_json::to_value(rules)?)?;
+        store.save().map_err(|e| AppError::Store(e.to_string()))?;
+        Ok(())
+    }
+
+    // Settings Methods
+    pub async fn get_settings(&self) -> Settings {
+        self.inner.read().await.settings.clone()
+    }
+
+    pub async fn update_settings(&self, settings: Settings) -> Result<(), AppError> {
+        let mut inner = self.inner.write().await;
+        inner.settings = settings.clone();
+        
+        let store = self.app_handle.store("settings.json")
+            .map_err(|e| AppError::Store(e.to_string()))?;
+        store.set("config", serde_json::to_value(&settings)?)?;
+        store.save().map_err(|e| AppError::Store(e.to_string()))?;
+        Ok(())
+    }
+
+    // State Queries
+    pub async fn get_current_presence(&self) -> Option<PresenceData> {
+        self.inner.read().await.current_presence.clone()
+    }
+
+    pub async fn get_presence_state(&self) -> PresenceState {
+        self.inner.read().await.presence_state
+    }
+
+    pub async fn get_current_source(&self) -> PresenceSource {
+        self.inner.read().await.current_source
+    }
+
+    pub async fn get_connection_status(&self) -> ConnectionInfo {
+        self.inner.read().await.connection_info.clone()
+    }
+
+    // Engine Helpers
+    pub async fn update_connection_status(&self, is_connected: bool) -> (bool, bool, PresenceState) {
+        let mut inner = self.inner.write().await;
+        let mut conn_changed = false;
+        let mut state_changed = false;
+
+        if inner.connection_info.connected != is_connected {
+            inner.connection_info.connected = is_connected;
+            inner.connection_info.state = if is_connected {
+                PresenceState::Connected
+            } else {
+                PresenceState::Disconnected
+            };
+            conn_changed = true;
+        }
+
+        let new_state = inner.connection_info.state;
+        if inner.presence_state != new_state {
+            inner.presence_state = new_state;
+            state_changed = true;
+        }
+
+        (conn_changed, state_changed, new_state)
+    }
+
+    pub async fn set_presence_state(&self, presence_state: PresenceState) -> bool {
+        let mut inner = self.inner.write().await;
+        if inner.presence_state != presence_state {
+            inner.presence_state = presence_state;
+            inner.connection_info.state = presence_state;
+            true
+        } else {
+            false
+        }
+    }
+
+    pub async fn update_presence_data(&self, new_data: PresenceData) -> bool {
+        let mut inner = self.inner.write().await;
+        let mut changed = false;
+
+        if inner.current_presence.as_ref() != Some(&new_data) {
+            inner.current_presence = Some(new_data.clone());
+            changed = true;
+        }
+
+        if inner.current_source != new_data.source {
+            inner.current_source = new_data.source;
+        }
+
+        changed
+    }
+}

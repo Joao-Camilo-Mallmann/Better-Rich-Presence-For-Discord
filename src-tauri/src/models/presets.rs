@@ -2,7 +2,7 @@
 //!
 //! Contains default app rules to seed the store on first run.
 
-use crate::types::{AppRule, PresenceSource};
+use crate::models::types::{AppRule, PresenceSource};
 
 /// Returns the default list of AppRules.
 pub fn default_app_rules() -> Vec<AppRule> {
