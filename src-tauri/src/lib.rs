@@ -147,7 +147,7 @@ pub fn run() {
             app.manage(app_state.clone());
 
             // 7. Spawn Watcher Task
-            services::watcher::start_window_watcher(tx.clone());
+            services::watcher::start_window_watcher(tx.clone(), app_state.clone());
 
             // 8. Spawn Engine Task
             services::engine::start_engine(rx, app_state);
@@ -164,6 +164,7 @@ pub fn run() {
             commands::add_app_rule,
             commands::delete_app_rule,
             commands::reset_app_rules_to_defaults,
+            commands::reorder_app_rules,
             commands::get_settings,
             commands::update_settings,
             commands::get_running_processes,

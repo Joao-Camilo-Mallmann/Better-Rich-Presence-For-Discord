@@ -52,9 +52,17 @@ impl PresenceEngine {
                 }
                 Some(event) = rx.recv() => {
                     match event {
-                        EngineEvent::WindowChanged { process_name, window_title } => {
+                        EngineEvent::WindowChanged { process_name, window_title, is_prioritized, foreground_app } => {
                             let rules = self.app_state.get_app_rules().await;
                             let settings = self.app_state.get_settings().await;
+                            
+                            // Emit priority info to frontend
+                            let priority_info = crate::models::types::PriorityInfo {
+                                active: is_prioritized,
+                                prioritized_app: if is_prioritized { Some(process_name.clone()) } else { None },
+                                foreground_app,
+                            };
+                            let _ = self.app_state.app_handle.emit("priority-info", &priority_info);
                             
                             // Find matching rule (cross-platform, stripping .exe)
                             let matched_rule = rules.iter().find(|r| {

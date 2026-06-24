@@ -35,12 +35,15 @@ export interface ConnectionInfo {
 }
 
 export interface Settings {
+  global_enabled: boolean;
   idle_enabled: boolean;
   idle_threshold_minutes: number;
   idle_message: string;
   autostart_enabled: boolean;
   debounce_seconds: number;
   settle_delay_seconds: number;
+  /** When true, the backend scans all running processes and shows the highest-priority one */
+  priority_mode_enabled: boolean;
 }
 
 export interface DiscordProfile {
@@ -54,3 +57,9 @@ export interface DiscordProfile {
   isGradient: boolean;
 }
 
+/** Emitted by the backend when priority mode overrides the foreground window */
+export interface PriorityInfo {
+  active: boolean;
+  prioritized_app: string;
+  foreground_app: string;
+}

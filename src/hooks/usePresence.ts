@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
-import { PresenceData, PresenceState, PresenceSource, ConnectionInfo } from "../types";
+import { PresenceData, PresenceState, PresenceSource, ConnectionInfo, PriorityInfo } from "../types";
 
 export function usePresence() {
   const [presence, setPresence] = useState<PresenceData | null>(null);
@@ -13,11 +13,17 @@ export function usePresence() {
     last_error: null,
     reconnect_attempts: 0,
   });
+  const [priorityInfo, setPriorityInfo] = useState<PriorityInfo>({
+    active: false,
+    prioritized_app: "",
+    foreground_app: "",
+  });
 
   useEffect(() => {
     let unlistenPresence: UnlistenFn;
     let unlistenState: UnlistenFn;
     let unlistenConnection: UnlistenFn;
+    let unlistenPriority: UnlistenFn;
 
     async function init() {
       try {
@@ -45,6 +51,11 @@ export function usePresence() {
         unlistenConnection = await listen<ConnectionInfo>("connection-changed", (event) => {
           setConnectionInfo(event.payload);
         });
+
+        // Listen for priority mode info from the engine
+        unlistenPriority = await listen<PriorityInfo>("priority-info", (event) => {
+          setPriorityInfo(event.payload);
+        });
       } catch (error) {
         console.error("Failed to initialize presence hooks:", error);
       }
@@ -56,8 +67,9 @@ export function usePresence() {
       if (unlistenPresence) unlistenPresence();
       if (unlistenState) unlistenState();
       if (unlistenConnection) unlistenConnection();
+      if (unlistenPriority) unlistenPriority();
     };
   }, []);
 
-  return { presence, presenceState, connectionInfo, source };
+  return { presence, presenceState, connectionInfo, source, priorityInfo };
 }

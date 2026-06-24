@@ -62,5 +62,19 @@ export function useAppRules() {
     }
   };
 
-  return { rules, loading, updateRule, addRule, deleteRule, resetToDefaults, refresh: fetchRules };
+  /**
+   * Reorder rules by providing the new order of process names.
+   * The first name in the array becomes the highest-priority rule.
+   */
+  const reorderRules = async (processNamesOrder: string[]) => {
+    try {
+      await invoke("reorder_app_rules", { processNamesOrder });
+      await fetchRules();
+    } catch (error) {
+      console.error("Failed to reorder rules:", error);
+      throw error;
+    }
+  };
+
+  return { rules, loading, updateRule, addRule, deleteRule, resetToDefaults, reorderRules, refresh: fetchRules };
 }

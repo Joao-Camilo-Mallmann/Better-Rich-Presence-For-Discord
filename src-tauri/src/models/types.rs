@@ -162,6 +162,8 @@ pub enum EngineEvent {
     WindowChanged {
         process_name: String,
         window_title: String,
+        is_prioritized: bool,
+        foreground_app: Option<String>,
     },
     /// The idle state changed (transition only, not periodic).
     IdleChanged {
@@ -218,6 +220,27 @@ impl Default for ConnectionInfo {
 }
 
 // ---------------------------------------------------------------------------
+// PriorityInfo — priority mode feedback sent to UI
+// ---------------------------------------------------------------------------
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PriorityInfo {
+    pub active: bool,
+    pub prioritized_app: Option<String>,
+    pub foreground_app: Option<String>,
+}
+
+impl Default for PriorityInfo {
+    fn default() -> Self {
+        Self {
+            active: false,
+            prioritized_app: None,
+            foreground_app: None,
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
 // Settings — user-configurable application settings
 // ---------------------------------------------------------------------------
 
@@ -236,6 +259,8 @@ pub struct Settings {
     pub debounce_seconds: u64,
     /// Seconds to wait before committing a window change (anti-flicker).
     pub settle_delay_seconds: u64,
+    /// Whether priority mode is enabled (scans background tasks for higher priority rules).
+    pub priority_mode_enabled: bool,
 }
 
 impl Default for Settings {
@@ -247,6 +272,7 @@ impl Default for Settings {
             autostart_enabled: false,
             debounce_seconds: 2,
             settle_delay_seconds: 3,
+            priority_mode_enabled: true,
         }
     }
 }
@@ -376,10 +402,33 @@ impl AppState {
         Ok(())
     }
 
+    pub async fn reorder_app_rules(&self, process_names_order: Vec<String>) -> Result<(), AppError> {
+        let mut inner = self.inner.write().await;
+        
+        let mut new_rules = Vec::new();
+        // First add rules in the new order
+        for name in &process_names_order {
+            if let Some(rule) = inner.app_rules.iter().find(|r| &r.process_name == name) {
+                new_rules.push(rule.clone());
+            }
+        }
+        
+        // Then append any rules that were missing from the order array
+        for rule in &inner.app_rules {
+            if !process_names_order.contains(&rule.process_name) {
+                new_rules.push(rule.clone());
+            }
+        }
+        
+        inner.app_rules = new_rules;
+        self.save_rules_to_store(&inner.app_rules)?;
+        Ok(())
+    }
+
     fn save_rules_to_store(&self, rules: &[AppRule]) -> Result<(), AppError> {
         let store = self.app_handle.store("rules.json")
             .map_err(|e| AppError::Store(e.to_string()))?;
-        store.set("app_rules", serde_json::to_value(rules)?)?;
+        store.set("app_rules", serde_json::to_value(rules)?);
         store.save().map_err(|e| AppError::Store(e.to_string()))?;
         Ok(())
     }
@@ -395,7 +444,7 @@ impl AppState {
         
         let store = self.app_handle.store("settings.json")
             .map_err(|e| AppError::Store(e.to_string()))?;
-        store.set("config", serde_json::to_value(&settings)?)?;
+        store.set("config", serde_json::to_value(&settings)?);
         store.save().map_err(|e| AppError::Store(e.to_string()))?;
         Ok(())
     }

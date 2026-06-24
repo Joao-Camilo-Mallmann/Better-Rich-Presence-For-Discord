@@ -36,3 +36,11 @@ pub async fn reset_app_rules_to_defaults(
 ) -> Result<(), AppError> {
     state.reset_app_rules_to_defaults().await
 }
+
+#[tauri::command]
+pub async fn reorder_app_rules(
+    state: State<'_, AppState>,
+    process_names_order: Vec<String>,
+) -> Result<(), AppError> {
+    state.reorder_app_rules(process_names_order).await
+}

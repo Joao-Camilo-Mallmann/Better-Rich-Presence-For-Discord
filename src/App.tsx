@@ -3,10 +3,19 @@ import { LogViewer } from "./components/LogViewer/LogViewer";
 import { Apps } from "./pages/Apps/Apps";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Settings } from "./pages/Settings/Settings";
+import { useSettings } from "./hooks/useSettings";
 
 function App() {
-  const [rpcActive, setRpcActive] = useState(true);
+  const { settings, updateSettings } = useSettings();
   const [showSettings, setShowSettings] = useState(false);
+  
+  const rpcActive = settings?.global_enabled ?? true;
+
+  const handleToggleRpc = async (checked: boolean) => {
+    if (settings) {
+      await updateSettings({ ...settings, global_enabled: checked });
+    }
+  };
   const [showLogs, setShowLogs] = useState(false);
 
   const [systemTheme, setSystemTheme] = useState<
@@ -80,7 +89,7 @@ function App() {
                 type="checkbox"
                 className="peer sr-only"
                 checked={rpcActive}
-                onChange={(e) => setRpcActive(e.target.checked)}
+                onChange={(e) => handleToggleRpc(e.target.checked)}
               />
               <span className="absolute cursor-pointer inset-0 bg-white/20 transition-colors duration-200 rounded-full before:absolute before:content-[''] before:h-3.5 before:w-3.5 before:left-[3px] before:bottom-[3px] before:bg-white before:transition-transform before:duration-200 before:rounded-full before:shadow-sm peer-checked:bg-green-accent peer-checked:before:translate-x-4"></span>
             </label>
