@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { LogViewer } from "./components/LogViewer/LogViewer";
+import { useSettings } from "./hooks/useSettings";
 import { Apps } from "./pages/Apps/Apps";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Settings } from "./pages/Settings/Settings";
-import { useSettings } from "./hooks/useSettings";
 
 function App() {
   const { settings, updateSettings } = useSettings();
   const [showSettings, setShowSettings] = useState(false);
-  
+
   const rpcActive = settings?.global_enabled ?? true;
 
   const handleToggleRpc = async (checked: boolean) => {
