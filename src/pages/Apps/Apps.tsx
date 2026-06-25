@@ -48,7 +48,8 @@ export function Apps() {
     setDragOverIndex(index);
   };
 
-  const handleDrop = async (dropIndex: number) => {
+  const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
     if (dragItem.current === null || dragItem.current === dropIndex) {
       setDraggingIndex(null);
       setDragOverIndex(null);
@@ -252,7 +253,8 @@ export function Apps() {
                 draggable={canReorder}
                 onDragStart={(e) => handleDragStart(e, idx)}
                 onDragOver={(e) => handleDragOver(e, idx)}
-                onDrop={() => handleDrop(idx)}
+                onDragEnter={(e) => e.preventDefault()}
+                onDrop={(e) => handleDrop(e, idx)}
                 onDragEnd={handleDragEnd}
                 className={`group relative transition-all duration-200 ${
                   isDragging ? "opacity-30 scale-[0.98] z-30" : "z-10"
