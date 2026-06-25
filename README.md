@@ -2,11 +2,11 @@
   <img src="public/logo.png" alt="Better Rich Presence For Discord Logo" width="200" />
 </div>
 
-# flow
+# Better Rich Presence
 
 _[Leia isso em Português](README.pt.md)_
+_[Read in English](README.en.md)_
 
-Better Rich Presence For Discord is a Windows native application built with **Tauri v2**, **React**, and **Rust**. It automatically detects the programs you are running and updates your Discord Rich Presence accordingly, without any complex configuration.
 
 ### Features
 
