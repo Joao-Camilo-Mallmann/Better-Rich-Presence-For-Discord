@@ -201,10 +201,30 @@ impl DiscordManager {
         data: &PresenceData,
         connected: &Arc<AtomicBool>,
     ) {
-        let details = data.details.clone();
-        let state = data.state.clone();
-        let large_image = data.large_image.clone();
-        let large_text = data.large_text.clone();
+        // Helper to enforce Discord string limits (2 - 128 bytes)
+        let format_string = |s: &str| -> String {
+            let mut trimmed = s.trim().to_string();
+            if trimmed.is_empty() {
+                return String::new();
+            }
+            if trimmed.len() < 2 {
+                trimmed.push_str("  ");
+            }
+            if trimmed.len() > 128 {
+                let mut idx = 125;
+                while !trimmed.is_char_boundary(idx) {
+                    idx -= 1;
+                }
+                trimmed.truncate(idx);
+                trimmed.push_str("...");
+            }
+            trimmed
+        };
+
+        let details = format_string(&data.details);
+        let state = format_string(&data.state);
+        let large_image = data.large_image.trim().to_string();
+        let large_text = format_string(&data.large_text);
         let timestamp = data.timestamp;
 
         info!(
@@ -212,11 +232,29 @@ impl DiscordManager {
             details, state, large_image
         );
 
-        match client.set_activity(|act| {
-            act.details(&details)
-                .state(&state)
-                .assets(|assets| assets.large_image(&large_image).large_text(&large_text))
-                .timestamps(|ts| ts.start(timestamp.max(0) as u64))
+        match client.set_activity(|mut act| {
+            if !details.is_empty() {
+                act = act.details(&details);
+            }
+            if !state.is_empty() {
+                act = act.state(&state);
+            }
+            
+            act = act.assets(|mut assets| {
+                if !large_image.is_empty() && large_image != "auto" {
+                    assets = assets.large_image(&large_image);
+                }
+                if !large_text.is_empty() {
+                    assets = assets.large_text(&large_text);
+                }
+                assets
+            });
+
+            if timestamp > 0 {
+                act = act.timestamps(|ts| ts.start(timestamp as u64));
+            }
+            
+            act
         }) {
             Ok(_) => {
                 connected.store(true, Ordering::Relaxed);
