@@ -171,7 +171,7 @@ export function Apps() {
     <div className="flex flex-col h-full relative">
       {/* ── Sticky Header Section ── */}
       <div className="sticky top-0 z-20 bg-surface-base/95 backdrop-blur-md pb-4 pt-1 flex flex-col gap-4 border-b border-hairline/30 mb-4">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div className="flex flex-col">
             <h3 className="text-lg text-ink font-bold font-display">Aplicativos Configurados</h3>
             <span className="text-xs text-muted-ink/80 mt-0.5 max-w-[280px]">
@@ -180,7 +180,7 @@ export function Apps() {
           </div>
           <button
             onClick={handleOpenPicker}
-            className="bg-primary hover:bg-primary-hover text-white text-sm px-4 py-2 rounded-sm font-semibold transition-all shadow-sm flex items-center gap-2 active:scale-95"
+            className="w-full sm:w-auto justify-center bg-primary hover:bg-primary-hover text-white text-sm px-4 py-2 rounded-sm font-semibold transition-all shadow-sm flex items-center gap-2 active:scale-95"
           >
             <span>+</span> Buscar do Sistema
           </button>
@@ -188,7 +188,7 @@ export function Apps() {
 
         {/* Toolbar: Search and Filters */}
         <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between bg-surface-onyx/50 p-2 rounded-md border border-hairline/20">
-          <div className="relative flex-1 max-w-[240px]">
+          <div className="relative flex-1 w-full sm:max-w-[240px]">
             <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-ink text-xs opacity-70">
               🔍
             </span>

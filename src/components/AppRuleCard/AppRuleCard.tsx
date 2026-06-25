@@ -91,7 +91,7 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
             />
           </div>
           
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex flex-col gap-1 flex-1">
               <label className="text-[10px] text-muted-ink font-bold uppercase tracking-wider">Detalhes (Linha 1)</label>
               <input 
@@ -113,7 +113,7 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
             </div>
           </div>
           
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex flex-col gap-1 flex-1">
               <label className="text-[10px] text-muted-ink font-bold uppercase tracking-wider">Tipo (Fonte)</label>
               <select 
@@ -138,15 +138,15 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
             </div>
           </div>
 
-          <div className="flex justify-between mt-2">
-            <button className="bg-transparent text-danger px-4 py-2 rounded-sm text-sm font-medium hover:underline transition duration-100" onClick={() => onDelete(rule.process_name)}>
+          <div className="flex flex-col-reverse sm:flex-row justify-between mt-4 gap-3">
+            <button className="bg-transparent text-danger px-4 py-2 rounded-sm text-sm font-medium hover:underline transition duration-100 w-full sm:w-auto" onClick={() => onDelete(rule.process_name)}>
               Excluir
             </button>
-            <div className="flex gap-2">
-              <button className="bg-transparent text-ink px-4 py-2 rounded-sm text-sm font-medium hover:underline transition duration-100" onClick={handleCancel}>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button className="bg-transparent text-ink px-4 py-2 rounded-sm text-sm font-medium hover:underline transition duration-100 flex-1 sm:flex-none" onClick={handleCancel}>
                 Cancelar
               </button>
-              <button className="bg-primary text-white px-4 py-2 rounded-sm text-sm font-semibold hover:opacity-90 transition duration-100" onClick={handleSave}>
+              <button className="bg-primary text-white px-4 py-2 rounded-sm text-sm font-semibold hover:opacity-90 transition duration-100 flex-1 sm:flex-none" onClick={handleSave}>
                 Salvar
               </button>
             </div>

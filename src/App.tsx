@@ -32,8 +32,8 @@ function App() {
   return (
     <div className="w-full h-screen flex flex-col bg-canvas text-ink overflow-hidden">
       {/* Header */}
-      <header className="flex justify-between items-center px-4 py-3 border-b border-hairline bg-surface-indigo shrink-0">
-        <div className="flex items-center gap-3">
+      <header className="flex flex-col sm:flex-row justify-between items-center gap-4 px-4 py-3 border-b border-hairline bg-surface-indigo shrink-0">
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
           <div className="flex items-center gap-2">
             <img
               src="/logo.png"
@@ -49,7 +49,7 @@ function App() {
         </div>
 
         {/* Header Controls */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-4 w-full sm:w-auto">
           {/* Theme Selector */}
           <div className="flex items-center gap-1.5 bg-surface-onyx/40 px-2.5 py-1 rounded-sm border border-hairline/45">
             <span className="text-[10px] text-muted-ink font-bold uppercase select-none">
