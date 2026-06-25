@@ -38,7 +38,7 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
   };
 
   const currentStyles = sourceBadgeStyles[rule.source] || { bg: "bg-white/10", text: "text-muted-ink" };
-  const iconUrl = getIconUrl(rule.process_name, rule.display_name, rule.large_image);
+  const iconUrl = rule.large_image && rule.large_image !== "auto" ? rule.large_image : getIconUrl(rule.process_name, rule.display_name);
 
   return (
     <div className={`bg-surface-indigo rounded-md border border-hairline overflow-hidden hover:border-white/20 transition duration-100 ${!rule.enabled ? "opacity-60 hover:opacity-80" : ""}`}>
