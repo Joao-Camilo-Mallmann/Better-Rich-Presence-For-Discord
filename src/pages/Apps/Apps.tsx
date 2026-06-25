@@ -35,7 +35,10 @@ export function Apps() {
   }, [rules, filterSource, ruleSearch]);
 
   // ── Drag-and-drop handlers ──────────────────────────────────────────────
-  const handleDragStart = (index: number) => {
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    e.dataTransfer.effectAllowed = "move";
+    // Required for Firefox / Tauri to allow dragging
+    e.dataTransfer.setData("text/plain", index.toString());
     dragItem.current = index;
     setDraggingIndex(index);
   };
@@ -247,7 +250,7 @@ export function Apps() {
               <div
                 key={rule.process_name}
                 draggable={canReorder}
-                onDragStart={() => handleDragStart(idx)}
+                onDragStart={(e) => handleDragStart(e, idx)}
                 onDragOver={(e) => handleDragOver(e, idx)}
                 onDrop={() => handleDrop(idx)}
                 onDragEnd={handleDragEnd}
