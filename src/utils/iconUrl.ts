@@ -14,7 +14,7 @@ export function getIconUrl(processName: string, displayName?: string): string {
     [/android studio/, "developer.android.com"],
     [/visual studio/, "visualstudio.com"],
     [/sublime/, "sublimetext.com"],
-    [/webstorm|rider|clion|datagrip/, "jetbrains.com"],
+    [/pycharm|webstorm|rider|clion|datagrip/, "jetbrains.com"],
     [/postman/, "postman.com"],
     [/insomnia/, "insomnia.rest"],
     [/pgadmin/, "pgadmin.org"],
