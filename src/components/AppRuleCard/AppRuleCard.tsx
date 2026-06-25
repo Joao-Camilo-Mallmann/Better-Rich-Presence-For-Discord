@@ -93,7 +93,7 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
           
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex flex-col gap-1 flex-1">
-              <label className="text-[10px] text-muted-ink font-bold uppercase tracking-wider">Detalhes (Linha 1)</label>
+              <label className="text-[10px] text-muted-ink font-bold uppercase tracking-wider">Details (Line 1)</label>
               <input 
                 className="bg-surface-indigo border border-hairline text-ink px-3 py-2 rounded-xs focus:border-primary focus:outline-none transition duration-100"
                 type="text" 
@@ -103,7 +103,7 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
             </div>
             
             <div className="flex flex-col gap-1 flex-1">
-              <label className="text-[10px] text-muted-ink font-bold uppercase tracking-wider">Estado (Linha 2)</label>
+              <label className="text-[10px] text-muted-ink font-bold uppercase tracking-wider">State (Line 2)</label>
               <input 
                 className="bg-surface-indigo border border-hairline text-ink px-3 py-2 rounded-xs focus:border-primary focus:outline-none transition duration-100"
                 type="text" 
@@ -115,7 +115,7 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
           
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex flex-col gap-1 flex-1">
-              <label className="text-[10px] text-muted-ink font-bold uppercase tracking-wider">Tipo (Fonte)</label>
+              <label className="text-[10px] text-muted-ink font-bold uppercase tracking-wider">Type (Source)</label>
               <select 
                 className="bg-surface-indigo border border-hairline text-ink px-3 py-2 rounded-xs focus:border-primary focus:outline-none transition duration-100"
                 value={editRule.source}
@@ -140,14 +140,14 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
 
           <div className="flex flex-col-reverse sm:flex-row justify-between mt-4 gap-3">
             <button className="bg-transparent text-danger px-4 py-2 rounded-sm text-sm font-medium hover:underline transition duration-100 w-full sm:w-auto" onClick={() => onDelete(rule.process_name)}>
-              Excluir
+              Delete
             </button>
             <div className="flex gap-2 w-full sm:w-auto">
               <button className="bg-transparent text-ink px-4 py-2 rounded-sm text-sm font-medium hover:underline transition duration-100 flex-1 sm:flex-none" onClick={handleCancel}>
-                Cancelar
+                Cancel
               </button>
               <button className="bg-primary text-white px-4 py-2 rounded-sm text-sm font-semibold hover:opacity-90 transition duration-100 flex-1 sm:flex-none" onClick={handleSave}>
-                Salvar
+                Save
               </button>
             </div>
           </div>

@@ -15,7 +15,7 @@ export function Settings() {
   }, [settings]);
 
   if (loading || !localSettings) {
-    return <div className="text-muted-ink p-4 text-center text-xs">Carregando configurações...</div>;
+    return <div className="text-muted-ink p-4 text-center text-xs">Loading settings...</div>;
   }
 
   const handleSave = async () => {
@@ -40,11 +40,11 @@ export function Settings() {
         <div className="flex justify-between items-center py-2 border-b border-hairline/10 gap-4">
           <div className="flex flex-col">
             <span className="font-semibold text-ink text-xs flex items-center gap-1.5">
-              <span className="text-magenta-accent">⬆️</span> Modo Prioridade Máxima
+              <span className="text-magenta-accent">⬆️</span> Max Priority Mode
             </span>
             <span className="text-[10px] text-muted-ink">
-              Sempre exibe o app de maior prioridade rodando no PC, mesmo que não esteja em foco.
-              A ordem da lista de regras define a prioridade.
+              Always displays the highest priority app running on the PC, even if not in focus.
+              The rule list order defines the priority.
             </span>
           </div>
           <label className="relative inline-block w-8 h-4.5 shrink-0">
@@ -61,8 +61,8 @@ export function Settings() {
         {/* ── Windows Autostart ── */}
         <div className="flex justify-between items-center py-2 border-b border-hairline/10 gap-4">
           <div className="flex flex-col">
-            <span className="font-semibold text-ink text-xs">Iniciar com o Windows</span>
-            <span className="text-[10px] text-muted-ink">Abrir minimizado no boot</span>
+            <span className="font-semibold text-ink text-xs">Start with Windows</span>
+            <span className="text-[10px] text-muted-ink">Open minimized on boot</span>
           </div>
           <label className="relative inline-block w-8 h-4.5 shrink-0">
             <input
@@ -78,8 +78,8 @@ export function Settings() {
         {/* ── Idle Detection ── */}
         <div className="flex justify-between items-center py-2 border-b border-hairline/10 gap-4">
           <div className="flex flex-col">
-            <span className="font-semibold text-ink text-xs">Habilitar Inatividade (Idle)</span>
-            <span className="text-[10px] text-muted-ink">Mudar status ao ficar inativo</span>
+            <span className="font-semibold text-ink text-xs">Enable Idle Detection</span>
+            <span className="text-[10px] text-muted-ink">Change status when inactive</span>
           </div>
           <label className="relative inline-block w-8 h-4.5 shrink-0">
             <input
@@ -95,7 +95,7 @@ export function Settings() {
         {/* Idle Threshold */}
         {localSettings.idle_enabled && (
           <div className="flex justify-between items-center py-2 border-b border-hairline/10 gap-4">
-            <span className="text-xs text-muted-ink font-semibold">Tempo de Inatividade (minutos)</span>
+            <span className="text-xs text-muted-ink font-semibold">Idle Time (minutes)</span>
             <input
               className="w-16 text-right bg-surface-onyx border border-hairline/30 text-ink text-xs px-2 py-1 rounded-xs focus:border-primary focus:outline-none"
               type="number"
@@ -110,7 +110,7 @@ export function Settings() {
         {/* Idle Message */}
         {localSettings.idle_enabled && (
           <div className="flex flex-col gap-1 py-2 border-b border-hairline/10">
-            <span className="text-xs text-muted-ink font-semibold">Mensagem de Ausência</span>
+            <span className="text-xs text-muted-ink font-semibold">Idle Message</span>
             <input
               className="bg-surface-onyx border border-hairline/30 text-ink text-xs px-2 py-1 rounded-xs focus:border-primary focus:outline-none"
               type="text"
@@ -122,7 +122,7 @@ export function Settings() {
 
         {/* Debounce */}
         <div className="flex justify-between items-center py-2 border-b border-hairline/10 gap-4">
-          <span className="text-xs text-muted-ink font-semibold">Debounce Discord (segundos)</span>
+          <span className="text-xs text-muted-ink font-semibold">Discord Debounce (seconds)</span>
           <input
             className="w-16 text-right bg-surface-onyx border border-hairline/30 text-ink text-xs px-2 py-1 rounded-xs focus:border-primary focus:outline-none"
             type="number"
@@ -135,7 +135,7 @@ export function Settings() {
 
         {/* Anti-flicker delay */}
         <div className="flex justify-between items-center py-2 gap-4">
-          <span className="text-xs text-muted-ink font-semibold">Atraso Anti-flicker (segundos)</span>
+          <span className="text-xs text-muted-ink font-semibold">Anti-flicker Delay (seconds)</span>
           <input
             className="w-16 text-right bg-surface-onyx border border-hairline/30 text-ink text-xs px-2 py-1 rounded-xs focus:border-primary focus:outline-none"
             type="number"
@@ -152,7 +152,7 @@ export function Settings() {
         onClick={handleSave}
         disabled={isSaving}
       >
-        {isSaving ? "Salvando..." : "Salvar Configurações"}
+        {isSaving ? "Saving..." : "Save Settings"}
       </button>
     </div>
   );

@@ -53,7 +53,7 @@ function App() {
           {/* Theme Selector */}
           <div className="flex items-center gap-1.5 bg-surface-onyx/40 px-2.5 py-1 rounded-sm border border-hairline/45">
             <span className="text-[10px] text-muted-ink font-bold uppercase select-none">
-              Tema:
+              Theme:
             </span>
             <select
               value={systemTheme}
@@ -61,16 +61,16 @@ function App() {
               className="bg-transparent text-ink text-xs font-semibold focus:outline-none cursor-pointer border-0 p-0"
             >
               <option value="indigo" className="bg-surface-indigo">
-                🌌 Índigo
+                🌌 Indigo
               </option>
               <option value="dark" className="bg-surface-indigo">
-                🌑 Escuro
+                🌑 Dark
               </option>
               <option value="amoled" className="bg-surface-indigo">
                 🖤 AMOLED
               </option>
               <option value="light" className="bg-surface-indigo">
-                ☀️ Claro
+                ☀️ Light
               </option>
             </select>
           </div>
@@ -82,7 +82,7 @@ function App() {
             <span
               className={`text-xs font-bold tracking-wider ${rpcActive ? "text-green-accent" : "text-muted-ink"}`}
             >
-              {rpcActive ? "ATIVO" : "INATIVO"}
+              {rpcActive ? "ACTIVE" : "INACTIVE"}
             </span>
             <label className="relative inline-block w-9 h-5 shrink-0">
               <input
@@ -119,7 +119,7 @@ function App() {
             onClick={() => setShowLogs(!showLogs)}
             className="w-full flex justify-between items-center text-xs font-bold tracking-wider text-muted-ink hover:text-ink transition-colors py-2 px-1 uppercase"
           >
-            <span>📜 Histórico de Logs</span>
+            <span>📜 Logs History</span>
             <span>{showLogs ? "▲" : "▼"}</span>
           </button>
 
@@ -136,7 +136,7 @@ function App() {
             onClick={() => setShowSettings(!showSettings)}
             className="w-full flex justify-between items-center text-xs font-bold tracking-wider text-muted-ink hover:text-ink transition-colors py-2 px-1 uppercase"
           >
-            <span>⚙️ Configurações Avançadas</span>
+            <span>⚙️ Advanced Settings</span>
             <span>{showSettings ? "▲" : "▼"}</span>
           </button>
 

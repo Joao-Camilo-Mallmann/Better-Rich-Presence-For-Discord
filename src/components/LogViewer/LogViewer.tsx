@@ -82,7 +82,7 @@ export function LogViewer() {
                   : "text-muted-ink hover:text-ink"
               }`}
             >
-              {lvl === "ALL" ? "Todos" : lvl}
+              {lvl === "ALL" ? "All" : lvl}
             </button>
           ))}
         </div>
@@ -90,7 +90,7 @@ export function LogViewer() {
           onClick={() => setLogs([])}
           className="text-[10px] text-muted-ink hover:text-danger hover:underline font-bold uppercase transition"
         >
-          Limpar
+          Clear
         </button>
       </div>
 
@@ -110,7 +110,7 @@ export function LogViewer() {
             </div>
           ))
         ) : (
-          <div className="text-center py-12 text-muted-ink">Nenhum log registrado.</div>
+          <div className="text-center py-12 text-muted-ink">No logs recorded.</div>
         )}
       </div>
     </div>

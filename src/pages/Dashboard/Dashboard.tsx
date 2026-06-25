@@ -29,7 +29,7 @@ export function Dashboard() {
       {/* Presence Preview Centered */}
       <div className="flex flex-col gap-3 items-center justify-center w-full bg-surface-indigo/40 rounded-md border border-hairline/50 p-8">
         <h3 className="text-[10px] text-muted-ink uppercase tracking-wider font-extrabold font-display">
-          Pré-visualização do Status
+          Status Preview
         </h3>
         <PresenceCard presence={presence} />
       </div>
@@ -42,15 +42,15 @@ export function Dashboard() {
           />
           Engine Status:{" "}
           {connectionInfo.state === "Connected"
-            ? "Conectado ao Discord"
-            : "Desconectado do Discord"}
+            ? "Connected to Discord"
+            : "Disconnected from Discord"}
         </span>
         <span className="bg-surface-indigo border border-hairline/30 px-3 py-1.5 rounded-sm font-semibold text-muted-ink shadow-sm">
-          Fonte:{" "}
+          Source:{" "}
           <span className="text-ink font-bold">{source}</span>
         </span>
         <span className="bg-surface-indigo border border-hairline/30 px-3 py-1.5 rounded-sm font-semibold text-muted-ink shadow-sm">
-          Sessão:{" "}
+          Session:{" "}
           <span className="text-ink font-bold">{elapsed}</span>
         </span>
 
@@ -62,11 +62,11 @@ export function Dashboard() {
               background: "rgba(236,72,189,0.12)",
               borderColor: "rgba(236,72,189,0.35)",
             }}
-            title={`Em foco: ${priorityInfo.foreground_app || "desconhecido"}`}
+            title={`Foreground: ${priorityInfo.foreground_app || "unknown"}`}
           >
             <span className="text-[13px]">⬆️</span>
             <span>
-              Priorizando:{" "}
+              Prioritizing:{" "}
               <span className="font-bold" style={{ color: "#ec48bd" }}>
                 {priorityInfo.prioritized_app || "app"}
               </span>

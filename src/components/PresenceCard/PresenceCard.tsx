@@ -6,7 +6,7 @@ const defaultProfile: DiscordProfile = {
   displayName: "Better RPC User",
   username: "better_rpc",
   avatarUrl: "",
-  customStatus: "🚀 Personalizando minha presença",
+  customStatus: "🚀 Personalizing my presence",
   status: "online",
   themePrimary: "#5865f2",
   themeSecondary: "#2c327d",
@@ -122,11 +122,11 @@ export function PresenceCard({
 
       if (hours > 0) {
         setElapsed(
-          `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} decorridos`,
+          `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} elapsed`,
         );
       } else {
         setElapsed(
-          `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} decorridos`,
+          `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} elapsed`,
         );
       }
     };
@@ -192,7 +192,7 @@ export function PresenceCard({
         return (
           <div
             className="w-full h-full rounded-full bg-[#f23f43] flex items-center justify-center"
-            title="Não Perturbe"
+            title="Do Not Disturb"
           >
             <div className="w-[10px] h-[2.5px] bg-[#111214] rounded-full" />
           </div>
@@ -201,7 +201,7 @@ export function PresenceCard({
         return (
           <div
             className="w-full h-full rounded-full bg-[#80848e] flex items-center justify-center"
-            title="Invisível"
+            title="Invisible"
           >
             <div className="w-[8px] h-[8px] bg-[#111214] rounded-full" />
           </div>
@@ -293,7 +293,7 @@ export function PresenceCard({
         <div className="flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center text-[10px] font-extrabold text-zinc-400 tracking-wider uppercase mb-2">
-            <span>JOGANDO UM JOGO</span>
+            <span>PLAYING A GAME</span>
             <span className="text-[9px] bg-white/10 px-1.5 py-[1px] rounded-xs text-zinc-300 font-bold uppercase tracking-wide flex items-center gap-1">
               {getSourceIcon(presence?.source || "Idle")}{" "}
               {presence?.source || "Idle"}
@@ -328,7 +328,7 @@ export function PresenceCard({
               {/* Source micro-badge */}
               <div
                 className="absolute bottom-[-3px] right-[-3px] w-[18px] h-[18px] rounded-full border border-white/10 bg-[#111214] flex items-center justify-center text-[9px]"
-                title={`Fonte de dados: ${presence?.source || "Idle"}`}
+                title={`Data source: ${presence?.source || "Idle"}`}
               >
                 {getSourceIcon(presence?.source || "Idle")}
               </div>
@@ -340,10 +340,10 @@ export function PresenceCard({
                 {presence?.large_text || "Better Rich Presence"}
               </div>
               <div className="text-[12px] text-zinc-300 leading-tight truncate mt-1">
-                {presence?.details || "Nenhum aplicativo em execução"}
+                {presence?.details || "No application running"}
               </div>
               <div className="text-[12px] text-zinc-350 leading-tight truncate mt-1 text-zinc-300/80">
-                {presence?.state || "Aguardando detecção..."}
+                {presence?.state || "Waiting for detection..."}
               </div>
               {elapsed && (
                 <div className="text-[11.5px] text-zinc-400 leading-tight truncate mt-1 font-medium">

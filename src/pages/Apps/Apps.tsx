@@ -161,7 +161,7 @@ export function Apps() {
       <div className="flex h-full items-center justify-center p-8">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
-          <span className="text-muted-ink text-sm font-medium animate-pulse">Carregando aplicativos...</span>
+          <span className="text-muted-ink text-sm font-medium animate-pulse">Loading applications...</span>
         </div>
       </div>
     );
@@ -173,16 +173,16 @@ export function Apps() {
       <div className="sticky top-0 z-20 bg-surface-base/95 backdrop-blur-md pb-4 pt-1 flex flex-col gap-4 border-b border-hairline/30 mb-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div className="flex flex-col">
-            <h3 className="text-lg text-ink font-bold font-display">Aplicativos Configurados</h3>
+            <h3 className="text-lg text-ink font-bold font-display">Configured Applications</h3>
             <span className="text-xs text-muted-ink/80 mt-0.5 max-w-[280px]">
-              Gerencie a prioridade e a aparência dos apps no seu Discord.
+              Manage priority and appearance of apps on your Discord.
             </span>
           </div>
           <button
             onClick={handleOpenPicker}
             className="w-full sm:w-auto justify-center bg-primary hover:bg-primary-hover text-white text-sm px-4 py-2 rounded-sm font-semibold transition-all shadow-sm flex items-center gap-2 active:scale-95"
           >
-            <span>+</span> Buscar do Sistema
+            <span>+</span> Fetch from System
           </button>
         </div>
 
@@ -194,7 +194,7 @@ export function Apps() {
             </span>
             <input
               type="text"
-              placeholder="Pesquisar aplicativos..."
+              placeholder="Search applications..."
               value={ruleSearch}
               onChange={(e) => setRuleSearch(e.target.value)}
               className="w-full bg-surface-onyx border border-hairline/40 text-ink text-xs pl-8 pr-3 py-2 rounded-sm focus:border-primary focus:outline-none transition-colors"
@@ -214,7 +214,7 @@ export function Apps() {
                       : "bg-surface-indigo border border-hairline/30 text-muted-ink hover:text-ink hover:bg-surface-indigo/80 hover:border-hairline/60"
                   }`}
                 >
-                  {filter === "All" ? "Todos os Apps" : filter}
+                  {filter === "All" ? "All Apps" : filter}
                 </button>
               );
             })}
@@ -225,11 +225,11 @@ export function Apps() {
         <div className="h-4 flex items-center justify-end">
           {canReorder ? (
             <span className="text-[10px] text-muted-ink/70 font-medium flex items-center gap-1.5 animate-in fade-in slide-in-from-top-1">
-              <span>↕️</span> Arraste os cards para reordenar a prioridade de exibição
+              <span>↕️</span> Drag cards to reorder display priority
             </span>
           ) : (
             <span className="text-[10px] text-yellow-500/70 font-medium flex items-center gap-1.5">
-              <span>⚠️</span> Ordenação desabilitada devido aos filtros ativos
+              <span>⚠️</span> Ordering disabled due to active filters
             </span>
           )}
         </div>
@@ -293,18 +293,18 @@ export function Apps() {
         ) : (
           <div className="flex flex-col items-center justify-center py-16 px-4 bg-surface-indigo/20 rounded-md border border-dashed border-hairline/30 text-center">
             <span className="text-4xl mb-3 opacity-80">👻</span>
-            <h4 className="text-ink font-semibold mb-1">Nenhum aplicativo encontrado</h4>
+            <h4 className="text-ink font-semibold mb-1">No applications found</h4>
             <p className="text-xs text-muted-ink max-w-[250px]">
               {ruleSearch || filterSource !== "All"
-                ? "Tente limpar seus filtros ou termo de pesquisa."
-                : "Você ainda não adicionou nenhum aplicativo para ser rastreado."}
+                ? "Try clearing your filters or search term."
+                : "You haven't added any applications to track yet."}
             </p>
             {(!ruleSearch && filterSource === "All") && (
               <button
                 onClick={handleOpenPicker}
                 className="mt-4 text-xs font-bold text-primary hover:text-primary-hover underline underline-offset-4"
               >
-                Adicionar primeiro aplicativo
+                Add first application
               </button>
             )}
           </div>
@@ -320,7 +320,7 @@ export function Apps() {
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl opacity-60">🔎</span>
               <input
                 type="text"
-                placeholder="Pesquisar processos em execução..."
+                placeholder="Search running processes..."
                 autoFocus
                 value={pickerSearch}
                 onChange={(e) => setPickerSearch(e.target.value)}
@@ -342,7 +342,7 @@ export function Apps() {
               {loadingProcesses ? (
                 <div className="flex flex-col items-center justify-center py-10 gap-3">
                   <div className="w-6 h-6 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
-                  <span className="text-xs text-muted-ink">Escaneando sistema...</span>
+                  <span className="text-xs text-muted-ink">Scanning system...</span>
                 </div>
               ) : (
                 <>
@@ -387,7 +387,7 @@ export function Apps() {
                               <div>
                                 {isAlreadyAdded ? (
                                   <span className="text-[10px] font-bold text-green-accent flex items-center gap-1">
-                                    <span>✓</span> Adicionado
+                                    <span>✓</span> Added
                                   </span>
                                 ) : (
                                   <span className="text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity bg-primary/20 px-2 py-1 rounded-sm">
@@ -402,7 +402,7 @@ export function Apps() {
                   ) : (
                     <div className="text-center py-10 px-4">
                       <span className="text-2xl opacity-50 mb-2 block">🔍</span>
-                      <p className="text-xs text-muted-ink">Nenhum processo em execução corresponde à busca.</p>
+                      <p className="text-xs text-muted-ink">No running process matches your search.</p>
                     </div>
                   )}
                 </>
@@ -411,8 +411,8 @@ export function Apps() {
             
             {/* Palette Footer */}
             <div className="bg-surface-indigo border-t border-hairline/30 px-4 py-2 flex justify-between items-center text-[10px] text-muted-ink">
-              <span>Use as setas para navegar</span>
-              <span>{systemProcesses.length} processos ativos</span>
+              <span>Use arrows to navigate</span>
+              <span>{systemProcesses.length} active processes</span>
             </div>
           </div>
         </div>
