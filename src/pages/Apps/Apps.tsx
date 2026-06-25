@@ -106,8 +106,8 @@ export function Apps() {
     const process_lower = proc.process_name.toLowerCase();
 
     let source: PresenceSource = "Work";
-    let details = "Trabalhando";
-    let state = "Focado";
+    let details = proc.display_name;
+    let state = "Working";
     let priority = 2;
 
     const gameKeywords = ["game", "play", "cs2", "eldenring", "minecraft", "steam", "gta", "valorant", "counterstrike", "league"];
@@ -115,13 +115,13 @@ export function Apps() {
 
     if (gameKeywords.some((kw) => process_lower.includes(kw))) {
       source = "Game";
-      details = "Em partida";
-      state = "Modo Casual";
+      details = proc.display_name;
+      state = "In a match";
       priority = 0;
     } else if (browserKeywords.some((kw) => process_lower.includes(kw))) {
       source = "Browser";
-      details = "Navegando";
-      state = "Explorando a web";
+      details = proc.display_name;
+      state = "Browsing";
       priority = 3;
     }
 
@@ -132,8 +132,8 @@ export function Apps() {
       process_lower.includes("devenv") ||
       process_lower.includes("figma")
     ) {
-      details = "Editando {file}";
-      state = "Desenvolvendo";
+      details = `Editing in ${proc.display_name}`;
+      state = "Developing";
     }
 
     if (rules.some((r) => r.process_name === proc.process_name)) {
