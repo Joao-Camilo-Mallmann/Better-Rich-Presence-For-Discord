@@ -58,7 +58,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
+  <meta name="google-site-verification" content="cBzVhjurT5PuBqb1UOq70twyG6BwxZx1rOaZh5cTCww" />
   <style>
     /* ── Tokens ── */
     :root {
@@ -554,9 +554,11 @@
       0% {
         box-shadow: 0 0 0 0 rgba(35, 165, 90, 0.6);
       }
+
       70% {
         box-shadow: 0 0 0 6px rgba(35, 165, 90, 0);
       }
+
       100% {
         box-shadow: 0 0 0 0 rgba(35, 165, 90, 0);
       }
@@ -607,12 +609,12 @@
       transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease;
     }
 
-    .rpc-switch input:checked + .rpc-slider {
+    .rpc-switch input:checked+.rpc-slider {
       background-color: rgba(88, 101, 242, 0.15);
       border-color: var(--accent);
     }
 
-    .rpc-switch input:checked + .rpc-slider::before {
+    .rpc-switch input:checked+.rpc-slider::before {
       transform: translateX(14px);
       background-color: var(--accent);
     }
@@ -732,7 +734,7 @@
       transition: box-shadow 0.4s ease;
     }
 
-    .demo-preview-glow.active + .discord-card {
+    .demo-preview-glow.active+.discord-card {
       box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -2px rgba(88, 101, 242, 0.15);
     }
 
@@ -1085,14 +1087,37 @@
       color: var(--text-primary);
     }
 
-    .perf-grid.visible #bar-mem-rpc { width: 10%; }
-    .perf-grid.visible #bar-mem-ele { width: 100%; }
-    .perf-grid.visible #bar-cpu-rpc { width: 4.4%; }
-    .perf-grid.visible #bar-cpu-ele { width: 100%; }
-    .perf-grid.visible #bar-size-rpc { width: 5%; }
-    .perf-grid.visible #bar-size-ele { width: 100%; }
-    .perf-grid.visible #bar-start-rpc { width: 20%; }
-    .perf-grid.visible #bar-start-ele { width: 100%; }
+    .perf-grid.visible #bar-mem-rpc {
+      width: 10%;
+    }
+
+    .perf-grid.visible #bar-mem-ele {
+      width: 100%;
+    }
+
+    .perf-grid.visible #bar-cpu-rpc {
+      width: 4.4%;
+    }
+
+    .perf-grid.visible #bar-cpu-ele {
+      width: 100%;
+    }
+
+    .perf-grid.visible #bar-size-rpc {
+      width: 5%;
+    }
+
+    .perf-grid.visible #bar-size-ele {
+      width: 100%;
+    }
+
+    .perf-grid.visible #bar-start-rpc {
+      width: 20%;
+    }
+
+    .perf-grid.visible #bar-start-ele {
+      width: 100%;
+    }
 
     /* ── Final CTA Card ── */
     .final-cta {
@@ -1165,17 +1190,28 @@
       <div class="hero-text fade-in d1">
         <h1>Show what you're doing on Discord</h1>
         <p>
-          Detects your running apps and updates your Discord status <strong>automatically</strong>. Built with <strong>Rust</strong>. Uses <strong>under 20 MB of memory</strong>.
+          Detects your running apps and updates your Discord status <strong>automatically</strong>. Built with
+          <strong>Rust</strong>. Uses <strong>under 20 MB of memory</strong>.
         </p>
         <div class="hero-actions">
           <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases" target="_blank"
             rel="noopener" class="btn btn-primary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
             Download for free
           </a>
           <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank"
             rel="noopener" class="btn btn-secondary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+              </path>
+            </svg>
             View source
           </a>
         </div>
@@ -1222,7 +1258,7 @@
             <h3>Fully customizable</h3>
             <p>
               Edit rules to control what shows on your profile. Add <strong>custom app
-              names, icons, and detail text</strong>.
+                names, icons, and detail text</strong>.
             </p>
           </div>
         </div>
@@ -1232,7 +1268,7 @@
             <h3>Open source</h3>
             <p>
               MIT licensed. Read the code, fork it, contribute. <strong>No tracking,
-              no accounts, no data collection</strong>.
+                no accounts, no data collection</strong>.
             </p>
           </div>
         </div>
@@ -1367,7 +1403,14 @@
       <div class="perf-grid fade-in d2">
         <div class="perf-cell">
           <div class="perf-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;"><rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6" y2="18"></line><line x1="10" y1="6" x2="10" y2="18"></line><line x1="14" y1="6" x2="14" y2="18"></line><line x1="18" y1="6" x2="18" y2="18"></line></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;">
+              <rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6" y2="18"></line>
+              <line x1="10" y1="6" x2="10" y2="18"></line>
+              <line x1="14" y1="6" x2="14" y2="18"></line>
+              <line x1="18" y1="6" x2="18" y2="18"></line>
+            </svg>
             Memory
           </div>
           <div class="perf-value">~18 MB</div>
@@ -1392,7 +1435,22 @@
 
         <div class="perf-cell">
           <div class="perf-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;"><rect x="4" y="4" width="16" height="16" rx="2"></rect><line x1="9" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="9"></line><line x1="15" y1="15" x2="9" y2="15"></line><line x1="15" y1="15" x2="15" y2="9"></line><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;">
+              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+              <line x1="9" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="9"></line>
+              <line x1="15" y1="15" x2="9" y2="15"></line>
+              <line x1="15" y1="15" x2="15" y2="9"></line>
+              <line x1="9" y1="1" x2="9" y2="4"></line>
+              <line x1="15" y1="1" x2="15" y2="4"></line>
+              <line x1="9" y1="20" x2="9" y2="23"></line>
+              <line x1="15" y1="20" x2="15" y2="23"></line>
+              <line x1="20" y1="9" x2="23" y2="9"></line>
+              <line x1="20" y1="15" x2="23" y2="15"></line>
+              <line x1="1" y1="9" x2="4" y2="9"></line>
+              <line x1="1" y1="15" x2="4" y2="15"></line>
+            </svg>
             CPU
           </div>
           <div class="perf-value">&lt;0.2%</div>
@@ -1417,7 +1475,14 @@
 
         <div class="perf-cell">
           <div class="perf-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><polygon points="12 22.08 12 12 3 6.92 3 17.08 12 22.08"></polygon><polygon points="12 12 21 6.92 21 17.08 12 22.08"></polygon><polygon points="12 2 21 6.92 12 12 3 6.92 12 2"></polygon><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;">
+              <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+              <polygon points="12 22.08 12 12 3 6.92 3 17.08 12 22.08"></polygon>
+              <polygon points="12 12 21 6.92 21 17.08 12 22.08"></polygon>
+              <polygon points="12 2 21 6.92 12 12 3 6.92 12 2"></polygon>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
             Binary size
           </div>
           <div class="perf-value">~4 MB</div>
@@ -1442,7 +1507,10 @@
 
         <div class="perf-cell">
           <div class="perf-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
             Startup
           </div>
           <div class="perf-value">&lt;1s</div>
@@ -1466,223 +1534,229 @@
         </div>
       </div>
     </div>
-  <!-- Final CTA -->
-  <section class="section-border final-cta">
-    <div class="wrap">
-      <div class="cta-card fade-in d1">
-        <h2>Help us build the future of Better RPC</h2>
-        <p>
-          Better RPC is 100% open-source and community-driven. Report issues, suggest features, or contribute code directly on GitHub.
-        </p>
-        <div class="cta-buttons">
-          <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank"
-            rel="noopener" class="btn btn-primary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-            Contribute on GitHub
-          </a>
+    <!-- Final CTA -->
+    <section class="section-border final-cta">
+      <div class="wrap">
+        <div class="cta-card fade-in d1">
+          <h2>Help us build the future of Better RPC</h2>
+          <p>
+            Better RPC is 100% open-source and community-driven. Report issues, suggest features, or contribute code
+            directly on GitHub.
+          </p>
+          <div class="cta-buttons">
+            <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank"
+              rel="noopener" class="btn btn-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                </path>
+              </svg>
+              Contribute on GitHub
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
-  <footer>
-    <div class="wrap">
-      <div class="footer-inner">
-        <div class="footer-left">
-          <a href="#" class="logo">
-            <img src="logo.png" alt="Better RPC" />
-            <span>Better RPC</span>
-          </a>
-        </div>
-        <div class="footer-links">
-          <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank"
-            rel="noopener">GitHub</a>
-          <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases" target="_blank"
-            rel="noopener">Releases</a>
-          <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE"
-            target="_blank" rel="noopener">MIT License</a>
-        </div>
-        <div class="footer-copy">
-          &copy; <span id="year">2026</span> Better RPC
+    <!-- Footer -->
+    <footer>
+      <div class="wrap">
+        <div class="footer-inner">
+          <div class="footer-left">
+            <a href="#" class="logo">
+              <img src="logo.png" alt="Better RPC" />
+              <span>Better RPC</span>
+            </a>
+          </div>
+          <div class="footer-links">
+            <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank"
+              rel="noopener">GitHub</a>
+            <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases" target="_blank"
+              rel="noopener">Releases</a>
+            <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE"
+              target="_blank" rel="noopener">MIT License</a>
+          </div>
+          <div class="footer-copy">
+            &copy; <span id="year">2026</span> Better RPC
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script>
-    // Year
-    document.getElementById("year").textContent = new Date().getFullYear();
+    <script>
+      // Year
+      document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Mobile nav
-    const menuBtn = document.getElementById("menu-btn");
-    const headerLinks = document.getElementById("header-links");
-    if (menuBtn && headerLinks) {
-      menuBtn.addEventListener("click", () => {
-        headerLinks.classList.toggle("active");
-      });
-    }
-
-    // Live timer
-    let elapsed = 165;
-    let timer = null;
-
-    function pad(n) {
-      return String(n).padStart(2, "0");
-    }
-
-    function tick() {
-      elapsed++;
-      const el = document.getElementById("d-time");
-      if (el && el.textContent.includes("elapsed")) {
-        el.textContent = `${pad(Math.floor(elapsed / 60))}:${pad(elapsed % 60)} elapsed`;
-      }
-    }
-
-    function startTimer() {
-      if (timer) clearInterval(timer);
-      timer = setInterval(tick, 1000);
-    }
-
-    // App data
-    const apps = {
-      vscode: {
-        label: "Playing a game",
-        app: "Visual Studio Code",
-        detail: "Editing: main.rs",
-        state: "In a Rust project",
-        icon: "💻",
-        btn: "View on GitHub",
-        time: "02:45 elapsed",
-        secs: 165,
-      },
-      spotify: {
-        label: "Listening to Spotify",
-        app: "Spotify",
-        detail: "Blinding Lights",
-        state: "by The Weeknd",
-        icon: "🎵",
-        btn: "Listen on Spotify",
-        time: "01:24 / 03:20",
-        secs: 0,
-      },
-      minecraft: {
-        label: "Playing a game",
-        app: "Minecraft",
-        detail: "Surviving on Hardcore",
-        state: "Version 1.20",
-        icon: "🎮",
-        btn: "Join Server",
-        time: "05:12 elapsed",
-        secs: 312,
-      },
-      custom: {
-        label: "Playing a game",
-        app: "My Custom App",
-        detail: "Watching YouTube",
-        state: "Web Development",
-        icon: "🌐",
-        btn: "Check it out",
-        time: "00:30 elapsed",
-        secs: 30,
-      },
-    };
-
-    let rpcActive = true;
-
-    function toggleRPC(checked) {
-      rpcActive = checked;
-      const container = document.querySelector(".demo-container");
-      const statusText = document.getElementById("demo-status-text");
-      const statusDot = document.querySelector(".demo-status");
-      const glow = document.querySelector(".demo-preview-glow");
-      const discordOnline = document.querySelector(".discord-online");
-      const activityRow = document.querySelector(".discord-activity-row");
-      
-      if (checked) {
-        container.classList.remove("offline");
-        statusText.textContent = "Connected";
-        statusDot.classList.add("connected");
-        glow.classList.add("active");
-        discordOnline.classList.remove("offline");
-        activityRow.classList.remove("offline");
-        
-        const activeRow = document.querySelector(".demo-row.active");
-        if (activeRow) {
-          const appKey = activeRow.id.replace("row-", "");
-          selectApp(appKey);
-        }
-      } else {
-        container.classList.add("offline");
-        statusText.textContent = "Offline";
-        statusDot.classList.remove("connected");
-        glow.classList.remove("active");
-        discordOnline.classList.add("offline");
-        activityRow.classList.add("offline");
-        
-        if (timer) clearInterval(timer);
-        
-        document.getElementById("d-label").textContent = "No Activity";
-        document.getElementById("d-icon").textContent = "💤";
-        document.getElementById("d-app").textContent = "Better RPC is offline";
-        document.getElementById("d-detail").textContent = "Daemon not running";
-        document.getElementById("d-state").textContent = "Toggle status switch to start";
-        document.getElementById("d-time").textContent = "--:-- elapsed";
-      }
-    }
-
-    function selectApp(key) {
-      if (!rpcActive) return;
-      
-      document
-        .querySelectorAll(".demo-row")
-        .forEach((r) => r.classList.remove("active"));
-      document.getElementById("row-" + key).classList.add("active");
-
-      const d = apps[key];
-      document.getElementById("d-label").textContent = d.label;
-      document.getElementById("d-app").textContent = d.app;
-      document.getElementById("d-detail").textContent = d.detail;
-      document.getElementById("d-state").textContent = d.state;
-      document.getElementById("d-icon").textContent = d.icon;
-      document.getElementById("d-btn").textContent = d.btn;
-      document.getElementById("d-time").textContent = d.time;
-
-      elapsed = d.secs;
-      if (key === "spotify") {
-        if (timer) clearInterval(timer);
-      } else {
-        startTimer();
-      }
-    }
-
-    // Fade-in on scroll (for elements below fold)
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.animationPlayState = "running";
-            if (entry.target.classList.contains("perf-grid")) {
-              entry.target.classList.add("visible");
-            }
-            observer.unobserve(entry.target);
-          }
+      // Mobile nav
+      const menuBtn = document.getElementById("menu-btn");
+      const headerLinks = document.getElementById("header-links");
+      if (menuBtn && headerLinks) {
+        menuBtn.addEventListener("click", () => {
+          headerLinks.classList.toggle("active");
         });
-      },
-      { threshold: 0.1 },
-    );
+      }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      // Pause off-screen animations until visible
-      document.querySelectorAll(".section-border .fade-in").forEach((el) => {
-        el.style.animationPlayState = "paused";
-        observer.observe(el);
+      // Live timer
+      let elapsed = 165;
+      let timer = null;
+
+      function pad(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      function tick() {
+        elapsed++;
+        const el = document.getElementById("d-time");
+        if (el && el.textContent.includes("elapsed")) {
+          el.textContent = `${pad(Math.floor(elapsed / 60))}:${pad(elapsed % 60)} elapsed`;
+        }
+      }
+
+      function startTimer() {
+        if (timer) clearInterval(timer);
+        timer = setInterval(tick, 1000);
+      }
+
+      // App data
+      const apps = {
+        vscode: {
+          label: "Playing a game",
+          app: "Visual Studio Code",
+          detail: "Editing: main.rs",
+          state: "In a Rust project",
+          icon: "💻",
+          btn: "View on GitHub",
+          time: "02:45 elapsed",
+          secs: 165,
+        },
+        spotify: {
+          label: "Listening to Spotify",
+          app: "Spotify",
+          detail: "Blinding Lights",
+          state: "by The Weeknd",
+          icon: "🎵",
+          btn: "Listen on Spotify",
+          time: "01:24 / 03:20",
+          secs: 0,
+        },
+        minecraft: {
+          label: "Playing a game",
+          app: "Minecraft",
+          detail: "Surviving on Hardcore",
+          state: "Version 1.20",
+          icon: "🎮",
+          btn: "Join Server",
+          time: "05:12 elapsed",
+          secs: 312,
+        },
+        custom: {
+          label: "Playing a game",
+          app: "My Custom App",
+          detail: "Watching YouTube",
+          state: "Web Development",
+          icon: "🌐",
+          btn: "Check it out",
+          time: "00:30 elapsed",
+          secs: 30,
+        },
+      };
+
+      let rpcActive = true;
+
+      function toggleRPC(checked) {
+        rpcActive = checked;
+        const container = document.querySelector(".demo-container");
+        const statusText = document.getElementById("demo-status-text");
+        const statusDot = document.querySelector(".demo-status");
+        const glow = document.querySelector(".demo-preview-glow");
+        const discordOnline = document.querySelector(".discord-online");
+        const activityRow = document.querySelector(".discord-activity-row");
+
+        if (checked) {
+          container.classList.remove("offline");
+          statusText.textContent = "Connected";
+          statusDot.classList.add("connected");
+          glow.classList.add("active");
+          discordOnline.classList.remove("offline");
+          activityRow.classList.remove("offline");
+
+          const activeRow = document.querySelector(".demo-row.active");
+          if (activeRow) {
+            const appKey = activeRow.id.replace("row-", "");
+            selectApp(appKey);
+          }
+        } else {
+          container.classList.add("offline");
+          statusText.textContent = "Offline";
+          statusDot.classList.remove("connected");
+          glow.classList.remove("active");
+          discordOnline.classList.add("offline");
+          activityRow.classList.add("offline");
+
+          if (timer) clearInterval(timer);
+
+          document.getElementById("d-label").textContent = "No Activity";
+          document.getElementById("d-icon").textContent = "💤";
+          document.getElementById("d-app").textContent = "Better RPC is offline";
+          document.getElementById("d-detail").textContent = "Daemon not running";
+          document.getElementById("d-state").textContent = "Toggle status switch to start";
+          document.getElementById("d-time").textContent = "--:-- elapsed";
+        }
+      }
+
+      function selectApp(key) {
+        if (!rpcActive) return;
+
+        document
+          .querySelectorAll(".demo-row")
+          .forEach((r) => r.classList.remove("active"));
+        document.getElementById("row-" + key).classList.add("active");
+
+        const d = apps[key];
+        document.getElementById("d-label").textContent = d.label;
+        document.getElementById("d-app").textContent = d.app;
+        document.getElementById("d-detail").textContent = d.detail;
+        document.getElementById("d-state").textContent = d.state;
+        document.getElementById("d-icon").textContent = d.icon;
+        document.getElementById("d-btn").textContent = d.btn;
+        document.getElementById("d-time").textContent = d.time;
+
+        elapsed = d.secs;
+        if (key === "spotify") {
+          if (timer) clearInterval(timer);
+        } else {
+          startTimer();
+        }
+      }
+
+      // Fade-in on scroll (for elements below fold)
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.animationPlayState = "running";
+              if (entry.target.classList.contains("perf-grid")) {
+                entry.target.classList.add("visible");
+              }
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Pause off-screen animations until visible
+        document.querySelectorAll(".section-border .fade-in").forEach((el) => {
+          el.style.animationPlayState = "paused";
+          observer.observe(el);
+        });
+
+        // Start demo
+        selectApp("vscode");
       });
-
-      // Start demo
-      selectApp("vscode");
-    });
-  </script>
+    </script>
 </body>
 
 </html>
