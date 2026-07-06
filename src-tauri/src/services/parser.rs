@@ -17,6 +17,7 @@ pub fn resolve_auto_image(process_name: &str, display_name: &str) -> String {
         n if n.contains("cursor") => "cursor.com",
         n if n.contains("antigravity") => "deepmind.com",
         n if n.contains("intellij") => "jetbrains.com",
+        n if n.contains("pycharm") => "jetbrains.com",
         n if n.contains("android studio") => "developer.android.com",
         n if n.contains("visual studio") => "visualstudio.com",
         n if n.contains("sublime") => "sublimetext.com",

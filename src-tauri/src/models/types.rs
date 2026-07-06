@@ -261,6 +261,8 @@ pub struct Settings {
     pub settle_delay_seconds: u64,
     /// Whether priority mode is enabled (scans background tasks for higher priority rules).
     pub priority_mode_enabled: bool,
+    /// Master switch to enable/disable the rich presence entirely.
+    pub global_enabled: bool,
 }
 
 impl Default for Settings {
@@ -273,6 +275,7 @@ impl Default for Settings {
             debounce_seconds: 2,
             settle_delay_seconds: 3,
             priority_mode_enabled: true,
+            global_enabled: true,
         }
     }
 }
@@ -440,12 +443,22 @@ impl AppState {
 
     pub async fn update_settings(&self, settings: Settings) -> Result<(), AppError> {
         let mut inner = self.inner.write().await;
+        let was_enabled = inner.settings.global_enabled;
         inner.settings = settings.clone();
         
         let store = self.app_handle.store("settings.json")
             .map_err(|e| AppError::Store(e.to_string()))?;
         store.set("config", serde_json::to_value(&settings)?);
         store.save().map_err(|e| AppError::Store(e.to_string()))?;
+        
+        if was_enabled && !settings.global_enabled {
+            self.discord_handle.send(EngineCommand::ClearActivity);
+        } else if !was_enabled && settings.global_enabled {
+            if let Some(presence) = &inner.current_presence {
+                self.discord_handle.send(EngineCommand::SetActivity(presence.clone()));
+            }
+        }
+        
         Ok(())
     }
 

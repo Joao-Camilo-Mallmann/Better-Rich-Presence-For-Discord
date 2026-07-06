@@ -91,7 +91,7 @@ function App() {
                 checked={rpcActive}
                 onChange={(e) => handleToggleRpc(e.target.checked)}
               />
-              <span className="absolute cursor-pointer inset-0 bg-white/20 transition-colors duration-200 rounded-full before:absolute before:content-[''] before:h-3.5 before:w-3.5 before:left-[3px] before:bottom-[3px] before:bg-white before:transition-transform before:duration-200 before:rounded-full before:shadow-sm peer-checked:bg-green-accent peer-checked:before:translate-x-4"></span>
+              <span className="absolute cursor-pointer inset-0 bg-muted-ink/30 transition-colors duration-200 rounded-full before:absolute before:content-[''] before:h-3.5 before:w-3.5 before:left-[3px] before:bottom-[3px] before:bg-white before:transition-transform before:duration-200 before:rounded-full before:shadow-sm peer-checked:bg-green-accent peer-checked:before:translate-x-4"></span>
             </label>
           </div>
         </div>

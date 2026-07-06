@@ -210,8 +210,11 @@ impl PresenceEngine {
         
         if conn_changed {
             if is_connected {
-                info!("[Engine] Discord reconnected, sending current activity");
-                self.app_state.discord_handle.send(EngineCommand::SetActivity(self.current_data.clone()));
+                let settings = self.app_state.get_settings().await;
+                if settings.global_enabled {
+                    info!("[Engine] Discord reconnected, sending current activity");
+                    self.app_state.discord_handle.send(EngineCommand::SetActivity(self.current_data.clone()));
+                }
             }
             let conn_payload = self.app_state.get_connection_status().await;
             let _ = self.app_state.app_handle.emit("connection-changed", &conn_payload);
@@ -239,6 +242,11 @@ impl PresenceEngine {
         }
         
         let settings = self.app_state.get_settings().await;
+
+        // If global Rich Presence is disabled, do nothing
+        if !settings.global_enabled {
+            return;
+        }
 
         // Rate limit (Debounce)
         if let Some(last_time) = self.last_update_time {
