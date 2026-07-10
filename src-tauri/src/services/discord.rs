@@ -287,14 +287,18 @@ impl DiscordManager {
         let timestamp = data.timestamp;
 
         // If the large image is a URL (starts with "http"), do not send it to Discord
-        // as standard Discord RPC only supports local Developer Portal asset keys.
-        // Also, if we are using the fallback/generic Client ID (DISCORD_APP_ID),
-        // we should only allow "default" and "idle" assets. Any other asset keys (like "antigravity")
-        // do not exist on the generic application and will display as a question mark.
+        // as standard Discord RPC only supports asset keys from the Developer Portal.
+        // For the fallback/generic Client ID (DISCORD_APP_ID), only "default" and "idle"
+        // assets exist — any other key would display as a broken question mark.
+        // Apps with their own Client ID can use any asset key registered in their own
+        // Discord Application, so we don't filter those.
         if large_image.starts_with("http")
-            || (client_id == DISCORD_APP_ID && large_image != "default" && large_image != "idle")
+            || (client_id == DISCORD_APP_ID
+                && large_image != "default"
+                && large_image != "idle"
+                && !large_image.is_empty())
         {
-            large_image = String::new();
+            large_image = "default".to_string();
         }
 
         info!(

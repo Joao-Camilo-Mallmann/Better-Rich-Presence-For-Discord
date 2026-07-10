@@ -145,6 +145,14 @@ impl PresenceEngine {
                                 ensure_visible_app_name(&mut new_data, &activity_app_name);
                             }
 
+                            // Discord RPC only supports asset keys registered in the
+                            // Developer Portal — not arbitrary URLs. Replace any URL
+                            // with the "default" asset key so the Application's own
+                            // icon is shown instead of nothing.
+                            if new_data.large_image.starts_with("http") {
+                                new_data.large_image = "default".to_string();
+                            }
+
                             // Check priority
                             if new_data.source.priority() <= self.current_source.priority() || self.current_source == PresenceSource::Idle {
                                 // Start anti-flicker settle timer
