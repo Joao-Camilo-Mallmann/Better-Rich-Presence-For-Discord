@@ -18,63 +18,28 @@ export function useAppRules() {
     }
   };
 
-  useEffect(() => {
-    fetchRules();
-  }, []);
+  useEffect(() => { fetchRules(); }, []);
 
-  const updateRule = async (rule: AppRule) => {
+  // Wraps a Tauri command + refresh cycle with error logging and rethrow
+  const withRefresh = async (cmd: string, args?: Record<string, unknown>) => {
     try {
-      await invoke("update_app_rule", { rule });
+      await invoke(cmd, args);
       await fetchRules();
     } catch (error) {
-      console.error("Failed to update rule:", error);
+      console.error(`Failed to ${cmd}:`, error);
       throw error;
     }
   };
 
-  const addRule = async (rule: AppRule) => {
-    try {
-      await invoke("add_app_rule", { rule });
-      await fetchRules();
-    } catch (error) {
-      console.error("Failed to add rule:", error);
-      throw error;
-    }
-  };
-
-  const deleteRule = async (processName: string) => {
-    try {
-      await invoke("delete_app_rule", { processName });
-      await fetchRules();
-    } catch (error) {
-      console.error("Failed to delete rule:", error);
-      throw error;
-    }
-  };
-
-  const resetToDefaults = async () => {
-    try {
-      await invoke("reset_app_rules_to_defaults");
-      await fetchRules();
-    } catch (error) {
-      console.error("Failed to reset rules:", error);
-      throw error;
-    }
-  };
-
+  const updateRule = (rule: AppRule) => withRefresh("update_app_rule", { rule });
+  const addRule = (rule: AppRule) => withRefresh("add_app_rule", { rule });
+  const deleteRule = (processName: string) => withRefresh("delete_app_rule", { processName });
+  const resetToDefaults = () => withRefresh("reset_app_rules_to_defaults");
   /**
    * Reorder rules by providing the new order of process names.
    * The first name in the array becomes the highest-priority rule.
    */
-  const reorderRules = async (processNamesOrder: string[]) => {
-    try {
-      await invoke("reorder_app_rules", { processNamesOrder });
-      await fetchRules();
-    } catch (error) {
-      console.error("Failed to reorder rules:", error);
-      throw error;
-    }
-  };
+  const reorderRules = (processNamesOrder: string[]) => withRefresh("reorder_app_rules", { processNamesOrder });
 
   return { rules, loading, updateRule, addRule, deleteRule, resetToDefaults, reorderRules, refresh: fetchRules };
 }

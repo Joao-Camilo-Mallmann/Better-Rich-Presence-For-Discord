@@ -19,9 +19,10 @@ function App() {
   const [showLogs, setShowLogs] = useState(false);
 
   const [systemTheme, setSystemTheme] = useState<
-    "indigo" | "dark" | "amoled" | "light"
+    "dark" | "amoled" | "light"
   >(() => {
-    return (localStorage.getItem("system_theme") as any) || "indigo";
+    const saved = localStorage.getItem("system_theme");
+    return (saved === "amoled" || saved === "light" ? saved : "dark") as any;
   });
 
   useEffect(() => {
@@ -60,9 +61,6 @@ function App() {
               onChange={(e) => setSystemTheme(e.target.value as any)}
               className="bg-transparent text-ink text-xs font-semibold focus:outline-none cursor-pointer border-0 p-0"
             >
-              <option value="indigo" className="bg-surface-indigo">
-                🌌 Indigo
-              </option>
               <option value="dark" className="bg-surface-indigo">
                 🌑 Dark
               </option>

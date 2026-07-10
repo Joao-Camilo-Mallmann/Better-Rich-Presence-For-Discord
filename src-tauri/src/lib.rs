@@ -2,11 +2,13 @@ pub mod commands;
 pub mod models;
 pub mod services;
 
-use crate::models::types::{AppRule, AppState, ConnectionInfo, EngineEvent, PresenceSource, PresenceState, Settings};
+use crate::models::types::{
+    AppRule, AppState, ConnectionInfo, EngineEvent, PresenceSource, PresenceState, Settings,
+};
+use log::{Level, Log, Metadata, Record};
 use std::sync::Arc;
-use tauri::Emitter;
-use log::{Log, Metadata, Record, Level};
 use std::sync::OnceLock;
+use tauri::Emitter;
 
 static APP_HANDLE: OnceLock<tauri::AppHandle> = OnceLock::new();
 
@@ -21,17 +23,20 @@ impl Log for AppLogger {
         if self.enabled(record.metadata()) {
             let level_str = record.level().to_string();
             let msg = format!("{}", record.args());
-            
+
             // Print to standard output
             println!("[{}] {}", level_str, msg);
-            
+
             // Emit to frontend if AppHandle is set
             if let Some(app) = APP_HANDLE.get() {
-                let _ = app.emit("app-log", LogPayload {
-                    level: level_str,
-                    message: msg,
-                    timestamp: chrono::Local::now().format("%H:%M:%S").to_string(),
-                });
+                let _ = app.emit(
+                    "app-log",
+                    LogPayload {
+                        level: level_str,
+                        message: msg,
+                        timestamp: chrono::Local::now().format("%H:%M:%S").to_string(),
+                    },
+                );
             }
         }
     }
@@ -53,29 +58,37 @@ use tauri::{
     Manager,
 };
 use tauri_plugin_store::StoreExt;
-use tokio::sync::mpsc;
+use tokio::sync::{mpsc, Mutex};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let mut app = tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::new().build())
-        .plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, Some(vec!["--minimized"])))
+        .plugin(tauri_plugin_autostart::init(
+            tauri_plugin_autostart::MacosLauncher::LaunchAgent,
+            Some(vec!["--minimized"]),
+        ))
         .setup(|app| {
             let _ = APP_HANDLE.set(app.handle().clone());
             let _ = log::set_logger(&LOGGER);
             log::set_max_level(log::LevelFilter::Trace);
             // 1. Load settings from store
-            let settings_store = app.store("settings.json").expect("Failed to create settings store");
+            let settings_store = app
+                .store("settings.json")
+                .expect("Failed to create settings store");
             let settings = if let Some(config) = settings_store.get("config") {
                 serde_json::from_value::<Settings>(config).unwrap_or_default()
             } else {
                 Settings::default()
             };
-            
+
             // 2. Load app_rules from store
-            let rules_store = app.store("rules.json").expect("Failed to create rules store");
+            let rules_store = app
+                .store("rules.json")
+                .expect("Failed to create rules store");
             let mut app_rules = if let Some(rules_val) = rules_store.get("app_rules") {
-                serde_json::from_value::<Vec<AppRule>>(rules_val).unwrap_or_else(|_| models::presets::default_app_rules())
+                serde_json::from_value::<Vec<AppRule>>(rules_val)
+                    .unwrap_or_else(|_| models::presets::default_app_rules())
             } else {
                 models::presets::default_app_rules()
             };
@@ -83,7 +96,9 @@ pub fn run() {
             // Proactively merge any missing default rules into the user's rules
             let mut modified = false;
             for default_rule in models::presets::default_app_rules() {
-                if !app_rules.iter().any(|r| r.process_name.to_lowercase() == default_rule.process_name.to_lowercase()) {
+                if !app_rules.iter().any(|r| {
+                    r.process_name.to_lowercase() == default_rule.process_name.to_lowercase()
+                }) {
                     app_rules.push(default_rule);
                     modified = true;
                 }
@@ -137,14 +152,13 @@ pub fn run() {
             let (_discord_manager, discord_handle) = services::discord::DiscordManager::new();
 
             // 6. Shared State (Consolidated)
-            let app_state = AppState::new(
-                app.handle().clone(),
-                discord_handle,
-                app_rules,
-                settings,
-            );
+            let app_state =
+                AppState::new(app.handle().clone(), discord_handle, app_rules, settings);
 
             app.manage(app_state.clone());
+            app.manage(Mutex::new(
+                services::presence_manager::PresenceManager::new(),
+            ));
 
             // 7. Spawn Watcher Task
             services::watcher::start_window_watcher(tx.clone(), app_state.clone());
@@ -159,6 +173,7 @@ pub fn run() {
             commands::get_presence_state,
             commands::get_current_source,
             commands::get_connection_status,
+            commands::update_presence,
             commands::get_app_rules,
             commands::update_app_rule,
             commands::add_app_rule,
@@ -183,7 +198,9 @@ pub fn run() {
         tauri::RunEvent::Exit => {
             if let Some(state) = app_handle.try_state::<AppState>() {
                 log::info!("Application exiting, cleanly disconnecting Discord RPC...");
-                state.discord_handle.send(crate::models::types::EngineCommand::Disconnect);
+                state
+                    .discord_handle
+                    .send(crate::models::types::EngineCommand::Disconnect);
             }
         }
         _ => {}

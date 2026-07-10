@@ -100,27 +100,41 @@ impl DiscordManager {
         // Exponential backoff delays (seconds).
         let backoff_steps: &[u64] = &[3, 5, 10, 30, 60];
         let mut backoff_idx: usize = 0;
+        let mut current_client_id = DISCORD_APP_ID;
 
         // Create the discord client
-        let mut client = discord_presence::Client::new(DISCORD_APP_ID);
+        let mut client = discord_presence::Client::new(current_client_id);
 
         // Register callbacks — these are called internally by the client on
         // its own reader thread. We use the `connected` flag to communicate
         // connection state back to the handle.
         let connected_on_ready = Arc::clone(&connected);
-        client.on_ready(move |_ctx| {
-            info!("[Discord] RPC client is READY");
-            connected_on_ready.store(true, Ordering::Relaxed);
-        }).persist();
+        client
+            .on_ready(move |_ctx| {
+                info!(
+                    "[Discord] RPC client is READY (client_id={})",
+                    current_client_id
+                );
+                connected_on_ready.store(true, Ordering::Relaxed);
+            })
+            .persist();
 
         let connected_on_error = Arc::clone(&connected);
-        client.on_error(move |_ctx| {
-            error!("[Discord] RPC client encountered an error");
-            connected_on_error.store(false, Ordering::Relaxed);
-        }).persist();
+        client
+            .on_error(move |_ctx| {
+                error!(
+                    "[Discord] RPC client encountered an error (client_id={})",
+                    current_client_id
+                );
+                connected_on_error.store(false, Ordering::Relaxed);
+            })
+            .persist();
 
         // Attempt to start the IPC connection
-        info!("[Discord] Starting IPC client (app_id={})", DISCORD_APP_ID);
+        info!(
+            "[Discord] Starting IPC client (app_id={})",
+            current_client_id
+        );
         client.start();
 
         // Give the handshake a moment
@@ -132,8 +146,41 @@ impl DiscordManager {
             match rx.recv_timeout(Duration::from_secs(1)) {
                 Ok(cmd) => {
                     match cmd {
-                        EngineCommand::SetActivity(data) => {
-                            Self::apply_activity(&mut client, &data, &connected);
+                        EngineCommand::SetActivity { client_id, data } => {
+                            if client_id != current_client_id {
+                                info!(
+                                    "[Discord] Switching Discord Client ID from {} to {}",
+                                    current_client_id, client_id
+                                );
+                                let _ = client.clear_activity();
+                                connected.store(false, Ordering::Relaxed);
+                                thread::sleep(Duration::from_millis(500));
+
+                                client = discord_presence::Client::new(client_id);
+                                current_client_id = client_id;
+
+                                let connected_ready = Arc::clone(&connected);
+                                client
+                                    .on_ready(move |_ctx| {
+                                        info!(
+                                            "[Discord] RPC client is READY (client_id={})",
+                                            client_id
+                                        );
+                                        connected_ready.store(true, Ordering::Relaxed);
+                                    })
+                                    .persist();
+
+                                let connected_err = Arc::clone(&connected);
+                                client.on_error(move |_ctx| {
+                                    error!("[Discord] RPC client encountered an error (client_id={})", client_id);
+                                    connected_err.store(false, Ordering::Relaxed);
+                                }).persist();
+
+                                client.start();
+                                thread::sleep(Duration::from_secs(2));
+                            }
+
+                            Self::apply_activity(&mut client, current_client_id, &data, &connected);
                             // Reset backoff on successful interaction
                             backoff_idx = 0;
                         }
@@ -157,26 +204,37 @@ impl DiscordManager {
                     if !connected.load(Ordering::Relaxed) {
                         let delay = backoff_steps[backoff_idx.min(backoff_steps.len() - 1)];
                         warn!(
-                            "[Discord] Connection lost — reconnecting in {}s (attempt #{})",
+                            "[Discord] Connection lost — reconnecting in {}s (attempt #{}) (client_id={})",
                             delay,
-                            backoff_idx + 1
+                            backoff_idx + 1,
+                            current_client_id
                         );
                         thread::sleep(Duration::from_secs(delay));
 
                         // Re-create the client for a fresh connection attempt
-                        client = discord_presence::Client::new(DISCORD_APP_ID);
+                        client = discord_presence::Client::new(current_client_id);
 
                         let connected_ready = Arc::clone(&connected);
-                        client.on_ready(move |_ctx| {
-                            info!("[Discord] RPC client reconnected (READY)");
-                            connected_ready.store(true, Ordering::Relaxed);
-                        }).persist();
+                        client
+                            .on_ready(move |_ctx| {
+                                info!(
+                                    "[Discord] RPC client reconnected (READY, client_id={})",
+                                    current_client_id
+                                );
+                                connected_ready.store(true, Ordering::Relaxed);
+                            })
+                            .persist();
 
                         let connected_err = Arc::clone(&connected);
-                        client.on_error(move |_ctx| {
-                            error!("[Discord] RPC client error during reconnect");
-                            connected_err.store(false, Ordering::Relaxed);
-                        }).persist();
+                        client
+                            .on_error(move |_ctx| {
+                                error!(
+                                    "[Discord] RPC client error during reconnect (client_id={})",
+                                    current_client_id
+                                );
+                                connected_err.store(false, Ordering::Relaxed);
+                            })
+                            .persist();
 
                         client.start();
                         thread::sleep(Duration::from_secs(2));
@@ -198,6 +256,7 @@ impl DiscordManager {
     /// Apply a `PresenceData` as a Discord activity.
     fn apply_activity(
         client: &mut discord_presence::Client,
+        client_id: u64,
         data: &PresenceData,
         connected: &Arc<AtomicBool>,
     ) {
@@ -223,9 +282,20 @@ impl DiscordManager {
 
         let details = format_string(&data.details);
         let state = format_string(&data.state);
-        let large_image = data.large_image.trim().to_string();
+        let mut large_image = data.large_image.trim().to_string();
         let large_text = format_string(&data.large_text);
         let timestamp = data.timestamp;
+
+        // If the large image is a URL (starts with "http"), do not send it to Discord
+        // as standard Discord RPC only supports local Developer Portal asset keys.
+        // Also, if we are using the fallback/generic Client ID (DISCORD_APP_ID),
+        // we should only allow "default" and "idle" assets. Any other asset keys (like "antigravity")
+        // do not exist on the generic application and will display as a question mark.
+        if large_image.starts_with("http")
+            || (client_id == DISCORD_APP_ID && large_image != "default" && large_image != "idle")
+        {
+            large_image = String::new();
+        }
 
         info!(
             "[Discord] Setting activity: details='{}', state='{}', image='{}'",
@@ -239,7 +309,7 @@ impl DiscordManager {
             if !state.is_empty() {
                 act = act.state(&state);
             }
-            
+
             act = act.assets(|mut assets| {
                 if !large_image.is_empty() && large_image != "auto" {
                     assets = assets.large_image(&large_image);
@@ -253,7 +323,7 @@ impl DiscordManager {
             if timestamp > 0 {
                 act = act.timestamps(|ts| ts.start(timestamp as u64));
             }
-            
+
             act
         }) {
             Ok(_) => {

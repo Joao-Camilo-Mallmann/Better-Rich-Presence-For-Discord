@@ -11,19 +11,14 @@ export function useSettings() {
     try {
       setLoading(true);
       const data = await invoke<Settings>("get_settings");
-      
       // Sync autostart plugin state with settings
       try {
         const autostartActive = await isEnabled();
-        if (autostartActive !== data.autostart_enabled) {
-          // Keep settings object in sync with actual system state
-          data.autostart_enabled = autostartActive;
-          // Don't save it back immediately to avoid loops, just update local state
-        }
+        // Keep settings object in sync with actual system state
+        if (autostartActive !== data.autostart_enabled) data.autostart_enabled = autostartActive;
       } catch (e) {
         console.warn("Could not check autostart status", e);
       }
-      
       setSettings(data);
     } catch (error) {
       console.error("Failed to fetch settings:", error);
@@ -32,21 +27,14 @@ export function useSettings() {
     }
   };
 
-  useEffect(() => {
-    fetchSettings();
-  }, []);
+  useEffect(() => { fetchSettings(); }, []);
 
   const updateSettings = async (newSettings: Settings) => {
     try {
       // Handle autostart plugin
       if (settings && settings.autostart_enabled !== newSettings.autostart_enabled) {
-        if (newSettings.autostart_enabled) {
-          await enable();
-        } else {
-          await disable();
-        }
+        await (newSettings.autostart_enabled ? enable() : disable());
       }
-
       await invoke("update_settings", { settings: newSettings });
       setSettings(newSettings);
     } catch (error) {

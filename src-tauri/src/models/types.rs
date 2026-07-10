@@ -166,10 +166,7 @@ pub enum EngineEvent {
         foreground_app: Option<String>,
     },
     /// The idle state changed (transition only, not periodic).
-    IdleChanged {
-        idle: bool,
-        idle_minutes: u32,
-    },
+    IdleChanged { idle: bool, idle_minutes: u32 },
     /// A manual profile was set by the user.
     ManualProfile(PresenceData),
     /// The application is shutting down.
@@ -184,7 +181,7 @@ pub enum EngineEvent {
 #[derive(Debug, Clone)]
 pub enum EngineCommand {
     /// Set/update the current activity on Discord.
-    SetActivity(PresenceData),
+    SetActivity { client_id: u64, data: PresenceData },
     /// Clear the current activity.
     ClearActivity,
     /// Gracefully disconnect from Discord IPC.
@@ -328,16 +325,17 @@ pub struct AppStateInner {
     pub current_source: PresenceSource,
     pub connection_info: ConnectionInfo,
     pub settings: Settings,
+    pub current_client_id: u64,
 }
 
 // ---------------------------------------------------------------------------
 // AppState — unified application state manager
 // ---------------------------------------------------------------------------
 
-use std::sync::Arc;
-use tokio::sync::RwLock;
 use crate::services::discord::DiscordHandle;
+use std::sync::Arc;
 use tauri_plugin_store::StoreExt;
+use tokio::sync::RwLock;
 
 #[derive(Clone)]
 pub struct AppState {
@@ -360,6 +358,7 @@ impl AppState {
             current_source: PresenceSource::Idle,
             connection_info: ConnectionInfo::default(),
             settings,
+            current_client_id: 1517170930764480552,
         };
         Self {
             inner: Arc::new(RwLock::new(inner)),
@@ -375,7 +374,11 @@ impl AppState {
 
     pub async fn update_app_rule(&self, rule: AppRule) -> Result<(), AppError> {
         let mut inner = self.inner.write().await;
-        if let Some(pos) = inner.app_rules.iter().position(|r| r.process_name == rule.process_name) {
+        if let Some(pos) = inner
+            .app_rules
+            .iter()
+            .position(|r| r.process_name == rule.process_name)
+        {
             inner.app_rules[pos] = rule;
             self.save_rules_to_store(&inner.app_rules)?;
         }
@@ -384,7 +387,11 @@ impl AppState {
 
     pub async fn add_app_rule(&self, rule: AppRule) -> Result<(), AppError> {
         let mut inner = self.inner.write().await;
-        if !inner.app_rules.iter().any(|r| r.process_name == rule.process_name) {
+        if !inner
+            .app_rules
+            .iter()
+            .any(|r| r.process_name == rule.process_name)
+        {
             inner.app_rules.push(rule);
             self.save_rules_to_store(&inner.app_rules)?;
         }
@@ -405,9 +412,12 @@ impl AppState {
         Ok(())
     }
 
-    pub async fn reorder_app_rules(&self, process_names_order: Vec<String>) -> Result<(), AppError> {
+    pub async fn reorder_app_rules(
+        &self,
+        process_names_order: Vec<String>,
+    ) -> Result<(), AppError> {
         let mut inner = self.inner.write().await;
-        
+
         let mut new_rules = Vec::new();
         // First add rules in the new order
         for name in &process_names_order {
@@ -415,21 +425,23 @@ impl AppState {
                 new_rules.push(rule.clone());
             }
         }
-        
+
         // Then append any rules that were missing from the order array
         for rule in &inner.app_rules {
             if !process_names_order.contains(&rule.process_name) {
                 new_rules.push(rule.clone());
             }
         }
-        
+
         inner.app_rules = new_rules;
         self.save_rules_to_store(&inner.app_rules)?;
         Ok(())
     }
 
     fn save_rules_to_store(&self, rules: &[AppRule]) -> Result<(), AppError> {
-        let store = self.app_handle.store("rules.json")
+        let store = self
+            .app_handle
+            .store("rules.json")
             .map_err(|e| AppError::Store(e.to_string()))?;
         store.set("app_rules", serde_json::to_value(rules)?);
         store.save().map_err(|e| AppError::Store(e.to_string()))?;
@@ -445,20 +457,25 @@ impl AppState {
         let mut inner = self.inner.write().await;
         let was_enabled = inner.settings.global_enabled;
         inner.settings = settings.clone();
-        
-        let store = self.app_handle.store("settings.json")
+
+        let store = self
+            .app_handle
+            .store("settings.json")
             .map_err(|e| AppError::Store(e.to_string()))?;
         store.set("config", serde_json::to_value(&settings)?);
         store.save().map_err(|e| AppError::Store(e.to_string()))?;
-        
+
         if was_enabled && !settings.global_enabled {
             self.discord_handle.send(EngineCommand::ClearActivity);
         } else if !was_enabled && settings.global_enabled {
             if let Some(presence) = &inner.current_presence {
-                self.discord_handle.send(EngineCommand::SetActivity(presence.clone()));
+                self.discord_handle.send(EngineCommand::SetActivity {
+                    client_id: inner.current_client_id,
+                    data: presence.clone(),
+                });
             }
         }
-        
+
         Ok(())
     }
 
@@ -480,7 +497,10 @@ impl AppState {
     }
 
     // Engine Helpers
-    pub async fn update_connection_status(&self, is_connected: bool) -> (bool, bool, PresenceState) {
+    pub async fn update_connection_status(
+        &self,
+        is_connected: bool,
+    ) -> (bool, bool, PresenceState) {
         let mut inner = self.inner.write().await;
         let mut conn_changed = false;
         let mut state_changed = false;
@@ -515,12 +535,15 @@ impl AppState {
         }
     }
 
-    pub async fn update_presence_data(&self, new_data: PresenceData) -> bool {
+    pub async fn update_presence_data(&self, client_id: u64, new_data: PresenceData) -> bool {
         let mut inner = self.inner.write().await;
         let mut changed = false;
 
-        if inner.current_presence.as_ref() != Some(&new_data) {
+        if inner.current_presence.as_ref() != Some(&new_data)
+            || inner.current_client_id != client_id
+        {
             inner.current_presence = Some(new_data.clone());
+            inner.current_client_id = client_id;
             changed = true;
         }
 

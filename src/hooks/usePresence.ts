@@ -20,55 +20,38 @@ export function usePresence() {
   });
 
   useEffect(() => {
-    let unlistenPresence: UnlistenFn;
-    let unlistenState: UnlistenFn;
-    let unlistenConnection: UnlistenFn;
-    let unlistenPriority: UnlistenFn;
+    const unlistens: UnlistenFn[] = [];
 
     async function init() {
       try {
-        // Load initial state
-        const initialPresence = await invoke<PresenceData | null>("get_current_presence");
-        const initialState = await invoke<PresenceState>("get_presence_state");
-        const initialSource = await invoke<PresenceSource>("get_current_source");
-        const initialConnection = await invoke<ConnectionInfo>("get_connection_status");
+        const [initPresence, initState, initSource, initConnection] = await Promise.all([
+          invoke<PresenceData | null>("get_current_presence"),
+          invoke<PresenceState>("get_presence_state"),
+          invoke<PresenceSource>("get_current_source"),
+          invoke<ConnectionInfo>("get_connection_status"),
+        ]);
+        setPresence(initPresence);
+        setPresenceState(initState);
+        setSource(initSource);
+        setConnectionInfo(initConnection);
 
-        setPresence(initialPresence);
-        setPresenceState(initialState);
-        setSource(initialSource);
-        setConnectionInfo(initialConnection);
-
-        // Setup event listeners
-        unlistenPresence = await listen<PresenceData>("presence-updated", (event) => {
-          setPresence(event.payload);
-          setSource(event.payload.source);
-        });
-
-        unlistenState = await listen<PresenceState>("state-changed", (event) => {
-          setPresenceState(event.payload);
-        });
-
-        unlistenConnection = await listen<ConnectionInfo>("connection-changed", (event) => {
-          setConnectionInfo(event.payload);
-        });
-
-        // Listen for priority mode info from the engine
-        unlistenPriority = await listen<PriorityInfo>("priority-info", (event) => {
-          setPriorityInfo(event.payload);
-        });
+        unlistens.push(
+          await listen<PresenceData>("presence-updated", (e) => {
+            setPresence(e.payload);
+            setSource(e.payload.source);
+          }),
+          await listen<PresenceState>("state-changed", (e) => setPresenceState(e.payload)),
+          await listen<ConnectionInfo>("connection-changed", (e) => setConnectionInfo(e.payload)),
+          // Listen for priority mode info from the engine
+          await listen<PriorityInfo>("priority-info", (e) => setPriorityInfo(e.payload)),
+        );
       } catch (error) {
         console.error("Failed to initialize presence hooks:", error);
       }
     }
 
     init();
-
-    return () => {
-      if (unlistenPresence) unlistenPresence();
-      if (unlistenState) unlistenState();
-      if (unlistenConnection) unlistenConnection();
-      if (unlistenPriority) unlistenPriority();
-    };
+    return () => unlistens.forEach((fn) => fn());
   }, []);
 
   return { presence, presenceState, connectionInfo, source, priorityInfo };

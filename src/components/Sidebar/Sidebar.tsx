@@ -21,7 +21,6 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
         <img src="/logo.png" alt="Better RPC Logo" width="32" height="24" />
         <h1 className="text-lg font-bold text-ink tracking-tight">Better RPC</h1>
       </div>
-
       <nav className="flex-1 flex flex-col gap-1">
         {navItems.map((item) => (
           <button
@@ -40,7 +39,6 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
           </button>
         ))}
       </nav>
-
       <div className="mt-auto flex flex-col gap-4">
         <div className="h-[1px] bg-hairline mx-2" />
         <StatusIndicator info={connectionInfo} />

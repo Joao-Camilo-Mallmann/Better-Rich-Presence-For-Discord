@@ -7,13 +7,11 @@
   --color-green-accent: var(--green-accent); /* Electric Green */
   --color-magenta-accent: var(--magenta-accent); /* Vibrant Magenta */
   --color-link: var(--link);         /* Link Cyan */
-
   /* Surfaces mapped to dynamic CSS variables */
   --color-canvas: var(--canvas);       /* Canvas Indigo */
   --color-surface-indigo: var(--surface-indigo);
   --color-surface-onyx: var(--surface-onyx);
   --color-surface-black: var(--surface-black);
-  
   /* Typography Colors mapped to dynamic CSS variables */
   --color-ink: var(--ink);
   --color-ink-dark: var(--ink-dark);
@@ -21,11 +19,9 @@
   --color-hairline: var(--hairline);
   --color-danger: #ED4245;
   --color-danger-hover: #C03537;
-
   /* Fonts */
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
-
   /* Border Radii */
   --radius-xs: 6px;
   --radius-sm: 12px;
@@ -35,26 +31,8 @@
   --radius-jumbo: 120px;
 }
 
-/* Theme Configurations definition */
-:root, [data-theme="indigo"] {
-  --primary: #5865f2;
-  --green-accent: #35ed7e;
-  --magenta-accent: #ec48bd;
-  --link: #00b0f4;
-  --canvas: #0a0d3a;
-  --surface-indigo: #1e2353;
-  --surface-onyx: #23272a;
-  --surface-black: #000000;
-  --ink: #ffffff;
-  --ink-dark: #000000;
-  --muted-ink: rgba(255, 255, 255, 0.7);
-  --hairline: #23272a;
-  --bg-image: radial-gradient(at 0% 0%, rgba(88, 101, 242, 0.18) 0px, transparent 50%),
-              radial-gradient(at 100% 0%, rgba(236, 72, 189, 0.15) 0px, transparent 50%),
-              radial-gradient(at 50% 100%, rgba(88, 101, 242, 0.12) 0px, transparent 50%);
-}
-
-[data-theme="dark"] {
+/* Theme Configurations — shared defaults on :root (dark theme) */
+:root, [data-theme="dark"] {
   --primary: #5865f2;
   --green-accent: #23a55a;
   --magenta-accent: #ec48bd;
@@ -70,27 +48,18 @@
   --bg-image: none;
 }
 
+/* Amoled — only overrides that differ from dark */
 [data-theme="amoled"] {
-  --primary: #5865f2;
-  --green-accent: #23a55a;
-  --magenta-accent: #ec48bd;
-  --link: #00b0f4;
   --canvas: #000000;
   --surface-indigo: #111214;
   --surface-onyx: #1e1f22;
   --surface-black: #000000;
-  --ink: #f2f3f5;
-  --ink-dark: #000000;
-  --muted-ink: #949ba4;
   --hairline: #111214;
-  --bg-image: none;
 }
 
+/* Light — overrides that differ from dark */
 [data-theme="light"] {
-  --primary: #5865f2;
-  --green-accent: #23a55a;
   --magenta-accent: #db2777;
-  --link: #00b0f4;
   --canvas: #f2f3f5;
   --surface-indigo: #ffffff;
   --surface-onyx: #e3e5e8;
@@ -99,7 +68,6 @@
   --ink-dark: #ffffff;
   --muted-ink: #5c5e66;
   --hairline: #e3e5e8;
-  --bg-image: none;
 }
 
 /* Base resets and configuration */
@@ -110,7 +78,6 @@
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-
   body {
     font-family: var(--font-body);
     color: var(--color-ink);
@@ -125,50 +92,34 @@
     min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-
   #root {
     width: 100vw;
     min-height: 100vh;
   }
-
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 700;
     letter-spacing: -0.02em;
   }
-
   /* Custom Scrollbar styling using tailwind variables */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
     background: var(--color-surface-indigo);
     border-radius: var(--radius-full);
     border: 2px solid transparent;
     background-clip: content-box;
   }
-
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
     border: 2px solid transparent;
     background-clip: content-box;
   }
-
-  ::-webkit-scrollbar-corner {
-    background: transparent;
-  }
-
+  ::-webkit-scrollbar-corner { background: transparent; }
   ::selection {
     background: rgba(88, 101, 242, 0.3);
     color: var(--color-ink);
   }
-
   :focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
@@ -177,13 +128,6 @@
 }
 
 @keyframes gradientMesh {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
