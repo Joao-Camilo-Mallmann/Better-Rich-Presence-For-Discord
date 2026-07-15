@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
-import { PresenceData, PresenceState, PresenceSource, ConnectionInfo, PriorityInfo } from "../types";
+import { PresenceData, PresenceState, ConnectionInfo, PriorityInfo } from "../types";
 
 export function usePresence() {
   const [presence, setPresence] = useState<PresenceData | null>(null);
   const [presenceState, setPresenceState] = useState<PresenceState>("Disconnected");
-  const [source, setSource] = useState<PresenceSource>("Idle");
   const [connectionInfo, setConnectionInfo] = useState<ConnectionInfo>({
     connected: false,
     state: "Disconnected",
@@ -24,21 +23,18 @@ export function usePresence() {
 
     async function init() {
       try {
-        const [initPresence, initState, initSource, initConnection] = await Promise.all([
+        const [initPresence, initState, initConnection] = await Promise.all([
           invoke<PresenceData | null>("get_current_presence"),
           invoke<PresenceState>("get_presence_state"),
-          invoke<PresenceSource>("get_current_source"),
           invoke<ConnectionInfo>("get_connection_status"),
         ]);
         setPresence(initPresence);
         setPresenceState(initState);
-        setSource(initSource);
         setConnectionInfo(initConnection);
 
         unlistens.push(
           await listen<PresenceData>("presence-updated", (e) => {
             setPresence(e.payload);
-            setSource(e.payload.source);
           }),
           await listen<PresenceState>("state-changed", (e) => setPresenceState(e.payload)),
           await listen<ConnectionInfo>("connection-changed", (e) => setConnectionInfo(e.payload)),
@@ -54,5 +50,5 @@ export function usePresence() {
     return () => unlistens.forEach((fn) => fn());
   }, []);
 
-  return { presence, presenceState, connectionInfo, source, priorityInfo };
+  return { presence, presenceState, connectionInfo, priorityInfo };
 }

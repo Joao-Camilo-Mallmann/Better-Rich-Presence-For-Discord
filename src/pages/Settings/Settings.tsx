@@ -3,18 +3,19 @@ import { invoke } from "@tauri-apps/api/core";
 import { useSettings } from "../../hooks/useSettings";
 import { Settings as SettingsType } from "../../types";
 
-const TOGGLE_STYLE = "absolute cursor-pointer inset-0 bg-muted-ink/30 transition-colors duration-200 rounded-full before:absolute before:content-[''] before:h-3.5 before:w-3.5 before:left-[2px] before:bottom-[2.5px] before:bg-white before:transition-transform before:duration-200 before:rounded-full peer-checked:bg-green-accent peer-checked:before:translate-x-3.5";
-
 const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (
-  <label className="relative inline-block w-8 h-4.5 shrink-0">
-    <input type="checkbox" className="peer sr-only" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-    <span className={TOGGLE_STYLE}></span>
-  </label>
+  <div
+    className={`neo-toggle ${checked ? "active" : ""}`}
+    onClick={() => onChange(!checked)}
+  >
+    <div className="neo-toggle-knob" />
+  </div>
 );
 
 const NumberInput = ({ value, onChange, min, max }: { value: number; onChange: (v: number) => void; min: number; max: number }) => (
   <input
-    className="w-16 text-right bg-surface-onyx border border-hairline/30 text-ink text-xs px-2 py-1 rounded-xs focus:border-primary focus:outline-none"
+    className="w-16 text-right neo-input text-xs py-1"
+    style={{ borderRadius: '4px' }}
     type="number"
     min={min}
     max={max}
@@ -26,13 +27,14 @@ const NumberInput = ({ value, onChange, min, max }: { value: number; onChange: (
 const SettingRow = ({ label, description, icon, children, borderB = true }: {
   label: string; description?: string; icon?: string; children: React.ReactNode; borderB?: boolean;
 }) => (
-  <div className={`flex justify-between items-center py-2 gap-4${borderB ? " border-b border-hairline/10" : ""}`}>
+  <div className={`flex justify-between items-center py-3 gap-4${borderB ? "" : ""}`}
+    style={{ borderBottom: borderB ? '2px solid var(--neo-border-color)' : 'none' }}>
     <div className="flex flex-col">
-      <span className="font-semibold text-ink text-xs flex items-center gap-1.5">
+      <span className="font-bold text-ink text-xs flex items-center gap-2 font-display uppercase">
         {icon && <span className="text-magenta-accent">{icon}</span>}
         {label}
       </span>
-      {description && <span className="text-[10px] text-muted-ink">{description}</span>}
+      {description && <span className="text-[10px] text-muted-ink mt-0.5">{description}</span>}
     </div>
     {children}
   </div>
@@ -48,7 +50,7 @@ export function Settings() {
   }, [settings]);
 
   if (loading || !localSettings) {
-    return <div className="text-muted-ink p-4 text-center text-xs">Loading settings...</div>;
+    return <div className="text-muted-ink p-4 text-center text-xs font-display font-bold uppercase">Loading settings...</div>;
   }
 
   const set = <K extends keyof SettingsType>(key: K, value: SettingsType[K]) =>
@@ -68,8 +70,8 @@ export function Settings() {
 
   return (
     <div className="flex flex-col gap-4 text-sm">
-      <div className="flex flex-col gap-3">
-        {/* ── Modo Prioridade Máxima ── */}
+      <div className="flex flex-col gap-1">
+        {/* Max Priority Mode */}
         <SettingRow
           label="Max Priority Mode"
           icon="⬆️"
@@ -93,10 +95,11 @@ export function Settings() {
         )}
 
         {localSettings.idle_enabled && (
-          <div className="flex flex-col gap-1 py-2 border-b border-hairline/10">
-            <span className="text-xs text-muted-ink font-semibold">Idle Message</span>
+          <div className="flex flex-col gap-1 py-3" style={{ borderBottom: '2px solid var(--neo-border-color)' }}>
+            <span className="text-xs text-muted-ink font-bold font-display uppercase">Idle Message</span>
             <input
-              className="bg-surface-onyx border border-hairline/30 text-ink text-xs px-2 py-1 rounded-xs focus:border-primary focus:outline-none"
+              className="neo-input text-xs py-1"
+              style={{ borderRadius: '4px' }}
               type="text"
               value={localSettings.idle_message}
               onChange={(e) => set("idle_message", e.target.value)}
@@ -113,8 +116,10 @@ export function Settings() {
         </SettingRow>
       </div>
 
+      {/* Save Button — Green CTA with hard shadow */}
       <button
-        className="w-full bg-primary text-white text-xs py-2 rounded-xs font-bold hover:opacity-90 disabled:opacity-75 disabled:cursor-not-allowed transition duration-100 mt-2"
+        className="w-full neo-btn bg-green-accent text-ink-dark text-sm py-2.5 font-extrabold disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+        style={{ borderRadius: '6px' }}
         onClick={handleSave}
         disabled={isSaving}
       >

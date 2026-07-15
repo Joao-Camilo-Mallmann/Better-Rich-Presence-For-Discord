@@ -3,10 +3,9 @@ pub mod models;
 pub mod services;
 
 use crate::models::types::{
-    AppRule, AppState, ConnectionInfo, EngineEvent, PresenceSource, PresenceState, Settings,
+    AppRule, AppState, EngineEvent, Settings,
 };
 use log::{Level, Log, Metadata, Record};
-use std::sync::Arc;
 use std::sync::OnceLock;
 use tauri::Emitter;
 
@@ -62,7 +61,7 @@ use tokio::sync::{mpsc, Mutex};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let mut app = tauri::Builder::default()
+    let app = tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_autostart::init(
             tauri_plugin_autostart::MacosLauncher::LaunchAgent,
@@ -72,6 +71,12 @@ pub fn run() {
             let _ = APP_HANDLE.set(app.handle().clone());
             let _ = log::set_logger(&LOGGER);
             log::set_max_level(log::LevelFilter::Trace);
+
+            // Disable native window decorations (removes window border/titlebar)
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.set_decorations(false);
+            }
+
             // 1. Load settings from store
             let settings_store = app
                 .store("settings.json")
@@ -171,7 +176,6 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             commands::get_current_presence,
             commands::get_presence_state,
-            commands::get_current_source,
             commands::get_connection_status,
             commands::update_presence,
             commands::get_app_rules,

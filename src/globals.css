@@ -2,27 +2,31 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand Colors mapped to dynamic CSS variables */
-  --color-primary: var(--primary);      /* Blurple */
-  --color-green-accent: var(--green-accent); /* Electric Green */
-  --color-magenta-accent: var(--magenta-accent); /* Vibrant Magenta */
-  --color-link: var(--link);         /* Link Cyan */
-  /* Surfaces mapped to dynamic CSS variables */
-  --color-canvas: var(--canvas);       /* Canvas Indigo */
+  /* ── Brand & Accent ── */
+  --color-primary: var(--primary);
+  --color-green-accent: var(--green-accent);
+  --color-magenta-accent: var(--magenta-accent);
+  --color-yellow-accent: var(--yellow-accent);
+  --color-link: var(--link);
+  --color-danger: var(--danger);
+
+  /* ── Surfaces ── */
+  --color-canvas: var(--canvas);
   --color-surface-indigo: var(--surface-indigo);
   --color-surface-onyx: var(--surface-onyx);
   --color-surface-black: var(--surface-black);
-  /* Typography Colors mapped to dynamic CSS variables */
+
+  /* ── Text ── */
   --color-ink: var(--ink);
   --color-ink-dark: var(--ink-dark);
   --color-muted-ink: var(--muted-ink);
   --color-hairline: var(--hairline);
-  --color-danger: #ED4245;
-  --color-danger-hover: #C03537;
-  /* Fonts */
+
+  /* ── Fonts ── */
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
-  /* Border Radii */
+
+  /* ── Border Radii ── */
   --radius-xs: 6px;
   --radius-sm: 12px;
   --radius-md: 14px;
@@ -31,103 +35,275 @@
   --radius-jumbo: 120px;
 }
 
-/* Theme Configurations — shared defaults on :root (dark theme) */
+/* ═════════════════════════════════════════════════════════════
+   Theme: Dark (default) — Neo-Brutalist Arcade palette
+   ═════════════════════════════════════════════════════════════ */
 :root, [data-theme="dark"] {
   --primary: #5865f2;
-  --green-accent: #23a55a;
+  --green-accent: #35ed7e;
   --magenta-accent: #ec48bd;
+  --yellow-accent: #fee75c;
   --link: #00b0f4;
-  --canvas: #1e1f22;
-  --surface-indigo: #2b2d31;
-  --surface-onyx: #111214;
-  --surface-black: #0f0f10;
-  --ink: #f2f3f5;
+  --danger: #ed4245;
+
+  --canvas: #23272a;
+  --surface-indigo: #1e2353;
+  --surface-onyx: #23272a;
+  --surface-black: #000000;
+
+  --ink: #ffffff;
   --ink-dark: #000000;
   --muted-ink: #949ba4;
-  --hairline: #1e1f22;
-  --bg-image: none;
+  --hairline: #23272a;
+
+  --neo-border-color: #000000;
+  --neo-shadow-color: #000000;
 }
 
-/* Amoled — only overrides that differ from dark */
+/* ── Amoled ── */
 [data-theme="amoled"] {
   --canvas: #000000;
-  --surface-indigo: #111214;
-  --surface-onyx: #1e1f22;
+  --surface-indigo: #0a0d1a;
+  --surface-onyx: #0a0a0a;
   --surface-black: #000000;
   --hairline: #111214;
+  --neo-border-color: #333333;
+  --neo-shadow-color: #1a1a1a;
 }
 
-/* Light — overrides that differ from dark */
+/* ── Light ── */
 [data-theme="light"] {
+  --primary: #5865f2;
+  --green-accent: #248046;
   --magenta-accent: #db2777;
+  --yellow-accent: #d4a017;
+  --danger: #da373c;
+
   --canvas: #f2f3f5;
   --surface-indigo: #ffffff;
   --surface-onyx: #e3e5e8;
   --surface-black: #ffffff;
-  --ink: #313338;
+
+  --ink: #1e1f22;
   --ink-dark: #ffffff;
   --muted-ink: #5c5e66;
-  --hairline: #e3e5e8;
+  --hairline: #d1d3d7;
+
+  --neo-border-color: #1e1f22;
+  --neo-shadow-color: #1e1f22;
 }
 
-/* Base resets and configuration */
+/* ═════════════════════════════════════════════════════════════
+   Base Layer — Neo-Brutalist Reset
+   ═════════════════════════════════════════════════════════════ */
 @layer base {
   html {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
+
   body {
     font-family: var(--font-body);
-    color: var(--color-ink);
-    background-color: var(--color-canvas);
-    background-image: var(--bg-image);
-    background-size: 200% 200%;
-    animation: gradientMesh 15s ease infinite;
+    color: var(--ink);
+    background-color: var(--canvas);
     overflow-y: auto;
     overflow-x: hidden;
     user-select: none;
     -webkit-user-select: none;
     min-height: 100vh;
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
+
   #root {
     width: 100vw;
     min-height: 100vh;
   }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 700;
     letter-spacing: -0.02em;
+    text-transform: uppercase;
   }
-  /* Custom Scrollbar styling using tailwind variables */
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* ── Chunky Scrollbar ── */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--canvas); }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-surface-indigo);
-    border-radius: var(--radius-full);
-    border: 2px solid transparent;
-    background-clip: content-box;
+    background: var(--surface-indigo);
+    border: 2px solid var(--neo-border-color);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border: 2px solid transparent;
-    background-clip: content-box;
+    background: var(--primary);
   }
-  ::-webkit-scrollbar-corner { background: transparent; }
+  ::-webkit-scrollbar-corner { background: var(--canvas); }
+
   ::selection {
-    background: rgba(88, 101, 242, 0.3);
-    color: var(--color-ink);
+    background: rgba(88, 101, 242, 0.4);
+    color: var(--ink);
   }
+
   :focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 3px solid var(--primary);
     outline-offset: 2px;
-    border-radius: var(--radius-xs);
   }
 }
 
-@keyframes gradientMesh {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+/* ═════════════════════════════════════════════════════════════
+   Neo-Brutalist Utility Classes
+   ═════════════════════════════════════════════════════════════ */
+@layer utilities {
+
+  /* ── Hard Borders ── */
+  .neo-border {
+    border: 3px solid var(--neo-border-color);
+  }
+  .neo-border-2 {
+    border: 2px solid var(--neo-border-color);
+  }
+
+  /* ── Hard Offset Shadows ── */
+  .neo-shadow {
+    box-shadow: 6px 6px 0px var(--neo-shadow-color);
+  }
+  .neo-shadow-heavy {
+    box-shadow: 12px 12px 0px var(--neo-shadow-color);
+  }
+  .neo-shadow-sm {
+    box-shadow: 4px 4px 0px var(--neo-shadow-color);
+  }
+
+  /* ── Interactive Press Effect ── */
+  .neo-press {
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    cursor: pointer;
+  }
+  .neo-press:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0px var(--neo-shadow-color);
+  }
+  .neo-press:active {
+    transform: translate(6px, 6px);
+    box-shadow: 0px 0px 0px var(--neo-shadow-color);
+  }
+
+  /* ── Dot-Grid Texture ── */
+  .dot-grid {
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.07) 2px,
+      transparent 2px
+    );
+    background-size: 32px 32px;
+  }
+
+  /* ── Diagonal Stripe Overlay ── */
+  .stripe-overlay {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(0, 0, 0, 0.05) 10px,
+      rgba(0, 0, 0, 0.05) 20px
+    );
+  }
+
+  /* ── Tilted Eyebrow Labels ── */
+  .neo-tilt {
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+
+  /* ── Text Stroke for Display Type ── */
+  .neo-stroke {
+    -webkit-text-stroke: 2px var(--neo-border-color);
+    paint-order: stroke fill;
+  }
+
+  /* ── Card Compound ── */
+  .neo-card {
+    border: 3px solid var(--neo-border-color);
+    box-shadow: 6px 6px 0px var(--neo-shadow-color);
+    border-radius: var(--radius-lg);
+  }
+
+  /* ── Button Base ── */
+  .neo-btn {
+    border: 3px solid var(--neo-border-color);
+    box-shadow: 4px 4px 0px var(--neo-shadow-color);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .neo-btn:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0px var(--neo-shadow-color);
+  }
+  .neo-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px var(--neo-shadow-color);
+  }
+
+  /* ── Input Base ── */
+  .neo-input {
+    border: 3px solid var(--neo-border-color);
+    background-color: var(--surface-onyx);
+    color: var(--ink);
+    padding: 8px 12px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    transition: border-color 0.1s ease;
+  }
+  .neo-input:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+
+  /* ── Toggle Switch (Arcade) ── */
+  .neo-toggle {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    border: 3px solid var(--neo-border-color);
+    background-color: var(--surface-onyx);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    flex-shrink: 0;
+  }
+  .neo-toggle.active {
+    background-color: var(--green-accent);
+  }
+  .neo-toggle-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    background-color: var(--ink);
+    border: 2px solid var(--neo-border-color);
+    transition: transform 0.15s ease;
+  }
+  .neo-toggle.active .neo-toggle-knob {
+    transform: translateX(20px);
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════
+   Animations — kept minimal and mechanical
+   ═════════════════════════════════════════════════════════════ */
+@keyframes neo-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes neo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes neo-bounce-in {
+  0% { transform: scale(0.9) translateY(10px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }

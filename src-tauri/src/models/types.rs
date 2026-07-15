@@ -8,40 +8,8 @@
 use serde::{Deserialize, Serialize};
 
 // ---------------------------------------------------------------------------
-// PresenceSource — categorizes the origin of a presence update
+// PresenceState — lifecycle state of the connection & engine
 // ---------------------------------------------------------------------------
-
-/// Categorizes the origin of a presence update.
-///
-/// Priority is fixed: Game(0) > Manual(1) > Work(2) > Browser(3) > Idle(4).
-/// A source with a **lower** priority number takes precedence.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-pub enum PresenceSource {
-    Game,
-    Manual,
-    Work,
-    Browser,
-    Idle,
-}
-
-impl PresenceSource {
-    /// Returns the numeric priority. Lower number = higher precedence.
-    pub fn priority(&self) -> u32 {
-        match self {
-            Self::Game => 0,
-            Self::Manual => 1,
-            Self::Work => 2,
-            Self::Browser => 3,
-            Self::Idle => 4,
-        }
-    }
-}
-
-impl Default for PresenceSource {
-    fn default() -> Self {
-        Self::Idle
-    }
-}
 
 // ---------------------------------------------------------------------------
 // PresenceState — lifecycle state of the connection & engine
@@ -85,33 +53,25 @@ pub struct AppRule {
     pub state: String,
     /// Asset key for the large image (must match a Discord app asset).
     pub large_image: String,
-    /// What type of activity this represents.
-    pub source: PresenceSource,
-    /// Numeric priority override (defaults to `source.priority()`).
-    pub priority: u32,
     /// Whether this rule is currently active.
     pub enabled: bool,
 }
 
 impl AppRule {
-    /// Convenience constructor that derives priority from the source.
+    /// Convenience constructor.
     pub fn new(
         process_name: impl Into<String>,
         display_name: impl Into<String>,
         details: impl Into<String>,
         state: impl Into<String>,
         large_image: impl Into<String>,
-        source: PresenceSource,
     ) -> Self {
-        let source_priority = source.priority();
         Self {
             process_name: process_name.into(),
             display_name: display_name.into(),
             details: details.into(),
             state: state.into(),
             large_image: large_image.into(),
-            source,
-            priority: source_priority,
             enabled: true,
         }
     }
@@ -132,8 +92,6 @@ pub struct PresenceData {
     pub large_image: String,
     /// Tooltip text for the large image.
     pub large_text: String,
-    /// The source category that produced this presence.
-    pub source: PresenceSource,
     /// Unix epoch timestamp (seconds) for the elapsed timer.
     pub timestamp: i64,
 }
@@ -145,7 +103,6 @@ impl Default for PresenceData {
             state: String::from("Idle"),
             large_image: String::from("default"),
             large_text: String::from("Better Rich Presence"),
-            source: PresenceSource::Idle,
             timestamp: chrono::Utc::now().timestamp(),
         }
     }
@@ -322,7 +279,6 @@ pub struct AppStateInner {
     pub app_rules: Vec<AppRule>,
     pub current_presence: Option<PresenceData>,
     pub presence_state: PresenceState,
-    pub current_source: PresenceSource,
     pub connection_info: ConnectionInfo,
     pub settings: Settings,
     pub current_client_id: u64,
@@ -355,7 +311,6 @@ impl AppState {
             app_rules,
             current_presence: None,
             presence_state: PresenceState::Disconnected,
-            current_source: PresenceSource::Idle,
             connection_info: ConnectionInfo::default(),
             settings,
             current_client_id: 1517170930764480552,
@@ -488,10 +443,6 @@ impl AppState {
         self.inner.read().await.presence_state
     }
 
-    pub async fn get_current_source(&self) -> PresenceSource {
-        self.inner.read().await.current_source
-    }
-
     pub async fn get_connection_status(&self) -> ConnectionInfo {
         self.inner.read().await.connection_info.clone()
     }
@@ -545,10 +496,6 @@ impl AppState {
             inner.current_presence = Some(new_data.clone());
             inner.current_client_id = client_id;
             changed = true;
-        }
-
-        if inner.current_source != new_data.source {
-            inner.current_source = new_data.source;
         }
 
         changed

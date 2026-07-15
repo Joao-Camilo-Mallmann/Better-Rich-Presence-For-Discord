@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 import { LogViewer } from "./components/LogViewer/LogViewer";
 import { useSettings } from "./hooks/useSettings";
 import { Apps } from "./pages/Apps/Apps";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Settings } from "./pages/Settings/Settings";
+
+const appWindow = getCurrentWindow();
 
 function App() {
   const { settings, updateSettings } = useSettings();
@@ -32,10 +35,14 @@ function App() {
 
   return (
     <div className="w-full h-screen flex flex-col bg-canvas text-ink overflow-hidden">
-      {/* Header */}
-      <header className="flex flex-col sm:flex-row justify-between items-center gap-4 px-4 py-3 border-b border-hairline bg-surface-indigo shrink-0">
-        <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
-          <div className="flex items-center gap-2">
+      {/* ── Header — Neo-Brutalist Top Bar with Drag Region ── */}
+      <header
+        data-tauri-drag-region
+        className="flex flex-col sm:flex-row justify-between items-center gap-3 px-4 py-3 bg-surface-indigo neo-border shrink-0 select-none cursor-default"
+        style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}
+      >
+        <div data-tauri-drag-region className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
+          <div data-tauri-drag-region className="flex items-center gap-2">
             <img
               src="/logo.png"
               alt="Better RPC Logo"
@@ -43,23 +50,23 @@ function App() {
               height="21"
               className="object-contain"
             />
-            <h1 className="text-md font-bold tracking-tight text-ink font-display">
+            <h1 data-tauri-drag-region className="text-lg font-extrabold tracking-tight text-ink font-display uppercase">
               Better RPC
             </h1>
           </div>
         </div>
 
         {/* Header Controls */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-4 w-full sm:w-auto">
-          {/* Theme Selector */}
-          <div className="flex items-center gap-1.5 bg-surface-onyx/40 px-2.5 py-1 rounded-sm border border-hairline/45">
-            <span className="text-[10px] text-muted-ink font-bold uppercase select-none">
-              Theme:
+        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 w-full sm:w-auto">
+          {/* Theme Selector — Arcade dropdown */}
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] text-muted-ink font-extrabold uppercase tracking-wider select-none font-display">
+              Theme
             </span>
             <select
               value={systemTheme}
               onChange={(e) => setSystemTheme(e.target.value as any)}
-              className="bg-transparent text-ink text-xs font-semibold focus:outline-none cursor-pointer border-0 p-0"
+              className="neo-border-2 bg-surface-onyx text-ink text-xs font-bold px-2 py-1 cursor-pointer focus:outline-none focus:border-primary font-display uppercase"
             >
               <option value="dark" className="bg-surface-indigo">
                 🌑 Dark
@@ -73,73 +80,102 @@ function App() {
             </select>
           </div>
 
-          <div className="w-[1px] h-4 bg-hairline/60" />
+          {/* Separator */}
+          <div className="w-[3px] h-5 bg-[var(--neo-border-color)]" />
 
-          {/* Engine Switch */}
+          {/* Engine Switch — Arcade toggle */}
           <div className="flex items-center gap-2">
             <span
-              className={`text-xs font-bold tracking-wider ${rpcActive ? "text-green-accent" : "text-muted-ink"}`}
+              className={`text-xs font-extrabold tracking-wider font-display uppercase ${rpcActive ? "text-green-accent" : "text-muted-ink"}`}
             >
-              {rpcActive ? "ACTIVE" : "INACTIVE"}
+              {rpcActive ? "ACTIVE" : "OFF"}
             </span>
-            <label className="relative inline-block w-9 h-5 shrink-0">
-              <input
-                type="checkbox"
-                className="peer sr-only"
-                checked={rpcActive}
-                onChange={(e) => handleToggleRpc(e.target.checked)}
-              />
-              <span className="absolute cursor-pointer inset-0 bg-muted-ink/30 transition-colors duration-200 rounded-full before:absolute before:content-[''] before:h-3.5 before:w-3.5 before:left-[3px] before:bottom-[3px] before:bg-white before:transition-transform before:duration-200 before:rounded-full before:shadow-sm peer-checked:bg-green-accent peer-checked:before:translate-x-4"></span>
-            </label>
+            <div
+              className={`neo-toggle ${rpcActive ? "active" : ""}`}
+              onClick={() => handleToggleRpc(!rpcActive)}
+            >
+              <div className="neo-toggle-knob" />
+            </div>
+          </div>
+
+          {/* Separator */}
+          <div className="w-[3px] h-5 bg-[var(--neo-border-color)]" />
+
+          {/* Custom Window Buttons */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => appWindow.minimize()}
+              className="w-6 h-6 flex items-center justify-center text-xs font-black bg-yellow-accent text-ink-dark neo-border-2 neo-press"
+              style={{ borderRadius: '4px' }}
+              title="Minimize"
+            >
+              —
+            </button>
+            <button
+              onClick={() => appWindow.close()}
+              className="w-6 h-6 flex items-center justify-center text-xs font-black bg-danger text-white neo-border-2 neo-press"
+              style={{ borderRadius: '4px' }}
+              title="Close"
+            >
+              ✕
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Main Viewport */}
-      <main className="flex-1 overflow-y-auto flex flex-col gap-6 p-4">
-        {/* Dashboard Preview Section (PresenceCard inside Dashboard) */}
+      {/* ── Main Viewport — Dot Grid Background ── */}
+      <main className="flex-1 overflow-y-auto flex flex-col gap-6 p-4 dot-grid">
+        {/* Dashboard Preview Section */}
         <section
-          className={`transition-opacity duration-150 ${!rpcActive ? "opacity-50 pointer-events-none" : ""}`}
+          className={`transition-opacity duration-150 ${!rpcActive ? "opacity-40 pointer-events-none" : ""}`}
         >
           <Dashboard />
         </section>
 
         {/* Library Section (Apps manager) */}
         <section
-          className={`transition-opacity duration-150 ${!rpcActive ? "opacity-50 pointer-events-none" : ""}`}
+          className={`transition-opacity duration-150 ${!rpcActive ? "opacity-40 pointer-events-none" : ""}`}
         >
           <Apps />
         </section>
 
-        {/* Collapsible Logs History */}
-        <section className="border-t border-hairline/20 pt-4">
+        {/* ── Collapsible Logs — Arcade Accordion ── */}
+        <section>
           <button
             onClick={() => setShowLogs(!showLogs)}
-            className="w-full flex justify-between items-center text-xs font-bold tracking-wider text-muted-ink hover:text-ink transition-colors py-2 px-1 uppercase"
+            className="w-full flex justify-between items-center neo-border-2 bg-surface-indigo px-4 py-2.5 text-xs font-extrabold tracking-wider text-ink hover:bg-primary/20 transition-colors uppercase font-display neo-press"
+            style={{
+              boxShadow: showLogs ? '0px 0px 0px var(--neo-shadow-color)' : '4px 4px 0px var(--neo-shadow-color)',
+              transform: showLogs ? 'translate(4px, 4px)' : 'none',
+            }}
           >
-            <span>📜 Logs History</span>
-            <span>{showLogs ? "▲" : "▼"}</span>
+            <span className="neo-tilt">📜 Logs History</span>
+            <span className="text-sm">{showLogs ? "▲" : "▼"}</span>
           </button>
 
           {showLogs && (
-            <div className="mt-2 p-3 bg-surface-indigo rounded-md border border-hairline">
+            <div className="mt-0 p-3 bg-surface-onyx neo-border" style={{ borderTop: 'none' }}>
               <LogViewer />
             </div>
           )}
         </section>
 
-        {/* Collapsible Advanced Settings */}
-        <section className="mt-auto border-t border-hairline/20 pt-4 pb-2">
+        {/* ── Collapsible Settings — Arcade Accordion ── */}
+        <section className="mt-auto pb-2">
           <button
             onClick={() => setShowSettings(!showSettings)}
-            className="w-full flex justify-between items-center text-xs font-bold tracking-wider text-muted-ink hover:text-ink transition-colors py-2 px-1 uppercase"
+            className="w-full flex justify-between items-center neo-border-2 bg-surface-indigo px-4 py-2.5 text-xs font-extrabold tracking-wider text-ink hover:bg-primary/20 transition-colors uppercase font-display neo-press"
+            style={{
+              boxShadow: showSettings ? '0px 0px 0px var(--neo-shadow-color)' : '4px 4px 0px var(--neo-shadow-color)',
+              transform: showSettings ? 'translate(4px, 4px)' : 'none',
+            }}
           >
-            <span>⚙️ Advanced Settings</span>
-            <span>{showSettings ? "▲" : "▼"}</span>
+            <span className="neo-tilt">⚙️ Advanced Settings</span>
+            <span className="text-sm">{showSettings ? "▲" : "▼"}</span>
           </button>
 
           {showSettings && (
-            <div className="mt-2 p-3 bg-surface-indigo rounded-md border border-hairline">
+            <div className="mt-0 p-3 bg-surface-onyx neo-border" style={{ borderTop: 'none' }}>
               <Settings />
             </div>
           )}

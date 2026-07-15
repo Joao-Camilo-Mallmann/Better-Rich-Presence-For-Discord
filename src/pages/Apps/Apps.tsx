@@ -1,28 +1,26 @@
 import { useState, useMemo } from "react";
 import { useAppRules } from "../../hooks/useAppRules";
-import { AppRule, PresenceSource } from "../../types";
+import { AppRule } from "../../types";
 import { ProcessPicker } from "../../components/ProcessPicker/ProcessPicker";
 import { AppList } from "../../components/AppList/AppList";
 import { getDefaultProcessRules } from "../../utils/processDefaults";
 
 export function Apps() {
   const { rules, loading, updateRule, deleteRule, addRule, reorderRules } = useAppRules();
-  const [filterSource, setFilterSource] = useState<"All" | PresenceSource>("All");
   const [ruleSearch, setRuleSearch] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [showJsonEditor, setShowJsonEditor] = useState(false);
   const [jsonInput, setJsonInput] = useState("");
 
-  // Only allow drag-and-drop when no filters are active to maintain accurate positions
-  const canReorder = filterSource === "All" && ruleSearch.trim() === "";
+  // Only allow drag-and-drop when no search is active to maintain accurate positions
+  const canReorder = ruleSearch.trim() === "";
 
   const filteredRules = useMemo(() => {
     const search = ruleSearch.toLowerCase();
     return rules.filter((r) =>
-      (filterSource === "All" || r.source === filterSource) &&
-      (r.display_name.toLowerCase().includes(search) || r.process_name.toLowerCase().includes(search))
+      r.display_name.toLowerCase().includes(search) || r.process_name.toLowerCase().includes(search)
     );
-  }, [rules, filterSource, ruleSearch]);
+  }, [rules, ruleSearch]);
 
   const selectProcess = async (proc: { process_name: string; display_name: string }) => {
     if (rules.some((r) => r.process_name === proc.process_name)) return setShowPicker(false);
@@ -33,8 +31,6 @@ export function Apps() {
       details: defaults.details,
       state: defaults.state,
       large_image: "auto",
-      source: defaults.source,
-      priority: defaults.priority,
       enabled: true,
     } as AppRule);
     setShowPicker(false);
@@ -44,8 +40,12 @@ export function Apps() {
     return (
       <div className="flex h-full items-center justify-center p-8">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
-          <span className="text-muted-ink text-sm font-medium animate-pulse">Loading applications...</span>
+          {/* Chunky spinning square */}
+          <div className="w-8 h-8 neo-border-2 bg-primary"
+            style={{ animation: 'neo-spin 0.8s linear infinite' }} />
+          <span className="text-muted-ink text-sm font-bold font-display uppercase" style={{ animation: 'neo-pulse 2s infinite' }}>
+            Loading applications...
+          </span>
         </div>
       </div>
     );
@@ -54,10 +54,11 @@ export function Apps() {
   return (
     <div className="flex flex-col h-full relative">
       <div className="pb-4 pt-1 flex flex-col gap-4 mb-4">
+        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div className="flex flex-col">
-            <h3 className="text-lg text-ink font-bold font-display">Configured Applications</h3>
-            <span className="text-xs text-muted-ink/80 mt-0.5 max-w-[280px]">
+            <h3 className="text-lg text-ink font-extrabold font-display uppercase">Configured Applications</h3>
+            <span className="text-xs text-muted-ink mt-0.5 max-w-[280px]">
               Manage priority and appearance of apps on your Discord.
             </span>
           </div>
@@ -67,22 +68,26 @@ export function Apps() {
                 setJsonInput(JSON.stringify(rules, null, 2));
                 setShowJsonEditor(true);
               }}
-              className="w-fit sm:w-auto justify-center bg-surface-onyx hover:bg-white/10 text-ink text-xs px-3.5 py-1.5 rounded-sm font-semibold transition-all shadow-sm border border-hairline/30 active:scale-95"
+              className="neo-btn bg-surface-onyx text-ink text-xs px-3.5 py-2"
+              style={{ borderRadius: '6px' }}
             >
               JSON Editor
             </button>
             <button
               onClick={() => setShowPicker(true)}
-              className="w-fit sm:w-auto justify-center bg-primary hover:bg-primary-hover text-white text-xs px-3.5 py-1.5 rounded-sm font-semibold transition-all shadow-sm flex items-center gap-1.5 active:scale-95"
+              className="neo-btn bg-green-accent text-ink-dark text-xs px-3.5 py-2 flex items-center gap-1.5"
+              style={{ borderRadius: '6px' }}
             >
-              <span>+</span> Fetch from System
+              <span className="text-base font-black">+</span> Fetch from System
             </button>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between bg-surface-onyx/50 p-2 rounded-md border border-hairline/20">
-          <div className="relative flex-1 w-full sm:max-w-[240px]">
-            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-ink text-xs opacity-70">
+        {/* Search */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between p-2 neo-border-2 bg-surface-onyx"
+          style={{ borderRadius: '8px' }}>
+          <div className="relative flex-1 w-full">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-ink text-xs">
               🔍
             </span>
             <input
@@ -90,34 +95,21 @@ export function Apps() {
               placeholder="Search applications..."
               value={ruleSearch}
               onChange={(e) => setRuleSearch(e.target.value)}
-              className="w-full bg-surface-onyx border border-hairline/40 text-ink text-xs pl-8 pr-3 py-2 rounded-sm focus:border-primary focus:outline-none transition-colors"
+              className="w-full neo-input text-xs pl-9 pr-3 py-2"
+              style={{ borderRadius: '6px' }}
             />
-          </div>
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 hide-scrollbar">
-            {["All", "Game", "Work", "Browser"].map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setFilterSource(filter as any)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
-                  filterSource === filter
-                    ? "bg-primary text-white shadow-sm"
-                    : "bg-surface-indigo border border-hairline/30 text-muted-ink hover:text-ink hover:bg-surface-indigo/80 hover:border-hairline/60"
-                }`}
-              >
-                {filter === "All" ? "All Apps" : filter}
-              </button>
-            ))}
           </div>
         </div>
 
+        {/* Reorder hint */}
         <div className="h-4 flex items-center justify-end">
           {canReorder ? (
-            <span className="text-[10px] text-muted-ink/70 font-medium flex items-center gap-1.5 animate-in fade-in slide-in-from-top-1">
+            <span className="text-[10px] text-muted-ink font-bold flex items-center gap-1.5 font-display uppercase">
               <span>↕️</span> Drag cards to reorder display priority
             </span>
           ) : (
-            <span className="text-[10px] text-yellow-500/70 font-medium flex items-center gap-1.5">
-              <span>⚠️</span> Ordering disabled due to active filters
+            <span className="text-[10px] text-yellow-accent font-bold flex items-center gap-1.5 font-display uppercase">
+              <span>⚠️</span> Ordering disabled due to active search
             </span>
           )}
         </div>
@@ -132,7 +124,6 @@ export function Apps() {
         onReorderRules={reorderRules}
         onEmptyActionClick={() => setShowPicker(true)}
         ruleSearch={ruleSearch}
-        filterSource={filterSource}
       />
 
       {showPicker && (
@@ -143,21 +134,33 @@ export function Apps() {
         />
       )}
 
+      {/* JSON Editor Modal */}
       {showJsonEditor && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-surface-base border border-hairline/50 rounded-lg w-full max-w-2xl flex flex-col overflow-hidden shadow-2xl">
-            <div className="p-4 border-b border-hairline/40 bg-surface-indigo flex justify-between items-center">
-              <h3 className="font-display font-bold text-ink">JSON Rule Editor</h3>
-              <button onClick={() => setShowJsonEditor(false)} className="text-muted-ink hover:text-ink text-xs font-bold bg-surface-onyx px-2 py-1 rounded-sm border border-hairline">ESC</button>
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+          <div className="bg-surface-indigo w-full max-w-2xl flex flex-col overflow-hidden neo-card neo-shadow-heavy"
+            style={{ borderRadius: '12px' }}>
+            <div className="p-4 flex justify-between items-center bg-primary"
+              style={{ borderBottom: '3px solid var(--neo-border-color)' }}>
+              <h3 className="font-display font-extrabold text-white uppercase">JSON Rule Editor</h3>
+              <button onClick={() => setShowJsonEditor(false)}
+                className="neo-btn bg-surface-black text-white px-2 py-1 text-[10px]"
+                style={{ borderRadius: '4px' }}>
+                ESC
+              </button>
             </div>
             <textarea
               value={jsonInput}
               onChange={(e) => setJsonInput(e.target.value)}
-              className="w-full h-[50vh] bg-[#1e1e1e] text-[#d4d4d4] p-4 font-mono text-xs focus:outline-none resize-none"
+              className="w-full h-[50vh] bg-surface-black text-ink p-4 font-mono text-xs focus:outline-none resize-none"
               spellCheck="false"
+              style={{ borderBottom: '3px solid var(--neo-border-color)' }}
             />
-            <div className="p-4 bg-surface-indigo border-t border-hairline/30 flex justify-end gap-2">
-              <button onClick={() => setShowJsonEditor(false)} className="text-xs px-4 py-2 font-medium text-muted-ink hover:text-ink">Cancel</button>
+            <div className="p-4 bg-surface-indigo flex justify-end gap-2">
+              <button onClick={() => setShowJsonEditor(false)}
+                className="neo-btn bg-surface-onyx text-ink px-4 py-2 text-xs"
+                style={{ borderRadius: '6px' }}>
+                Cancel
+              </button>
               <button 
                 onClick={async () => {
                   try {
@@ -173,7 +176,8 @@ export function Apps() {
                     alert("Invalid JSON format");
                   }
                 }}
-                className="text-xs px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-sm font-bold shadow-sm"
+                className="neo-btn bg-green-accent text-ink-dark px-4 py-2 text-xs font-extrabold"
+                style={{ borderRadius: '6px' }}
               >
                 Save Changes
               </button>

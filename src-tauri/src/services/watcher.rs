@@ -2,8 +2,8 @@
 //!
 //! Watches for active window changes and idle state using OS-specific APIs.
 
-use crate::models::types::{EngineEvent, AppState, AppRule};
-use log::{trace, debug};
+use crate::models::types::{EngineEvent, AppState};
+use log::trace;
 use sysinfo::System;
 use tokio::sync::mpsc::Sender;
 use tokio::time::{interval, Duration};

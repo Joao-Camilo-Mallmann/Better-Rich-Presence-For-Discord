@@ -41,30 +41,37 @@ export function ProcessPicker({ onClose, onSelect, existingRules }: ProcessPicke
   );
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center pt-[10vh] px-4 z-50 animate-in fade-in duration-200">
-      <div className="bg-surface-base border border-hairline/50 rounded-lg w-full max-w-[500px] flex flex-col overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
-        <div className="relative border-b border-hairline/40 bg-surface-indigo">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl opacity-60">🔎</span>
+    <div className="fixed inset-0 bg-black/70 flex items-start justify-center pt-[10vh] px-4 z-50"
+      style={{ animation: 'neo-bounce-in 0.15s ease-out' }}>
+      <div className="bg-surface-indigo w-full max-w-[500px] flex flex-col overflow-hidden neo-card neo-shadow-heavy"
+        style={{ borderRadius: '12px' }}>
+        {/* Search Header */}
+        <div className="relative bg-primary" style={{ borderBottom: '3px solid var(--neo-border-color)' }}>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔎</span>
           <input
             type="text"
             placeholder="Search running processes..."
             autoFocus
             value={pickerSearch}
             onChange={(e) => setPickerSearch(e.target.value)}
-            className="w-full bg-transparent text-ink text-base pl-12 pr-12 py-4 focus:outline-none placeholder:text-muted-ink/60"
+            className="w-full bg-transparent text-white text-base pl-12 pr-14 py-4 focus:outline-none placeholder:text-white/50 font-display font-bold"
           />
           <button
             onClick={onClose}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold bg-surface-onyx text-muted-ink hover:text-ink px-2 py-1 rounded-sm border border-hairline transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 neo-btn bg-surface-black text-white px-2 py-1 text-[10px]"
+            style={{ borderRadius: '4px' }}
           >
             ESC
           </button>
         </div>
-        <div className="max-h-[350px] overflow-y-auto flex flex-col bg-surface-base/50">
+        {/* Process List */}
+        <div className="max-h-[350px] overflow-y-auto flex flex-col">
           {loadingProcesses ? (
             <div className="flex flex-col items-center justify-center py-10 gap-3">
-              <div className="w-6 h-6 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
-              <span className="text-xs text-muted-ink">Scanning system...</span>
+              {/* Chunky spinning square */}
+              <div className="w-6 h-6 neo-border-2 bg-primary"
+                style={{ animation: 'neo-spin 0.8s linear infinite' }} />
+              <span className="text-xs text-muted-ink font-display font-bold uppercase">Scanning system...</span>
             </div>
           ) : filteredProcesses.length > 0 ? (
             <div className="p-2 flex flex-col gap-1">
@@ -75,31 +82,37 @@ export function ProcessPicker({ onClose, onSelect, existingRules }: ProcessPicke
                     key={p.process_name}
                     onClick={() => !isAlreadyAdded && onSelect(p)}
                     disabled={isAlreadyAdded}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-all group ${
+                    className={`flex items-center gap-3 px-3 py-2.5 text-left transition-all group neo-border-2 ${
                       isAlreadyAdded
-                        ? "opacity-50 cursor-not-allowed bg-transparent"
-                        : "hover:bg-primary/10 hover:shadow-inner cursor-pointer"
+                        ? "opacity-40 cursor-not-allowed bg-transparent"
+                        : "hover:bg-primary/15 cursor-pointer neo-press bg-surface-onyx/30"
                     }`}
+                    style={{
+                      borderRadius: '6px',
+                      boxShadow: isAlreadyAdded ? 'none' : '3px 3px 0 var(--neo-shadow-color)',
+                    }}
                   >
                     <img
                       src={getIconUrl(p.process_name, p.display_name)}
                       alt=""
-                      className="w-8 h-8 object-contain rounded-sm"
+                      className="w-8 h-8 object-contain neo-border-2"
+                      style={{ borderRadius: '4px' }}
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = "https://www.google.com/s2/favicons?sz=128&domain=google.com";
                       }}
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-ink text-sm truncate">{p.display_name}</div>
+                      <div className="font-bold text-ink text-sm truncate font-display">{p.display_name}</div>
                       <div className="text-[10px] text-muted-ink font-mono truncate">{p.process_name}</div>
                     </div>
                     <div>
                       {isAlreadyAdded ? (
-                        <span className="text-[10px] font-bold text-green-accent flex items-center gap-1">
+                        <span className="text-[10px] font-extrabold text-green-accent flex items-center gap-1 font-display uppercase">
                           <span>✓</span> Added
                         </span>
                       ) : (
-                        <span className="text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity bg-primary/20 px-2 py-1 rounded-sm">
+                        <span className="text-[10px] font-extrabold text-primary opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 neo-border-2 bg-primary/20 font-display uppercase"
+                          style={{ borderRadius: '4px' }}>
                           Enter ↵
                         </span>
                       )}
@@ -110,12 +123,14 @@ export function ProcessPicker({ onClose, onSelect, existingRules }: ProcessPicke
             </div>
           ) : (
             <div className="text-center py-10 px-4">
-              <span className="text-2xl opacity-50 mb-2 block">🔍</span>
-              <p className="text-xs text-muted-ink">No running process matches your search.</p>
+              <span className="text-2xl mb-2 block">🔍</span>
+              <p className="text-xs text-muted-ink font-display uppercase font-bold">No running process matches your search.</p>
             </div>
           )}
         </div>
-        <div className="bg-surface-indigo border-t border-hairline/30 px-4 py-2 flex justify-between items-center text-[10px] text-muted-ink">
+        {/* Footer */}
+        <div className="px-4 py-2 flex justify-between items-center text-[10px] text-muted-ink font-display font-bold uppercase bg-surface-black"
+          style={{ borderTop: '3px solid var(--neo-border-color)' }}>
           <span>Use arrows to navigate</span>
           <span>{systemProcesses.length} active processes</span>
         </div>

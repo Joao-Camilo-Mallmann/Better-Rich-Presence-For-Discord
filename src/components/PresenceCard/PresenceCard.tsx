@@ -12,14 +12,6 @@ const defaultProfile: DiscordProfile = {
   isGradient: true,
 };
 
-const sourceIcons: Record<string, string> = {
-  Game: "🎮",
-  Work: "💼",
-  Browser: "🌐",
-  Idle: "💤",
-  Manual: "✏️",
-};
-
 const avatarColors = ["#5865F2", "#ED4245", "#FEE75C", "#EB459E", "#57F287", "#F47B67"];
 
 interface PresenceCardProps {
@@ -119,32 +111,29 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
     return () => clearInterval(interval);
   }, [presence?.timestamp]);
 
-  const getSourceIcon = (source: string) => sourceIcons[source] || "🖥️";
-
-  // Auto-generate a color based on the first letter for the placeholder
   const getAvatarColor = (name: string) =>
     avatarColors[name.length > 0 ? name.charCodeAt(0) % avatarColors.length : 0];
 
   const renderStatusIndicator = (status: "online" | "idle" | "dnd" | "offline") => {
     switch (status) {
       case "online":
-        return <div className="w-full h-full rounded-full bg-[#23a55a]" title="Online" />;
+        return <div className="w-full h-full rounded-full bg-green-accent" title="Online" />;
       case "idle":
         return (
-          <svg className="w-full h-full text-[#f0b232]" viewBox="0 0 24 24" fill="currentColor">
+          <svg className="w-full h-full text-yellow-accent" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12.1,22A10,10,0,0,1,10.76,2.07a1,1,0,0,1,1.13,1.37,8,8,0,1,0,9.67,9.67,1,1,0,0,1,1.37,1.13A10,10,0,0,1,12.1,22Z" />
           </svg>
         );
       case "dnd":
         return (
-          <div className="w-full h-full rounded-full bg-[#f23f43] flex items-center justify-center" title="Do Not Disturb">
-            <div className="w-[10px] h-[2.5px] bg-[#111214] rounded-full" />
+          <div className="w-full h-full rounded-full bg-danger flex items-center justify-center" title="Do Not Disturb">
+            <div className="w-[10px] h-[2.5px] bg-surface-black rounded-none" />
           </div>
         );
       case "offline":
         return (
-          <div className="w-full h-full rounded-full bg-[#80848e] flex items-center justify-center" title="Invisible">
-            <div className="w-[8px] h-[8px] bg-[#111214] rounded-full" />
+          <div className="w-full h-full rounded-full bg-muted-ink flex items-center justify-center" title="Invisible">
+            <div className="w-[8px] h-[8px] bg-surface-black rounded-full" />
           </div>
         );
     }
@@ -156,21 +145,26 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
 
   return (
     <div
-      className="w-full max-w-[340px] rounded-[16px] overflow-hidden text-white font-body shadow-xl relative select-none border border-white/5 flex flex-col shrink-0"
+      className="w-full max-w-[340px] overflow-hidden text-white font-body select-none flex flex-col shrink-0 neo-card"
       style={{
         background: profile.isGradient
           ? `linear-gradient(180deg, ${profile.themePrimary} 0%, ${profile.themeSecondary} 100%)`
           : profile.themePrimary,
+        borderRadius: '16px',
       }}
     >
       {/* Profile Banner */}
       <div
-        className="w-full h-[75px] transition-all duration-300 flex-shrink-0"
-        style={{ backgroundColor: profile.themePrimary }}
+        className="w-full h-[75px] flex-shrink-0"
+        style={{
+          backgroundColor: profile.themePrimary,
+          borderBottom: '3px solid var(--neo-border-color)',
+        }}
       />
       {/* Avatar Container overlay */}
-      <div className="absolute top-[38px] left-[12px] z-10">
-        <div className="relative w-[70px] h-[70px] rounded-full ring-[5px] ring-[#111214] bg-[#111214] overflow-visible">
+      <div className="absolute top-[38px] left-[12px] z-10" style={{ position: 'relative', marginTop: '-37px', marginLeft: '12px' }}>
+        <div className="relative w-[70px] h-[70px] rounded-full overflow-visible"
+          style={{ border: '4px solid var(--neo-border-color)', backgroundColor: 'var(--surface-black)' }}>
           {profile.avatarUrl ? (
             <img
               src={profile.avatarUrl}
@@ -190,52 +184,53 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
             />
           ) : (
             <div
-              className="w-full h-full rounded-full flex items-center justify-center text-xl font-bold text-white"
+              className="w-full h-full rounded-full flex items-center justify-center text-xl font-extrabold text-white"
               style={{ backgroundColor: getAvatarColor(profile.displayName) }}
             >
               {profile.displayName.charAt(0).toUpperCase()}
             </div>
           )}
           {/* Status indicator badge */}
-          <div className="absolute bottom-0 right-0 w-[20px] h-[20px] rounded-full ring-[3px] ring-[#111214] bg-[#111214] flex items-center justify-center overflow-hidden">
+          <div className="absolute bottom-0 right-0 w-[20px] h-[20px] rounded-full flex items-center justify-center overflow-hidden"
+            style={{ border: '3px solid var(--neo-border-color)', backgroundColor: 'var(--surface-black)' }}>
             {renderStatusIndicator(profile.status)}
           </div>
         </div>
       </div>
       {/* Profile Body (Card) */}
-      <div className="mt-[40px] mx-[12px] mb-[12px] bg-[#111214]/90 backdrop-blur-xs rounded-[8px] p-3 flex flex-col gap-3 z-0 relative border border-white/5">
+      <div className="mt-[40px] mx-[12px] mb-[12px] p-3 flex flex-col gap-3 z-0 relative neo-border-2"
+        style={{ backgroundColor: 'rgba(0,0,0,0.85)', borderRadius: '8px' }}>
         {/* User Identity */}
         <div className="flex flex-col">
-          <span className="font-extrabold text-[15px] leading-tight text-white">
+          <span className="font-extrabold text-[15px] leading-tight text-white font-display uppercase">
             {profile.displayName}
           </span>
           <span className="text-[11.5px] text-zinc-400 font-medium leading-none mt-[2px]">
             @{profile.username}
           </span>
           {profile.customStatus && (
-            <div className="text-[12px] text-zinc-200 mt-2 bg-white/5 px-2 py-1.5 rounded-sm border border-white/5 italic text-left">
+            <div className="text-[12px] text-zinc-200 mt-2 px-2 py-1.5 italic text-left neo-border-2"
+              style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '4px' }}>
               {profile.customStatus}
             </div>
           )}
         </div>
-        <div className="h-[1px] bg-zinc-800/80 my-0.5" />
+        <div className="h-[3px] bg-[var(--neo-border-color)] my-0.5" />
         {/* Presence Section */}
         <div className="flex flex-col">
-          <div className="flex justify-between items-center text-[10px] font-extrabold text-zinc-400 tracking-wider uppercase mb-2">
-            <span>PLAYING A GAME</span>
-            <span className="text-[9px] bg-white/10 px-1.5 py-[1px] rounded-xs text-zinc-300 font-bold uppercase tracking-wide flex items-center gap-1">
-              {getSourceIcon(presence?.source || "Idle")}{" "}
-              {presence?.source || "Idle"}
-            </span>
+          <div className="flex justify-between items-center text-[10px] font-extrabold text-zinc-400 tracking-wider uppercase mb-2 font-display">
+            <span className="neo-stroke" style={{ WebkitTextStroke: '0.5px rgba(0,0,0,0.3)' }}>PLAYING A GAME</span>
           </div>
           {/* Activity Layout */}
           <div className="flex items-start gap-3 mt-1 text-left">
-            <div className="relative w-[60px] h-[60px] rounded-[8px] bg-white/5 border border-white/5 flex-shrink-0 flex items-center justify-center overflow-visible">
+            <div className="relative w-[60px] h-[60px] flex-shrink-0 flex items-center justify-center overflow-visible neo-border-2 neo-shadow-sm"
+              style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
               {presence ? (
                 <img
                   src={iconUrl}
                   alt={appName}
-                  className="w-full h-full rounded-[8px] object-contain p-1"
+                  className="w-full h-full object-contain p-1"
+                  style={{ borderRadius: '6px' }}
                   onError={(e) => {
                     (e.target as HTMLElement).style.display = "none";
                     const parent = (e.target as HTMLElement).parentElement;
@@ -250,26 +245,19 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
               ) : (
                 <div className="text-xl font-bold text-zinc-400">?</div>
               )}
-              {/* Source micro-badge */}
-              <div
-                className="absolute bottom-[-3px] right-[-3px] w-[18px] h-[18px] rounded-full border border-white/10 bg-[#111214] flex items-center justify-center text-[9px]"
-                title={`Data source: ${presence?.source || "Idle"}`}
-              >
-                {getSourceIcon(presence?.source || "Idle")}
-              </div>
             </div>
             <div className="flex flex-col min-w-0 flex-1 justify-center py-0.5 select-text">
-              <div className="font-semibold text-[13px] text-white leading-tight truncate">
+              <div className="font-bold text-[13px] text-white leading-tight truncate font-display">
                 {presence?.large_text || "Better Rich Presence"}
               </div>
               <div className="text-[12px] text-zinc-300 leading-tight truncate mt-1">
                 {presence?.details || "No application running"}
               </div>
-              <div className="text-[12px] text-zinc-350 leading-tight truncate mt-1 text-zinc-300/80">
+              <div className="text-[12px] leading-tight truncate mt-1 text-zinc-300/80">
                 {presence?.state || "Waiting for detection..."}
               </div>
               {elapsed && (
-                <div className="text-[11.5px] text-zinc-400 leading-tight truncate mt-1 font-medium">
+                <div className="text-[11.5px] text-zinc-400 leading-tight truncate mt-1 font-bold font-display">
                   {elapsed}
                 </div>
               )}

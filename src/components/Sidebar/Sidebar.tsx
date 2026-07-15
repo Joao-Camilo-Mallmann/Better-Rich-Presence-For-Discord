@@ -11,36 +11,51 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
 
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: "🏠" },
-    { id: "apps", label: "Aplicativos", icon: "📱" },
-    { id: "settings", label: "Configurações", icon: "⚙️" },
+    { id: "apps", label: "Apps", icon: "📱" },
+    { id: "settings", label: "Settings", icon: "⚙️" },
   ] as const;
 
   return (
-    <aside className="w-[220px] h-screen flex flex-col bg-surface-indigo p-4 border-r border-hairline shrink-0">
+    <aside className="w-[220px] h-screen flex flex-col bg-surface-indigo p-4 shrink-0"
+      style={{ borderRight: '3px solid var(--neo-border-color)' }}>
       <div className="p-2 mb-4 flex items-center gap-2">
         <img src="/logo.png" alt="Better RPC Logo" width="32" height="24" />
-        <h1 className="text-lg font-bold text-ink tracking-tight">Better RPC</h1>
+        <h1 className="text-lg font-extrabold text-ink tracking-tight font-display uppercase neo-stroke"
+          style={{ WebkitTextStroke: '1px var(--neo-border-color)' }}>
+          Better RPC
+        </h1>
       </div>
-      <nav className="flex-1 flex flex-col gap-1">
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            className={`group flex items-center gap-3 px-3 py-2 rounded-md font-medium transition duration-100 relative text-left ${
-              currentPage === item.id
-                ? "bg-white/15 text-ink before:content-[''] before:absolute before:-left-4 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-6 before:bg-primary before:rounded-r-md"
-                : "text-muted-ink hover:bg-white/5 hover:text-ink"
-            }`}
-            onClick={() => onNavigate(item.id)}
-          >
-            <span className={`text-lg transition duration-100 ${currentPage === item.id ? "opacity-100" : "opacity-80 group-hover:opacity-100"}`}>
-              {item.icon}
-            </span>
-            {item.label}
-          </button>
-        ))}
+      <nav className="flex-1 flex flex-col gap-2">
+        {navItems.map((item) => {
+          const isActive = currentPage === item.id;
+          return (
+            <button
+              key={item.id}
+              className={`group flex items-center gap-3 px-3 py-2 font-extrabold transition-all text-left font-display uppercase text-sm neo-border-2 ${
+                isActive
+                  ? "bg-primary text-white"
+                  : "bg-transparent text-muted-ink hover:bg-white/5 hover:text-ink neo-press"
+              }`}
+              style={{
+                borderRadius: '6px',
+                boxShadow: isActive ? '4px 4px 0 var(--neo-shadow-color)' : 'none',
+                borderColor: isActive ? 'var(--neo-border-color)' : 'transparent',
+              }}
+              onClick={() => onNavigate(item.id)}
+            >
+              {isActive && (
+                <div className="w-1 h-5 bg-white mr-1" style={{ borderRadius: '0' }} />
+              )}
+              <span className={`text-lg transition-all duration-100 ${isActive ? "opacity-100" : "opacity-60 group-hover:opacity-100"}`}>
+                {item.icon}
+              </span>
+              {item.label}
+            </button>
+          );
+        })}
       </nav>
       <div className="mt-auto flex flex-col gap-4">
-        <div className="h-[1px] bg-hairline mx-2" />
+        <div className="h-[3px] bg-[var(--neo-border-color)] mx-2" />
         <StatusIndicator info={connectionInfo} />
       </div>
     </aside>

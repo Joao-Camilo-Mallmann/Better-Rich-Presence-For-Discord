@@ -1,5 +1,3 @@
-export type PresenceSource = "Game" | "Manual" | "Work" | "Browser" | "Idle";
-
 export type PresenceState =
   | "Disconnected"
   | "WaitingDiscord"
@@ -13,8 +11,6 @@ export interface AppRule {
   details: string;
   state: string;
   large_image: string;
-  source: PresenceSource;
-  priority: number;
   enabled: boolean;
 }
 
@@ -23,7 +19,6 @@ export interface PresenceData {
   state: string;
   large_image: string;
   large_text: string;
-  source: PresenceSource;
   timestamp: number | null;
 }
 

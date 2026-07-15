@@ -11,7 +11,6 @@ interface AppListProps {
   onReorderRules: (newOrder: string[]) => Promise<void>;
   onEmptyActionClick?: () => void;
   ruleSearch: string;
-  filterSource: string;
 }
 
 /** Minimum pixels the pointer must move before a drag gesture is recognized. */
@@ -26,7 +25,6 @@ export function AppList({
   onReorderRules,
   onEmptyActionClick,
   ruleSearch,
-  filterSource,
 }: AppListProps) {
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
@@ -158,10 +156,10 @@ export function AppList({
     else itemRefs.current.delete(index);
   }, []);
 
-  const hasFilters = ruleSearch || filterSource !== "All";
+  const hasFilters = !!ruleSearch.trim();
 
   return (
-    <div className="flex flex-col gap-2.5 pb-8" ref={containerRef}>
+    <div className="flex flex-col gap-3 pb-8" ref={containerRef}>
       {displayRules.length > 0 ? (
         displayRules.map((rule, idx) => {
           const globalIdx = rules.findIndex((r) => r.process_name === rule.process_name);
@@ -175,35 +173,37 @@ export function AppList({
               onPointerDown={(e) => handlePointerDown(e, idx)}
               onClickCapture={(e) => {
                 // Suppress click events fired after a drag gesture
-                // so the AppRuleCard does not accidentally expand.
                 if (didDrag.current) {
                   e.stopPropagation();
                   e.preventDefault();
                   didDrag.current = false;
                 }
               }}
-              className={`group relative transition-all duration-200 ${
+              className={`group relative transition-all duration-150 ${
                 isItemDragging ? "opacity-30 scale-[0.98] z-30" : "z-10"
-              } ${isOver ? "translate-y-[-4px] shadow-lg shadow-primary/20" : ""}`}
+              }`}
               style={{
-                outline: isOver ? "1px solid rgba(88,101,242,0.8)" : "1px solid transparent",
-                borderRadius: 6,
+                outline: isOver ? '3px solid var(--primary)' : '3px solid transparent',
+                borderRadius: 8,
                 touchAction: canReorder ? "none" : "auto",
+                boxShadow: isOver ? '4px 4px 0 var(--primary)' : 'none',
               }}
             >
               {canReorder && (
-                <div className="absolute left-0 top-0 bottom-0 flex flex-col items-center justify-center w-8 z-10 cursor-grab active:cursor-grabbing select-none group-hover:bg-white/5 rounded-l-md transition-colors border-r border-transparent group-hover:border-hairline/20">
+                <div className="absolute left-0 top-0 bottom-0 flex flex-col items-center justify-center w-8 z-10 cursor-grab active:cursor-grabbing select-none group-hover:bg-white/5 transition-colors"
+                  style={{ borderRight: '2px solid var(--neo-border-color)' }}>
                   <span
-                    className={`text-[9px] font-black leading-none mb-1 ${
-                      globalIdx === 0 ? "text-magenta-accent" : "text-primary/80"
+                    className={`text-[9px] font-black leading-none mb-1 font-display ${
+                      globalIdx === 0 ? "text-magenta-accent" : "text-primary"
                     }`}
                   >
                     #{globalIdx + 1}
                   </span>
-                  <div className="grid grid-cols-2 gap-[2px] opacity-20 group-hover:opacity-60 transition-opacity">
-                    {Array(6).fill(0).map((_, i) => (
-                      <div key={i} className="w-1 h-1 bg-white rounded-full" />
-                    ))}
+                  {/* Chunky grip bars */}
+                  <div className="flex flex-col gap-[3px] opacity-30 group-hover:opacity-70 transition-opacity">
+                    <div className="w-3 h-[3px] bg-ink" />
+                    <div className="w-3 h-[3px] bg-ink" />
+                    <div className="w-3 h-[3px] bg-ink" />
                   </div>
                 </div>
               )}
@@ -214,9 +214,10 @@ export function AppList({
           );
         })
       ) : (
-        <div className="flex flex-col items-center justify-center py-16 px-4 bg-surface-indigo/20 rounded-md border border-dashed border-hairline/30 text-center">
-          <span className="text-4xl mb-3 opacity-80">👻</span>
-          <h4 className="text-ink font-semibold mb-1">No applications found</h4>
+        <div className="flex flex-col items-center justify-center py-16 px-4 bg-surface-indigo text-center neo-border"
+          style={{ borderStyle: 'dashed', borderRadius: '12px' }}>
+          <span className="text-4xl mb-3">👾</span>
+          <h4 className="text-ink font-extrabold mb-1 font-display uppercase">No applications found</h4>
           <p className="text-xs text-muted-ink max-w-[250px]">
             {hasFilters
               ? "Try clearing your filters or search term."
@@ -225,7 +226,7 @@ export function AppList({
           {!hasFilters && onEmptyActionClick && (
             <button
               onClick={onEmptyActionClick}
-              className="mt-4 text-xs font-bold text-primary hover:text-primary-hover underline underline-offset-4"
+              className="mt-4 neo-btn bg-primary text-white px-4 py-2 text-xs"
             >
               Add first application
             </button>

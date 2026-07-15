@@ -4,7 +4,7 @@
 //! handles debounce and anti-flicker, and sends updates to the Discord RPC thread.
 
 use crate::models::types::{
-    AppState, EngineCommand, EngineEvent, PresenceData, PresenceSource, PresenceState,
+    AppState, EngineCommand, EngineEvent, PresenceData, PresenceState,
 };
 use crate::services::presence_db::{
     display_name_from_process_name, get_client_id_or_default, DEFAULT_CLIENT_ID,
@@ -19,7 +19,7 @@ pub struct PresenceEngine {
 
     current_state: PresenceState,
     current_data: PresenceData,
-    current_source: PresenceSource,
+    is_idle: bool,
     current_client_id: u64,
     last_update_time: Option<Instant>,
 
@@ -33,7 +33,7 @@ impl PresenceEngine {
             app_state,
             current_state: PresenceState::Disconnected,
             current_data: PresenceData::default(),
-            current_source: PresenceSource::Idle,
+            is_idle: false,
             current_client_id: 1517170930764480552,
             last_update_time: None,
             pre_idle_data: None,
@@ -128,7 +128,6 @@ impl PresenceEngine {
                                     rule.large_image.clone()
                                 };
                                 new_data.large_text = rule.display_name.clone();
-                                new_data.source = rule.source.clone();
                             } else {
                                 activity_app_name = fallback_app_display_name(&process_name, &window_title);
 
@@ -136,7 +135,6 @@ impl PresenceEngine {
                                 new_data.state = fallback_window_state(&activity_app_name, &window_title);
                                 new_data.large_image = crate::services::parser::resolve_auto_image(&process_name, &window_title);
                                 new_data.large_text = activity_app_name.clone();
-                                new_data.source = PresenceSource::Browser; // Give it a low priority
                             }
 
                             // Resolve Client ID based on process name
@@ -153,8 +151,7 @@ impl PresenceEngine {
                                 new_data.large_image = "default".to_string();
                             }
 
-                            // Check priority
-                            if new_data.source.priority() <= self.current_source.priority() || self.current_source == PresenceSource::Idle {
+                            if !self.is_idle {
                                 // Start anti-flicker settle timer
                                 if let Some(task) = settle_task.take() {
                                     task.abort();
@@ -168,6 +165,8 @@ impl PresenceEngine {
                                     sleep(Duration::from_secs(delay)).await;
                                     let _ = tx.send((client_id, data_clone)).await;
                                 }));
+                            } else {
+                                self.pre_idle_data = Some(new_data.clone());
                             }
                         }
                         EngineEvent::IdleChanged { idle, idle_minutes } => {
@@ -177,23 +176,24 @@ impl PresenceEngine {
                             }
 
                             if idle && idle_minutes >= settings.idle_threshold_minutes {
-                                if self.current_source != PresenceSource::Game {
+                                if !self.is_idle {
                                     info!("User is idle, switching presence");
                                     self.pre_idle_data = Some(self.current_data.clone());
+                                    self.is_idle = true;
 
                                     let idle_data = PresenceData {
                                         details: settings.idle_message,
                                         state: "Inativo".to_string(),
                                         large_image: "idle".to_string(),
                                         large_text: "Inativo".to_string(),
-                                        source: PresenceSource::Idle,
                                         timestamp: chrono::Utc::now().timestamp(),
                                     };
 
                                     self.apply_presence(1517170930764480552, idle_data).await;
                                 }
-                            } else if !idle && self.current_source == PresenceSource::Idle {
+                            } else if !idle && self.is_idle {
                                 info!("User is active again, restoring presence");
+                                self.is_idle = false;
                                 if let Some(pre_idle) = self.pre_idle_data.take() {
                                     // Update timestamp to now to reset timer
                                     let mut restored = pre_idle;
@@ -274,7 +274,6 @@ impl PresenceEngine {
         if new_data.details == self.current_data.details
             && new_data.state == self.current_data.state
             && new_data.large_image == self.current_data.large_image
-            && new_data.source == self.current_source
             && client_id == self.current_client_id
         {
             return; // Nothing changed meaningfully
@@ -298,15 +297,14 @@ impl PresenceEngine {
             }
         }
 
-        // Keep timestamp if source is the same to avoid timer reset
-        if new_data.source == self.current_source && self.current_data.timestamp > 0 {
+        // Keep timestamp if client_id is the same to avoid timer reset
+        if client_id == self.current_client_id && self.current_data.timestamp > 0 {
             new_data.timestamp = self.current_data.timestamp;
         } else if new_data.timestamp == 0 {
             new_data.timestamp = chrono::Utc::now().timestamp();
         }
 
         self.current_data = new_data.clone();
-        self.current_source = new_data.source.clone();
         self.current_client_id = client_id;
         self.last_update_time = Some(Instant::now());
 
@@ -389,7 +387,6 @@ mod tests {
             state: fallback_window_state(&app_name, "Project - Custom Tool"),
             large_image: String::new(),
             large_text: app_name.clone(),
-            source: PresenceSource::Browser,
             timestamp: 0,
         };
 
@@ -408,7 +405,6 @@ mod tests {
             state: "Developing".to_string(),
             large_image: "auto".to_string(),
             large_text: "Cursor".to_string(),
-            source: PresenceSource::Work,
             timestamp: 0,
         };
 
