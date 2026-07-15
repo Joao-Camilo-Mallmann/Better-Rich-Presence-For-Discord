@@ -1,15 +1,17 @@
 ---
 version: alpha
-name: Discord Analysis
-description: An analysis of Discord's design language — a loud, playful gaming-native system built on a deep-indigo canvas lit by Blurple, electric green, and vibrant magenta gradients. Heavy ABC Ginto Nord display type shouts in all-caps over generously rounded media, gradient feature panels, and full-bleed Blurple bands; the mood is arcade-energetic, never corporate.
+name: Better RPC Design System
+description: A Neo-Brutalist Arcade design system inspired by Discord's gaming-native palette. Solid blocks of Blurple, Magenta, Green, and Yellow replace soft gradients. Thick black borders (3px), hard offset shadows (6px 6px 0 #000), and bold all-caps display type create a tactile, retro-gaming feel — punchy, playful, and unmistakably not a template.
 
 colors:
   primary: "#5865f2"
   on-primary: "#ffffff"
   green: "#35ed7e"
   magenta: "#ec48bd"
+  yellow: "#fee75c"
+  red: "#ed4245"
   link: "#00b0f4"
-  canvas: "#0a0d3a"
+  canvas: "#23272a"
   surface-indigo: "#1e2353"
   surface-onyx: "#23272a"
   surface-black: "#000000"
@@ -279,34 +281,22 @@ components:
 
 ## Overview
 
-Discord's marketing design is loud on purpose. The pages live on a deep-indigo canvas (`{colors.canvas}` — #0a0d3a) that is rarely still: it is washed by an animated mesh of Blurple, violet, and vibrant magenta, then punctuated by full-bleed gradient bands and oversized rounded media. Where most product sites whisper in restrained neutrals, Discord shouts in heavy all-caps ABC Ginto Nord, stacks playful 3D character art, and lets a single electric green CTA (`{colors.green}`) pop against the cool indigo. The whole system reads like an arcade cabinet: energetic, saturated, unmistakably gaming-native.
+Better RPC's design system follows a **Neo-Brutalist Arcade** aesthetic built on Discord's gaming-native palette. Instead of the soft glowing gradients and glassmorphism clichés of typical dark-mode tech sites, this system uses solid, aggressive blocks of saturated color — Blurple for hero sections, Magenta for marquees, Yellow for the footer — bounded by thick black borders and punctuated by hard, offset black shadows. The result is tactile, playful, and unmistakably retro-gaming: it feels like an arcade cabinet UI, not a SaaS template.
 
-The brand anchor is **Blurple** (`{colors.primary}` — #5865f2) — Discord's signature indigo-violet. It owns the primary CTA, the marquee and CTA bands, stat cards, and the brand mark. Around it orbit two supporting accents: the electric **green** (`{colors.green}`) used for the highest-intent "get started" actions, and a vibrant **magenta** (`{colors.magenta}` — #ec48bd) that fills the gradient feature panels and step cards. Surfaces stack in cool darks — the indigo canvas, a raised indigo panel (`{colors.surface-indigo}`), an onyx UI card (`{colors.surface-onyx}`), and pure black (`{colors.surface-black}`) showcase bands.
+The colour anchor is **Blurple** (`{colors.primary}` — #5865f2). It owns the hero background, stat cards, CTA bands, and the nav bar. Around it orbit three supporting accents: electric **Green** (`{colors.green}`) for highest-intent CTAs (download/get started), vibrant **Magenta** (`{colors.magenta}`) for marquee bands and feature cards, and **Yellow** (`{colors.yellow}`) for the footer and highlight badges. The canvas body is **Onyx** (`{colors.canvas}` — #23272a) — Discord's classic dark surface for content areas between the colour bands.
 
-Geometry is soft and generous. Everyday controls round at `{rounded.sm}` (12px) and `{rounded.lg}` (16px); media tiles and feature panels bow out at `{rounded.xl}` (40px) and beyond; the most expressive shapes reach `{rounded.jumbo}` (120px) and pill caps. Nothing is sharp. The result is friendly, toy-like, and built to make software feel like play.
+Every interactive element has physical weight. Buttons, cards, and containers are bounded by `border: 3px solid #000000` and cast a hard `box-shadow: 6px 6px 0px #000000` that compresses on hover/click (`translate(4px, 4px)` → `2px 2px 0 #000`), simulating an arcade button press. Giant wordmarks use `-webkit-text-stroke` outlines. Section eyebrow labels are rendered as tilted solid-color tags (`transform: rotate(-2deg)`).
 
 **Key Characteristics:**
 
-- Deep-indigo canvas (`{colors.canvas}`) lit by an animated Blurple-to-magenta gradient mesh — never a flat or neutral background.
-- One iconic brand colour: Blurple (`{colors.primary}`) owns CTAs, bands, and the brand mark; electric green (`{colors.green}`) is reserved for highest-intent actions.
-- Vibrant magenta (`{colors.magenta}`) gradient feature panels and step cards carry the playful, saturated energy.
-- Heavy all-caps display type in `{typography.display-xl}` (ABC Ginto Nord 800) shouting over generously rounded media.
-- Soft, toy-like geometry: 12–16px on controls, 40px+ on media, up to `{rounded.jumbo}` on signature shapes.
-- Page rhythm: dark-indigo hero → gradient + dark feature cards → black showcase band → Blurple marquee/CTA band → giant wordmark footer.
-
-### Variant: Arcade / Neo-Brutalist (Retro-Gaming)
-
-To escape the clichés of generic "AI dark-mode templates" (soft glowing meshes, subtle gradients, and glassmorphism), this variant leans heavily into a loud, tactile **Neo-Brutalist Arcade** aesthetic. It leverages Discord's highly saturated palette (Blurple, Yellow, Magenta, Green) but renders them in solid, high-contrast blocks.
-
-**Key Visual Rules of the Variant:**
-
-1. **Solid Color Canvas**: No soft gradient meshes in the hero or footer. Use massive, solid blocks of color (e.g., solid Blurple `#5865f2` for the hero, solid Yellow `#fee75c` for the footer).
-2. **Hard Shadows**: Soft drop shadows and glowing filters are banned. All cards, buttons, and elements use solid, offset black shadows (`box-shadow: 6px 6px 0px #000000`).
-3. **Thick Black Borders**: Buttons, card containers, and sections are bounded by thick, high-contrast borders (`border: 3px solid #000000`).
-4. **Retro Display Elements**:
-   - Giant text features use outline stroke stylings (e.g., `-webkit-text-stroke: 3px #000000`) and offset drop shadows.
-   - Secondary title elements are styled as tilted solid-color tags (e.g., `transform: rotate(-2deg)` with a hard shadow).
-5. **Interactive Press Effects**: Buttons and active cards physically shift on hover/click (`transform: translate(4px, 4px)`) while reducing the shadow size to simulate a mechanical click.
+- **Solid Color Canvas**: No soft gradient meshes. Hero, performance, CTA, and footer sections use full solid-color backgrounds (Blurple, Magenta, Yellow).
+- **Hard Shadows**: All cards, buttons, and elevated elements use solid, offset black shadows (`box-shadow: 6px 6px 0px #000000`). Soft glows are banned.
+- **Thick Black Borders**: Every interactive container gets `border: 3px solid #000000` for high-contrast definition.
+- **Retro Display Elements**: Giant text uses `-webkit-text-stroke: 3px #000`; section labels are tilted solid-color tags with hard shadows.
+- **Interactive Press Effects**: Hover translates the element `4px, 4px` and reduces the shadow to `2px 2px 0`. Active press translates `6px, 6px` and zeroes the shadow.
+- **Dot-grid Textures**: Content sections on the Onyx canvas use a subtle `radial-gradient` dot-grid pattern (`rgba(255,255,255,0.1) 2px`, 32px spacing) for texture.
+- **Diagonal Stripe Overlays**: Feature cards and CTA bands use repeating `45deg` stripe patterns (`rgba(0,0,0,0.05)`) for depth without gradients.
+- **Page rhythm**: Blurple hero → Magenta marquee → Onyx feature cards → Black demo band → Blurple performance → Magenta CTA → Yellow footer.
 
 ## Colors
 
@@ -412,18 +402,22 @@ Product mockups and 3D character art sit inside rounded media frames (`{rounded.
 
 ## Elevation & Depth
 
-| Level          | Treatment                                                            | Use                                    |
-| -------------- | -------------------------------------------------------------------- | -------------------------------------- |
-| 0 — Flat       | No shadow; separation by colour field + large radius                 | Most cards, colour bands               |
-| 1 — Soft float | `0 3px 68px rgba(69,42,124,0.1)` — wide, violet-tinted, very diffuse | Floating media cards, elevated mockups |
+| Level              | Treatment                                              | Use                                       |
+| ------------------ | ------------------------------------------------------ | ----------------------------------------- |
+| 0 — Flat           | No shadow; separation by solid colour field + border   | Full-bleed colour bands (hero, marquee)   |
+| 1 — Hard offset    | `6px 6px 0px #000000` — solid black, no blur           | Cards, buttons, containers, mockups       |
+| 2 — Heavy offset   | `12px 12px 0px #000000` — larger offset for key pieces | Hero mockup frame, demo container         |
+| Hover — Compressed | `2px 2px 0px #000000` + `translate(4px, 4px)`          | Interactive hover state on all Level 1/2  |
+| Active — Flat      | `0px 0px 0px #000000` + `translate(6px, 6px)`          | Active/pressed state                      |
 
-Discord leans on **colour, gradient, and radius** for depth far more than on shadow. The one extracted shadow is a wide, violet-tinted diffuse glow that lifts product media off the indigo canvas without a hard edge.
+Depth in this system comes from **hard offset shadows and thick borders**, not blur or transparency. Soft drop shadows, glassmorphism, and gradient glows are not used.
 
 ### Decorative Depth
 
-- The animated Blurple-to-magenta gradient mesh creates depth by motion and hue rather than shadow.
-- 3D character art and product props overlap card edges to build foreground/background layering.
-- Full-bleed colour bands (Blurple, black) push depth by contrast against the indigo scroll.
+- **Dot-grid patterns**: `radial-gradient(rgba(255,255,255,0.1) 2px, transparent 2px)` at 32px spacing on Onyx content sections.
+- **Diagonal stripes**: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px)` overlaid on feature cards and CTA bands.
+- **Colour-field contrast**: Full-bleed solid-colour sections (Blurple, Magenta, Yellow, Black) collide to create visual rhythm without shadows.
+- **Tilted labels**: Section eyebrow tags use `transform: rotate(-2deg)` with a hard shadow for a playful, hand-placed feel.
 
 ## Shapes
 
@@ -588,66 +582,22 @@ Media is presented at soft-cornered rectangles (`{rounded.lg}`–`{rounded.xl}`)
 
 ### Do
 
-- Lead with the deep-indigo canvas (`{colors.canvas}`) and let the animated Blurple-to-magenta gradient carry atmosphere.
-- Reserve `{colors.green}` for the single highest-intent CTA on a page; use `{colors.primary}` Blurple for everything else action-related.
-- Shout with `{typography.display-xl}` ABC Ginto Nord in all-caps for headlines; drop hard to `{typography.body}` for copy.
-- Round generously — `{rounded.sm}`–`{rounded.lg}` on controls, `{rounded.xl}`+ on media and feature panels.
-- Frame product mockups inside `{colors.magenta}` gradient panels or `{colors.surface-indigo}` dark cards.
-- Let 3D character art and props overlap card edges to build playful depth.
-
-### Don't
-cing-tier-featured`** — Featured/highlighted tier — polarity-flipped surface (dark fill + light text in light mode, light fill + dark text in dark mode).
-
-- Properties: `backgroundColor`, `textColor`, `rounded`, `padding`
-
-**`ex-product-selector`** — What's Included summary card — re-purposed for SaaS / B2B verticals (NOT a literal product gallery).
-
-- Properties: `backgroundColor`, `rounded`, `padding`
-
-**`ex-cart-drawer`** — Subscription summary — re-purposed for SaaS / B2B (line items per add-on, not literal cart).
-
-- Properties: `backgroundColor`, `rounded`, `padding`, `item-divider`
-
-**`ex-app-shell-row`** — Sidebar nav row inside the App Shell example. Active state uses brand primary as the indicator.
-
-- Properties: `backgroundColor`, `activeIndicator`, `rounded`, `padding`
-
-**`ex-data-table-cell`** — Default data-table th + td chrome. Header uses mono-caps eyebrow typography; body uses body-sm.
-
-- Properties: `headerBackground`, `headerTypography`, `bodyTypography`, `cellPadding`, `rowBorder`
-
-**`ex-auth-form-card`** — Sign-in / sign-up card. Re-uses feature-card chrome with text-input primitives inside.
-
-- Properties: `backgroundColor`, `rounded`, `padding`
-
-**`ex-modal-card`** — Modal dialog surface — same chrome as feature-card with elevated shadow.
-
-- Properties: `backgroundColor`, `rounded`, `padding`
-
-**`ex-empty-state-card`** — Empty-state illustration frame.
-
-- Properties: `backgroundColor`, `rounded`, `padding`, `captionTypography`
-
-**`ex-toast`** — Toast notification surface — feature-card shape + medium shadow.
-
-- Properties: `backgroundColor`, `rounded`, `padding`, `typography`
-
-## Do's and Don'ts
-
-### Do
-
-- Lead with the deep-indigo canvas (`{colors.canvas}`) and let the animated Blurple-to-magenta gradient carry atmosphere.
-- Reserve `{colors.green}` for the single highest-intent CTA on a page; use `{colors.primary}` Blurple for everything else action-related.
-- Shout with `{typography.display-xl}` ABC Ginto Nord in all-caps for headlines; drop hard to `{typography.body}` for copy.
-- Round generously — `{rounded.sm}`–`{rounded.lg}` on controls, `{rounded.xl}`+ on media and feature panels.
-- Frame product mockups inside `{colors.magenta}` gradient panels or `{colors.surface-indigo}` dark cards.
-- Let 3D character art and props overlap card edges to build playful depth.
+- Use solid blocks of saturated colour (Blurple, Magenta, Yellow) as section backgrounds — never soft gradient meshes.
+- Apply `border: 3px solid #000` and `box-shadow: 6px 6px 0 #000` to every card, button, and container.
+- Implement press effects: hover → `translate(4px,4px)` + `2px 2px 0 #000`; active → `translate(6px,6px)` + `0 0 0 #000`.
+- Reserve `{colors.green}` for the single highest-intent CTA on a page; use `{colors.primary}` Blurple for everything else.
+- Shout with heavy all-caps display type (weight 700–800) and drop hard to body weight (400–500) for copy.
+- Use dot-grid patterns and diagonal stripes for texture instead of blurred gradients or noise.
+- Make section eyebrow labels with solid-fill tags, slight rotation (`rotate(-2deg)`), and hard shadows.
+- Use `-webkit-text-stroke` on giant decorative wordmarks for an outlined, retro-arcade feel.
+- Frame product mockups inside hard-bordered containers with heavy offset shadows.
 
 ### Don't
 
-- Don't flatten the canvas to a neutral grey or pure black — the indigo + gradient mesh is the brand.
+- Don't use soft drop shadows, blur filters, glassmorphism, or `backdrop-filter: blur()` — depth is from hard offsets only.
+- Don't use gradient fills on backgrounds or text — solid colours only. No radial-gradient meshes or animated glowing orbs.
 - Don't use `{colors.green}` as a general accent; it is the high-intent CTA only.
-- Don't set headlines in a timid mid-weight — display type is 700–800 ABC Ginto Nord or it loses the brand voice.
-- Don't square off media or cards; the soft `{rounded.xl}`+ geometry is core to the playful tone.
-- Don't lean on drop shadows for depth; depth comes from colour, gradient, and overlapping art.
-- Don't introduce a fourth loud accent — Blurple, green, and magenta are the full chord.
+- Don't set headlines in a timid mid-weight — display type is 700–800 or it loses the brand voice.
+- Don't remove the thick black borders — they are the signature of the Neo-Brutalist style.
+- Don't introduce a fifth accent beyond Blurple, Green, Magenta, and Yellow — those four are the full chord.
+- Don't make elements feel "floaty" with subtle opacity shadows — everything should feel physical and mechanical.
