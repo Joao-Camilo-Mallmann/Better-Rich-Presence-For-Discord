@@ -1,5 +1,7 @@
 <div align="center">
   <img src="public/logo.png" alt="Better Rich Presence For Discord Logo" width="200" />
+  <br />
+  <img src="public/img/site.png" alt="Better Rich Presence Website Screenshot" width="600" />
 </div>
 
 # Better Rich Presence For Discord
