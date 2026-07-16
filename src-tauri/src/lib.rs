@@ -154,7 +154,7 @@ pub fn run() {
             let (tx, rx) = mpsc::channel::<EngineEvent>(100);
 
             // 5. Create DiscordManager
-            let (_discord_manager, discord_handle) = services::discord::DiscordManager::new();
+            let (_discord_manager, discord_handle) = services::discord::DiscordManager::new(app.handle().clone());
 
             // 6. Shared State (Consolidated)
             let app_state =
@@ -176,6 +176,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             commands::get_current_presence,
             commands::get_presence_state,
+            commands::get_discord_user,
             commands::get_connection_status,
             commands::update_presence,
             commands::get_app_rules,

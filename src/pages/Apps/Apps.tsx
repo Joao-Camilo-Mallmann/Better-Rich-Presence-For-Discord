@@ -4,13 +4,12 @@ import { AppRule } from "../../types";
 import { ProcessPicker } from "../../components/ProcessPicker/ProcessPicker";
 import { AppList } from "../../components/AppList/AppList";
 import { getDefaultProcessRules } from "../../utils/processDefaults";
+import { Search, ArrowUpDown, AlertTriangle } from "lucide-react";
 
 export function Apps() {
   const { rules, loading, updateRule, deleteRule, addRule, reorderRules } = useAppRules();
   const [ruleSearch, setRuleSearch] = useState("");
   const [showPicker, setShowPicker] = useState(false);
-  const [showJsonEditor, setShowJsonEditor] = useState(false);
-  const [jsonInput, setJsonInput] = useState("");
 
   // Only allow drag-and-drop when no search is active to maintain accurate positions
   const canReorder = ruleSearch.trim() === "";
@@ -64,16 +63,6 @@ export function Apps() {
           </div>
           <div className="flex gap-2">
             <button
-              onClick={() => {
-                setJsonInput(JSON.stringify(rules, null, 2));
-                setShowJsonEditor(true);
-              }}
-              className="neo-btn bg-surface-onyx text-ink text-xs px-3.5 py-2"
-              style={{ borderRadius: '6px' }}
-            >
-              JSON Editor
-            </button>
-            <button
               onClick={() => setShowPicker(true)}
               className="neo-btn bg-green-accent text-ink-dark text-xs px-3.5 py-2 flex items-center gap-1.5"
               style={{ borderRadius: '6px' }}
@@ -87,8 +76,8 @@ export function Apps() {
         <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between p-2 neo-border-2 bg-surface-onyx"
           style={{ borderRadius: '8px' }}>
           <div className="relative flex-1 w-full">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-ink text-xs">
-              🔍
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-ink flex items-center">
+              <Search size={14} />
             </span>
             <input
               type="text"
@@ -105,11 +94,11 @@ export function Apps() {
         <div className="h-4 flex items-center justify-end">
           {canReorder ? (
             <span className="text-[10px] text-muted-ink font-bold flex items-center gap-1.5 font-display uppercase">
-              <span>↕️</span> Drag cards to reorder display priority
+              <ArrowUpDown size={12} /> Drag cards to reorder display priority
             </span>
           ) : (
             <span className="text-[10px] text-yellow-accent font-bold flex items-center gap-1.5 font-display uppercase">
-              <span>⚠️</span> Ordering disabled due to active search
+              <AlertTriangle size={12} /> Ordering disabled due to active search
             </span>
           )}
         </div>
@@ -134,57 +123,7 @@ export function Apps() {
         />
       )}
 
-      {/* JSON Editor Modal */}
-      {showJsonEditor && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-          <div className="bg-surface-indigo w-full max-w-2xl flex flex-col overflow-hidden neo-card neo-shadow-heavy"
-            style={{ borderRadius: '12px' }}>
-            <div className="p-4 flex justify-between items-center bg-primary"
-              style={{ borderBottom: '3px solid var(--neo-border-color)' }}>
-              <h3 className="font-display font-extrabold text-white uppercase">JSON Rule Editor</h3>
-              <button onClick={() => setShowJsonEditor(false)}
-                className="neo-btn bg-surface-black text-white px-2 py-1 text-[10px]"
-                style={{ borderRadius: '4px' }}>
-                ESC
-              </button>
-            </div>
-            <textarea
-              value={jsonInput}
-              onChange={(e) => setJsonInput(e.target.value)}
-              className="w-full h-[50vh] bg-surface-black text-ink p-4 font-mono text-xs focus:outline-none resize-none"
-              spellCheck="false"
-              style={{ borderBottom: '3px solid var(--neo-border-color)' }}
-            />
-            <div className="p-4 bg-surface-indigo flex justify-end gap-2">
-              <button onClick={() => setShowJsonEditor(false)}
-                className="neo-btn bg-surface-onyx text-ink px-4 py-2 text-xs"
-                style={{ borderRadius: '6px' }}>
-                Cancel
-              </button>
-              <button 
-                onClick={async () => {
-                  try {
-                    const parsed = JSON.parse(jsonInput);
-                    if (Array.isArray(parsed)) {
-                      await reorderRules(parsed.map(r => r.process_name));
-                      for (const r of parsed) {
-                        await updateRule(r);
-                      }
-                      setShowJsonEditor(false);
-                    }
-                  } catch (e) {
-                    alert("Invalid JSON format");
-                  }
-                }}
-                className="neo-btn bg-green-accent text-ink-dark px-4 py-2 text-xs font-extrabold"
-                style={{ borderRadius: '6px' }}
-              >
-                Save Changes
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 }

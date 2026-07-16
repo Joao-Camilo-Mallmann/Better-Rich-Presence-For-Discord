@@ -1,5 +1,5 @@
 use crate::models::types::{
-    AppError, AppState, ConnectionInfo, PresenceData, PresenceState,
+    AppError, AppState, ConnectionInfo, DiscordUser, PresenceData, PresenceState,
 };
 use crate::services::presence_manager::PresenceManager;
 use tauri::State;
@@ -17,6 +17,10 @@ pub async fn get_presence_state(state: State<'_, AppState>) -> Result<PresenceSt
     Ok(state.get_presence_state().await)
 }
 
+#[tauri::command]
+pub async fn get_discord_user(state: State<'_, AppState>) -> Result<Option<DiscordUser>, AppError> {
+    Ok(state.get_discord_user().await)
+}
 
 #[tauri::command]
 pub async fn get_connection_status(state: State<'_, AppState>) -> Result<ConnectionInfo, AppError> {

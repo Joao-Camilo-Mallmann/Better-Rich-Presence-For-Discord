@@ -29,7 +29,7 @@ use log::{error, info, warn};
 
 /// Discord Application ID placeholder.
 /// Replace with your actual Discord Application ID (as u64).
-const DISCORD_APP_ID: u64 = 1517170930764480552; // DISCORD_APP_ID_PLACEHOLDER
+const DISCORD_APP_ID: u64 = 1517170930764480552; 
 
 // ---------------------------------------------------------------------------
 // DiscordHandle — send-side interface for the rest of the app
@@ -79,7 +79,7 @@ impl DiscordManager {
     /// 3. Call `client.start()` to initiate IPC.
     /// 4. Loop, receiving `EngineCommand`s and applying them.
     /// 5. On disconnection, attempt reconnect with exponential backoff.
-    pub fn new() -> (Self, DiscordHandle) {
+    pub fn new(app_handle: tauri::AppHandle) -> (Self, DiscordHandle) {
         let (tx, rx): (Sender<EngineCommand>, Receiver<EngineCommand>) = std::sync::mpsc::channel();
         let connected = Arc::new(AtomicBool::new(false));
         let connected_clone = Arc::clone(&connected);
@@ -87,7 +87,7 @@ impl DiscordManager {
         let handle = thread::Builder::new()
             .name("discord-rpc".into())
             .spawn(move || {
-                Self::rpc_thread_main(rx, connected_clone);
+                Self::rpc_thread_main(rx, connected_clone, app_handle);
             })
             .expect("Failed to spawn Discord RPC thread");
 
@@ -95,8 +95,81 @@ impl DiscordManager {
         (DiscordManager { _handle: handle }, discord_handle)
     }
 
+    /// Helper to register Event callbacks for client
+    fn register_callbacks(
+        client: &mut discord_presence::Client,
+        client_id: u64,
+        connected: Arc<AtomicBool>,
+        app_handle: tauri::AppHandle,
+    ) {
+        use crate::models::types::DiscordUser;
+        use tauri::{Emitter, Manager};
+
+        let connected_ready = Arc::clone(&connected);
+        let app_ready = app_handle.clone();
+        client
+            .on_ready(move |ctx| {
+                info!(
+                    "[Discord] RPC client is READY (client_id={})",
+                    client_id
+                );
+                connected_ready.store(true, Ordering::Relaxed);
+
+                if let discord_presence::models::EventData::Ready(ref ready_event) = ctx.event {
+                    if let Some(ref user) = ready_event.user {
+                        let user_id = user.id.clone().unwrap_or_default();
+                        let username = user.username.clone().unwrap_or_default();
+                        let discriminator = user.discriminator.clone().unwrap_or_default();
+                        let avatar = user.avatar.clone().unwrap_or_default();
+
+                        if !user_id.is_empty() && !username.is_empty() {
+                            let avatar_url = if avatar.is_empty() {
+                                let disc = discriminator.parse::<u32>().unwrap_or(0);
+                                format!("https://cdn.discordapp.com/embed/avatars/{}.png", if disc > 0 { disc % 5 } else { 0 })
+                            } else {
+                                format!("https://cdn.discordapp.com/avatars/{}/{}.png", user_id, avatar)
+                            };
+
+                            let discord_user = DiscordUser {
+                                id: user_id,
+                                username,
+                                avatar_url,
+                            };
+
+                            if let Some(state) = app_ready.try_state::<crate::models::types::AppState>() {
+                                let mut inner = tauri::async_runtime::block_on(state.inner.write());
+                                inner.discord_user = Some(discord_user.clone());
+                            }
+
+                            let _ = app_ready.emit("discord-user-updated", &discord_user);
+                        }
+                    }
+                }
+            })
+            .persist();
+
+        let connected_err = Arc::clone(&connected);
+        let app_err = app_handle.clone();
+        client
+            .on_error(move |_ctx| {
+                error!(
+                    "[Discord] RPC client encountered an error (client_id={})",
+                    client_id
+                );
+                connected_err.store(false, Ordering::Relaxed);
+
+                if let Some(state) = app_err.try_state::<crate::models::types::AppState>() {
+                    let mut inner = tauri::async_runtime::block_on(state.inner.write());
+                    inner.discord_user = None;
+                }
+
+                let _ = app_err.emit("discord-user-updated", Option::<DiscordUser>::None);
+            })
+            .persist();
+    }
+
     /// Main loop for the RPC thread. Owns the `discord_presence::Client`.
-    fn rpc_thread_main(rx: Receiver<EngineCommand>, connected: Arc<AtomicBool>) {
+    fn rpc_thread_main(rx: Receiver<EngineCommand>, connected: Arc<AtomicBool>, app_handle: tauri::AppHandle) {
         // Exponential backoff delays (seconds).
         let backoff_steps: &[u64] = &[3, 5, 10, 30, 60];
         let mut backoff_idx: usize = 0;
@@ -105,30 +178,8 @@ impl DiscordManager {
         // Create the discord client
         let mut client = discord_presence::Client::new(current_client_id);
 
-        // Register callbacks — these are called internally by the client on
-        // its own reader thread. We use the `connected` flag to communicate
-        // connection state back to the handle.
-        let connected_on_ready = Arc::clone(&connected);
-        client
-            .on_ready(move |_ctx| {
-                info!(
-                    "[Discord] RPC client is READY (client_id={})",
-                    current_client_id
-                );
-                connected_on_ready.store(true, Ordering::Relaxed);
-            })
-            .persist();
-
-        let connected_on_error = Arc::clone(&connected);
-        client
-            .on_error(move |_ctx| {
-                error!(
-                    "[Discord] RPC client encountered an error (client_id={})",
-                    current_client_id
-                );
-                connected_on_error.store(false, Ordering::Relaxed);
-            })
-            .persist();
+        // Register callbacks
+        Self::register_callbacks(&mut client, current_client_id, Arc::clone(&connected), app_handle.clone());
 
         // Attempt to start the IPC connection
         info!(
@@ -159,22 +210,7 @@ impl DiscordManager {
                                 client = discord_presence::Client::new(client_id);
                                 current_client_id = client_id;
 
-                                let connected_ready = Arc::clone(&connected);
-                                client
-                                    .on_ready(move |_ctx| {
-                                        info!(
-                                            "[Discord] RPC client is READY (client_id={})",
-                                            client_id
-                                        );
-                                        connected_ready.store(true, Ordering::Relaxed);
-                                    })
-                                    .persist();
-
-                                let connected_err = Arc::clone(&connected);
-                                client.on_error(move |_ctx| {
-                                    error!("[Discord] RPC client encountered an error (client_id={})", client_id);
-                                    connected_err.store(false, Ordering::Relaxed);
-                                }).persist();
+                                Self::register_callbacks(&mut client, current_client_id, Arc::clone(&connected), app_handle.clone());
 
                                 client.start();
                                 thread::sleep(Duration::from_secs(2));
@@ -214,27 +250,7 @@ impl DiscordManager {
                         // Re-create the client for a fresh connection attempt
                         client = discord_presence::Client::new(current_client_id);
 
-                        let connected_ready = Arc::clone(&connected);
-                        client
-                            .on_ready(move |_ctx| {
-                                info!(
-                                    "[Discord] RPC client reconnected (READY, client_id={})",
-                                    current_client_id
-                                );
-                                connected_ready.store(true, Ordering::Relaxed);
-                            })
-                            .persist();
-
-                        let connected_err = Arc::clone(&connected);
-                        client
-                            .on_error(move |_ctx| {
-                                error!(
-                                    "[Discord] RPC client error during reconnect (client_id={})",
-                                    current_client_id
-                                );
-                                connected_err.store(false, Ordering::Relaxed);
-                            })
-                            .persist();
+                        Self::register_callbacks(&mut client, current_client_id, Arc::clone(&connected), app_handle.clone());
 
                         client.start();
                         thread::sleep(Duration::from_secs(2));
@@ -302,11 +318,12 @@ impl DiscordManager {
         }
 
         info!(
-            "[Discord] Setting activity: details='{}', state='{}', image='{}'",
-            details, state, large_image
+            "[Discord] Setting activity: name='{}', details='{}', state='{}', image='{}'",
+            large_text, details, state, large_image
         );
 
         match client.set_activity(|mut act| {
+            act = act.name(&large_text);
             if !details.is_empty() {
                 act = act.details(&details);
             }

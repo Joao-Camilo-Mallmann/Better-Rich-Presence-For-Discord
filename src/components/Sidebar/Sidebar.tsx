@@ -1,5 +1,6 @@
 import { usePresence } from "../../hooks/usePresence";
 import { StatusIndicator } from "../StatusIndicator/StatusIndicator";
+import { Home, AppWindow, Settings } from "lucide-react";
 
 interface SidebarProps {
   currentPage: "dashboard" | "apps" | "settings";
@@ -10,9 +11,9 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
   const { connectionInfo } = usePresence();
 
   const navItems = [
-    { id: "dashboard", label: "Dashboard", icon: "🏠" },
-    { id: "apps", label: "Apps", icon: "📱" },
-    { id: "settings", label: "Settings", icon: "⚙️" },
+    { id: "dashboard", label: "Dashboard", icon: Home },
+    { id: "apps", label: "Apps", icon: AppWindow },
+    { id: "settings", label: "Settings", icon: Settings },
   ] as const;
 
   return (
@@ -28,6 +29,7 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
       <nav className="flex-1 flex flex-col gap-2">
         {navItems.map((item) => {
           const isActive = currentPage === item.id;
+          const Icon = item.icon;
           return (
             <button
               key={item.id}
@@ -46,8 +48,8 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
               {isActive && (
                 <div className="w-1 h-5 bg-white mr-1" style={{ borderRadius: '0' }} />
               )}
-              <span className={`text-lg transition-all duration-100 ${isActive ? "opacity-100" : "opacity-60 group-hover:opacity-100"}`}>
-                {item.icon}
+              <span className={`text-lg transition-all duration-100 flex items-center ${isActive ? "opacity-100" : "opacity-60 group-hover:opacity-100"}`}>
+                <Icon size={18} />
               </span>
               {item.label}
             </button>

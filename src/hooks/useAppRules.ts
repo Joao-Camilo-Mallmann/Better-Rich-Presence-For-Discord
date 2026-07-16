@@ -6,15 +6,15 @@ export function useAppRules() {
   const [rules, setRules] = useState<AppRule[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchRules = async () => {
+  const fetchRules = async (showLoading = true) => {
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       const data = await invoke<AppRule[]>("get_app_rules");
       setRules(data);
     } catch (error) {
       console.error("Failed to fetch app rules:", error);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
@@ -24,7 +24,7 @@ export function useAppRules() {
   const withRefresh = async (cmd: string, args?: Record<string, unknown>) => {
     try {
       await invoke(cmd, args);
-      await fetchRules();
+      await fetchRules(false);
     } catch (error) {
       console.error(`Failed to ${cmd}:`, error);
       throw error;

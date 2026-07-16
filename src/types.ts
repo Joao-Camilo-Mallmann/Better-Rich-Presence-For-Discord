@@ -58,3 +58,9 @@ export interface PriorityInfo {
   prioritized_app: string;
   foreground_app: string;
 }
+
+export interface DiscordUser {
+  id: string;
+  username: string;
+  avatar_url: string;
+}

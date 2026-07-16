@@ -145,7 +145,7 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
 
   return (
     <div
-      className="w-full max-w-[340px] overflow-hidden text-white font-body select-none flex flex-col shrink-0 neo-card"
+      className="w-full max-w-[340px] overflow-hidden text-white font-body select-none flex flex-col shrink-0 neo-card p-3"
       style={{
         background: profile.isGradient
           ? `linear-gradient(180deg, ${profile.themePrimary} 0%, ${profile.themeSecondary} 100%)`
@@ -153,22 +153,14 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
         borderRadius: '16px',
       }}
     >
-      {/* Profile Banner */}
-      <div
-        className="w-full h-[75px] flex-shrink-0"
-        style={{
-          backgroundColor: profile.themePrimary,
-          borderBottom: '3px solid var(--neo-border-color)',
-        }}
-      />
-      {/* Avatar Container overlay */}
-      <div className="absolute top-[38px] left-[12px] z-10" style={{ position: 'relative', marginTop: '-37px', marginLeft: '12px' }}>
+      {/* Avatar Container */}
+      <div className="flex justify-center">
         <div className="relative w-[70px] h-[70px] rounded-full overflow-visible"
           style={{ border: '4px solid var(--neo-border-color)', backgroundColor: 'var(--surface-black)' }}>
           {profile.avatarUrl ? (
             <img
               src={profile.avatarUrl}
-              alt={profile.displayName}
+              alt={profile.username}
               className="w-full h-full rounded-full object-cover"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = "none";
@@ -176,8 +168,8 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
                 if (parent) {
                   const fallback = document.createElement("div");
                   fallback.className = "w-full h-full rounded-full flex items-center justify-center text-xl font-bold text-white";
-                  fallback.style.backgroundColor = getAvatarColor(profile.displayName);
-                  fallback.innerText = profile.displayName.charAt(0).toUpperCase();
+                  fallback.style.backgroundColor = getAvatarColor(profile.username);
+                  fallback.innerText = profile.username.charAt(0).toUpperCase();
                   parent.appendChild(fallback);
                 }
               }}
@@ -185,9 +177,9 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
           ) : (
             <div
               className="w-full h-full rounded-full flex items-center justify-center text-xl font-extrabold text-white"
-              style={{ backgroundColor: getAvatarColor(profile.displayName) }}
+              style={{ backgroundColor: getAvatarColor(profile.username) }}
             >
-              {profile.displayName.charAt(0).toUpperCase()}
+              {profile.username.charAt(0).toUpperCase()}
             </div>
           )}
           {/* Status indicator badge */}
@@ -198,14 +190,11 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
         </div>
       </div>
       {/* Profile Body (Card) */}
-      <div className="mt-[40px] mx-[12px] mb-[12px] p-3 flex flex-col gap-3 z-0 relative neo-border-2"
+      <div className="mt-3 p-3 flex flex-col gap-3 z-0 relative neo-border-2"
         style={{ backgroundColor: 'rgba(0,0,0,0.85)', borderRadius: '8px' }}>
         {/* User Identity */}
-        <div className="flex flex-col">
-          <span className="font-extrabold text-[15px] leading-tight text-white font-display uppercase">
-            {profile.displayName}
-          </span>
-          <span className="text-[11.5px] text-zinc-400 font-medium leading-none mt-[2px]">
+        <div className="flex flex-col items-center text-center">
+          <span className="font-extrabold text-[15px] leading-tight text-white font-display">
             @{profile.username}
           </span>
           {profile.customStatus && (

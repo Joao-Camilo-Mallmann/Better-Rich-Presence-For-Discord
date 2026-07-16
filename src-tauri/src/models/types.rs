@@ -109,6 +109,17 @@ impl Default for PresenceData {
 }
 
 // ---------------------------------------------------------------------------
+// DiscordUser — Discord user profile info
+// ---------------------------------------------------------------------------
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DiscordUser {
+    pub id: String,
+    pub username: String,
+    pub avatar_url: String,
+}
+
+// ---------------------------------------------------------------------------
 // EngineEvent — events flowing from watchers into the engine
 // ---------------------------------------------------------------------------
 
@@ -282,6 +293,7 @@ pub struct AppStateInner {
     pub connection_info: ConnectionInfo,
     pub settings: Settings,
     pub current_client_id: u64,
+    pub discord_user: Option<DiscordUser>,
 }
 
 // ---------------------------------------------------------------------------
@@ -314,6 +326,7 @@ impl AppState {
             connection_info: ConnectionInfo::default(),
             settings,
             current_client_id: 1517170930764480552,
+            discord_user: None,
         };
         Self {
             inner: Arc::new(RwLock::new(inner)),
@@ -441,6 +454,10 @@ impl AppState {
 
     pub async fn get_presence_state(&self) -> PresenceState {
         self.inner.read().await.presence_state
+    }
+
+    pub async fn get_discord_user(&self) -> Option<DiscordUser> {
+        self.inner.read().await.discord_user.clone()
     }
 
     pub async fn get_connection_status(&self) -> ConnectionInfo {

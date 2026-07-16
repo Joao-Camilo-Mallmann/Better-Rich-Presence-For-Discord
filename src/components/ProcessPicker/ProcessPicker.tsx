@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { getIconUrl } from "../../utils/iconUrl";
 import { AppRule } from "../../types";
+import { Search } from "lucide-react";
 
 interface ProcessPickerProps {
   onClose: () => void;
@@ -47,7 +48,9 @@ export function ProcessPicker({ onClose, onSelect, existingRules }: ProcessPicke
         style={{ borderRadius: '12px' }}>
         {/* Search Header */}
         <div className="relative bg-primary" style={{ borderBottom: '3px solid var(--neo-border-color)' }}>
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔎</span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 flex items-center">
+            <Search size={20} />
+          </span>
           <input
             type="text"
             placeholder="Search running processes..."
@@ -122,8 +125,8 @@ export function ProcessPicker({ onClose, onSelect, existingRules }: ProcessPicke
               })}
             </div>
           ) : (
-            <div className="text-center py-10 px-4">
-              <span className="text-2xl mb-2 block">🔍</span>
+            <div className="text-center py-10 px-4 flex flex-col items-center">
+              <Search size={32} className="mb-2 text-muted-ink" />
               <p className="text-xs text-muted-ink font-display uppercase font-bold">No running process matches your search.</p>
             </div>
           )}

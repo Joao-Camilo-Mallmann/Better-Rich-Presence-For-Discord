@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { PresenceCard } from "../../components/PresenceCard/PresenceCard";
 import { usePresence } from "../../hooks/usePresence";
+import { ArrowUp } from "lucide-react";
 
 export function Dashboard() {
-  const { presence, connectionInfo, priorityInfo } = usePresence();
+  const { presence, connectionInfo, priorityInfo, discordUser } = usePresence();
   const [elapsed, setElapsed] = useState<string>("0m");
 
   useEffect(() => {
@@ -19,15 +20,31 @@ export function Dashboard() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="flex flex-col gap-3 items-center justify-center w-full bg-surface-indigo p-8 neo-card dot-grid"
+      <div className="flex justify-center w-full">
+        <div className="flex flex-col gap-3 items-center justify-center w-full max-w-2xl bg-surface-indigo p-8 neo-card dot-grid"
           style={{ borderRadius: '12px' }}>
           {/* Tilted eyebrow label */}
-          <h3 className="text-[10px] text-ink uppercase tracking-wider font-extrabold font-display neo-tilt px-3 py-1 bg-magenta-accent neo-border-2"
+          <h3 className="text-[24px] text-ink uppercase tracking-wider font-extrabold font-display neo-tilt px-3 py-1 bg-magenta-accent neo-border-2"
             style={{ boxShadow: '2px 2px 0 var(--neo-shadow-color)', borderRadius: '4px', color: 'var(--ink-dark)' }}>
             Status Preview
           </h3>
-          <PresenceCard presence={presence} />
+          <PresenceCard
+            presence={presence}
+            profile={
+              discordUser
+                ? {
+                    displayName: discordUser.username,
+                    username: discordUser.username,
+                    avatarUrl: discordUser.avatar_url,
+                    customStatus: "",
+                    status: "online",
+                    themePrimary: "#5865f2",
+                    themeSecondary: "#2c327d",
+                    isGradient: true,
+                  }
+                : undefined
+            }
+          />
         </div>
       </div>
 
@@ -61,7 +78,7 @@ export function Dashboard() {
             }}
             title={`Foreground: ${priorityInfo.foreground_app || "unknown"}`}
           >
-            <span className="text-[13px]">⬆️</span>
+            <ArrowUp size={14} />
             <span>
               Prioritizing:{" "}
               <span className="font-extrabold">

@@ -1,18 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppRule } from "../../types";
 import { getIconUrl } from "../../utils/iconUrl";
 
 interface AppRuleCardProps {
   rule: AppRule;
+  index: number;
+  totalRules: number;
   onUpdate: (rule: AppRule) => void;
   onDelete: (processName: string) => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  onReorder: (newIndex: number) => void;
 }
 
 const labelCls = "text-[10px] text-muted-ink font-extrabold uppercase tracking-wider font-display";
 
-export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
+export function AppRuleCard({
+  rule,
+  index,
+  totalRules,
+  onUpdate,
+  onDelete,
+  onMoveUp,
+  onMoveDown,
+  onReorder,
+}: AppRuleCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [editRule, setEditRule] = useState<AppRule>({ ...rule });
+  const [priorityInput, setPriorityInput] = useState((index + 1).toString());
+
+  useEffect(() => {
+    setPriorityInput((index + 1).toString());
+  }, [index]);
+
+  const handlePrioritySubmit = () => {
+    const val = parseInt(priorityInput, 10);
+    if (!isNaN(val) && val > 0 && val <= totalRules) {
+      onReorder(val - 1);
+    } else {
+      setPriorityInput((index + 1).toString());
+    }
+  };
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -46,6 +74,11 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
       <div className="p-3 flex justify-between items-center gap-3 cursor-pointer hover:bg-white/5 transition-colors"
         onClick={() => !expanded && setExpanded(true)}>
         <div className="flex items-center gap-3 flex-1 min-w-0">
+          {/* Priority slot badge inside the card */}
+          <div className="text-[10px] font-black text-ink bg-surface-onyx px-2 py-1 neo-border-2 select-none font-display shrink-0"
+            style={{ borderRadius: '4px', borderColor: 'var(--neo-border-color)' }}>
+            #{index + 1}
+          </div>
           <div className="w-10 h-10 bg-surface-onyx flex items-center justify-center overflow-hidden flex-shrink-0 neo-border-2"
             style={{ borderRadius: '6px' }}>
             <img src={iconUrl} alt={rule.display_name} className="w-7 h-7 object-contain" onError={(e) => {
@@ -62,7 +95,29 @@ export function AppRuleCard({ rule, onUpdate, onDelete }: AppRuleCardProps) {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-3 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+          {/* Priority Up/Down arrow buttons */}
+          <div className="flex flex-col gap-[3px]">
+            <button
+              onClick={onMoveUp}
+              disabled={index === 0}
+              className="w-5 h-5 flex items-center justify-center text-[10px] font-black bg-surface-onyx text-ink neo-border-2 neo-press disabled:opacity-30 disabled:pointer-events-none"
+              style={{ borderRadius: '3px' }}
+              title="Move Up (Increase Priority)"
+            >
+              ▲
+            </button>
+            <button
+              onClick={onMoveDown}
+              disabled={index === totalRules - 1}
+              className="w-5 h-5 flex items-center justify-center text-[10px] font-black bg-surface-onyx text-ink neo-border-2 neo-press disabled:opacity-30 disabled:pointer-events-none"
+              style={{ borderRadius: '3px' }}
+              title="Move Down (Decrease Priority)"
+            >
+              ▼
+            </button>
+          </div>
+
           {/* Arcade Toggle */}
           <div
             className={`neo-toggle ${rule.enabled ? "active" : ""}`}

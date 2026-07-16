@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useSettings } from "../../hooks/useSettings";
 import { Settings as SettingsType } from "../../types";
+import { ArrowUp } from "lucide-react";
 
 const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (
   <div
@@ -25,13 +26,13 @@ const NumberInput = ({ value, onChange, min, max }: { value: number; onChange: (
 );
 
 const SettingRow = ({ label, description, icon, children, borderB = true }: {
-  label: string; description?: string; icon?: string; children: React.ReactNode; borderB?: boolean;
+  label: string; description?: string; icon?: React.ReactNode; children: React.ReactNode; borderB?: boolean;
 }) => (
   <div className={`flex justify-between items-center py-3 gap-4${borderB ? "" : ""}`}
     style={{ borderBottom: borderB ? '2px solid var(--neo-border-color)' : 'none' }}>
     <div className="flex flex-col">
       <span className="font-bold text-ink text-xs flex items-center gap-2 font-display uppercase">
-        {icon && <span className="text-magenta-accent">{icon}</span>}
+        {icon && <span className="text-magenta-accent flex items-center">{icon}</span>}
         {label}
       </span>
       {description && <span className="text-[10px] text-muted-ink mt-0.5">{description}</span>}
@@ -74,7 +75,7 @@ export function Settings() {
         {/* Max Priority Mode */}
         <SettingRow
           label="Max Priority Mode"
-          icon="⬆️"
+          icon={<ArrowUp size={12} />}
           description="Always displays the highest priority app running on the PC, even if not in focus. The rule list order defines the priority."
         >
           <Toggle checked={localSettings.priority_mode_enabled} onChange={(v) => set("priority_mode_enabled", v)} />
