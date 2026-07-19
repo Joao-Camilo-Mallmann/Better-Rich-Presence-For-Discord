@@ -48,7 +48,9 @@ export function AppRuleCard({
   };
 
   const patch = (partial: Partial<AppRule>) => setEditRule({ ...editRule, ...partial });
-  const iconUrl = rule.large_image && rule.large_image !== "auto" ? rule.large_image : getIconUrl(rule.process_name, rule.display_name);
+  const iconUrl = rule.large_image && rule.large_image !== "auto" && (rule.large_image.startsWith("http://") || rule.large_image.startsWith("https://"))
+    ? rule.large_image
+    : getIconUrl(rule.process_name, rule.large_image || rule.display_name);
 
   const fields: { label: string; key: keyof AppRule; row?: number }[] = [
     { label: "Display Name", key: "display_name" },

@@ -103,7 +103,7 @@ pub fn resolve_auto_image(process_name: &str, display_name: &str) -> String {
         }
     };
 
-    format!("https://www.google.com/s2/favicons?sz=128&domain={}", domain)
+    format!("https://icons.duckduckgo.com/ip3/{}.ico", domain)
 }
 
 /// Helper to extract the active file name from an editor window title.

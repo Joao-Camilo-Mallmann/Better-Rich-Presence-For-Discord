@@ -58,9 +58,6 @@ impl PresenceEngine {
                 Some(event) = rx.recv() => {
                     match event {
                         EngineEvent::WindowChanged { process_name, window_title, is_prioritized, foreground_app } => {
-                            let rules = self.app_state.get_app_rules().await;
-                            let settings = self.app_state.get_settings().await;
-
                             // Emit priority info to frontend
                             let priority_info = crate::models::types::PriorityInfo {
                                 active: is_prioritized,
@@ -69,87 +66,17 @@ impl PresenceEngine {
                             };
                             let _ = self.app_state.app_handle.emit("priority-info", &priority_info);
 
-                            // Find matching rule (cross-platform, stripping .exe)
-                            let matched_rule = rules.iter().find(|r| {
-                                if !r.enabled {
-                                    return false;
-                                }
-                                let rule_proc = r.process_name.strip_suffix(".exe").unwrap_or(&r.process_name).to_lowercase();
-                                let proc = process_name.strip_suffix(".exe").unwrap_or(&process_name).to_lowercase();
-                                rule_proc == proc
-                            });
-
-                            let mut new_data = PresenceData::default();
-                            let activity_app_name;
-
-                            if let Some(rule) = matched_rule {
-                                let file_name = crate::services::parser::parse_file_name(&window_title, &process_name);
-                                activity_app_name = rule.display_name.clone();
-
-                                let mut details = rule.details.clone();
-                                let mut state = rule.state.clone();
-
-                                // Automatic upgrade of old default rules
-                                let lower_proc = process_name.strip_suffix(".exe").unwrap_or(&process_name).to_lowercase();
-                                if lower_proc == "cursor" {
-                                    if details == "Programando no Cursor" {
-                                        details = "Editando {file}".to_string();
-                                    }
-                                    if state == "Desenvolvendo" {
-                                        state = "No Cursor".to_string();
-                                    }
-                                } else if lower_proc == "code" {
-                                    if details == "Programando no VSCode" {
-                                        details = "Editando {file}".to_string();
-                                    }
-                                    if state == "Desenvolvendo" {
-                                        state = "No VS Code".to_string();
-                                    }
-                                } else if lower_proc == "antigravity ide" || lower_proc == "antigravity-ide" {
-                                    if details == "Programando no Antigravity IDE" {
-                                        details = "Editando {file}".to_string();
-                                    }
-                                    if state == "Desenvolvendo" {
-                                        state = "No Antigravity IDE".to_string();
-                                    }
-                                }
-
-                                new_data.details = details
-                                    .replace("{file}", &file_name)
-                                    .replace("{title}", &window_title);
-
-                                new_data.state = state
-                                    .replace("{file}", &file_name)
-                                    .replace("{title}", &window_title);
-
-                                new_data.large_image = if rule.large_image == "auto" {
-                                    crate::services::parser::resolve_auto_image(&rule.process_name, &rule.display_name)
-                                } else {
-                                    rule.large_image.clone()
-                                };
-                                new_data.large_text = rule.display_name.clone();
-                            } else {
-                                activity_app_name = fallback_app_display_name(&process_name, &window_title);
-
-                                new_data.details = format!("Using {}", activity_app_name);
-                                new_data.state = fallback_window_state(&activity_app_name, &window_title);
-                                new_data.large_image = crate::services::parser::resolve_auto_image(&process_name, &window_title);
-                                new_data.large_text = activity_app_name.clone();
-                            }
-
-                            // Resolve Client ID based on process name
-                            let client_id = get_client_id_or_default(&process_name);
-                            if client_id == DEFAULT_CLIENT_ID {
-                                ensure_visible_app_name(&mut new_data, &activity_app_name);
-                            }
-
-                            // Discord RPC only supports asset keys registered in the
-                            // Developer Portal — not arbitrary URLs. Replace any URL
-                            // with the "default" asset key so the Application's own
-                            // icon is shown instead of nothing.
-                            if new_data.large_image.starts_with("http") {
-                                new_data.large_image = "default".to_string();
-                            }
+                            // Emit event to TS so it can resolve the presence
+                            let _ = self.app_state.app_handle.emit(
+                                "active-process-changed",
+                                serde_json::json!({
+                                    "process_name": process_name,
+                                    "window_title": window_title,
+                                }),
+                            );
+                        }
+                        EngineEvent::ResolvedPresence { client_id, data } => {
+                            let settings = self.app_state.get_settings().await;
 
                             if !self.is_idle {
                                 // Start anti-flicker settle timer
@@ -159,15 +86,21 @@ impl PresenceEngine {
 
                                 let delay = settings.settle_delay_seconds;
                                 let tx = settle_tx.clone();
-                                let data_clone = new_data.clone();
+                                let data_clone = data.clone();
 
                                 settle_task = Some(tauri::async_runtime::spawn(async move {
                                     sleep(Duration::from_secs(delay)).await;
                                     let _ = tx.send((client_id, data_clone)).await;
                                 }));
                             } else {
-                                self.pre_idle_data = Some(new_data.clone());
+                                self.pre_idle_data = Some(data.clone());
                             }
+                        }
+                        EngineEvent::ClearPresence => {
+                            if let Some(task) = settle_task.take() {
+                                task.abort();
+                            }
+                            self.app_state.discord_handle.send(EngineCommand::ClearActivity);
                         }
                         EngineEvent::IdleChanged { idle, idle_minutes } => {
                             let settings = self.app_state.get_settings().await;

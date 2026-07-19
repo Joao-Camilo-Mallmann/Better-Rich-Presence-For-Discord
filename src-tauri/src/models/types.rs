@@ -133,6 +133,10 @@ pub enum EngineEvent {
         is_prioritized: bool,
         foreground_app: Option<String>,
     },
+    /// Presence resolved by TS frontend.
+    ResolvedPresence { client_id: u64, data: PresenceData },
+    /// Command to clear the presence.
+    ClearPresence,
     /// The idle state changed (transition only, not periodic).
     IdleChanged { idle: bool, idle_minutes: u32 },
     /// A manual profile was set by the user.

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { DiscordProfile, PresenceData } from "../../types";
+import { getIconUrl } from "../../utils/iconUrl";
 
 const defaultProfile: DiscordProfile = {
   displayName: "Better RPC User",
@@ -17,78 +18,6 @@ const avatarColors = ["#5865F2", "#ED4245", "#FEE75C", "#EB459E", "#57F287", "#F
 interface PresenceCardProps {
   presence: PresenceData | null;
   profile?: DiscordProfile;
-}
-
-function getIconUrl(appName: string, largeImage: string): string {
-  if (largeImage?.startsWith("http://") || largeImage?.startsWith("https://")) return largeImage;
-
-  const nameToSearch = (appName || "").toLowerCase();
-  if (!nameToSearch) return "";
-
-  const lookup: Record<string, string> = {
-    vscode: "visualstudio.com",
-    "visual studio code": "visualstudio.com",
-    code: "visualstudio.com",
-    cursor: "cursor.com",
-    intellij: "jetbrains.com",
-    "android studio": "developer.android.com",
-    figma: "figma.com",
-    photoshop: "adobe.com",
-    premiere: "adobe.com",
-    "after effects": "adobe.com",
-    blender: "blender.org",
-    excel: "microsoft.com",
-    word: "microsoft.com",
-    powerpoint: "microsoft.com",
-    notion: "notion.so",
-    obsidian: "obsidian.md",
-    slack: "slack.com",
-    spotify: "spotify.com",
-    chrome: "google.com",
-    firefox: "mozilla.org",
-    edge: "microsoft.com",
-    discord: "discord.com",
-    github: "github.com",
-    docker: "docker.com",
-    steam: "steampowered.com",
-    cs2: "counter-strike.net",
-    "counter-strike": "counter-strike.net",
-    valorant: "playvalorant.com",
-    minecraft: "minecraft.net",
-  };
-
-  let domain = "";
-  if (largeImage && largeImage !== "auto") {
-    const key = largeImage.toLowerCase();
-    if (lookup[key]) {
-      domain = lookup[key];
-    } else {
-      const formattedKey = key.replace(/[^a-z0-9]/g, "");
-      for (const k of Object.keys(lookup)) {
-        if (
-          k.replace(/[^a-z0-9]/g, "").includes(formattedKey) ||
-          formattedKey.includes(k.replace(/[^a-z0-9]/g, ""))
-        ) {
-          domain = lookup[k];
-          break;
-        }
-      }
-    }
-  }
-
-  if (!domain) {
-    for (const key of Object.keys(lookup)) {
-      if (nameToSearch.includes(key)) { domain = lookup[key]; break; }
-    }
-  }
-
-  if (!domain) {
-    const clean = nameToSearch.replace(/[^a-zA-Z0-9\s-_]/g, "");
-    const firstWord = clean.trim().split(/\s+/)[0];
-    domain = firstWord ? `${firstWord}.com` : `${clean.replace(/\s+/g, "")}.com`;
-  }
-
-  return `https://www.google.com/s2/favicons?sz=128&domain=${domain}`;
 }
 
 export function PresenceCard({ presence, profile = defaultProfile }: PresenceCardProps) {

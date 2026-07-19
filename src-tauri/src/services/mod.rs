@@ -4,3 +4,4 @@ pub mod parser;
 pub mod presence_db;
 pub mod presence_manager;
 pub mod watcher;
+pub mod process_service;

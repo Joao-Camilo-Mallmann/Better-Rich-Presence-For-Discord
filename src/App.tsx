@@ -5,6 +5,7 @@ import { Apps } from "./pages/Apps/Apps";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Settings } from "./pages/Settings/Settings";
 import { Settings as SettingsIcon } from "lucide-react";
+import { richPresenceService } from "./discord/rich-presence-service";
 
 const appWindow = getCurrentWindow();
 
@@ -22,6 +23,10 @@ function App() {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", "dark");
+    richPresenceService.startListening();
+    return () => {
+      richPresenceService.stopListening();
+    };
   }, []);
 
   return (

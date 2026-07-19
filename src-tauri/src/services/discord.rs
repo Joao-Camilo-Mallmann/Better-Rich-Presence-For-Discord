@@ -302,17 +302,14 @@ impl DiscordManager {
         let large_text = format_string(&data.large_text);
         let timestamp = data.timestamp;
 
-        // If the large image is a URL (starts with "http"), do not send it to Discord
-        // as standard Discord RPC only supports asset keys from the Developer Portal.
-        // For the fallback/generic Client ID (DISCORD_APP_ID), only "default" and "idle"
-        // assets exist — any other key would display as a broken question mark.
-        // Apps with their own Client ID can use any asset key registered in their own
-        // Discord Application, so we don't filter those.
-        if large_image.starts_with("http")
-            || (client_id == DISCORD_APP_ID
-                && large_image != "default"
-                && large_image != "idle"
-                && !large_image.is_empty())
+        // If the large image is NOT a URL (does not start with "http") and we are using the fallback/generic Client ID,
+        // we must restrict it to "default" or "idle" since other asset keys do not exist in the Developer Portal.
+        // External HTTP/HTTPS URLs are supported natively by Discord Rich Presence RPC and can be passed through.
+        if !large_image.starts_with("http")
+            && client_id == DISCORD_APP_ID
+            && large_image != "default"
+            && large_image != "idle"
+            && !large_image.is_empty()
         {
             large_image = "default".to_string();
         }

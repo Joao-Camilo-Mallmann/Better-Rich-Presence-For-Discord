@@ -1,8 +1,26 @@
+import { detectApplication } from "../apps/app-detector";
+
 /**
  * Shared utility to resolve a process/display name to a favicon URL.
  * Single source of truth — used by AppRuleCard, PresenceCard, and anywhere else needed.
  */
 export function getIconUrl(processName: string, displayName?: string): string {
+  if (displayName && (displayName.startsWith("http://") || displayName.startsWith("https://"))) {
+    return displayName;
+  }
+  if (processName.startsWith("http://") || processName.startsWith("https://")) {
+    return processName;
+  }
+
+  // Check our App Catalog first to use high-quality Iconify SVGs in the UI
+  const app = detectApplication(processName) || (displayName ? detectApplication(displayName) : null);
+  if (app && app.icon) {
+    const parts = app.icon.split(":");
+    if (parts.length === 2) {
+      return `https://api.iconify.design/${parts[0]}/${parts[1]}.svg`;
+    }
+  }
+
   const name = (displayName || processName).toLowerCase();
 
   const domainMap: Array<[RegExp, string]> = [
@@ -50,12 +68,12 @@ export function getIconUrl(processName: string, displayName?: string): string {
 
   for (const [pattern, domain] of domainMap) {
     if (pattern.test(name)) {
-      return `https://www.google.com/s2/favicons?sz=128&domain=${domain}`;
+      return `https://icons.duckduckgo.com/ip3/${domain}.ico`;
     }
   }
 
   // Fallback: guess domain from first word of process name
   const cleanName = processName.replace(/\.exe$/i, "").replace(/[^a-z0-9\s-]/gi, "");
   const firstWord = cleanName.split(/[\s_-]/)[0] || cleanName;
-  return `https://www.google.com/s2/favicons?sz=128&domain=${firstWord}.com`;
+  return `https://icons.duckduckgo.com/ip3/${firstWord}.com.ico`;
 }

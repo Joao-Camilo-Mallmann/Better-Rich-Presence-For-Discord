@@ -164,6 +164,7 @@ pub fn run() {
             app.manage(Mutex::new(
                 services::presence_manager::PresenceManager::new(),
             ));
+            app.manage(tx.clone());
 
             // 7. Spawn Watcher Task
             services::watcher::start_window_watcher(tx.clone(), app_state.clone());
@@ -188,6 +189,12 @@ pub fn run() {
             commands::get_settings,
             commands::update_settings,
             commands::get_running_processes,
+            commands::get_client_id_for_process,
+            commands::is_icon_cached,
+            commands::write_cached_icon,
+            commands::get_cached_icon_path,
+            commands::submit_resolved_presence,
+            commands::clear_rich_presence,
         ])
         .on_window_event(|window, event| match event {
             tauri::WindowEvent::CloseRequested { api, .. } => {
