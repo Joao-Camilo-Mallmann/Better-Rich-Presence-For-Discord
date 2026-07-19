@@ -9,9 +9,7 @@ export function getDefaultProcessRules(processName: string, displayName: string)
   let details = displayName;
   let state = "Working";
 
-  if (["game", "play", "cs2", "eldenring", "minecraft", "steam", "gta", "valorant", "counterstrike", "league"].some((kw) => process_lower.includes(kw))) {
-    state = "Playing";
-  } else if (["chrome", "firefox", "edge", "opera", "brave", "safari", "browser", "explorer", "spotify"].some((kw) => process_lower.includes(kw))) {
+  if (["chrome", "firefox", "edge", "opera", "brave", "safari", "browser", "explorer", "spotify"].some((kw) => process_lower.includes(kw))) {
     state = "Browsing";
   }
 

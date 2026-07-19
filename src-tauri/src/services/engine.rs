@@ -6,9 +6,6 @@
 use crate::models::types::{
     AppState, EngineCommand, EngineEvent, PresenceData, PresenceState,
 };
-use crate::services::presence_db::{
-    display_name_from_process_name, get_client_id_or_default, DEFAULT_CLIENT_ID,
-};
 use log::{debug, info};
 use tauri::Emitter;
 use tokio::sync::mpsc;
@@ -66,34 +63,33 @@ impl PresenceEngine {
                             };
                             let _ = self.app_state.app_handle.emit("priority-info", &priority_info);
 
-                            // Emit event to TS so it can resolve the presence
-                            let _ = self.app_state.app_handle.emit(
-                                "active-process-changed",
-                                serde_json::json!({
-                                    "process_name": process_name,
-                                    "window_title": window_title,
-                                }),
-                            );
-                        }
-                        EngineEvent::ResolvedPresence { client_id, data } => {
-                            let settings = self.app_state.get_settings().await;
-
-                            if !self.is_idle {
-                                // Start anti-flicker settle timer
+                            if process_name.is_empty() {
                                 if let Some(task) = settle_task.take() {
                                     task.abort();
                                 }
-
-                                let delay = settings.settle_delay_seconds;
-                                let tx = settle_tx.clone();
-                                let data_clone = data.clone();
-
-                                settle_task = Some(tauri::async_runtime::spawn(async move {
-                                    sleep(Duration::from_secs(delay)).await;
-                                    let _ = tx.send((client_id, data_clone)).await;
-                                }));
+                                self.app_state.discord_handle.send(EngineCommand::ClearActivity);
                             } else {
-                                self.pre_idle_data = Some(data.clone());
+                                // 1. Resolve presence data in Rust
+                                let (client_id, data) = self.resolve_presence(&process_name, &window_title).await;
+
+                                // 2. Trigger settle task or update pre-idle data
+                                if !self.is_idle {
+                                    if let Some(task) = settle_task.take() {
+                                        task.abort();
+                                    }
+
+                                    let settings = self.app_state.get_settings().await;
+                                    let delay = settings.settle_delay_seconds;
+                                    let tx = settle_tx.clone();
+                                    let data_clone = data.clone();
+
+                                    settle_task = Some(tauri::async_runtime::spawn(async move {
+                                        sleep(Duration::from_secs(delay)).await;
+                                        let _ = tx.send((client_id, data_clone)).await;
+                                    }));
+                                } else {
+                                    self.pre_idle_data = Some(data);
+                                }
                             }
                         }
                         EngineEvent::ClearPresence => {
@@ -252,6 +248,126 @@ impl PresenceEngine {
         // Sync to shared state and emit events
         self.sync_state().await;
     }
+
+    async fn resolve_presence(&self, process_name: &str, window_title: &str) -> (u64, PresenceData) {
+        use crate::services::parser::{detect_catalog_app, parse_file_name, resolve_iconify_url, resolve_auto_image};
+        use crate::services::presence_db::get_client_id_or_default;
+
+        let rules = self.app_state.get_app_rules().await;
+        
+        // Find rule
+        let matched_rule = rules.iter().find(|r| {
+            if !r.enabled {
+                return false;
+            }
+            let rule_proc = r.process_name.replace(".exe", "").replace(".EXE", "").to_lowercase();
+            let proc = process_name.replace(".exe", "").replace(".EXE", "").to_lowercase();
+            rule_proc == proc
+        });
+
+        // Resolve client ID
+        let client_id = if let Some(rule) = matched_rule {
+            if let Some(ref override_id) = rule.client_id {
+                override_id.parse::<u64>().unwrap_or_else(|_| get_client_id_or_default(process_name))
+            } else {
+                get_client_id_or_default(process_name)
+            }
+        } else {
+            get_client_id_or_default(process_name)
+        };
+
+        let mut details = String::new();
+        let mut state = String::new();
+        let mut large_image = String::new();
+        let mut large_text = String::new();
+
+        let app = detect_catalog_app(process_name);
+
+        let default_client_id = 1517170930764480552;
+
+        if let Some(rule) = matched_rule {
+            let clean_file_name = parse_file_name(window_title, process_name);
+            details = rule.details
+                .replace("{file}", &clean_file_name)
+                .replace("{title}", window_title);
+            state = rule.state
+                .replace("{file}", &clean_file_name)
+                .replace("{title}", window_title);
+            large_image = rule.large_image.clone();
+            large_text = rule.display_name.clone();
+        } else if let Some(catalog_app) = app {
+            details = format!("Using {}", catalog_app.name);
+            state = if window_title.is_empty() { "Active".to_string() } else { window_title.to_string() };
+            large_image = "auto".to_string();
+            large_text = catalog_app.name.to_string();
+        } else if process_name.to_lowercase() == "explorer.exe" || process_name.to_lowercase() == "explorer" {
+            let is_desktop = window_title.is_empty()
+                || window_title == "Área de Trabalho"
+                || window_title == "Desktop"
+                || window_title == "Program Manager";
+
+            if is_desktop {
+                let phrases = [
+                    ("Admirando o papel de parede", "Só de boa..."),
+                    ("Organizando a Área de Trabalho", "Faxina digital"),
+                    ("Refletindo sobre o próximo código", "Pensando..."),
+                    ("Navegando pela Área de Trabalho", "Decidindo o que abrir"),
+                    ("Explorando o ciberespaço", "No controle"),
+                    ("Customizando o sistema", "Deixando no estilo"),
+                ];
+                // Select a pseudo-random phrase using timestamp to avoid rand dependency
+                let idx = (chrono::Local::now().timestamp_millis().abs() as usize) % phrases.len();
+                let phrase = phrases[idx];
+                details = phrase.0.to_string();
+                state = phrase.1.to_string();
+            } else {
+                details = "Organizando pastas".to_string();
+                state = format!("Explorando: {}", window_title);
+            }
+            large_image = "default".to_string();
+            large_text = "Windows Explorer".to_string();
+        } else {
+            let pretty_name = crate::services::presence_db::display_name_from_process_name(process_name);
+            details = format!("Using {}", pretty_name);
+            state = if window_title.is_empty() { "Active".to_string() } else { window_title.to_string() };
+            large_image = "default".to_string();
+            large_text = pretty_name;
+        }
+
+        // Image formatting/mapping
+        if large_image == "auto" || large_image.is_empty() {
+            if client_id == default_client_id && app.is_some() {
+                let catalog_app = app.unwrap();
+                large_image = resolve_iconify_url(catalog_app.icon);
+            } else if let Some(catalog_app) = app {
+                large_image = catalog_app.discord_asset.to_string();
+            } else {
+                large_image = "default".to_string();
+            }
+        } else if large_image.contains(':') {
+            large_image = resolve_iconify_url(&large_image);
+        } else if client_id == default_client_id 
+            && large_image != "default" 
+            && large_image != "idle" 
+            && !large_image.starts_with("http") 
+        {
+            if let Some(catalog_app) = app {
+                large_image = resolve_iconify_url(catalog_app.icon);
+            } else {
+                large_image = resolve_auto_image(process_name, &large_text);
+            }
+        }
+
+        let presence_data = PresenceData {
+            details,
+            state,
+            large_image,
+            large_text,
+            timestamp: 0, // Will be set by apply_presence
+        };
+
+        (client_id, presence_data)
+    }
 }
 
 /// Helper function to spawn the engine task
@@ -260,89 +376,4 @@ pub fn start_engine(rx: mpsc::Receiver<EngineEvent>, app_state: AppState) {
     tauri::async_runtime::spawn(async move {
         engine.run(rx).await;
     });
-}
-
-fn fallback_app_display_name(process_name: &str, window_title: &str) -> String {
-    let process_display_name = display_name_from_process_name(process_name);
-    if !process_display_name.is_empty() {
-        return process_display_name;
-    }
-
-    let title = window_title.trim();
-    if !title.is_empty() {
-        return title.to_string();
-    }
-
-    "Unknown app".to_string()
-}
-
-fn fallback_window_state(app_name: &str, window_title: &str) -> String {
-    let title = window_title.trim();
-    if title.is_empty() || title.eq_ignore_ascii_case(app_name) {
-        return "Active".to_string();
-    }
-
-    title.to_string()
-}
-
-fn ensure_visible_app_name(data: &mut PresenceData, app_name: &str) {
-    let app_name = app_name.trim();
-    if app_name.is_empty() {
-        return;
-    }
-
-    let details = data.details.trim();
-    if details.is_empty()
-        || details.eq_ignore_ascii_case("Using the computer")
-        || details.eq_ignore_ascii_case("Usando o computador")
-    {
-        data.details = format!("Using {}", app_name);
-    } else if !details.to_lowercase().contains(&app_name.to_lowercase()) {
-        data.details = format!("{} - {}", app_name, details);
-    }
-
-    if data.large_text.trim().is_empty()
-        || data.large_text.eq_ignore_ascii_case("Better Rich Presence")
-    {
-        data.large_text = app_name.to_string();
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn fallback_presence_uses_process_name_as_visible_app_name() {
-        let app_name = fallback_app_display_name("custom_tool.exe", "Project - Custom Tool");
-        let mut data = PresenceData {
-            details: format!("Using {}", app_name),
-            state: fallback_window_state(&app_name, "Project - Custom Tool"),
-            large_image: String::new(),
-            large_text: app_name.clone(),
-            timestamp: 0,
-        };
-
-        ensure_visible_app_name(&mut data, &app_name);
-
-        assert_eq!(app_name, "Custom Tool");
-        assert_eq!(data.details, "Using Custom Tool");
-        assert_eq!(data.state, "Project - Custom Tool");
-        assert_eq!(data.large_text, "Custom Tool");
-    }
-
-    #[test]
-    fn generic_client_presence_prefixes_rule_details_with_app_name() {
-        let mut data = PresenceData {
-            details: "Editing main.rs".to_string(),
-            state: "Developing".to_string(),
-            large_image: "auto".to_string(),
-            large_text: "Cursor".to_string(),
-            timestamp: 0,
-        };
-
-        ensure_visible_app_name(&mut data, "Cursor");
-
-        assert_eq!(data.details, "Cursor - Editing main.rs");
-    }
 }

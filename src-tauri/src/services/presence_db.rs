@@ -35,7 +35,6 @@ pub fn display_name_from_process_name(process_name: &str) -> String {
         "code" | "vscode" => "VS Code".to_string(),
         "msedge" => "Edge".to_string(),
         "obs64" | "obs32" | "obs" => "OBS Studio".to_string(),
-        "cs2" => "Counter-Strike 2".to_string(),
         "windowsterminal" => "Terminal".to_string(),
         "githubdesktop" => "GitHub Desktop".to_string(),
         other => other
@@ -61,7 +60,7 @@ pub fn get_client_id(process_name: &str) -> Option<&'static str> {
     // Mappings of process name -> Discord Application ID
     // Note: These are example community IDs, you might need to update them with actual ones
     match name.as_str() {
-        "code" | "vscode" => Some("383226320970055681"), // VS Code
+        "code" | "vscode" | "code-insiders" | "codium" | "vscodium" => Some("383226320970055681"), // VS Code
         "firefox" => Some("383227926214344715"),         // Firefox
         "chrome" => Some("383226655516311552"),          // Google Chrome
         "spotify" => Some("361424911850110996"),         // Spotify (Custom/Fallback)
@@ -70,7 +69,6 @@ pub fn get_client_id(process_name: &str) -> Option<&'static str> {
         "slack" => Some("383227663456337920"),           // Slack
         "figma" => Some("763435133604085800"),           // Figma
         "obs64" | "obs32" | "obs" => Some("366579227523121153"), // OBS Studio
-        "steam" | "steamwebhelper" => Some("366578051662577665"), // Steam
         _ => None,
     }
 }

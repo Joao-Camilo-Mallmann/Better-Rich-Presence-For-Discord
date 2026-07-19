@@ -57,7 +57,7 @@ use tauri::{
     Manager,
 };
 use tauri_plugin_store::StoreExt;
-use tokio::sync::{mpsc, Mutex};
+use tokio::sync::mpsc;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -161,9 +161,6 @@ pub fn run() {
                 AppState::new(app.handle().clone(), discord_handle, app_rules, settings);
 
             app.manage(app_state.clone());
-            app.manage(Mutex::new(
-                services::presence_manager::PresenceManager::new(),
-            ));
             app.manage(tx.clone());
 
             // 7. Spawn Watcher Task
@@ -179,7 +176,6 @@ pub fn run() {
             commands::get_presence_state,
             commands::get_discord_user,
             commands::get_connection_status,
-            commands::update_presence,
             commands::get_app_rules,
             commands::update_app_rule,
             commands::add_app_rule,
@@ -189,12 +185,6 @@ pub fn run() {
             commands::get_settings,
             commands::update_settings,
             commands::get_running_processes,
-            commands::get_client_id_for_process,
-            commands::is_icon_cached,
-            commands::write_cached_icon,
-            commands::get_cached_icon_path,
-            commands::submit_resolved_presence,
-            commands::clear_rich_presence,
         ])
         .on_window_event(|window, event| match event {
             tauri::WindowEvent::CloseRequested { api, .. } => {

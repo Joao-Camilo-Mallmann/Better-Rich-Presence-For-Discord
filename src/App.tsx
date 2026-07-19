@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useSettings } from "./hooks/useSettings";
+import { usePresence } from "./hooks/usePresence";
 import { Apps } from "./pages/Apps/Apps";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Settings } from "./pages/Settings/Settings";
 import { Settings as SettingsIcon } from "lucide-react";
-import { richPresenceService } from "./discord/rich-presence-service";
+import { getIconUrl } from "./utils/iconUrl";
 
 const appWindow = getCurrentWindow();
 
 function App() {
   const { settings, updateSettings } = useSettings();
+  const { presence } = usePresence();
   const [showSettings, setShowSettings] = useState(false);
 
   const rpcActive = settings?.global_enabled ?? true;
@@ -21,12 +23,22 @@ function App() {
     }
   };
 
+  const appName = presence?.large_text || "Better RPC";
+  const iconUrl = presence ? getIconUrl(appName, presence.large_image || "") : "/logo.png";
+
+  useEffect(() => {
+    document.title = appName;
+    let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = iconUrl;
+  }, [appName, iconUrl]);
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", "dark");
-    richPresenceService.startListening();
-    return () => {
-      richPresenceService.stopListening();
-    };
   }, []);
 
   return (
@@ -40,14 +52,15 @@ function App() {
         <div data-tauri-drag-region className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
           <div data-tauri-drag-region className="flex items-center gap-2">
             <img
-              src="/logo.png"
-              alt="Better RPC Logo"
+              src={iconUrl}
+              alt="App Icon"
               width="28"
-              height="21"
-              className="object-contain"
+              height="28"
+              className="object-contain rounded-md"
+              onError={(e) => (e.currentTarget.src = "/logo.png")}
             />
-            <h1 data-tauri-drag-region className="text-lg font-extrabold tracking-tight text-ink font-display uppercase">
-              Better RPC
+            <h1 data-tauri-drag-region className="text-lg font-extrabold tracking-tight text-ink font-display uppercase truncate max-w-[200px]" title={appName}>
+              {appName}
             </h1>
           </div>
         </div>

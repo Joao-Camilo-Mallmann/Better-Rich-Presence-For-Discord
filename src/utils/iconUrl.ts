@@ -5,7 +5,10 @@ import { detectApplication } from "../apps/app-detector";
  * Single source of truth — used by AppRuleCard, PresenceCard, and anywhere else needed.
  */
 export function getIconUrl(processName: string, displayName?: string): string {
-  if (displayName && (displayName.startsWith("http://") || displayName.startsWith("https://"))) {
+  if (
+    displayName &&
+    (displayName.startsWith("http://") || displayName.startsWith("https://"))
+  ) {
     return displayName;
   }
   if (processName.startsWith("http://") || processName.startsWith("https://")) {
@@ -13,7 +16,9 @@ export function getIconUrl(processName: string, displayName?: string): string {
   }
 
   // Check our App Catalog first to use high-quality Iconify SVGs in the UI
-  const app = detectApplication(processName) || (displayName ? detectApplication(displayName) : null);
+  const app =
+    detectApplication(processName) ||
+    (displayName ? detectApplication(displayName) : null);
   if (app && app.icon) {
     const parts = app.icon.split(":");
     if (parts.length === 2) {
@@ -22,6 +27,10 @@ export function getIconUrl(processName: string, displayName?: string): string {
   }
 
   const name = (displayName || processName).toLowerCase();
+
+  if (/idle|afk|using the computer|usando o computador/.test(name)) {
+    return "https://api.iconify.design/lucide/monitor.svg";
+  }
 
   const domainMap: Array<[RegExp, string]> = [
     // Dev / Editors
@@ -38,32 +47,34 @@ export function getIconUrl(processName: string, displayName?: string): string {
     [/pgadmin/, "pgadmin.org"],
     [/dbeaver/, "dbeaver.io"],
     // Browsers
-    [/chrome/, "google.com"], [/firefox/, "mozilla.org"],
-    [/edge/, "microsoft.com"], [/opera/, "opera.com"],
-    [/brave/, "brave.com"], [/safari/, "apple.com"],
+    [/chrome/, "google.com"],
+    [/firefox/, "mozilla.org"],
+    [/edge/, "microsoft.com"],
+    [/opera/, "opera.com"],
+    [/brave/, "brave.com"],
+    [/safari/, "apple.com"],
     // Office / Productivity
-    [/notion/, "notion.so"], [/obsidian/, "obsidian.md"],
+    [/notion/, "notion.so"],
+    [/obsidian/, "obsidian.md"],
     [/excel|powerpoint|teams|\bword\b/, "microsoft.com"],
-    [/trello/, "trello.com"], [/asana/, "asana.com"],
+    [/trello/, "trello.com"],
+    [/asana/, "asana.com"],
     [/jira|confluence/, "atlassian.com"],
-    [/slack/, "slack.com"], [/discord/, "discord.com"],
-    [/telegram/, "telegram.org"], [/whatsapp/, "whatsapp.com"],
-    [/zoom/, "zoom.us"], [/skype/, "skype.com"],
+    [/slack/, "slack.com"],
+    [/discord/, "discord.com"],
+    [/telegram/, "telegram.org"],
+    [/whatsapp/, "whatsapp.com"],
+    [/zoom/, "zoom.us"],
+    [/skype/, "skype.com"],
     // Design / Media
     [/figma/, "figma.com"],
     [/photoshop|illustrator|premiere|after effects/, "adobe.com"],
-    [/canva/, "canva.com"], [/blender/, "blender.org"],
-    [/unity/, "unity.com"], [/unreal/, "unrealengine.com"],
-    [/vlc/, "videolan.org"], [/obs/, "obsproject.com"],
-    // Entertainment / Gaming
-    [/spotify/, "spotify.com"], [/steam/, "steampowered.com"],
-    [/github/, "github.com"], [/docker/, "docker.com"],
-    [/netflix/, "netflix.com"], [/youtube/, "youtube.com"],
-    [/twitch/, "twitch.tv"], [/minecraft/, "minecraft.net"],
-    [/roblox/, "roblox.com"], [/league of legends/, "leagueoflegends.com"],
-    [/valorant/, "playvalorant.com"],
-    [/counter-strike|cs2|csgo/, "counter-strike.net"],
-    [/terminal|powershell|cmd/, "microsoft.com"],
+    [/canva/, "canva.com"],
+    [/blender/, "blender.org"],
+    [/unity/, "unity.com"],
+    [/unreal/, "unrealengine.com"],
+    [/vlc/, "videolan.org"],
+    [/obs/, "obsproject.com"],
   ];
 
   for (const [pattern, domain] of domainMap) {
@@ -73,7 +84,9 @@ export function getIconUrl(processName: string, displayName?: string): string {
   }
 
   // Fallback: guess domain from first word of process name
-  const cleanName = processName.replace(/\.exe$/i, "").replace(/[^a-z0-9\s-]/gi, "");
+  const cleanName = processName
+    .replace(/\.exe$/i, "")
+    .replace(/[^a-z0-9\s-]/gi, "");
   const firstWord = cleanName.split(/[\s_-]/)[0] || cleanName;
   return `https://icons.duckduckgo.com/ip3/${firstWord}.com.ico`;
 }

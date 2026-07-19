@@ -137,7 +137,7 @@ export function PresenceCard({ presence, profile = defaultProfile }: PresenceCar
         {/* Presence Section */}
         <div className="flex flex-col">
           <div className="flex justify-between items-center text-[10px] font-extrabold text-zinc-400 tracking-wider uppercase mb-2 font-display">
-            <span className="neo-stroke" style={{ WebkitTextStroke: '0.5px rgba(0,0,0,0.3)' }}>PLAYING A GAME</span>
+            <span className="neo-stroke" style={{ WebkitTextStroke: '0.5px rgba(0,0,0,0.3)' }}>USING AN APPLICATION</span>
           </div>
           {/* Activity Layout */}
           <div className="flex items-start gap-3 mt-1 text-left">

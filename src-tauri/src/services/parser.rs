@@ -148,3 +148,147 @@ pub fn parse_file_name(window_title: &str, process_name: &str) -> String {
         }
     }
 }
+
+pub struct CatalogApp {
+    pub id: &'static str,
+    pub name: &'static str,
+    pub executables: &'static [&'static str],
+    pub icon: &'static str,
+    pub discord_asset: &'static str,
+}
+
+pub static APP_CATALOG: &[CatalogApp] = &[
+    CatalogApp {
+        id: "visual-studio-code",
+        name: "Visual Studio Code",
+        executables: &["Code.exe", "code"],
+        icon: "simple-icons:visualstudiocode",
+        discord_asset: "vscode",
+    },
+    CatalogApp {
+        id: "google-chrome",
+        name: "Google Chrome",
+        executables: &["chrome.exe"],
+        icon: "simple-icons:googlechrome",
+        discord_asset: "chrome",
+    },
+    CatalogApp {
+        id: "spotify",
+        name: "Spotify",
+        executables: &["Spotify.exe"],
+        icon: "simple-icons:spotify",
+        discord_asset: "spotify",
+    },
+    CatalogApp {
+        id: "cursor",
+        name: "Cursor",
+        executables: &["cursor.exe", "Cursor.exe"],
+        icon: "lucide:square-terminal",
+        discord_asset: "cursor",
+    },
+    CatalogApp {
+        id: "antigravity-ide",
+        name: "Antigravity IDE",
+        executables: &["antigravity ide.exe", "antigravity-ide.exe"],
+        icon: "lucide:orbit",
+        discord_asset: "antigravity",
+    },
+    CatalogApp {
+        id: "zen-browser",
+        name: "Zen Browser",
+        executables: &["zen.exe"],
+        icon: "lucide:compass",
+        discord_asset: "zen",
+    },
+    CatalogApp {
+        id: "intellij-idea",
+        name: "IntelliJ IDEA",
+        executables: &["idea64.exe"],
+        icon: "simple-icons:intellijidea",
+        discord_asset: "intellij",
+    },
+    CatalogApp {
+        id: "webstorm",
+        name: "WebStorm",
+        executables: &["webstorm64.exe"],
+        icon: "simple-icons:webstorm",
+        discord_asset: "webstorm",
+    },
+    CatalogApp {
+        id: "pycharm",
+        name: "PyCharm",
+        executables: &["pycharm64.exe"],
+        icon: "simple-icons:pycharm",
+        discord_asset: "pycharm",
+    },
+    CatalogApp {
+        id: "phpstorm",
+        name: "PhpStorm",
+        executables: &["phpstorm64.exe"],
+        icon: "simple-icons:phpstorm",
+        discord_asset: "phpstorm",
+    },
+];
+
+pub fn detect_catalog_app(process_name: &str) -> Option<&'static CatalogApp> {
+    if process_name.is_empty() {
+        return None;
+    }
+    
+    // Extract file name
+    let file_name = process_name.split(['\\', '/']).next_back().unwrap_or(process_name);
+    let normalized = file_name.to_lowercase().trim().to_string();
+
+    // 1. Try matching by executables exactly
+    for app in APP_CATALOG {
+        if app.executables.iter().any(|exe| exe.to_lowercase().trim() == normalized) {
+            return Some(app);
+        }
+    }
+
+    // 2. Try matching by ID or discord_asset exactly
+    for app in APP_CATALOG {
+        if app.id.to_lowercase() == normalized || app.discord_asset.to_lowercase() == normalized {
+            return Some(app);
+        }
+    }
+
+    // 3. Try fuzzy matching by checking if the app name matches or contains the name
+    for app in APP_CATALOG {
+        let clean_app_name = app.name.to_lowercase().trim().to_string();
+        if normalized.contains(&clean_app_name) || clean_app_name.contains(&normalized) {
+            return Some(app);
+        }
+    }
+
+    // 4. Special manual aliases for editors
+    if normalized.contains("vscode") || normalized.contains("visual studio code") || normalized == "code" {
+        return APP_CATALOG.iter().find(|app| app.id == "visual-studio-code");
+    }
+    if normalized.contains("cursor") {
+        return APP_CATALOG.iter().find(|app| app.id == "cursor");
+    }
+    if normalized.contains("antigravity") {
+        return APP_CATALOG.iter().find(|app| app.id == "antigravity-ide");
+    }
+    if normalized.contains("intellij") || normalized.contains("idea") || normalized == "idea64" {
+        return APP_CATALOG.iter().find(|app| app.id == "intellij-idea");
+    }
+
+    None
+}
+
+pub fn resolve_iconify_url(icon: &str) -> String {
+    let parts: Vec<&str> = icon.split(':').collect();
+    if parts.len() == 2 {
+        let collection = parts[0];
+        let name = parts[1];
+        format!(
+            "https://images.weserv.nl/?url=https://api.iconify.design/{}/{}.svg&output=png&w=512&h=512",
+            collection, name
+        )
+    } else {
+        "default".to_string()
+    }
+}
+

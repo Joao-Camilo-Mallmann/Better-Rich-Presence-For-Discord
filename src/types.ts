@@ -12,6 +12,7 @@ export interface AppRule {
   state: string;
   large_image: string;
   enabled: boolean;
+  client_id?: string;
 }
 
 export interface PresenceData {

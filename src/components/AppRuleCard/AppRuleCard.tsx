@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AppRule } from "../../types";
 import { getIconUrl } from "../../utils/iconUrl";
 
@@ -10,7 +10,6 @@ interface AppRuleCardProps {
   onDelete: (processName: string) => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
-  onReorder: (newIndex: number) => void;
 }
 
 const labelCls = "text-[10px] text-muted-ink font-extrabold uppercase tracking-wider font-display";
@@ -23,24 +22,9 @@ export function AppRuleCard({
   onDelete,
   onMoveUp,
   onMoveDown,
-  onReorder,
 }: AppRuleCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [editRule, setEditRule] = useState<AppRule>({ ...rule });
-  const [priorityInput, setPriorityInput] = useState((index + 1).toString());
-
-  useEffect(() => {
-    setPriorityInput((index + 1).toString());
-  }, [index]);
-
-  const handlePrioritySubmit = () => {
-    const val = parseInt(priorityInput, 10);
-    if (!isNaN(val) && val > 0 && val <= totalRules) {
-      onReorder(val - 1);
-    } else {
-      setPriorityInput((index + 1).toString());
-    }
-  };
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -57,12 +41,13 @@ export function AppRuleCard({
     { label: "Details (Line 1)", key: "details", row: 1 },
     { label: "State (Line 2)", key: "state", row: 1 },
     { label: "Image (Asset Key)", key: "large_image", row: 2 },
+    { label: "Discord Client ID (Opcional)", key: "client_id", row: 2 },
   ];
 
   const Field = ({ label, field }: { label: string; field: keyof AppRule }) => (
     <div className="flex flex-col gap-1 flex-1">
       <label className={labelCls}>{label}</label>
-      <input className="neo-input text-sm" type="text" value={editRule[field] as string}
+      <input className="neo-input text-sm" type="text" value={(editRule[field] as string) || ""}
         onChange={(e) => patch({ [field]: e.target.value })} />
     </div>
   );

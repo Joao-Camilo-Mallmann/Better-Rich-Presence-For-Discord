@@ -55,6 +55,9 @@ pub struct AppRule {
     pub large_image: String,
     /// Whether this rule is currently active.
     pub enabled: bool,
+    /// Custom Discord Client ID override for this rule.
+    #[serde(default)]
+    pub client_id: Option<String>,
 }
 
 impl AppRule {
@@ -73,6 +76,7 @@ impl AppRule {
             state: state.into(),
             large_image: large_image.into(),
             enabled: true,
+            client_id: None,
         }
     }
 }
@@ -99,8 +103,8 @@ pub struct PresenceData {
 impl Default for PresenceData {
     fn default() -> Self {
         Self {
-            details: String::from("Usando o computador"),
-            state: String::from("Idle"),
+            details: String::from("Navegando no PC"),
+            state: String::from("Só de boa..."),
             large_image: String::from("default"),
             large_text: String::from("Better Rich Presence"),
             timestamp: chrono::Utc::now().timestamp(),
@@ -133,8 +137,6 @@ pub enum EngineEvent {
         is_prioritized: bool,
         foreground_app: Option<String>,
     },
-    /// Presence resolved by TS frontend.
-    ResolvedPresence { client_id: u64, data: PresenceData },
     /// Command to clear the presence.
     ClearPresence,
     /// The idle state changed (transition only, not periodic).
