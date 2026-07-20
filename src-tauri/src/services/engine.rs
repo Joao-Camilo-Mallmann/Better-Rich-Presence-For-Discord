@@ -4,12 +4,35 @@
 //! handles debounce and anti-flicker, and sends updates to the Discord RPC thread.
 
 use crate::models::types::{
-    AppState, EngineCommand, EngineEvent, PresenceData, PresenceState,
+    AppState, EngineCommand, EngineEvent, PresenceData, PresenceState, DEFAULT_CLIENT_ID,
 };
+use crate::services::app_registry::{AppRegistry, format_app_presence};
 use log::{debug, info};
+use std::collections::HashMap;
 use tauri::Emitter;
 use tokio::sync::mpsc;
 use tokio::time::{sleep, Duration, Instant};
+
+async fn fetch_discord_app_details(client_id: u64) -> Option<(String, String)> {
+    let url = format!("https://discord.com/api/v9/oauth2/applications/{}/rpc", client_id);
+    let client = reqwest::Client::builder()
+        .user_agent("Better-Rich-Presence/0.1.0")
+        .timeout(Duration::from_secs(3))
+        .build()
+        .ok()?;
+    let response = client.get(&url).send().await.ok()?;
+    if response.status().is_success() {
+        #[derive(serde::Deserialize)]
+        struct DiscordAppResponse {
+            name: String,
+            icon: Option<String>,
+        }
+        let app: DiscordAppResponse = response.json().await.ok()?;
+        Some((app.name, app.icon.unwrap_or_default()))
+    } else {
+        None
+    }
+}
 
 pub struct PresenceEngine {
     app_state: AppState,
@@ -22,6 +45,11 @@ pub struct PresenceEngine {
 
     // For storing the last non-idle presence
     pre_idle_data: Option<PresenceData>,
+
+    // Cache for Discord application details (client_id -> (name, icon_hash))
+    client_cache: HashMap<u64, (String, String)>,
+    
+    app_registry: AppRegistry,
 }
 
 impl PresenceEngine {
@@ -31,9 +59,11 @@ impl PresenceEngine {
             current_state: PresenceState::Disconnected,
             current_data: PresenceData::default(),
             is_idle: false,
-            current_client_id: 1517170930764480552,
+            current_client_id: DEFAULT_CLIENT_ID,
             last_update_time: None,
             pre_idle_data: None,
+            client_cache: HashMap::new(),
+            app_registry: AppRegistry::new(),
         }
     }
 
@@ -69,26 +99,56 @@ impl PresenceEngine {
                                 }
                                 self.app_state.discord_handle.send(EngineCommand::ClearActivity);
                             } else {
-                                // 1. Resolve presence data in Rust
-                                let (client_id, data) = self.resolve_presence(&process_name, &window_title).await;
+                                // Find matching rule (cross-platform, stripping .exe)
+                                let matched_rule = rules.iter().find(|r| {
+                                    if !r.enabled {
+                                        return false;
+                                    }
+                                    let rule_proc = r.process_name.strip_suffix(".exe").unwrap_or(&r.process_name).to_lowercase();
+                                    let proc = process_name.strip_suffix(".exe").unwrap_or(&process_name).to_lowercase();
+                                    rule_proc == proc
+                                });
 
-                                // 2. Trigger settle task or update pre-idle data
+                                // Resolve Client ID based on process name
+                                let app_info = self.app_registry.find_app(&process_name);
+                                let client_id = app_info
+                                    .map(|app| app.client_id.parse::<u64>().unwrap_or(DEFAULT_CLIENT_ID))
+                                    .unwrap_or(DEFAULT_CLIENT_ID);
+                                let default_app_name = app_info.map(|app| app.name.clone());
+
+                                // Fetch application details from Discord if custom client ID and not cached
+                                let (discord_name, discord_icon) = self.resolve_discord_details(client_id).await;
+
+                                let (mut new_data, activity_app_name) = match matched_rule {
+                                    Some(rule) => {
+                                        let data = self.build_presence_from_rule(rule, &process_name, &window_title, discord_icon);
+                                        (data, rule.display_name.clone())
+                                    }
+                                    None => {
+                                        self.build_fallback_presence(&process_name, &window_title, discord_name, discord_icon, default_app_name)
+                                    }
+                                };
+
+                                if client_id == DEFAULT_CLIENT_ID {
+                                    self.format_presence_for_default_client(&mut new_data, &activity_app_name);
+                                }
+
                                 if !self.is_idle {
+                                    // Start anti-flicker settle timer
                                     if let Some(task) = settle_task.take() {
                                         task.abort();
                                     }
 
-                                    let settings = self.app_state.get_settings().await;
                                     let delay = settings.settle_delay_seconds;
                                     let tx = settle_tx.clone();
-                                    let data_clone = data.clone();
+                                    let data_clone = new_data.clone();
 
                                     settle_task = Some(tauri::async_runtime::spawn(async move {
                                         sleep(Duration::from_secs(delay)).await;
                                         let _ = tx.send((client_id, data_clone)).await;
                                     }));
                                 } else {
-                                    self.pre_idle_data = Some(data);
+                                    self.pre_idle_data = Some(new_data.clone());
                                 }
                             }
                         }
@@ -118,7 +178,7 @@ impl PresenceEngine {
                                         timestamp: chrono::Utc::now().timestamp(),
                                     };
 
-                                    self.apply_presence(1517170930764480552, idle_data).await;
+                                    self.apply_presence(DEFAULT_CLIENT_ID, idle_data).await;
                                 }
                             } else if !idle && self.is_idle {
                                 info!("User is active again, restoring presence");
@@ -135,7 +195,7 @@ impl PresenceEngine {
                             if let Some(task) = settle_task.take() {
                                 task.abort();
                             }
-                            self.apply_presence(1517170930764480552, data).await;
+                            self.apply_presence(DEFAULT_CLIENT_ID, data).await;
                         }
                         EngineEvent::Shutdown => {
                             info!("Engine received shutdown signal");
@@ -198,6 +258,129 @@ impl PresenceEngine {
         }
     }
 
+    async fn resolve_discord_details(&mut self, client_id: u64) -> (Option<String>, Option<String>) {
+        if client_id == DEFAULT_CLIENT_ID {
+            return (None, None);
+        }
+
+        if !self.client_cache.contains_key(&client_id) {
+            if let Some((name, icon_hash)) = fetch_discord_app_details(client_id).await {
+                self.client_cache.insert(client_id, (name, icon_hash));
+            } else {
+                self.client_cache.insert(client_id, (String::new(), String::new()));
+            }
+        }
+
+        let cached_details = self.client_cache.get(&client_id);
+        let mut discord_icon = None;
+        let mut discord_name = None;
+
+        if let Some((name, icon_hash)) = cached_details {
+            if !name.is_empty() {
+                discord_name = Some(name.clone());
+            }
+            if !icon_hash.is_empty() {
+                discord_icon = Some(format!("https://cdn.discordapp.com/app-icons/{}/{}.png?size=128", client_id, icon_hash));
+            }
+        }
+
+        (discord_name, discord_icon)
+    }
+
+    fn build_presence_from_rule(
+        &self,
+        rule: &crate::models::types::AppRule,
+        process_name: &str,
+        window_title: &str,
+        discord_icon: Option<String>,
+    ) -> PresenceData {
+        let (fmt_details, _) = if let Some(app) = self.app_registry.find_app(process_name) {
+            format_app_presence(&app.category, &app.name, window_title)
+        } else {
+            format_app_presence("generic", &rule.display_name, window_title)
+        };
+
+        let file_name = fmt_details.strip_prefix("Editing ").unwrap_or(&fmt_details);
+
+        let details = rule.details
+            .replace("{file}", file_name)
+            .replace("{title}", window_title);
+
+        let state = rule.state
+            .replace("{file}", file_name)
+            .replace("{title}", window_title);
+
+        let large_image = if rule.large_image == "auto" {
+            discord_icon.unwrap_or_else(|| "default".to_string())
+        } else {
+            rule.large_image.clone()
+        };
+
+        PresenceData {
+            details,
+            state,
+            large_image,
+            large_text: rule.display_name.clone(),
+            timestamp: 0,
+        }
+    }
+
+    fn build_fallback_presence(
+        &self,
+        process_name: &str,
+        window_title: &str,
+        discord_name: Option<String>,
+        discord_icon: Option<String>,
+        default_app_name: Option<String>,
+    ) -> (PresenceData, String) {
+        let activity_app_name = discord_name.or(default_app_name).unwrap_or_else(|| {
+            let title = window_title.trim();
+            if !title.is_empty() { title.to_string() } else { "Unknown app".to_string() }
+        });
+
+        let large_image = discord_icon.unwrap_or_else(|| "default".to_string());
+
+        let (details, state) = if let Some(app) = self.app_registry.find_app(process_name) {
+            format_app_presence(&app.category, &app.name, window_title)
+        } else {
+            format_app_presence("generic", &activity_app_name, window_title)
+        };
+
+        (
+            PresenceData {
+                details,
+                state,
+                large_image,
+                large_text: activity_app_name.clone(),
+                timestamp: 0,
+            },
+            activity_app_name,
+        )
+    }
+
+    fn format_presence_for_default_client(&self, data: &mut PresenceData, app_name: &str) {
+        let app_name = app_name.trim();
+        if app_name.is_empty() {
+            return;
+        }
+
+        let details = data.details.trim();
+        if details.is_empty()
+            || details.eq_ignore_ascii_case("Using the computer")
+            || details.eq_ignore_ascii_case("Usando o computador")
+        {
+            data.details = format!("Using {}", app_name);
+        } else if !details.to_lowercase().contains(&app_name.to_lowercase()) {
+            data.details = format!("{} - {}", app_name, details);
+        }
+
+        if data.large_text.trim().is_empty()
+            || data.large_text.eq_ignore_ascii_case("Better Rich Presence")
+        {
+            data.large_text = app_name.to_string();
+        }
+    }
+
     async fn apply_presence(&mut self, client_id: u64, mut new_data: PresenceData) {
         // Diff check
         if new_data.details == self.current_data.details
@@ -249,126 +432,6 @@ impl PresenceEngine {
         self.sync_state().await;
     }
 
-    async fn resolve_presence(&self, process_name: &str, window_title: &str) -> (u64, PresenceData) {
-        use crate::services::parser::{detect_catalog_app, parse_file_name, resolve_iconify_url, resolve_auto_image};
-        use crate::services::presence_db::get_client_id_or_default;
-
-        let rules = self.app_state.get_app_rules().await;
-        
-        // Find rule
-        let matched_rule = rules.iter().find(|r| {
-            if !r.enabled {
-                return false;
-            }
-            let rule_proc = r.process_name.replace(".exe", "").replace(".EXE", "").to_lowercase();
-            let proc = process_name.replace(".exe", "").replace(".EXE", "").to_lowercase();
-            rule_proc == proc
-        });
-
-        // Resolve client ID
-        let client_id = if let Some(rule) = matched_rule {
-            if let Some(ref override_id) = rule.client_id {
-                override_id.parse::<u64>().unwrap_or_else(|_| get_client_id_or_default(process_name))
-            } else {
-                get_client_id_or_default(process_name)
-            }
-        } else {
-            get_client_id_or_default(process_name)
-        };
-
-        let mut details = String::new();
-        let mut state = String::new();
-        let mut large_image = String::new();
-        let mut large_text = String::new();
-
-        let app = detect_catalog_app(process_name);
-
-        let default_client_id = 1517170930764480552;
-
-        if let Some(rule) = matched_rule {
-            let clean_file_name = parse_file_name(window_title, process_name);
-            details = rule.details
-                .replace("{file}", &clean_file_name)
-                .replace("{title}", window_title);
-            state = rule.state
-                .replace("{file}", &clean_file_name)
-                .replace("{title}", window_title);
-            large_image = rule.large_image.clone();
-            large_text = rule.display_name.clone();
-        } else if let Some(catalog_app) = app {
-            details = format!("Using {}", catalog_app.name);
-            state = if window_title.is_empty() { "Active".to_string() } else { window_title.to_string() };
-            large_image = "auto".to_string();
-            large_text = catalog_app.name.to_string();
-        } else if process_name.to_lowercase() == "explorer.exe" || process_name.to_lowercase() == "explorer" {
-            let is_desktop = window_title.is_empty()
-                || window_title == "Área de Trabalho"
-                || window_title == "Desktop"
-                || window_title == "Program Manager";
-
-            if is_desktop {
-                let phrases = [
-                    ("Admirando o papel de parede", "Só de boa..."),
-                    ("Organizando a Área de Trabalho", "Faxina digital"),
-                    ("Refletindo sobre o próximo código", "Pensando..."),
-                    ("Navegando pela Área de Trabalho", "Decidindo o que abrir"),
-                    ("Explorando o ciberespaço", "No controle"),
-                    ("Customizando o sistema", "Deixando no estilo"),
-                ];
-                // Select a pseudo-random phrase using timestamp to avoid rand dependency
-                let idx = (chrono::Local::now().timestamp_millis().abs() as usize) % phrases.len();
-                let phrase = phrases[idx];
-                details = phrase.0.to_string();
-                state = phrase.1.to_string();
-            } else {
-                details = "Organizando pastas".to_string();
-                state = format!("Explorando: {}", window_title);
-            }
-            large_image = "default".to_string();
-            large_text = "Windows Explorer".to_string();
-        } else {
-            let pretty_name = crate::services::presence_db::display_name_from_process_name(process_name);
-            details = format!("Using {}", pretty_name);
-            state = if window_title.is_empty() { "Active".to_string() } else { window_title.to_string() };
-            large_image = "default".to_string();
-            large_text = pretty_name;
-        }
-
-        // Image formatting/mapping
-        if large_image == "auto" || large_image.is_empty() {
-            if client_id == default_client_id && app.is_some() {
-                let catalog_app = app.unwrap();
-                large_image = resolve_iconify_url(catalog_app.icon);
-            } else if let Some(catalog_app) = app {
-                large_image = catalog_app.discord_asset.to_string();
-            } else {
-                large_image = "default".to_string();
-            }
-        } else if large_image.contains(':') {
-            large_image = resolve_iconify_url(&large_image);
-        } else if client_id == default_client_id 
-            && large_image != "default" 
-            && large_image != "idle" 
-            && !large_image.starts_with("http") 
-        {
-            if let Some(catalog_app) = app {
-                large_image = resolve_iconify_url(catalog_app.icon);
-            } else {
-                large_image = resolve_auto_image(process_name, &large_text);
-            }
-        }
-
-        let presence_data = PresenceData {
-            details,
-            state,
-            large_image,
-            large_text,
-            timestamp: 0, // Will be set by apply_presence
-        };
-
-        (client_id, presence_data)
-    }
-}
 
 /// Helper function to spawn the engine task
 pub fn start_engine(rx: mpsc::Receiver<EngineEvent>, app_state: AppState) {

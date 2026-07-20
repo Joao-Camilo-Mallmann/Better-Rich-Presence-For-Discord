@@ -18,7 +18,7 @@
 //! The RPC thread owns the `Client`, processes `EngineCommand`s, and implements
 //! an exponential-backoff watchdog for automatic reconnection.
 
-use crate::models::types::{EngineCommand, PresenceData};
+use crate::models::types::{EngineCommand, PresenceData, DEFAULT_CLIENT_ID};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{Receiver, Sender};
 use std::sync::Arc;
@@ -27,9 +27,8 @@ use std::time::Duration;
 
 use log::{error, info, warn};
 
-/// Discord Application ID placeholder.
-/// Replace with your actual Discord Application ID (as u64).
-const DISCORD_APP_ID: u64 = 1517170930764480552; 
+/// Discord Application ID constant imported from types.
+const DISCORD_APP_ID: u64 = DEFAULT_CLIENT_ID; 
 
 // ---------------------------------------------------------------------------
 // DiscordHandle — send-side interface for the rest of the app

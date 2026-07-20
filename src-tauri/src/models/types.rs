@@ -7,6 +7,9 @@
 
 use serde::{Deserialize, Serialize};
 
+/// The default Discord Application ID for Better Rich Presence.
+pub const DEFAULT_CLIENT_ID: u64 = 1517170930764480552;
+
 // ---------------------------------------------------------------------------
 // PresenceState — lifecycle state of the connection & engine
 // ---------------------------------------------------------------------------
@@ -331,7 +334,7 @@ impl AppState {
             presence_state: PresenceState::Disconnected,
             connection_info: ConnectionInfo::default(),
             settings,
-            current_client_id: 1517170930764480552,
+            current_client_id: DEFAULT_CLIENT_ID,
             discord_user: None,
         };
         Self {
