@@ -271,7 +271,7 @@ impl DiscordManager {
     /// Apply a `PresenceData` as a Discord activity.
     fn apply_activity(
         client: &mut discord_presence::Client,
-        client_id: u64,
+        _client_id: u64,
         data: &PresenceData,
         connected: &Arc<AtomicBool>,
     ) {
@@ -305,13 +305,6 @@ impl DiscordManager {
         // (often resulting in a '?' error icon). Replace any URL with the "default"
         // asset key so the Application's own icon is shown instead of nothing.
         if large_image.starts_with("http") {
-            large_image = "default".to_string();
-        } else if client_id == DISCORD_APP_ID
-            && large_image != "default"
-            && large_image != "idle"
-            && !large_image.is_empty()
-        {
-            // If using the generic client ID, restrict to known asset keys
             large_image = "default".to_string();
         }
 
