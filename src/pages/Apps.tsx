@@ -1,13 +1,14 @@
-import { useState, useMemo } from "react";
-import { useAppRules } from "../../hooks/useAppRules";
-import { AppRule } from "../../types";
-import { ProcessPicker } from "../../components/ProcessPicker/ProcessPicker";
-import { AppList } from "../../components/AppList/AppList";
-import { getDefaultProcessRules } from "../../utils/processDefaults";
-import { Search, ArrowUpDown, AlertTriangle } from "lucide-react";
+import { AlertTriangle, ArrowUpDown, Search } from "lucide-react";
+import { useMemo, useState } from "react";
+import { AppList } from "../components/AppList";
+import { ProcessPicker } from "../components/ProcessPicker";
+import { useAppRules } from "../hooks/useAppRules";
+import { AppRule } from "../types";
+import { getDefaultProcessRules } from "../utils/processDefaults";
 
 export function Apps() {
-  const { rules, loading, updateRule, deleteRule, addRule, reorderRules } = useAppRules();
+  const { rules, loading, updateRule, deleteRule, addRule, reorderRules } =
+    useAppRules();
   const [ruleSearch, setRuleSearch] = useState("");
   const [showPicker, setShowPicker] = useState(false);
 
@@ -16,14 +17,23 @@ export function Apps() {
 
   const filteredRules = useMemo(() => {
     const search = ruleSearch.toLowerCase();
-    return rules.filter((r) =>
-      r.display_name.toLowerCase().includes(search) || r.process_name.toLowerCase().includes(search)
+    return rules.filter(
+      (r) =>
+        r.display_name.toLowerCase().includes(search) ||
+        r.process_name.toLowerCase().includes(search),
     );
   }, [rules, ruleSearch]);
 
-  const selectProcess = async (proc: { process_name: string; display_name: string }) => {
-    if (rules.some((r) => r.process_name === proc.process_name)) return setShowPicker(false);
-    const defaults = getDefaultProcessRules(proc.process_name, proc.display_name);
+  const selectProcess = async (proc: {
+    process_name: string;
+    display_name: string;
+  }) => {
+    if (rules.some((r) => r.process_name === proc.process_name))
+      return setShowPicker(false);
+    const defaults = getDefaultProcessRules(
+      proc.process_name,
+      proc.display_name,
+    );
     await addRule({
       process_name: proc.process_name,
       display_name: proc.display_name,
@@ -40,9 +50,14 @@ export function Apps() {
       <div className="flex h-full items-center justify-center p-8">
         <div className="flex flex-col items-center gap-3">
           {/* Chunky spinning square */}
-          <div className="w-8 h-8 neo-border-2 bg-primary"
-            style={{ animation: 'neo-spin 0.8s linear infinite' }} />
-          <span className="text-muted-ink text-sm font-bold font-display uppercase" style={{ animation: 'neo-pulse 2s infinite' }}>
+          <div
+            className="w-8 h-8 neo-border-2 bg-primary"
+            style={{ animation: "neo-spin 0.8s linear infinite" }}
+          />
+          <span
+            className="text-muted-ink text-sm font-bold font-display uppercase"
+            style={{ animation: "neo-pulse 2s infinite" }}
+          >
             Loading applications...
           </span>
         </div>
@@ -56,7 +71,9 @@ export function Apps() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div className="flex flex-col">
-            <h3 className="text-lg text-ink font-extrabold font-display uppercase">Configured Applications</h3>
+            <h3 className="text-lg text-ink font-extrabold font-display uppercase">
+              Configured Applications
+            </h3>
             <span className="text-xs text-muted-ink mt-0.5 max-w-[280px]">
               Manage priority and appearance of apps on your Discord.
             </span>
@@ -65,7 +82,7 @@ export function Apps() {
             <button
               onClick={() => setShowPicker(true)}
               className="neo-btn bg-green-accent text-ink-dark text-xs px-3.5 py-2 flex items-center gap-1.5"
-              style={{ borderRadius: '6px' }}
+              style={{ borderRadius: "6px" }}
             >
               <span className="text-base font-black">+</span> Fetch from System
             </button>
@@ -73,8 +90,10 @@ export function Apps() {
         </div>
 
         {/* Search */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between p-2 neo-border-2 bg-surface-onyx"
-          style={{ borderRadius: '8px' }}>
+        <div
+          className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between p-2 neo-border-2 bg-surface-onyx"
+          style={{ borderRadius: "8px" }}
+        >
           <div className="relative flex-1 w-full">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-ink flex items-center">
               <Search size={14} />
@@ -85,7 +104,7 @@ export function Apps() {
               value={ruleSearch}
               onChange={(e) => setRuleSearch(e.target.value)}
               className="w-full neo-input text-xs pl-9 pr-3 py-2"
-              style={{ borderRadius: '6px' }}
+              style={{ borderRadius: "6px" }}
             />
           </div>
         </div>
@@ -122,8 +141,6 @@ export function Apps() {
           existingRules={rules}
         />
       )}
-
-
     </div>
   );
 }

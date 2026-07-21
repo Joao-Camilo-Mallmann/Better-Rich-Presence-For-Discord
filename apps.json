@@ -1,0 +1,2567 @@
+[
+  {
+    "id": "vscode",
+    "name": "Visual Studio Code",
+    "executables": ["code.exe", "code"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:visualstudiocode",
+    "icon_url": "https://api.iconify.design/simple-icons:visualstudiocode.svg"
+  },
+  {
+    "id": "vscode_insiders",
+    "name": "VS Code Insiders",
+    "executables": ["code - insiders.exe", "code-insiders"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:visualstudiocode",
+    "icon_url": "https://api.iconify.design/simple-icons:visualstudiocode.svg"
+  },
+  {
+    "id": "antigravity",
+    "name": "Antigravity",
+    "executables": ["antigravity.exe", "antigravity"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "material-symbols:antigravity",
+    "icon_url": "https://api.iconify.design/material-symbols:antigravity.svg"
+  },
+  {
+    "id": "cursor",
+    "name": "Cursor",
+    "executables": ["cursor.exe", "cursor"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:cursor",
+    "icon_url": "https://api.iconify.design/simple-icons:cursor.svg"
+  },
+  {
+    "id": "windsurf",
+    "name": "Windsurf",
+    "executables": ["windsurf.exe", "windsurf"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:codeium",
+    "icon_url": "https://api.iconify.design/simple-icons:codeium.svg"
+  },
+  {
+    "id": "zed",
+    "name": "Zed",
+    "executables": ["zed.exe", "zed"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:zedindustries",
+    "icon_url": "https://api.iconify.design/simple-icons:zedindustries.svg"
+  },
+  {
+    "id": "neovim",
+    "name": "Neovim",
+    "executables": ["nvim.exe", "nvim"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:neovim",
+    "icon_url": "https://api.iconify.design/simple-icons:neovim.svg"
+  },
+  {
+    "id": "vim",
+    "name": "Vim",
+    "executables": ["vim.exe", "vim", "gvim.exe"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:vim",
+    "icon_url": "https://api.iconify.design/simple-icons:vim.svg"
+  },
+  {
+    "id": "emacs",
+    "name": "Emacs",
+    "executables": ["emacs.exe", "emacs"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:gnuemacs",
+    "icon_url": "https://api.iconify.design/simple-icons:gnuemacs.svg"
+  },
+  {
+    "id": "visualstudio",
+    "name": "Visual Studio",
+    "executables": ["devenv.exe", "devenv"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:visualstudio",
+    "icon_url": "https://api.iconify.design/simple-icons:visualstudio.svg"
+  },
+  {
+    "id": "intellij",
+    "name": "IntelliJ IDEA",
+    "executables": ["idea64.exe", "idea"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:intellijidea",
+    "icon_url": "https://api.iconify.design/simple-icons:intellijidea.svg"
+  },
+  {
+    "id": "pycharm",
+    "name": "PyCharm",
+    "executables": ["pycharm64.exe", "pycharm"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:pycharm",
+    "icon_url": "https://api.iconify.design/simple-icons:pycharm.svg"
+  },
+  {
+    "id": "webstorm",
+    "name": "WebStorm",
+    "executables": ["webstorm64.exe", "webstorm"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:webstorm",
+    "icon_url": "https://api.iconify.design/simple-icons:webstorm.svg"
+  },
+  {
+    "id": "phpstorm",
+    "name": "PhpStorm",
+    "executables": ["phpstorm64.exe", "phpstorm"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:phpstorm",
+    "icon_url": "https://api.iconify.design/simple-icons:phpstorm.svg"
+  },
+  {
+    "id": "rubymine",
+    "name": "RubyMine",
+    "executables": ["rubymine64.exe", "rubymine"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:rubymine",
+    "icon_url": "https://api.iconify.design/simple-icons:rubymine.svg"
+  },
+  {
+    "id": "clion",
+    "name": "CLion",
+    "executables": ["clion64.exe", "clion"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:clion",
+    "icon_url": "https://api.iconify.design/simple-icons:clion.svg"
+  },
+  {
+    "id": "goland",
+    "name": "GoLand",
+    "executables": ["goland64.exe", "goland"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:goland",
+    "icon_url": "https://api.iconify.design/simple-icons:goland.svg"
+  },
+  {
+    "id": "rider",
+    "name": "Rider",
+    "executables": ["rider64.exe", "rider"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:rider",
+    "icon_url": "https://api.iconify.design/simple-icons:rider.svg"
+  },
+  {
+    "id": "datagrip",
+    "name": "DataGrip",
+    "executables": ["datagrip64.exe", "datagrip"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:datagrip",
+    "icon_url": "https://api.iconify.design/simple-icons:datagrip.svg"
+  },
+  {
+    "id": "androidstudio",
+    "name": "Android Studio",
+    "executables": ["studio64.exe", "studio"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:androidstudio",
+    "icon_url": "https://api.iconify.design/simple-icons:androidstudio.svg"
+  },
+  {
+    "id": "xcode",
+    "name": "Xcode",
+    "executables": ["xcode"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:xcode",
+    "icon_url": "https://api.iconify.design/simple-icons:xcode.svg"
+  },
+  {
+    "id": "sublimetext",
+    "name": "Sublime Text",
+    "executables": ["sublime_text.exe", "sublime_text"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:sublimetext",
+    "icon_url": "https://api.iconify.design/simple-icons:sublimetext.svg"
+  },
+  {
+    "id": "notepadplusplus",
+    "name": "Notepad++",
+    "executables": ["notepad++.exe", "notepad++"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:notepadplusplus",
+    "icon_url": "https://api.iconify.design/simple-icons:notepadplusplus.svg"
+  },
+  {
+    "id": "atom",
+    "name": "Atom",
+    "executables": ["atom.exe", "atom"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:atom",
+    "icon_url": "https://api.iconify.design/simple-icons:atom.svg"
+  },
+  {
+    "id": "eclipse",
+    "name": "Eclipse",
+    "executables": ["eclipse.exe", "eclipse"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:eclipseide",
+    "icon_url": "https://api.iconify.design/simple-icons:eclipseide.svg"
+  },
+  {
+    "id": "netbeans",
+    "name": "NetBeans",
+    "executables": ["netbeans64.exe", "netbeans"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:apachenetbeanside",
+    "icon_url": "https://api.iconify.design/simple-icons:apachenetbeanside.svg"
+  },
+  {
+    "id": "codeblocks",
+    "name": "Code::Blocks",
+    "executables": ["codeblocks.exe", "codeblocks"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:codeblocks",
+    "icon_url": "https://api.iconify.design/simple-icons:codeblocks.svg"
+  },
+  {
+    "id": "rstudio",
+    "name": "RStudio",
+    "executables": ["rstudio.exe", "rstudio"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:rstudio",
+    "icon_url": "https://api.iconify.design/simple-icons:rstudio.svg"
+  },
+  {
+    "id": "jupyter",
+    "name": "Jupyter Notebook",
+    "executables": ["jupyter-notebook.exe", "jupyter"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:jupyter",
+    "icon_url": "https://api.iconify.design/simple-icons:jupyter.svg"
+  },
+  {
+    "id": "spyder",
+    "name": "Spyder",
+    "executables": ["spyder.exe", "spyder"],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon": "simple-icons:spyderide",
+    "icon_url": "https://api.iconify.design/simple-icons:spyderide.svg"
+  },
+  {
+    "id": "docker_desktop",
+    "name": "Docker Desktop",
+    "executables": ["docker desktop.exe", "docker"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:docker",
+    "icon_url": "https://api.iconify.design/simple-icons:docker.svg"
+  },
+  {
+    "id": "kubernetes_dash",
+    "name": "Kubernetes Dashboard",
+    "executables": ["kubectl.exe", "kubectl"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:kubernetes",
+    "icon_url": "https://api.iconify.design/simple-icons:kubernetes.svg"
+  },
+  {
+    "id": "lens",
+    "name": "Lens (Kubernetes IDE)",
+    "executables": ["lens.exe", "lens"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:kubernetes",
+    "icon_url": "https://api.iconify.design/simple-icons:kubernetes.svg"
+  },
+  {
+    "id": "rancherdesktop",
+    "name": "Rancher Desktop",
+    "executables": ["rancher desktop.exe", "rancher-desktop"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:rancher",
+    "icon_url": "https://api.iconify.design/simple-icons:rancher.svg"
+  },
+  {
+    "id": "vagrant",
+    "name": "Vagrant",
+    "executables": ["vagrant.exe", "vagrant"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:vagrant",
+    "icon_url": "https://api.iconify.design/simple-icons:vagrant.svg"
+  },
+  {
+    "id": "virtualbox",
+    "name": "VirtualBox",
+    "executables": ["virtualbox.exe", "virtualbox"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:virtualbox",
+    "icon_url": "https://api.iconify.design/simple-icons:virtualbox.svg"
+  },
+  {
+    "id": "vmware",
+    "name": "VMware Workstation",
+    "executables": ["vmware.exe", "vmware"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:vmware",
+    "icon_url": "https://api.iconify.design/simple-icons:vmware.svg"
+  },
+  {
+    "id": "wsl",
+    "name": "WSL / Windows Subsystem for Linux",
+    "executables": ["wsl.exe", "wsl"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:linux",
+    "icon_url": "https://api.iconify.design/simple-icons:linux.svg"
+  },
+  {
+    "id": "terraform",
+    "name": "Terraform",
+    "executables": ["terraform.exe", "terraform"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:terraform",
+    "icon_url": "https://api.iconify.design/simple-icons:terraform.svg"
+  },
+  {
+    "id": "ansible",
+    "name": "Ansible",
+    "executables": ["ansible.exe", "ansible"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:ansible",
+    "icon_url": "https://api.iconify.design/simple-icons:ansible.svg"
+  },
+  {
+    "id": "aws_cli",
+    "name": "AWS CLI",
+    "executables": ["aws.exe", "aws"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:amazonaws",
+    "icon_url": "https://api.iconify.design/simple-icons:amazonaws.svg"
+  },
+  {
+    "id": "azure_cli",
+    "name": "Azure CLI",
+    "executables": ["az.exe", "az"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:microsoftazure",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftazure.svg"
+  },
+  {
+    "id": "gcloud_cli",
+    "name": "Google Cloud CLI",
+    "executables": ["gcloud.exe", "gcloud"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:googlecloud",
+    "icon_url": "https://api.iconify.design/simple-icons:googlecloud.svg"
+  },
+  {
+    "id": "heroku_cli",
+    "name": "Heroku CLI",
+    "executables": ["heroku.exe", "heroku"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:heroku",
+    "icon_url": "https://api.iconify.design/simple-icons:heroku.svg"
+  },
+  {
+    "id": "vercel_cli",
+    "name": "Vercel CLI",
+    "executables": ["vercel.exe", "vercel"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:vercel",
+    "icon_url": "https://api.iconify.design/simple-icons:vercel.svg"
+  },
+  {
+    "id": "netlify_cli",
+    "name": "Netlify CLI",
+    "executables": ["netlify.exe", "netlify"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:netlify",
+    "icon_url": "https://api.iconify.design/simple-icons:netlify.svg"
+  },
+  {
+    "id": "firebase_cli",
+    "name": "Firebase CLI",
+    "executables": ["firebase.exe", "firebase"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:firebase",
+    "icon_url": "https://api.iconify.design/simple-icons:firebase.svg"
+  },
+  {
+    "id": "supabase_cli",
+    "name": "Supabase CLI",
+    "executables": ["supabase.exe", "supabase"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:supabase",
+    "icon_url": "https://api.iconify.design/simple-icons:supabase.svg"
+  },
+  {
+    "id": "jenkins",
+    "name": "Jenkins",
+    "executables": ["jenkins.exe", "jenkins"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:jenkins",
+    "icon_url": "https://api.iconify.design/simple-icons:jenkins.svg"
+  },
+  {
+    "id": "gitlab_runner",
+    "name": "GitLab Runner",
+    "executables": ["gitlab-runner.exe", "gitlab-runner"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:gitlab",
+    "icon_url": "https://api.iconify.design/simple-icons:gitlab.svg"
+  },
+  {
+    "id": "circleci",
+    "name": "CircleCI Local CLI",
+    "executables": ["circleci.exe", "circleci"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:circleci",
+    "icon_url": "https://api.iconify.design/simple-icons:circleci.svg"
+  },
+  {
+    "id": "github_desktop",
+    "name": "GitHub Desktop",
+    "executables": ["githubdesktop.exe", "githubdesktop"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:github",
+    "icon_url": "https://api.iconify.design/simple-icons:github.svg"
+  },
+  {
+    "id": "gitkraken",
+    "name": "GitKraken",
+    "executables": ["gitkraken.exe", "gitkraken"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:gitkraken",
+    "icon_url": "https://api.iconify.design/simple-icons:gitkraken.svg"
+  },
+  {
+    "id": "sourcetree",
+    "name": "Sourcetree",
+    "executables": ["sourcetree.exe", "sourcetree"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:sourcetree",
+    "icon_url": "https://api.iconify.design/simple-icons:sourcetree.svg"
+  },
+  {
+    "id": "git",
+    "name": "Git (CLI)",
+    "executables": ["git.exe", "git"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:git",
+    "icon_url": "https://api.iconify.design/simple-icons:git.svg"
+  },
+  {
+    "id": "gitextensions",
+    "name": "Git Extensions",
+    "executables": ["gitextensions.exe", "gitextensions"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:git",
+    "icon_url": "https://api.iconify.design/simple-icons:git.svg"
+  },
+  {
+    "id": "tortoisegit",
+    "name": "TortoiseGit",
+    "executables": ["tortoisegitproc.exe", "tortoisegitproc"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:git",
+    "icon_url": "https://api.iconify.design/simple-icons:git.svg"
+  },
+  {
+    "id": "fork",
+    "name": "Fork (Git Client)",
+    "executables": ["fork.exe", "fork"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:git",
+    "icon_url": "https://api.iconify.design/simple-icons:git.svg"
+  },
+  {
+    "id": "postman",
+    "name": "Postman",
+    "executables": ["postman.exe", "postman"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:postman",
+    "icon_url": "https://api.iconify.design/simple-icons:postman.svg"
+  },
+  {
+    "id": "insomnia",
+    "name": "Insomnia",
+    "executables": ["insomnia.exe", "insomnia"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:insomnia",
+    "icon_url": "https://api.iconify.design/simple-icons:insomnia.svg"
+  },
+  {
+    "id": "bruno",
+    "name": "Bruno",
+    "executables": ["bruno.exe", "bruno"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:bruno",
+    "icon_url": "https://api.iconify.design/simple-icons:bruno.svg"
+  },
+  {
+    "id": "hoppscotch",
+    "name": "Hoppscotch",
+    "executables": ["hoppscotch.exe", "hoppscotch"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:hoppscotch",
+    "icon_url": "https://api.iconify.design/simple-icons:hoppscotch.svg"
+  },
+  {
+    "id": "swagger",
+    "name": "Swagger UI",
+    "executables": ["swagger.exe", "swagger"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:swagger",
+    "icon_url": "https://api.iconify.design/simple-icons:swagger.svg"
+  },
+  {
+    "id": "terminal",
+    "name": "Windows Terminal",
+    "executables": ["windowsterminal.exe", "windowsterminal"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:windowsterminal",
+    "icon_url": "https://api.iconify.design/simple-icons:windowsterminal.svg"
+  },
+  {
+    "id": "iterm2",
+    "name": "iTerm2",
+    "executables": ["iterm2", "iterm"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:iterm2",
+    "icon_url": "https://api.iconify.design/simple-icons:iterm2.svg"
+  },
+  {
+    "id": "hyper",
+    "name": "Hyper",
+    "executables": ["hyper.exe", "hyper"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:hyper",
+    "icon_url": "https://api.iconify.design/simple-icons:hyper.svg"
+  },
+  {
+    "id": "alacritty",
+    "name": "Alacritty",
+    "executables": ["alacritty.exe", "alacritty"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:alacritty",
+    "icon_url": "https://api.iconify.design/simple-icons:alacritty.svg"
+  },
+  {
+    "id": "warp",
+    "name": "Warp Terminal",
+    "executables": ["warp.exe", "warp"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:warp",
+    "icon_url": "https://api.iconify.design/simple-icons:warp.svg"
+  },
+  {
+    "id": "powershell",
+    "name": "PowerShell",
+    "executables": ["powershell.exe", "pwsh.exe", "pwsh"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:powershell",
+    "icon_url": "https://api.iconify.design/simple-icons:powershell.svg"
+  },
+  {
+    "id": "cmder",
+    "name": "Cmder",
+    "executables": ["cmder.exe", "cmder"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:windowsterminal",
+    "icon_url": "https://api.iconify.design/simple-icons:windowsterminal.svg"
+  },
+  {
+    "id": "tabby",
+    "name": "Tabby Terminal",
+    "executables": ["tabby.exe", "tabby"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:gnometerminal",
+    "icon_url": "https://api.iconify.design/simple-icons:gnometerminal.svg"
+  },
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "executables": ["node.exe", "node"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:nodedotjs",
+    "icon_url": "https://api.iconify.design/simple-icons:nodedotjs.svg"
+  },
+  {
+    "id": "python",
+    "name": "Python",
+    "executables": ["python.exe", "python3", "python"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:python",
+    "icon_url": "https://api.iconify.design/simple-icons:python.svg"
+  },
+  {
+    "id": "anaconda",
+    "name": "Anaconda Navigator",
+    "executables": ["anaconda-navigator.exe", "anaconda-navigator"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:anaconda",
+    "icon_url": "https://api.iconify.design/simple-icons:anaconda.svg"
+  },
+  {
+    "id": "docker",
+    "name": "Docker Engine",
+    "executables": ["dockerd.exe", "dockerd"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:docker",
+    "icon_url": "https://api.iconify.design/simple-icons:docker.svg"
+  },
+  {
+    "id": "mysqlworkbench",
+    "name": "MySQL Workbench",
+    "executables": ["mysqlworkbench.exe", "mysql-workbench"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:mysql",
+    "icon_url": "https://api.iconify.design/simple-icons:mysql.svg"
+  },
+  {
+    "id": "pgadmin",
+    "name": "pgAdmin",
+    "executables": ["pgadmin4.exe", "pgadmin4"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:postgresql",
+    "icon_url": "https://api.iconify.design/simple-icons:postgresql.svg"
+  },
+  {
+    "id": "dbeaver",
+    "name": "DBeaver",
+    "executables": ["dbeaver.exe", "dbeaver"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:dbeaver",
+    "icon_url": "https://api.iconify.design/simple-icons:dbeaver.svg"
+  },
+  {
+    "id": "mongodbcompass",
+    "name": "MongoDB Compass",
+    "executables": ["mongodbcompass.exe", "mongodb-compass"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:mongodb",
+    "icon_url": "https://api.iconify.design/simple-icons:mongodb.svg"
+  },
+  {
+    "id": "redisinsight",
+    "name": "RedisInsight",
+    "executables": ["redisinsight.exe", "redisinsight"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:redis",
+    "icon_url": "https://api.iconify.design/simple-icons:redis.svg"
+  },
+  {
+    "id": "navicat",
+    "name": "Navicat",
+    "executables": ["navicat.exe", "navicat"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:navicat",
+    "icon_url": "https://api.iconify.design/simple-icons:navicat.svg"
+  },
+  {
+    "id": "beekeeperstudio",
+    "name": "Beekeeper Studio",
+    "executables": ["beekeeper-studio.exe", "beekeeper-studio"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:beekeeperstudio",
+    "icon_url": "https://api.iconify.design/simple-icons:beekeeperstudio.svg"
+  },
+  {
+    "id": "tableplus",
+    "name": "TablePlus",
+    "executables": ["tableplus.exe", "tableplus"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:tableplus",
+    "icon_url": "https://api.iconify.design/simple-icons:tableplus.svg"
+  },
+  {
+    "id": "sqlitebrowser",
+    "name": "DB Browser for SQLite",
+    "executables": ["db browser for sqlite.exe", "sqlitebrowser"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:sqlite",
+    "icon_url": "https://api.iconify.design/simple-icons:sqlite.svg"
+  },
+  {
+    "id": "supabase_studio",
+    "name": "Supabase Studio",
+    "executables": ["supabase-studio.exe", "supabase-studio"],
+    "client_id": "1517170930764480552",
+    "category": "database",
+    "icon": "simple-icons:supabase",
+    "icon_url": "https://api.iconify.design/simple-icons:supabase.svg"
+  },
+  {
+    "id": "powerbi",
+    "name": "Power BI Desktop",
+    "executables": ["pbidesktop.exe", "pbidesktop"],
+    "client_id": "1517170930764480552",
+    "category": "data",
+    "icon": "simple-icons:powerbi",
+    "icon_url": "https://api.iconify.design/simple-icons:powerbi.svg"
+  },
+  {
+    "id": "tableau",
+    "name": "Tableau Desktop",
+    "executables": ["tableau.exe", "tableau"],
+    "client_id": "1517170930764480552",
+    "category": "data",
+    "icon": "simple-icons:tableau",
+    "icon_url": "https://api.iconify.design/simple-icons:tableau.svg"
+  },
+  {
+    "id": "lookerstudio",
+    "name": "Looker Studio (web)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "data",
+    "icon": "simple-icons:looker",
+    "icon_url": "https://api.iconify.design/simple-icons:looker.svg"
+  },
+  {
+    "id": "metabase",
+    "name": "Metabase",
+    "executables": ["metabase.exe", "metabase"],
+    "client_id": "1517170930764480552",
+    "category": "data",
+    "icon": "simple-icons:metabase",
+    "icon_url": "https://api.iconify.design/simple-icons:metabase.svg"
+  },
+  {
+    "id": "grafana",
+    "name": "Grafana",
+    "executables": ["grafana.exe", "grafana"],
+    "client_id": "1517170930764480552",
+    "category": "data",
+    "icon": "simple-icons:grafana",
+    "icon_url": "https://api.iconify.design/simple-icons:grafana.svg"
+  },
+  {
+    "id": "excel_analysis",
+    "name": "Excel (Análise de Dados)",
+    "executables": ["excel.exe", "excel"],
+    "client_id": "1517170930764480552",
+    "category": "data",
+    "icon": "simple-icons:microsoftexcel",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftexcel.svg"
+  },
+  {
+    "id": "word",
+    "name": "Microsoft Word",
+    "executables": ["winword.exe", "winword"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftword",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftword.svg"
+  },
+  {
+    "id": "excel",
+    "name": "Microsoft Excel",
+    "executables": ["excel.exe", "excel"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftexcel",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftexcel.svg"
+  },
+  {
+    "id": "powerpoint",
+    "name": "Microsoft PowerPoint",
+    "executables": ["powerpnt.exe", "powerpnt"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftpowerpoint",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftpowerpoint.svg"
+  },
+  {
+    "id": "outlook",
+    "name": "Microsoft Outlook",
+    "executables": ["outlook.exe", "outlook"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftoutlook",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftoutlook.svg"
+  },
+  {
+    "id": "onenote",
+    "name": "Microsoft OneNote",
+    "executables": ["onenote.exe", "onenote"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftonenote",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftonenote.svg"
+  },
+  {
+    "id": "access",
+    "name": "Microsoft Access",
+    "executables": ["msaccess.exe", "msaccess"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftaccess",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftaccess.svg"
+  },
+  {
+    "id": "publisher",
+    "name": "Microsoft Publisher",
+    "executables": ["mspub.exe", "mspub"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftoffice",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftoffice.svg"
+  },
+  {
+    "id": "msteams_app",
+    "name": "Microsoft 365 (App)",
+    "executables": ["office.exe", "office"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftoffice",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftoffice.svg"
+  },
+  {
+    "id": "googledocs",
+    "name": "Google Docs (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:googledocs",
+    "icon_url": "https://api.iconify.design/simple-icons:googledocs.svg"
+  },
+  {
+    "id": "googlesheets",
+    "name": "Google Sheets (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:googlesheets",
+    "icon_url": "https://api.iconify.design/simple-icons:googlesheets.svg"
+  },
+  {
+    "id": "googleslides",
+    "name": "Google Slides (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:googleslides",
+    "icon_url": "https://api.iconify.design/simple-icons:googleslides.svg"
+  },
+  {
+    "id": "googledrive",
+    "name": "Google Drive",
+    "executables": ["googledrivefs.exe", "googledrivefs"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:googledrive",
+    "icon_url": "https://api.iconify.design/simple-icons:googledrive.svg"
+  },
+  {
+    "id": "onedrive",
+    "name": "OneDrive",
+    "executables": ["onedrive.exe", "onedrive"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftonedrive",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftonedrive.svg"
+  },
+  {
+    "id": "dropbox",
+    "name": "Dropbox",
+    "executables": ["dropbox.exe", "dropbox"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:dropbox",
+    "icon_url": "https://api.iconify.design/simple-icons:dropbox.svg"
+  },
+  {
+    "id": "box",
+    "name": "Box",
+    "executables": ["box.exe", "box"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:box",
+    "icon_url": "https://api.iconify.design/simple-icons:box.svg"
+  },
+  {
+    "id": "libreoffice_writer",
+    "name": "LibreOffice Writer",
+    "executables": ["swriter.exe", "soffice"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:libreofficewriter",
+    "icon_url": "https://api.iconify.design/simple-icons:libreofficewriter.svg"
+  },
+  {
+    "id": "libreoffice_calc",
+    "name": "LibreOffice Calc",
+    "executables": ["scalc.exe", "soffice"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:libreofficecalc",
+    "icon_url": "https://api.iconify.design/simple-icons:libreofficecalc.svg"
+  },
+  {
+    "id": "libreoffice_impress",
+    "name": "LibreOffice Impress",
+    "executables": ["simpress.exe", "soffice"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:libreofficeimpress",
+    "icon_url": "https://api.iconify.design/simple-icons:libreofficeimpress.svg"
+  },
+  {
+    "id": "wps_office",
+    "name": "WPS Office",
+    "executables": ["wps.exe", "wps"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:wpsoffice",
+    "icon_url": "https://api.iconify.design/simple-icons:wpsoffice.svg"
+  },
+  {
+    "id": "openoffice",
+    "name": "Apache OpenOffice",
+    "executables": ["soffice.exe", "soffice"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:apacheopenoffice",
+    "icon_url": "https://api.iconify.design/simple-icons:apacheopenoffice.svg"
+  },
+  {
+    "id": "notion",
+    "name": "Notion",
+    "executables": ["notion.exe", "notion"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:notion",
+    "icon_url": "https://api.iconify.design/simple-icons:notion.svg"
+  },
+  {
+    "id": "obsidian",
+    "name": "Obsidian",
+    "executables": ["obsidian.exe", "obsidian"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:obsidian",
+    "icon_url": "https://api.iconify.design/simple-icons:obsidian.svg"
+  },
+  {
+    "id": "evernote",
+    "name": "Evernote",
+    "executables": ["evernote.exe", "evernote"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:evernote",
+    "icon_url": "https://api.iconify.design/simple-icons:evernote.svg"
+  },
+  {
+    "id": "onenote_app",
+    "name": "OneNote (App)",
+    "executables": ["onenoteim.exe", "onenoteim"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:microsoftonenote",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftonenote.svg"
+  },
+  {
+    "id": "confluence",
+    "name": "Confluence",
+    "executables": ["confluence.exe", "confluence"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:confluence",
+    "icon_url": "https://api.iconify.design/simple-icons:confluence.svg"
+  },
+  {
+    "id": "logseq",
+    "name": "Logseq",
+    "executables": ["logseq.exe", "logseq"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:logseq",
+    "icon_url": "https://api.iconify.design/simple-icons:logseq.svg"
+  },
+  {
+    "id": "joplin",
+    "name": "Joplin",
+    "executables": ["joplin.exe", "joplin"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:joplin",
+    "icon_url": "https://api.iconify.design/simple-icons:joplin.svg"
+  },
+  {
+    "id": "simplenote",
+    "name": "Simplenote",
+    "executables": ["simplenote.exe", "simplenote"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:simplenote",
+    "icon_url": "https://api.iconify.design/simple-icons:simplenote.svg"
+  },
+  {
+    "id": "standardnotes",
+    "name": "Standard Notes",
+    "executables": ["standard notes.exe", "standard-notes"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:standardnotes",
+    "icon_url": "https://api.iconify.design/simple-icons:standardnotes.svg"
+  },
+  {
+    "id": "anytype",
+    "name": "Anytype",
+    "executables": ["anytype.exe", "anytype"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:anytype",
+    "icon_url": "https://api.iconify.design/simple-icons:anytype.svg"
+  },
+  {
+    "id": "craft",
+    "name": "Craft Docs",
+    "executables": ["craft.exe", "craft"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:craft",
+    "icon_url": "https://api.iconify.design/simple-icons:craft.svg"
+  },
+  {
+    "id": "bear",
+    "name": "Bear",
+    "executables": ["bear.exe", "bear"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:bear",
+    "icon_url": "https://api.iconify.design/simple-icons:bear.svg"
+  },
+  {
+    "id": "typora",
+    "name": "Typora",
+    "executables": ["typora.exe", "typora"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:typora",
+    "icon_url": "https://api.iconify.design/simple-icons:typora.svg"
+  },
+  {
+    "id": "readme",
+    "name": "ReadMe (docs)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:readme",
+    "icon_url": "https://api.iconify.design/simple-icons:readme.svg"
+  },
+  {
+    "id": "gitbook",
+    "name": "GitBook",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:gitbook",
+    "icon_url": "https://api.iconify.design/simple-icons:gitbook.svg"
+  },
+  {
+    "id": "jira",
+    "name": "Jira",
+    "executables": ["jira.exe", "jira"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:jira",
+    "icon_url": "https://api.iconify.design/simple-icons:jira.svg"
+  },
+  {
+    "id": "trello",
+    "name": "Trello",
+    "executables": ["trello.exe", "trello"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:trello",
+    "icon_url": "https://api.iconify.design/simple-icons:trello.svg"
+  },
+  {
+    "id": "asana",
+    "name": "Asana",
+    "executables": ["asana.exe", "asana"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:asana",
+    "icon_url": "https://api.iconify.design/simple-icons:asana.svg"
+  },
+  {
+    "id": "clickup",
+    "name": "ClickUp",
+    "executables": ["clickup.exe", "clickup"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:clickup",
+    "icon_url": "https://api.iconify.design/simple-icons:clickup.svg"
+  },
+  {
+    "id": "monday",
+    "name": "Monday.com",
+    "executables": ["monday.exe", "monday"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:mondaydotcom",
+    "icon_url": "https://api.iconify.design/simple-icons:mondaydotcom.svg"
+  },
+  {
+    "id": "linear",
+    "name": "Linear",
+    "executables": ["linear.exe", "linear"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:linear",
+    "icon_url": "https://api.iconify.design/simple-icons:linear.svg"
+  },
+  {
+    "id": "basecamp",
+    "name": "Basecamp",
+    "executables": ["basecamp3.exe", "basecamp3"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:basecamp",
+    "icon_url": "https://api.iconify.design/simple-icons:basecamp.svg"
+  },
+  {
+    "id": "todoist",
+    "name": "Todoist",
+    "executables": ["todoist.exe", "todoist"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:todoist",
+    "icon_url": "https://api.iconify.design/simple-icons:todoist.svg"
+  },
+  {
+    "id": "tick_tick",
+    "name": "TickTick",
+    "executables": ["ticktick.exe", "ticktick"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:ticktick",
+    "icon_url": "https://api.iconify.design/simple-icons:ticktick.svg"
+  },
+  {
+    "id": "wrike",
+    "name": "Wrike",
+    "executables": ["wrike.exe", "wrike"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:wrike",
+    "icon_url": "https://api.iconify.design/simple-icons:wrike.svg"
+  },
+  {
+    "id": "smartsheet",
+    "name": "Smartsheet",
+    "executables": ["smartsheet.exe", "smartsheet"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:smartsheet",
+    "icon_url": "https://api.iconify.design/simple-icons:smartsheet.svg"
+  },
+  {
+    "id": "airtable",
+    "name": "Airtable",
+    "executables": ["airtable.exe", "airtable"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:airtable",
+    "icon_url": "https://api.iconify.design/simple-icons:airtable.svg"
+  },
+  {
+    "id": "miro",
+    "name": "Miro",
+    "executables": ["miro.exe", "miro"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:miro",
+    "icon_url": "https://api.iconify.design/simple-icons:miro.svg"
+  },
+  {
+    "id": "mural",
+    "name": "Mural",
+    "executables": ["mural.exe", "mural"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:mural",
+    "icon_url": "https://api.iconify.design/simple-icons:mural.svg"
+  },
+  {
+    "id": "coda",
+    "name": "Coda",
+    "executables": ["coda.exe", "coda"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:coda",
+    "icon_url": "https://api.iconify.design/simple-icons:coda.svg"
+  },
+  {
+    "id": "slack",
+    "name": "Slack",
+    "executables": ["slack.exe", "slack"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:slack",
+    "icon_url": "https://api.iconify.design/simple-icons:slack.svg"
+  },
+  {
+    "id": "teams",
+    "name": "Microsoft Teams",
+    "executables": ["teams.exe", "ms-teams.exe", "teams"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:microsoftteams",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftteams.svg"
+  },
+  {
+    "id": "zoom",
+    "name": "Zoom",
+    "executables": ["zoom.exe", "zoom"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:zoom",
+    "icon_url": "https://api.iconify.design/simple-icons:zoom.svg"
+  },
+  {
+    "id": "googlemeet",
+    "name": "Google Meet (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:googlemeet",
+    "icon_url": "https://api.iconify.design/simple-icons:googlemeet.svg"
+  },
+  {
+    "id": "discord",
+    "name": "Discord",
+    "executables": ["discord.exe", "discord"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:discord",
+    "icon_url": "https://api.iconify.design/simple-icons:discord.svg"
+  },
+  {
+    "id": "skype",
+    "name": "Skype",
+    "executables": ["skype.exe", "skype"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:skype",
+    "icon_url": "https://api.iconify.design/simple-icons:skype.svg"
+  },
+  {
+    "id": "webex",
+    "name": "Cisco Webex",
+    "executables": ["webex.exe", "webex"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:webex",
+    "icon_url": "https://api.iconify.design/simple-icons:webex.svg"
+  },
+  {
+    "id": "gmail_app",
+    "name": "Gmail (App)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:gmail",
+    "icon_url": "https://api.iconify.design/simple-icons:gmail.svg"
+  },
+  {
+    "id": "figma",
+    "name": "Figma",
+    "executables": ["figma.exe", "figma"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:figma",
+    "icon_url": "https://api.iconify.design/simple-icons:figma.svg"
+  },
+  {
+    "id": "figjam",
+    "name": "FigJam",
+    "executables": ["figma.exe", "figma"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:figma",
+    "icon_url": "https://api.iconify.design/simple-icons:figma.svg"
+  },
+  {
+    "id": "sketch",
+    "name": "Sketch",
+    "executables": ["sketch.exe", "sketch"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:sketch",
+    "icon_url": "https://api.iconify.design/simple-icons:sketch.svg"
+  },
+  {
+    "id": "adobexd",
+    "name": "Adobe XD",
+    "executables": ["xd.exe", "xd"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:adobexd",
+    "icon_url": "https://api.iconify.design/simple-icons:adobexd.svg"
+  },
+  {
+    "id": "photoshop",
+    "name": "Adobe Photoshop",
+    "executables": ["photoshop.exe", "photoshop"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:adobephotoshop",
+    "icon_url": "https://api.iconify.design/simple-icons:adobephotoshop.svg"
+  },
+  {
+    "id": "illustrator",
+    "name": "Adobe Illustrator",
+    "executables": ["illustrator.exe", "illustrator"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:adobeillustrator",
+    "icon_url": "https://api.iconify.design/simple-icons:adobeillustrator.svg"
+  },
+  {
+    "id": "indesign",
+    "name": "Adobe InDesign",
+    "executables": ["indesign.exe", "indesign"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:adobeindesign",
+    "icon_url": "https://api.iconify.design/simple-icons:adobeindesign.svg"
+  },
+  {
+    "id": "lightroom",
+    "name": "Adobe Lightroom",
+    "executables": ["lightroom.exe", "lightroom"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:adobelightroom",
+    "icon_url": "https://api.iconify.design/simple-icons:adobelightroom.svg"
+  },
+  {
+    "id": "acrobat",
+    "name": "Adobe Acrobat",
+    "executables": ["acrobat.exe", "acrobat"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:adobeacrobatreader",
+    "icon_url": "https://api.iconify.design/simple-icons:adobeacrobatreader.svg"
+  },
+  {
+    "id": "affinitydesigner",
+    "name": "Affinity Designer",
+    "executables": ["affinity designer.exe", "affinity-designer"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:affinitydesigner",
+    "icon_url": "https://api.iconify.design/simple-icons:affinitydesigner.svg"
+  },
+  {
+    "id": "affinityphoto",
+    "name": "Affinity Photo",
+    "executables": ["affinity photo.exe", "affinity-photo"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:affinityphoto",
+    "icon_url": "https://api.iconify.design/simple-icons:affinityphoto.svg"
+  },
+  {
+    "id": "affinitypublisher",
+    "name": "Affinity Publisher",
+    "executables": ["affinity publisher.exe", "affinity-publisher"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:affinitypublisher",
+    "icon_url": "https://api.iconify.design/simple-icons:affinitypublisher.svg"
+  },
+  {
+    "id": "canva",
+    "name": "Canva",
+    "executables": ["canva.exe", "canva"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:canva",
+    "icon_url": "https://api.iconify.design/simple-icons:canva.svg"
+  },
+  {
+    "id": "gimp",
+    "name": "GIMP",
+    "executables": ["gimp.exe", "gimp"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:gimp",
+    "icon_url": "https://api.iconify.design/simple-icons:gimp.svg"
+  },
+  {
+    "id": "inkscape",
+    "name": "Inkscape",
+    "executables": ["inkscape.exe", "inkscape"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:inkscape",
+    "icon_url": "https://api.iconify.design/simple-icons:inkscape.svg"
+  },
+  {
+    "id": "krita",
+    "name": "Krita",
+    "executables": ["krita.exe", "krita"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:krita",
+    "icon_url": "https://api.iconify.design/simple-icons:krita.svg"
+  },
+  {
+    "id": "blender",
+    "name": "Blender",
+    "executables": ["blender.exe", "blender"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:blender",
+    "icon_url": "https://api.iconify.design/simple-icons:blender.svg"
+  },
+  {
+    "id": "zeplin",
+    "name": "Zeplin",
+    "executables": ["zeplin.exe", "zeplin"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:zeplin",
+    "icon_url": "https://api.iconify.design/simple-icons:zeplin.svg"
+  },
+  {
+    "id": "framer",
+    "name": "Framer",
+    "executables": ["framer.exe", "framer"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:framer",
+    "icon_url": "https://api.iconify.design/simple-icons:framer.svg"
+  },
+  {
+    "id": "penpot",
+    "name": "Penpot",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:penpot",
+    "icon_url": "https://api.iconify.design/simple-icons:penpot.svg"
+  },
+  {
+    "id": "premiere",
+    "name": "Adobe Premiere Pro",
+    "executables": ["premiere.exe", "premiere"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:adobepremierepro",
+    "icon_url": "https://api.iconify.design/simple-icons:adobepremierepro.svg"
+  },
+  {
+    "id": "aftereffects",
+    "name": "Adobe After Effects",
+    "executables": ["afterfx.exe", "afterfx"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:adobeaftereffects",
+    "icon_url": "https://api.iconify.design/simple-icons:adobeaftereffects.svg"
+  },
+  {
+    "id": "davinciresolve",
+    "name": "DaVinci Resolve",
+    "executables": ["resolve.exe", "resolve"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:davinciresolve",
+    "icon_url": "https://api.iconify.design/simple-icons:davinciresolve.svg"
+  },
+  {
+    "id": "finalcutpro",
+    "name": "Final Cut Pro",
+    "executables": ["final cut pro.exe", "finalcutpro"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:finalcutpro",
+    "icon_url": "https://api.iconify.design/simple-icons:finalcutpro.svg"
+  },
+  {
+    "id": "audition",
+    "name": "Adobe Audition",
+    "executables": ["audition.exe", "audition"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:adobeaudition",
+    "icon_url": "https://api.iconify.design/simple-icons:adobeaudition.svg"
+  },
+  {
+    "id": "obs",
+    "name": "OBS Studio",
+    "executables": ["obs64.exe", "obs32.exe", "obs"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:obsstudio",
+    "icon_url": "https://api.iconify.design/simple-icons:obsstudio.svg"
+  },
+  {
+    "id": "audacity",
+    "name": "Audacity",
+    "executables": ["audacity.exe", "audacity"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:audacity",
+    "icon_url": "https://api.iconify.design/simple-icons:audacity.svg"
+  },
+  {
+    "id": "handbrake",
+    "name": "HandBrake",
+    "executables": ["handbrake.exe", "handbrake"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:handbrake",
+    "icon_url": "https://api.iconify.design/simple-icons:handbrake.svg"
+  },
+  {
+    "id": "vlc",
+    "name": "VLC media player",
+    "executables": ["vlc.exe", "vlc"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:vlcmediaplayer",
+    "icon_url": "https://api.iconify.design/simple-icons:vlcmediaplayer.svg"
+  },
+  {
+    "id": "ableton",
+    "name": "Ableton Live",
+    "executables": ["ableton live.exe", "ableton"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:abletonlive",
+    "icon_url": "https://api.iconify.design/simple-icons:abletonlive.svg"
+  },
+  {
+    "id": "flstudio",
+    "name": "FL Studio",
+    "executables": ["fl64.exe", "fl"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:flstudio",
+    "icon_url": "https://api.iconify.design/simple-icons:flstudio.svg"
+  },
+  {
+    "id": "logicpro",
+    "name": "Logic Pro",
+    "executables": ["logic pro.exe", "logicpro"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:logicpro",
+    "icon_url": "https://api.iconify.design/simple-icons:logicpro.svg"
+  },
+  {
+    "id": "streamlabs",
+    "name": "Streamlabs",
+    "executables": ["streamlabs obs.exe", "streamlabs"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:streamlabs",
+    "icon_url": "https://api.iconify.design/simple-icons:streamlabs.svg"
+  },
+  {
+    "id": "cyberlink",
+    "name": "CyberLink PowerDirector",
+    "executables": ["powerdirector.exe", "powerdirector"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:cyberlink",
+    "icon_url": "https://api.iconify.design/simple-icons:cyberlink.svg"
+  },
+  {
+    "id": "shotcut",
+    "name": "Shotcut",
+    "executables": ["shotcut.exe", "shotcut"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:shotcut",
+    "icon_url": "https://api.iconify.design/simple-icons:shotcut.svg"
+  },
+  {
+    "id": "kdenlive",
+    "name": "Kdenlive",
+    "executables": ["kdenlive.exe", "kdenlive"],
+    "client_id": "1517170930764480552",
+    "category": "media",
+    "icon": "simple-icons:kdenlive",
+    "icon_url": "https://api.iconify.design/simple-icons:kdenlive.svg"
+  },
+  {
+    "id": "autocad",
+    "name": "AutoCAD",
+    "executables": ["acad.exe", "acad"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:autocad",
+    "icon_url": "https://api.iconify.design/simple-icons:autocad.svg"
+  },
+  {
+    "id": "sketchup",
+    "name": "SketchUp",
+    "executables": ["sketchup.exe", "sketchup"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:sketchup",
+    "icon_url": "https://api.iconify.design/simple-icons:sketchup.svg"
+  },
+  {
+    "id": "solidworks",
+    "name": "SolidWorks",
+    "executables": ["sldworks.exe", "sldworks"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:solidworks",
+    "icon_url": "https://api.iconify.design/simple-icons:solidworks.svg"
+  },
+  {
+    "id": "fusion360",
+    "name": "Fusion 360",
+    "executables": ["fusion360.exe", "fusion360"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:autodesk",
+    "icon_url": "https://api.iconify.design/simple-icons:autodesk.svg"
+  },
+  {
+    "id": "cinema4d",
+    "name": "Cinema 4D",
+    "executables": ["cinema 4d.exe", "cinema4d"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:cinema4d",
+    "icon_url": "https://api.iconify.design/simple-icons:cinema4d.svg"
+  },
+  {
+    "id": "unrealengine",
+    "name": "Unreal Engine (Dev)",
+    "executables": ["unrealeditor.exe", "unrealeditor"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:unrealengine",
+    "icon_url": "https://api.iconify.design/simple-icons:unrealengine.svg"
+  },
+  {
+    "id": "unity",
+    "name": "Unity Editor (Dev)",
+    "executables": ["unity.exe", "unity"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:unity",
+    "icon_url": "https://api.iconify.design/simple-icons:unity.svg"
+  },
+  {
+    "id": "chrome",
+    "name": "Google Chrome",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon": "simple-icons:googlechrome",
+    "icon_url": "https://api.iconify.design/simple-icons:googlechrome.svg"
+  },
+  {
+    "id": "firefox",
+    "name": "Firefox",
+    "executables": ["firefox.exe", "firefox"],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon": "simple-icons:firefox",
+    "icon_url": "https://api.iconify.design/simple-icons:firefox.svg"
+  },
+  {
+    "id": "edge",
+    "name": "Microsoft Edge",
+    "executables": ["msedge.exe", "msedge"],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon": "simple-icons:microsoftedge",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftedge.svg"
+  },
+  {
+    "id": "brave",
+    "name": "Brave Browser",
+    "executables": ["brave.exe", "brave"],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon": "simple-icons:brave",
+    "icon_url": "https://api.iconify.design/simple-icons:brave.svg"
+  },
+  {
+    "id": "opera",
+    "name": "Opera",
+    "executables": ["opera.exe", "opera"],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon": "simple-icons:opera",
+    "icon_url": "https://api.iconify.design/simple-icons:opera.svg"
+  },
+  {
+    "id": "arc",
+    "name": "Arc Browser",
+    "executables": ["arc.exe", "arc"],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon": "simple-icons:arc",
+    "icon_url": "https://api.iconify.design/simple-icons:arc.svg"
+  },
+  {
+    "id": "vivaldi",
+    "name": "Vivaldi",
+    "executables": ["vivaldi.exe", "vivaldi"],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon": "simple-icons:vivaldi",
+    "icon_url": "https://api.iconify.design/simple-icons:vivaldi.svg"
+  },
+  {
+    "id": "zen",
+    "name": "Zen Browser",
+    "executables": ["zen.exe", "zen"],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon": "simple-icons:zenbrowser",
+    "icon_url": "https://api.iconify.design/simple-icons:zenbrowser.svg"
+  },
+  {
+    "id": "1password",
+    "name": "1Password",
+    "executables": ["1password.exe", "1password"],
+    "client_id": "1517170930764480552",
+    "category": "security",
+    "icon": "simple-icons:1password",
+    "icon_url": "https://api.iconify.design/simple-icons:1password.svg"
+  },
+  {
+    "id": "bitwarden",
+    "name": "Bitwarden",
+    "executables": ["bitwarden.exe", "bitwarden"],
+    "client_id": "1517170930764480552",
+    "category": "security",
+    "icon": "simple-icons:bitwarden",
+    "icon_url": "https://api.iconify.design/simple-icons:bitwarden.svg"
+  },
+  {
+    "id": "lastpass",
+    "name": "LastPass",
+    "executables": ["lastpass.exe", "lastpass"],
+    "client_id": "1517170930764480552",
+    "category": "security",
+    "icon": "simple-icons:lastpass",
+    "icon_url": "https://api.iconify.design/simple-icons:lastpass.svg"
+  },
+  {
+    "id": "nordvpn",
+    "name": "NordVPN",
+    "executables": ["nordvpn.exe", "nordvpn"],
+    "client_id": "1517170930764480552",
+    "category": "security",
+    "icon": "simple-icons:nordvpn",
+    "icon_url": "https://api.iconify.design/simple-icons:nordvpn.svg"
+  },
+  {
+    "id": "expressvpn",
+    "name": "ExpressVPN",
+    "executables": ["expressvpn.exe", "expressvpn"],
+    "client_id": "1517170930764480552",
+    "category": "security",
+    "icon": "simple-icons:expressvpn",
+    "icon_url": "https://api.iconify.design/simple-icons:expressvpn.svg"
+  },
+  {
+    "id": "wireshark",
+    "name": "Wireshark",
+    "executables": ["wireshark.exe", "wireshark"],
+    "client_id": "1517170930764480552",
+    "category": "security",
+    "icon": "simple-icons:wireshark",
+    "icon_url": "https://api.iconify.design/simple-icons:wireshark.svg"
+  },
+  {
+    "id": "malwarebytes",
+    "name": "Malwarebytes",
+    "executables": ["mbam.exe", "mbam"],
+    "client_id": "1517170930764480552",
+    "category": "security",
+    "icon": "simple-icons:malwarebytes",
+    "icon_url": "https://api.iconify.design/simple-icons:malwarebytes.svg"
+  },
+  {
+    "id": "openvpn",
+    "name": "OpenVPN",
+    "executables": ["openvpn-gui.exe", "openvpn"],
+    "client_id": "1517170930764480552",
+    "category": "security",
+    "icon": "simple-icons:openvpn",
+    "icon_url": "https://api.iconify.design/simple-icons:openvpn.svg"
+  },
+  {
+    "id": "putty",
+    "name": "PuTTY",
+    "executables": ["putty.exe", "putty"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:putty",
+    "icon_url": "https://api.iconify.design/simple-icons:putty.svg"
+  },
+  {
+    "id": "winscp",
+    "name": "WinSCP",
+    "executables": ["winscp.exe", "winscp"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:winscp",
+    "icon_url": "https://api.iconify.design/simple-icons:winscp.svg"
+  },
+  {
+    "id": "filezilla",
+    "name": "FileZilla",
+    "executables": ["filezilla.exe", "filezilla"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:filezilla",
+    "icon_url": "https://api.iconify.design/simple-icons:filezilla.svg"
+  },
+  {
+    "id": "teamviewer",
+    "name": "TeamViewer",
+    "executables": ["teamviewer.exe", "teamviewer"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:teamviewer",
+    "icon_url": "https://api.iconify.design/simple-icons:teamviewer.svg"
+  },
+  {
+    "id": "anydesk",
+    "name": "AnyDesk",
+    "executables": ["anydesk.exe", "anydesk"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:anydesk",
+    "icon_url": "https://api.iconify.design/simple-icons:anydesk.svg"
+  },
+  {
+    "id": "thunderbird",
+    "name": "Thunderbird",
+    "executables": ["thunderbird.exe", "thunderbird"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:thunderbird",
+    "icon_url": "https://api.iconify.design/simple-icons:thunderbird.svg"
+  },
+  {
+    "id": "googlecalendar",
+    "name": "Google Calendar (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:googlecalendar",
+    "icon_url": "https://api.iconify.design/simple-icons:googlecalendar.svg"
+  },
+  {
+    "id": "protonmail",
+    "name": "Proton Mail",
+    "executables": ["proton mail.exe", "protonmail"],
+    "client_id": "1517170930764480552",
+    "category": "communication",
+    "icon": "simple-icons:protonmail",
+    "icon_url": "https://api.iconify.design/simple-icons:protonmail.svg"
+  },
+  {
+    "id": "aws_console",
+    "name": "AWS Console (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:amazonaws",
+    "icon_url": "https://api.iconify.design/simple-icons:amazonaws.svg"
+  },
+  {
+    "id": "azure_portal",
+    "name": "Azure Portal (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:microsoftazure",
+    "icon_url": "https://api.iconify.design/simple-icons:microsoftazure.svg"
+  },
+  {
+    "id": "gcp_console",
+    "name": "Google Cloud Console (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:googlecloud",
+    "icon_url": "https://api.iconify.design/simple-icons:googlecloud.svg"
+  },
+  {
+    "id": "digitalocean",
+    "name": "DigitalOcean",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:digitalocean",
+    "icon_url": "https://api.iconify.design/simple-icons:digitalocean.svg"
+  },
+  {
+    "id": "cloudflare",
+    "name": "Cloudflare Dashboard",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:cloudflare",
+    "icon_url": "https://api.iconify.design/simple-icons:cloudflare.svg"
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel Dashboard",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:vercel",
+    "icon_url": "https://api.iconify.design/simple-icons:vercel.svg"
+  },
+  {
+    "id": "netlify",
+    "name": "Netlify Dashboard",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:netlify",
+    "icon_url": "https://api.iconify.design/simple-icons:netlify.svg"
+  },
+  {
+    "id": "render",
+    "name": "Render.com",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:render",
+    "icon_url": "https://api.iconify.design/simple-icons:render.svg"
+  },
+  {
+    "id": "railway",
+    "name": "Railway",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:railway",
+    "icon_url": "https://api.iconify.design/simple-icons:railway.svg"
+  },
+  {
+    "id": "react_devtools",
+    "name": "React DevTools",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:react",
+    "icon_url": "https://api.iconify.design/simple-icons:react.svg"
+  },
+  {
+    "id": "vuejs_devtools",
+    "name": "Vue DevTools",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:vuedotjs",
+    "icon_url": "https://api.iconify.design/simple-icons:vuedotjs.svg"
+  },
+  {
+    "id": "angular_devtools",
+    "name": "Angular DevTools",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:angular",
+    "icon_url": "https://api.iconify.design/simple-icons:angular.svg"
+  },
+  {
+    "id": "nextjs",
+    "name": "Next.js (Dev Server)",
+    "executables": ["node.exe", "node"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:nextdotjs",
+    "icon_url": "https://api.iconify.design/simple-icons:nextdotjs.svg"
+  },
+  {
+    "id": "nuxt",
+    "name": "Nuxt (Dev Server)",
+    "executables": ["node.exe", "node"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:nuxtdotjs",
+    "icon_url": "https://api.iconify.design/simple-icons:nuxtdotjs.svg"
+  },
+  {
+    "id": "adobeacrobat_reader",
+    "name": "Adobe Acrobat Reader",
+    "executables": ["acrord32.exe", "acrobat"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:adobeacrobatreader",
+    "icon_url": "https://api.iconify.design/simple-icons:adobeacrobatreader.svg"
+  },
+  {
+    "id": "foxitreader",
+    "name": "Foxit PDF Reader",
+    "executables": ["foxitreader.exe", "foxitreader"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:foxit",
+    "icon_url": "https://api.iconify.design/simple-icons:foxit.svg"
+  },
+  {
+    "id": "everynote_web",
+    "name": "Notion Calendar",
+    "executables": ["notion calendar.exe", "notion-calendar"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:notion",
+    "icon_url": "https://api.iconify.design/simple-icons:notion.svg"
+  },
+  {
+    "id": "calendly",
+    "name": "Calendly (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:calendly",
+    "icon_url": "https://api.iconify.design/simple-icons:calendly.svg"
+  },
+  {
+    "id": "zapier",
+    "name": "Zapier (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:zapier",
+    "icon_url": "https://api.iconify.design/simple-icons:zapier.svg"
+  },
+  {
+    "id": "ifttt",
+    "name": "IFTTT (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:ifttt",
+    "icon_url": "https://api.iconify.design/simple-icons:ifttt.svg"
+  },
+  {
+    "id": "make",
+    "name": "Make (Integromat)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:make",
+    "icon_url": "https://api.iconify.design/simple-icons:make.svg"
+  },
+  {
+    "id": "n8n",
+    "name": "n8n",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:n8n",
+    "icon_url": "https://api.iconify.design/simple-icons:n8n.svg"
+  },
+  {
+    "id": "greenshot",
+    "name": "Greenshot",
+    "executables": ["greenshot.exe", "greenshot"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:sharex",
+    "icon_url": "https://api.iconify.design/simple-icons:sharex.svg"
+  },
+  {
+    "id": "sharex",
+    "name": "ShareX",
+    "executables": ["sharex.exe", "sharex"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:sharex",
+    "icon_url": "https://api.iconify.design/simple-icons:sharex.svg"
+  },
+  {
+    "id": "snagit",
+    "name": "Snagit",
+    "executables": ["snagiteditor.exe", "snagiteditor"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:techsmith",
+    "icon_url": "https://api.iconify.design/simple-icons:techsmith.svg"
+  },
+  {
+    "id": "loom",
+    "name": "Loom",
+    "executables": ["loom.exe", "loom"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:loom",
+    "icon_url": "https://api.iconify.design/simple-icons:loom.svg"
+  },
+  {
+    "id": "camtasia",
+    "name": "Camtasia",
+    "executables": ["camtasia.exe", "camtasia"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:techsmith",
+    "icon_url": "https://api.iconify.design/simple-icons:techsmith.svg"
+  },
+  {
+    "id": "quickbooks",
+    "name": "QuickBooks",
+    "executables": ["quickbooks.exe", "quickbooks"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:quickbooks",
+    "icon_url": "https://api.iconify.design/simple-icons:quickbooks.svg"
+  },
+  {
+    "id": "xero",
+    "name": "Xero (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:xero",
+    "icon_url": "https://api.iconify.design/simple-icons:xero.svg"
+  },
+  {
+    "id": "stripe_dashboard",
+    "name": "Stripe Dashboard",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:stripe",
+    "icon_url": "https://api.iconify.design/simple-icons:stripe.svg"
+  },
+  {
+    "id": "paypal",
+    "name": "PayPal (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:paypal",
+    "icon_url": "https://api.iconify.design/simple-icons:paypal.svg"
+  },
+  {
+    "id": "hubspot",
+    "name": "HubSpot",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:hubspot",
+    "icon_url": "https://api.iconify.design/simple-icons:hubspot.svg"
+  },
+  {
+    "id": "salesforce",
+    "name": "Salesforce",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:salesforce",
+    "icon_url": "https://api.iconify.design/simple-icons:salesforce.svg"
+  },
+  {
+    "id": "mailchimp",
+    "name": "Mailchimp",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:mailchimp",
+    "icon_url": "https://api.iconify.design/simple-icons:mailchimp.svg"
+  },
+  {
+    "id": "googleanalytics",
+    "name": "Google Analytics (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:googleanalytics",
+    "icon_url": "https://api.iconify.design/simple-icons:googleanalytics.svg"
+  },
+  {
+    "id": "googleads",
+    "name": "Google Ads (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:googleads",
+    "icon_url": "https://api.iconify.design/simple-icons:googleads.svg"
+  },
+  {
+    "id": "semrush",
+    "name": "Semrush",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:semrush",
+    "icon_url": "https://api.iconify.design/simple-icons:semrush.svg"
+  },
+  {
+    "id": "ahrefs",
+    "name": "Ahrefs",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:ahrefs",
+    "icon_url": "https://api.iconify.design/simple-icons:ahrefs.svg"
+  },
+  {
+    "id": "browserstack",
+    "name": "BrowserStack",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:browserstack",
+    "icon_url": "https://api.iconify.design/simple-icons:browserstack.svg"
+  },
+  {
+    "id": "bitrise",
+    "name": "Bitrise",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:bitrise",
+    "icon_url": "https://api.iconify.design/simple-icons:bitrise.svg"
+  },
+  {
+    "id": "expo",
+    "name": "Expo (Dev Tools)",
+    "executables": ["node.exe", "node"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:expo",
+    "icon_url": "https://api.iconify.design/simple-icons:expo.svg"
+  },
+  {
+    "id": "flutter",
+    "name": "Flutter (Dev Tools)",
+    "executables": ["flutter.exe", "flutter"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:flutter",
+    "icon_url": "https://api.iconify.design/simple-icons:flutter.svg"
+  },
+  {
+    "id": "reactnative",
+    "name": "React Native (Metro)",
+    "executables": ["node.exe", "node"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:react",
+    "icon_url": "https://api.iconify.design/simple-icons:react.svg"
+  },
+  {
+    "id": "backblaze",
+    "name": "Backblaze",
+    "executables": ["backblaze.exe", "backblaze"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:backblaze",
+    "icon_url": "https://api.iconify.design/simple-icons:backblaze.svg"
+  },
+  {
+    "id": "veeam",
+    "name": "Veeam Backup",
+    "executables": ["veeam.exe", "veeam"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:veeam",
+    "icon_url": "https://api.iconify.design/simple-icons:veeam.svg"
+  },
+  {
+    "id": "mega",
+    "name": "MEGA",
+    "executables": ["megasync.exe", "megasync"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:mega",
+    "icon_url": "https://api.iconify.design/simple-icons:mega.svg"
+  },
+  {
+    "id": "pcloud",
+    "name": "pCloud",
+    "executables": ["pcloud.exe", "pcloud"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:pcloud",
+    "icon_url": "https://api.iconify.design/simple-icons:pcloud.svg"
+  },
+  {
+    "id": "fontbase",
+    "name": "FontBase",
+    "executables": ["fontbase.exe", "fontbase"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:font",
+    "icon_url": "https://api.iconify.design/simple-icons:font.svg"
+  },
+  {
+    "id": "googlefonts",
+    "name": "Google Fonts (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:googlefonts",
+    "icon_url": "https://api.iconify.design/simple-icons:googlefonts.svg"
+  },
+  {
+    "id": "shopify",
+    "name": "Shopify",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:shopify",
+    "icon_url": "https://api.iconify.design/simple-icons:shopify.svg"
+  },
+  {
+    "id": "woocommerce",
+    "name": "WooCommerce (Admin)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:woocommerce",
+    "icon_url": "https://api.iconify.design/simple-icons:woocommerce.svg"
+  },
+  {
+    "id": "wordpress",
+    "name": "WordPress Admin",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:wordpress",
+    "icon_url": "https://api.iconify.design/simple-icons:wordpress.svg"
+  },
+  {
+    "id": "wix",
+    "name": "Wix",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:wix",
+    "icon_url": "https://api.iconify.design/simple-icons:wix.svg"
+  },
+  {
+    "id": "webflow",
+    "name": "Webflow",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:webflow",
+    "icon_url": "https://api.iconify.design/simple-icons:webflow.svg"
+  },
+  {
+    "id": "chatgpt",
+    "name": "ChatGPT",
+    "executables": ["chatgpt.exe", "chatgpt"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:openai",
+    "icon_url": "https://api.iconify.design/simple-icons:openai.svg"
+  },
+  {
+    "id": "claude_desktop",
+    "name": "Claude",
+    "executables": ["claude.exe", "claude"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:anthropic",
+    "icon_url": "https://api.iconify.design/simple-icons:anthropic.svg"
+  },
+  {
+    "id": "githubcopilot",
+    "name": "GitHub Copilot",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:githubcopilot",
+    "icon_url": "https://api.iconify.design/simple-icons:githubcopilot.svg"
+  },
+  {
+    "id": "perplexity",
+    "name": "Perplexity",
+    "executables": ["perplexity.exe", "perplexity"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:perplexity",
+    "icon_url": "https://api.iconify.design/simple-icons:perplexity.svg"
+  },
+  {
+    "id": "midjourney",
+    "name": "Midjourney (Discord)",
+    "executables": ["discord.exe", "discord"],
+    "client_id": "1517170930764480552",
+    "category": "design",
+    "icon": "simple-icons:midjourney",
+    "icon_url": "https://api.iconify.design/simple-icons:midjourney.svg"
+  },
+  {
+    "id": "huggingface",
+    "name": "Hugging Face (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "developer",
+    "icon": "simple-icons:huggingface",
+    "icon_url": "https://api.iconify.design/simple-icons:huggingface.svg"
+  },
+  {
+    "id": "cutepdf",
+    "name": "CutePDF Writer",
+    "executables": ["cutepdfwriter.exe", "cutepdfwriter"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:adobeacrobatreader",
+    "icon_url": "https://api.iconify.design/simple-icons:adobeacrobatreader.svg"
+  },
+  {
+    "id": "pdf24",
+    "name": "PDF24 Creator",
+    "executables": ["pdf24.exe", "pdf24"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:adobeacrobatreader",
+    "icon_url": "https://api.iconify.design/simple-icons:adobeacrobatreader.svg"
+  },
+  {
+    "id": "smallpdf",
+    "name": "Smallpdf (PWA)",
+    "executables": ["chrome.exe", "chrome"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:smallpdf",
+    "icon_url": "https://api.iconify.design/simple-icons:smallpdf.svg"
+  },
+  {
+    "id": "winrar",
+    "name": "WinRAR",
+    "executables": ["winrar.exe", "winrar"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:winrar",
+    "icon_url": "https://api.iconify.design/simple-icons:winrar.svg"
+  },
+  {
+    "id": "7zip",
+    "name": "7-Zip",
+    "executables": ["7zfm.exe", "7z"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:sevenzip",
+    "icon_url": "https://api.iconify.design/simple-icons:sevenzip.svg"
+  },
+  {
+    "id": "totalcommander",
+    "name": "Total Commander",
+    "executables": ["totalcmd64.exe", "totalcmd"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:totalcommander",
+    "icon_url": "https://api.iconify.design/simple-icons:totalcommander.svg"
+  },
+  {
+    "id": "ccleaner",
+    "name": "CCleaner",
+    "executables": ["ccleaner64.exe", "ccleaner"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:ccleaner",
+    "icon_url": "https://api.iconify.design/simple-icons:ccleaner.svg"
+  },
+  {
+    "id": "everything",
+    "name": "Everything (Search)",
+    "executables": ["everything.exe", "everything"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:files",
+    "icon_url": "https://api.iconify.design/simple-icons:files.svg"
+  },
+  {
+    "id": "revouninstaller",
+    "name": "Revo Uninstaller",
+    "executables": ["revouninstaller.exe", "revouninstaller"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:windows",
+    "icon_url": "https://api.iconify.design/simple-icons:windows.svg"
+  }
+]

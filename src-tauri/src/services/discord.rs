@@ -301,15 +301,17 @@ impl DiscordManager {
         let large_text = format_string(&data.large_text);
         let timestamp = data.timestamp;
 
-        // If the large image is NOT a URL (does not start with "http") and we are using the fallback/generic Client ID,
-        // we must restrict it to "default" or "idle" since other asset keys do not exist in the Developer Portal.
-        // External HTTP/HTTPS URLs are supported natively by Discord Rich Presence RPC and can be passed through.
-        if !large_image.starts_with("http")
-            && client_id == DISCORD_APP_ID
+        // Discord RPC via local IPC does not reliably support arbitrary HTTP URLs
+        // (often resulting in a '?' error icon). Replace any URL with the "default"
+        // asset key so the Application's own icon is shown instead of nothing.
+        if large_image.starts_with("http") {
+            large_image = "default".to_string();
+        } else if client_id == DISCORD_APP_ID
             && large_image != "default"
             && large_image != "idle"
             && !large_image.is_empty()
         {
+            // If using the generic client ID, restrict to known asset keys
             large_image = "default".to_string();
         }
 

@@ -1,7 +1,7 @@
-import { useCallback } from "react";
-import { AppRuleCard } from "../AppRuleCard/AppRuleCard";
-import { AppRule } from "../../types";
 import { Gamepad2 } from "lucide-react";
+import { useCallback } from "react";
+import { AppRule } from "../types";
+import { AppRuleCard } from "./AppRuleCard";
 
 interface AppListProps {
   rules: AppRule[];
@@ -23,34 +23,40 @@ export function AppList({
   onEmptyActionClick,
   ruleSearch,
 }: AppListProps) {
-  const moveRule = useCallback(async (currentIndex: number, direction: "up" | "down") => {
-    const targetIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
-    if (targetIndex < 0 || targetIndex >= filteredRules.length) return;
+  const moveRule = useCallback(
+    async (currentIndex: number, direction: "up" | "down") => {
+      const targetIndex =
+        direction === "up" ? currentIndex - 1 : currentIndex + 1;
+      if (targetIndex < 0 || targetIndex >= filteredRules.length) return;
 
-    // Swap the elements in the filtered rules
-    const newFiltered = [...filteredRules];
-    const [moved] = newFiltered.splice(currentIndex, 1);
-    newFiltered.splice(targetIndex, 0, moved);
+      // Swap the elements in the filtered rules
+      const newFiltered = [...filteredRules];
+      const [moved] = newFiltered.splice(currentIndex, 1);
+      newFiltered.splice(targetIndex, 0, moved);
 
-    // Map back to the full list
-    const filteredProcessNames = new Set(newFiltered.map((r) => r.process_name));
-    const newFullRules: AppRule[] = [];
-    let filteredIdx = 0;
+      // Map back to the full list
+      const filteredProcessNames = new Set(
+        newFiltered.map((r) => r.process_name),
+      );
+      const newFullRules: AppRule[] = [];
+      let filteredIdx = 0;
 
-    for (const r of rules) {
-      if (filteredProcessNames.has(r.process_name)) {
-        newFullRules.push(newFiltered[filteredIdx++]);
-      } else {
-        newFullRules.push(r);
+      for (const r of rules) {
+        if (filteredProcessNames.has(r.process_name)) {
+          newFullRules.push(newFiltered[filteredIdx++]);
+        } else {
+          newFullRules.push(r);
+        }
       }
-    }
 
-    try {
-      await onReorderRules(newFullRules.map((r) => r.process_name));
-    } catch (err) {
-      console.error("Failed to reorder rules:", err);
-    }
-  }, [filteredRules, rules, onReorderRules]);
+      try {
+        await onReorderRules(newFullRules.map((r) => r.process_name));
+      } catch (err) {
+        console.error("Failed to reorder rules:", err);
+      }
+    },
+    [filteredRules, rules, onReorderRules],
+  );
 
   const hasFilters = !!ruleSearch.trim();
 
@@ -73,10 +79,14 @@ export function AppList({
           );
         })
       ) : (
-        <div className="flex flex-col items-center justify-center py-16 px-4 bg-surface-indigo text-center neo-border"
-          style={{ borderStyle: 'dashed', borderRadius: '12px' }}>
+        <div
+          className="flex flex-col items-center justify-center py-16 px-4 bg-surface-indigo text-center neo-border"
+          style={{ borderStyle: "dashed", borderRadius: "12px" }}
+        >
           <Gamepad2 size={40} className="mb-3 text-muted-ink" />
-          <h4 className="text-ink font-extrabold mb-1 font-display uppercase">No applications found</h4>
+          <h4 className="text-ink font-extrabold mb-1 font-display uppercase">
+            No applications found
+          </h4>
           <p className="text-xs text-muted-ink max-w-[250px]">
             {hasFilters
               ? "Try clearing your filters or search term."

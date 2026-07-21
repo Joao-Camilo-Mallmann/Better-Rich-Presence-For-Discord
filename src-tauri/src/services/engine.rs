@@ -85,6 +85,9 @@ impl PresenceEngine {
                 Some(event) = rx.recv() => {
                     match event {
                         EngineEvent::WindowChanged { process_name, window_title, is_prioritized, foreground_app } => {
+                            let rules = self.app_state.get_app_rules().await;
+                            let settings = self.app_state.get_settings().await;
+
                             // Emit priority info to frontend
                             let priority_info = crate::models::types::PriorityInfo {
                                 active: is_prioritized,
@@ -311,9 +314,21 @@ impl PresenceEngine {
             .replace("{title}", window_title);
 
         let large_image = if rule.large_image == "auto" {
-            discord_icon.unwrap_or_else(|| "default".to_string())
+            if let Some(app) = self.app_registry.find_app(process_name) {
+                if let Some(ref icon_str) = app.icon {
+                    get_discord_asset_key(icon_str)
+                } else {
+                    discord_icon.unwrap_or_else(|| "default".to_string())
+                }
+            } else {
+                discord_icon.unwrap_or_else(|| "default".to_string())
+            }
         } else {
-            rule.large_image.clone()
+            if rule.large_image.contains(':') {
+                get_discord_asset_key(&rule.large_image)
+            } else {
+                rule.large_image.clone()
+            }
         };
 
         PresenceData {
@@ -338,7 +353,15 @@ impl PresenceEngine {
             if !title.is_empty() { title.to_string() } else { "Unknown app".to_string() }
         });
 
-        let large_image = discord_icon.unwrap_or_else(|| "default".to_string());
+        let large_image = if let Some(app) = self.app_registry.find_app(process_name) {
+            if let Some(ref icon_str) = app.icon {
+                get_discord_asset_key(icon_str)
+            } else {
+                discord_icon.unwrap_or_else(|| "default".to_string())
+            }
+        } else {
+            discord_icon.unwrap_or_else(|| "default".to_string())
+        };
 
         let (details, state) = if let Some(app) = self.app_registry.find_app(process_name) {
             format_app_presence(&app.category, &app.name, window_title)
@@ -431,7 +454,17 @@ impl PresenceEngine {
         // Sync to shared state and emit events
         self.sync_state().await;
     }
+}
 
+pub fn get_discord_asset_key(icon: &str) -> String {
+    // If it's already an HTTP URL (e.g., custom user override), pass it through
+    if icon.starts_with("http") {
+        return icon.to_string();
+    }
+    // Extract the raw icon name from Iconify format (e.g. "simple-icons:zenbrowser" -> "zenbrowser")
+    let parts: Vec<&str> = icon.split(':').collect();
+    parts.last().unwrap_or(&icon).to_string()
+}
 
 /// Helper function to spawn the engine task
 pub fn start_engine(rx: mpsc::Receiver<EngineEvent>, app_state: AppState) {

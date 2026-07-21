@@ -7,6 +7,8 @@ pub struct AppEntry {
     pub executables: Vec<String>,
     pub client_id: String,
     pub category: String,
+    pub icon: Option<String>,
+    pub icon_url: Option<String>,
 }
 
 pub struct AppRegistry {
@@ -15,7 +17,7 @@ pub struct AppRegistry {
 
 impl AppRegistry {
     pub fn new() -> Self {
-        let json_data = include_str!("../models/apps.json");
+        let json_data = include_str!("../../../apps.json");
         let apps: Vec<AppEntry> = serde_json::from_str(json_data).expect("Failed to parse apps.json");
         Self { apps }
     }
