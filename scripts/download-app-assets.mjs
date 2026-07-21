@@ -8,6 +8,7 @@ const rootDir = path.resolve(__dirname, '..');
 
 const APPS_JSON_PATH = path.join(rootDir, 'apps.json');
 const ICONS_DIR = path.join(rootDir, 'public', 'assets', 'icons');
+const RAW_BASE_URL = 'https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/';
 
 async function downloadAppAssets() {
   console.log('Starting app icon localization...');
@@ -22,18 +23,20 @@ async function downloadAppAssets() {
     let failedCount = 0;
     let updatedCount = 0;
 
-    // Set up cache of in-flight / downloaded files to prevent redundant network requests
     const urlToFileMap = new Map();
 
     for (let i = 0; i < apps.length; i++) {
       const app = apps[i];
       if (!app.icon_url) continue;
 
-      // Check if icon_url is remote (http/https)
+      if (app.icon_url.startsWith(RAW_BASE_URL) || app.icon_url.startsWith('/assets/icons/')) {
+        skippedCount++;
+        continue;
+      }
+
       if (app.icon_url.startsWith('http://') || app.icon_url.startsWith('https://')) {
         const remoteUrl = app.icon_url;
 
-        // Determine extension based on URL path
         let ext = '.svg';
         try {
           const parsedUrl = new URL(remoteUrl);
@@ -46,7 +49,6 @@ async function downloadAppAssets() {
           // fallback to .svg
         }
 
-        // Determine local file name
         let fileName;
         if (app.icon) {
           fileName = `${app.icon.replace(/[^a-zA-Z0-9_-]/g, '-')}${ext}`;
@@ -57,7 +59,7 @@ async function downloadAppAssets() {
         }
 
         const localPath = path.join(ICONS_DIR, fileName);
-        const relativeUrlPath = `/assets/icons/${fileName}`;
+        const resolvedRawUrl = `${RAW_BASE_URL}${fileName}`;
 
         if (!urlToFileMap.has(remoteUrl)) {
           try {
@@ -68,7 +70,7 @@ async function downloadAppAssets() {
             }
             const buffer = Buffer.from(await response.arrayBuffer());
             await fs.writeFile(localPath, buffer);
-            urlToFileMap.set(remoteUrl, relativeUrlPath);
+            urlToFileMap.set(remoteUrl, resolvedRawUrl);
             downloadedCount++;
           } catch (err) {
             console.warn(`[WARN] Failed to download icon for app "${app.id || app.name}" (${remoteUrl}): ${err.message}`);
@@ -77,13 +79,11 @@ async function downloadAppAssets() {
           }
         }
 
-        const resolvedRelativePath = urlToFileMap.get(remoteUrl);
-        if (resolvedRelativePath) {
-          app.icon_url = resolvedRelativePath;
+        const finalUrl = urlToFileMap.get(remoteUrl);
+        if (finalUrl) {
+          app.icon_url = finalUrl;
           updatedCount++;
         }
-      } else if (app.icon_url.startsWith('/assets/icons/')) {
-        skippedCount++;
       }
     }
 
@@ -92,7 +92,7 @@ async function downloadAppAssets() {
     console.log('\n--- Asset Download Summary ---');
     console.log(`Total apps processed: ${apps.length}`);
     console.log(`Icons downloaded: ${downloadedCount}`);
-    console.log(`Icons skipped (already local): ${skippedCount}`);
+    console.log(`Icons skipped (already pointing to repository raw base): ${skippedCount}`);
     console.log(`Failed downloads: ${failedCount}`);
     console.log(`apps.json entries updated: ${updatedCount}`);
     console.log('Done!');
