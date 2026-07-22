@@ -10,6 +10,7 @@ interface AppRuleCardProps {
   onDelete: (processName: string) => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
+  onMoveTo: (newIndex: number) => void;
 }
 
 const labelCls =
@@ -23,9 +24,20 @@ export function AppRuleCard({
   onDelete,
   onMoveUp,
   onMoveDown,
+  onMoveTo,
 }: AppRuleCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [editRule, setEditRule] = useState<AppRule>({ ...rule });
+  const [isEditingPriority, setIsEditingPriority] = useState(false);
+  const [priorityInput, setPriorityInput] = useState("");
+
+  const handlePrioritySubmit = () => {
+    setIsEditingPriority(false);
+    const parsed = parseInt(priorityInput, 10);
+    if (!isNaN(parsed) && parsed > 0 && parsed <= totalRules) {
+      onMoveTo(parsed - 1);
+    }
+  };
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -43,8 +55,8 @@ export function AppRuleCard({
     { label: "Discord Client ID (Opcional)", key: "client_id", row: 2 },
   ];
 
-  const Field = ({ label, field }: { label: string; field: keyof AppRule }) => (
-    <div className="flex flex-col gap-1 flex-1">
+  const renderField = (label: string, field: keyof AppRule) => (
+    <div className="flex flex-col gap-1 flex-1" key={field}>
       <label className={labelCls}>{label}</label>
       <input
         className="neo-input text-sm"
@@ -71,15 +83,38 @@ export function AppRuleCard({
       >
         <div className="flex items-center gap-3 flex-1 min-w-0">
           {/* Priority slot badge inside the card */}
-          <div
-            className="text-[10px] font-black text-ink bg-surface-onyx px-2 py-1 neo-border-2 select-none font-display shrink-0"
-            style={{
-              borderRadius: "4px",
-              borderColor: "var(--neo-border-color)",
-            }}
-          >
-            #{index + 1}
-          </div>
+          {isEditingPriority ? (
+            <input
+              type="number"
+              className="text-[10px] font-black text-ink bg-surface-onyx px-1 py-1 neo-border-2 font-display shrink-0 w-10 text-center focus:outline-none"
+              style={{ borderRadius: "4px", borderColor: "var(--neo-border-color)", MozAppearance: "textfield" }}
+              autoFocus
+              value={priorityInput}
+              onChange={(e) => setPriorityInput(e.target.value)}
+              onBlur={handlePrioritySubmit}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handlePrioritySubmit();
+                if (e.key === "Escape") setIsEditingPriority(false);
+              }}
+              onClick={(e) => e.stopPropagation()}
+            />
+          ) : (
+            <div
+              className="text-[10px] font-black text-ink bg-surface-onyx px-2 py-1 neo-border-2 select-none font-display shrink-0 cursor-text hover:bg-white/10 transition-colors"
+              style={{
+                borderRadius: "4px",
+                borderColor: "var(--neo-border-color)",
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setPriorityInput((index + 1).toString());
+                setIsEditingPriority(true);
+              }}
+              title="Click to edit priority"
+            >
+              #{index + 1}
+            </div>
+          )}
           <div
             className="w-10 h-10 bg-surface-onyx flex items-center justify-center overflow-hidden flex-shrink-0 neo-border-2"
             style={{ borderRadius: "6px" }}
@@ -150,20 +185,16 @@ export function AppRuleCard({
           className="p-4 bg-surface-onyx flex flex-col gap-3"
           style={{ borderTop: "3px solid var(--neo-border-color)" }}
         >
-          <Field label={fields[0].label} field={fields[0].key} />
+          {renderField(fields[0].label, fields[0].key)}
           <div className="flex flex-col sm:flex-row gap-4">
             {fields
               .filter((f) => f.row === 1)
-              .map((f) => (
-                <Field key={f.key} label={f.label} field={f.key} />
-              ))}
+              .map((f) => renderField(f.label, f.key))}
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
             {fields
               .filter((f) => f.row === 2)
-              .map((f) => (
-                <Field key={f.key} label={f.label} field={f.key} />
-              ))}
+              .map((f) => renderField(f.label, f.key))}
           </div>
           <div className="flex flex-col-reverse sm:flex-row justify-between mt-4 gap-3">
             <button

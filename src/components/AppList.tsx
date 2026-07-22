@@ -23,11 +23,9 @@ export function AppList({
   onEmptyActionClick,
   ruleSearch,
 }: AppListProps) {
-  const moveRule = useCallback(
-    async (currentIndex: number, direction: "up" | "down") => {
-      const targetIndex =
-        direction === "up" ? currentIndex - 1 : currentIndex + 1;
-      if (targetIndex < 0 || targetIndex >= filteredRules.length) return;
+  const moveRuleToIndex = useCallback(
+    async (currentIndex: number, targetIndex: number) => {
+      if (targetIndex < 0 || targetIndex >= filteredRules.length || currentIndex === targetIndex) return;
 
       // Swap the elements in the filtered rules
       const newFiltered = [...filteredRules];
@@ -58,6 +56,14 @@ export function AppList({
     [filteredRules, rules, onReorderRules],
   );
 
+  const moveRule = useCallback(
+    (currentIndex: number, direction: "up" | "down") => {
+      const targetIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+      return moveRuleToIndex(currentIndex, targetIndex);
+    },
+    [moveRuleToIndex],
+  );
+
   const hasFilters = !!ruleSearch.trim();
 
   return (
@@ -74,6 +80,7 @@ export function AppList({
                 onDelete={onDeleteRule}
                 onMoveUp={() => moveRule(idx, "up")}
                 onMoveDown={() => moveRule(idx, "down")}
+                onMoveTo={(newIndex) => moveRuleToIndex(idx, newIndex)}
               />
             </div>
           );

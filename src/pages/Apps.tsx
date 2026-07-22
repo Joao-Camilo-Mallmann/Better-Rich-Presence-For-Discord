@@ -1,4 +1,4 @@
-import { AlertTriangle, ArrowUpDown, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { AppList } from "../components/AppList";
 import { ProcessPicker } from "../components/ProcessPicker";
@@ -91,36 +91,21 @@ export function Apps() {
 
         {/* Search */}
         <div
-          className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between p-2 neo-border-2 bg-surface-onyx"
+          className="relative flex-1 w-full neo-border-2 bg-surface-onyx overflow-hidden"
           style={{ borderRadius: "8px" }}
         >
-          <div className="relative flex-1 w-full">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-ink flex items-center">
-              <Search size={14} />
-            </span>
-            <input
-              type="text"
-              placeholder="Search applications..."
-              value={ruleSearch}
-              onChange={(e) => setRuleSearch(e.target.value)}
-              className="w-full neo-input text-xs pl-9 pr-3 py-2"
-              style={{ borderRadius: "6px" }}
-            />
-          </div>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-ink flex items-center pointer-events-none z-10">
+            <Search size={16} />
+          </span>
+          <input
+            type="text"
+            placeholder="Search applications..."
+            value={ruleSearch}
+            onChange={(e) => setRuleSearch(e.target.value)}
+            className="w-full bg-transparent text-ink text-xs pl-10 pr-4 py-2.5 focus:outline-none placeholder:text-muted-ink"
+          />
         </div>
 
-        {/* Reorder hint */}
-        <div className="h-4 flex items-center justify-end">
-          {canReorder ? (
-            <span className="text-[10px] text-muted-ink font-bold flex items-center gap-1.5 font-display uppercase">
-              <ArrowUpDown size={12} /> Drag cards to reorder display priority
-            </span>
-          ) : (
-            <span className="text-[10px] text-yellow-accent font-bold flex items-center gap-1.5 font-display uppercase">
-              <AlertTriangle size={12} /> Ordering disabled due to active search
-            </span>
-          )}
-        </div>
       </div>
 
       <AppList
