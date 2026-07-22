@@ -301,10 +301,13 @@ impl DiscordManager {
         let large_text = format_string(&data.large_text);
         let timestamp = data.timestamp;
 
-        // Discord RPC via local IPC does not reliably support arbitrary HTTP URLs
-        // (often resulting in a '?' error icon). Replace any URL with the "default"
-        // asset key so the Application's own icon is shown instead of nothing.
-        if large_image.starts_with("http") {
+        // Handle HTTP/HTTPS URLs for Discord RPC external assets
+        if large_image.starts_with("http://") || large_image.starts_with("https://") {
+            // Convert SVG URLs to PNG URLs since Discord cannot render raw SVGs
+            if large_image.ends_with(".svg") {
+                large_image = format!("{}.png", large_image.trim_end_matches(".svg"));
+            }
+        } else if large_image.is_empty() || large_image == "auto" {
             large_image = "default".to_string();
         }
 

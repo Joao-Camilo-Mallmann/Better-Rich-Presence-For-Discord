@@ -9,7 +9,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:visualstudiocode",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-visualstudiocode.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-visualstudiocode.png"
   },
   {
     "id": "vscode_insiders",
@@ -21,7 +21,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:visualstudiocode",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-visualstudiocode.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-visualstudiocode.png"
   },
   {
     "id": "antigravity",
@@ -33,7 +33,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "material-symbols:antigravity",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/material-symbols-antigravity.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/material-symbols-antigravity.png"
   },
   {
     "id": "cursor",
@@ -45,7 +45,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:cursor",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-cursor.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-cursor.png"
   },
   {
     "id": "windsurf",
@@ -57,7 +57,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:codeium",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-codeium.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-codeium.png"
   },
   {
     "id": "zed",
@@ -69,7 +69,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:zedindustries",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zedindustries.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zedindustries.png"
   },
   {
     "id": "neovim",
@@ -81,7 +81,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:neovim",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-neovim.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-neovim.png"
   },
   {
     "id": "vim",
@@ -94,7 +94,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:vim",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vim.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vim.png"
   },
   {
     "id": "emacs",
@@ -106,7 +106,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:gnuemacs",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gnuemacs.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gnuemacs.png"
   },
   {
     "id": "visualstudio",
@@ -118,7 +118,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:visualstudio",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-visualstudio.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-visualstudio.png"
   },
   {
     "id": "intellij",
@@ -130,7 +130,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:intellijidea",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-intellijidea.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-intellijidea.png"
   },
   {
     "id": "pycharm",
@@ -142,7 +142,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:pycharm",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-pycharm.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-pycharm.png"
   },
   {
     "id": "webstorm",
@@ -154,7 +154,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:webstorm",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-webstorm.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-webstorm.png"
   },
   {
     "id": "phpstorm",
@@ -166,7 +166,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:phpstorm",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-phpstorm.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-phpstorm.png"
   },
   {
     "id": "rubymine",
@@ -178,7 +178,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:rubymine",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-rubymine.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-rubymine.png"
   },
   {
     "id": "clion",
@@ -190,7 +190,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:clion",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-clion.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-clion.png"
   },
   {
     "id": "goland",
@@ -202,7 +202,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:goland",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-goland.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-goland.png"
   },
   {
     "id": "rider",
@@ -214,7 +214,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:rider",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-rider.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-rider.png"
   },
   {
     "id": "datagrip",
@@ -226,7 +226,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:datagrip",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-datagrip.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-datagrip.png"
   },
   {
     "id": "androidstudio",
@@ -238,7 +238,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:androidstudio",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-androidstudio.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-androidstudio.png"
   },
   {
     "id": "xcode",
@@ -249,7 +249,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:xcode",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-xcode.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-xcode.png"
   },
   {
     "id": "sublimetext",
@@ -261,7 +261,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:sublimetext",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sublimetext.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sublimetext.png"
   },
   {
     "id": "notepadplusplus",
@@ -273,7 +273,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:notepadplusplus",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-notepadplusplus.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-notepadplusplus.png"
   },
   {
     "id": "atom",
@@ -285,7 +285,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:atom",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-atom.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-atom.png"
   },
   {
     "id": "eclipse",
@@ -297,7 +297,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:eclipseide",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-eclipseide.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-eclipseide.png"
   },
   {
     "id": "netbeans",
@@ -309,7 +309,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:apachenetbeanside",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-apachenetbeanside.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-apachenetbeanside.png"
   },
   {
     "id": "codeblocks",
@@ -321,7 +321,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:codeblocks",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-codeblocks.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-codeblocks.png"
   },
   {
     "id": "rstudio",
@@ -333,7 +333,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:rstudio",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-rstudio.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-rstudio.png"
   },
   {
     "id": "jupyter",
@@ -345,7 +345,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:jupyter",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-jupyter.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-jupyter.png"
   },
   {
     "id": "spyder",
@@ -357,7 +357,7 @@
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:spyderide",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-spyderide.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-spyderide.png"
   },
   {
     "id": "docker_desktop",
@@ -369,7 +369,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:docker",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-docker.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-docker.png"
   },
   {
     "id": "kubernetes_dash",
@@ -381,7 +381,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:kubernetes",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-kubernetes.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-kubernetes.png"
   },
   {
     "id": "lens",
@@ -393,7 +393,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:kubernetes",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-kubernetes.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-kubernetes.png"
   },
   {
     "id": "rancherdesktop",
@@ -405,7 +405,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:rancher",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-rancher.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-rancher.png"
   },
   {
     "id": "vagrant",
@@ -417,7 +417,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vagrant",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vagrant.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vagrant.png"
   },
   {
     "id": "virtualbox",
@@ -429,7 +429,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:virtualbox",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-virtualbox.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-virtualbox.png"
   },
   {
     "id": "vmware",
@@ -441,7 +441,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vmware",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vmware.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vmware.png"
   },
   {
     "id": "wsl",
@@ -453,7 +453,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:linux",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-linux.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-linux.png"
   },
   {
     "id": "terraform",
@@ -465,7 +465,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:terraform",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-terraform.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-terraform.png"
   },
   {
     "id": "ansible",
@@ -477,7 +477,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:ansible",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-ansible.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-ansible.png"
   },
   {
     "id": "aws_cli",
@@ -489,7 +489,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:amazonaws",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-amazonaws.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-amazonaws.png"
   },
   {
     "id": "azure_cli",
@@ -501,7 +501,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:microsoftazure",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftazure.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftazure.png"
   },
   {
     "id": "gcloud_cli",
@@ -513,7 +513,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:googlecloud",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlecloud.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlecloud.png"
   },
   {
     "id": "heroku_cli",
@@ -525,7 +525,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:heroku",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-heroku.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-heroku.png"
   },
   {
     "id": "vercel_cli",
@@ -537,7 +537,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vercel",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vercel.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vercel.png"
   },
   {
     "id": "netlify_cli",
@@ -549,7 +549,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:netlify",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-netlify.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-netlify.png"
   },
   {
     "id": "firebase_cli",
@@ -561,7 +561,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:firebase",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-firebase.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-firebase.png"
   },
   {
     "id": "supabase_cli",
@@ -573,7 +573,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:supabase",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-supabase.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-supabase.png"
   },
   {
     "id": "jenkins",
@@ -585,7 +585,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:jenkins",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-jenkins.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-jenkins.png"
   },
   {
     "id": "gitlab_runner",
@@ -597,7 +597,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:gitlab",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gitlab.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gitlab.png"
   },
   {
     "id": "circleci",
@@ -609,7 +609,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:circleci",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-circleci.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-circleci.png"
   },
   {
     "id": "github_desktop",
@@ -621,7 +621,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:github",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-github.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-github.png"
   },
   {
     "id": "gitkraken",
@@ -633,7 +633,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:gitkraken",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gitkraken.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gitkraken.png"
   },
   {
     "id": "sourcetree",
@@ -645,7 +645,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:sourcetree",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sourcetree.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sourcetree.png"
   },
   {
     "id": "git",
@@ -657,7 +657,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:git",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-git.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-git.png"
   },
   {
     "id": "gitextensions",
@@ -669,7 +669,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:git",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-git.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-git.png"
   },
   {
     "id": "tortoisegit",
@@ -681,7 +681,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:git",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-git.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-git.png"
   },
   {
     "id": "fork",
@@ -693,7 +693,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:git",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-git.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-git.png"
   },
   {
     "id": "postman",
@@ -705,7 +705,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:postman",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-postman.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-postman.png"
   },
   {
     "id": "insomnia",
@@ -717,7 +717,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:insomnia",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-insomnia.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-insomnia.png"
   },
   {
     "id": "bruno",
@@ -729,7 +729,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:bruno",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-bruno.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-bruno.png"
   },
   {
     "id": "hoppscotch",
@@ -741,7 +741,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:hoppscotch",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-hoppscotch.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-hoppscotch.png"
   },
   {
     "id": "swagger",
@@ -753,7 +753,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:swagger",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-swagger.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-swagger.png"
   },
   {
     "id": "terminal",
@@ -765,7 +765,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:windowsterminal",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-windowsterminal.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-windowsterminal.png"
   },
   {
     "id": "iterm2",
@@ -777,7 +777,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:iterm2",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-iterm2.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-iterm2.png"
   },
   {
     "id": "hyper",
@@ -789,7 +789,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:hyper",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-hyper.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-hyper.png"
   },
   {
     "id": "alacritty",
@@ -801,7 +801,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:alacritty",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-alacritty.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-alacritty.png"
   },
   {
     "id": "warp",
@@ -813,7 +813,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:warp",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-warp.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-warp.png"
   },
   {
     "id": "powershell",
@@ -826,7 +826,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:powershell",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-powershell.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-powershell.png"
   },
   {
     "id": "cmder",
@@ -838,7 +838,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:windowsterminal",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-windowsterminal.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-windowsterminal.png"
   },
   {
     "id": "tabby",
@@ -850,7 +850,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:gnometerminal",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gnometerminal.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gnometerminal.png"
   },
   {
     "id": "nodejs",
@@ -862,7 +862,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:nodedotjs",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-nodedotjs.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-nodedotjs.png"
   },
   {
     "id": "python",
@@ -875,7 +875,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:python",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-python.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-python.png"
   },
   {
     "id": "anaconda",
@@ -887,7 +887,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:anaconda",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-anaconda.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-anaconda.png"
   },
   {
     "id": "docker",
@@ -899,7 +899,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:docker",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-docker.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-docker.png"
   },
   {
     "id": "mysqlworkbench",
@@ -911,7 +911,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:mysql",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mysql.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mysql.png"
   },
   {
     "id": "pgadmin",
@@ -923,7 +923,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:postgresql",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-postgresql.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-postgresql.png"
   },
   {
     "id": "dbeaver",
@@ -935,7 +935,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:dbeaver",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-dbeaver.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-dbeaver.png"
   },
   {
     "id": "mongodbcompass",
@@ -947,7 +947,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:mongodb",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mongodb.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mongodb.png"
   },
   {
     "id": "redisinsight",
@@ -959,7 +959,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:redis",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-redis.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-redis.png"
   },
   {
     "id": "navicat",
@@ -971,7 +971,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:navicat",
-    "icon_url": "https://api.iconify.design/simple-icons:navicat.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:navicat.png"
   },
   {
     "id": "beekeeperstudio",
@@ -983,7 +983,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:beekeeperstudio",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-beekeeperstudio.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-beekeeperstudio.png"
   },
   {
     "id": "tableplus",
@@ -995,7 +995,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:tableplus",
-    "icon_url": "https://api.iconify.design/simple-icons:tableplus.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:tableplus.png"
   },
   {
     "id": "sqlitebrowser",
@@ -1007,7 +1007,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:sqlite",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sqlite.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sqlite.png"
   },
   {
     "id": "supabase_studio",
@@ -1019,7 +1019,7 @@
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:supabase",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-supabase.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-supabase.png"
   },
   {
     "id": "powerbi",
@@ -1031,7 +1031,7 @@
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:powerbi",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-powerbi.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-powerbi.png"
   },
   {
     "id": "tableau",
@@ -1043,7 +1043,7 @@
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:tableau",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-tableau.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-tableau.png"
   },
   {
     "id": "lookerstudio",
@@ -1055,7 +1055,7 @@
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:looker",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-looker.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-looker.png"
   },
   {
     "id": "metabase",
@@ -1067,7 +1067,7 @@
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:metabase",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-metabase.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-metabase.png"
   },
   {
     "id": "grafana",
@@ -1079,7 +1079,7 @@
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:grafana",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-grafana.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-grafana.png"
   },
   {
     "id": "excel_analysis",
@@ -1091,7 +1091,7 @@
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:microsoftexcel",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftexcel.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftexcel.png"
   },
   {
     "id": "word",
@@ -1103,7 +1103,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftword",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftword.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftword.png"
   },
   {
     "id": "excel",
@@ -1115,7 +1115,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftexcel",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftexcel.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftexcel.png"
   },
   {
     "id": "powerpoint",
@@ -1127,7 +1127,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftpowerpoint",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftpowerpoint.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftpowerpoint.png"
   },
   {
     "id": "outlook",
@@ -1139,7 +1139,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftoutlook",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftoutlook.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftoutlook.png"
   },
   {
     "id": "onenote",
@@ -1151,7 +1151,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftonenote",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftonenote.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftonenote.png"
   },
   {
     "id": "access",
@@ -1163,7 +1163,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftaccess",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftaccess.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftaccess.png"
   },
   {
     "id": "publisher",
@@ -1175,7 +1175,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftoffice",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftoffice.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftoffice.png"
   },
   {
     "id": "msteams_app",
@@ -1187,7 +1187,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftoffice",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftoffice.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftoffice.png"
   },
   {
     "id": "googledocs",
@@ -1199,7 +1199,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googledocs",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googledocs.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googledocs.png"
   },
   {
     "id": "googlesheets",
@@ -1211,7 +1211,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googlesheets",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlesheets.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlesheets.png"
   },
   {
     "id": "googleslides",
@@ -1223,7 +1223,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googleslides",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googleslides.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googleslides.png"
   },
   {
     "id": "googledrive",
@@ -1235,7 +1235,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googledrive",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googledrive.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googledrive.png"
   },
   {
     "id": "onedrive",
@@ -1247,7 +1247,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftonedrive",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftonedrive.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftonedrive.png"
   },
   {
     "id": "dropbox",
@@ -1259,7 +1259,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:dropbox",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-dropbox.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-dropbox.png"
   },
   {
     "id": "box",
@@ -1271,7 +1271,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:box",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-box.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-box.png"
   },
   {
     "id": "libreoffice_writer",
@@ -1283,7 +1283,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:libreofficewriter",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-libreofficewriter.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-libreofficewriter.png"
   },
   {
     "id": "libreoffice_calc",
@@ -1295,7 +1295,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:libreofficecalc",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-libreofficecalc.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-libreofficecalc.png"
   },
   {
     "id": "libreoffice_impress",
@@ -1307,7 +1307,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:libreofficeimpress",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-libreofficeimpress.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-libreofficeimpress.png"
   },
   {
     "id": "wps_office",
@@ -1319,7 +1319,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:wpsoffice",
-    "icon_url": "https://api.iconify.design/simple-icons:wpsoffice.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:wpsoffice.png"
   },
   {
     "id": "openoffice",
@@ -1331,7 +1331,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:apacheopenoffice",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-apacheopenoffice.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-apacheopenoffice.png"
   },
   {
     "id": "notion",
@@ -1343,7 +1343,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:notion",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-notion.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-notion.png"
   },
   {
     "id": "obsidian",
@@ -1355,7 +1355,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:obsidian",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-obsidian.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-obsidian.png"
   },
   {
     "id": "evernote",
@@ -1367,7 +1367,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:evernote",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-evernote.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-evernote.png"
   },
   {
     "id": "onenote_app",
@@ -1379,7 +1379,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftonenote",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftonenote.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftonenote.png"
   },
   {
     "id": "confluence",
@@ -1391,7 +1391,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:confluence",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-confluence.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-confluence.png"
   },
   {
     "id": "logseq",
@@ -1403,7 +1403,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:logseq",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-logseq.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-logseq.png"
   },
   {
     "id": "joplin",
@@ -1415,7 +1415,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:joplin",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-joplin.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-joplin.png"
   },
   {
     "id": "simplenote",
@@ -1427,7 +1427,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:simplenote",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-simplenote.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-simplenote.png"
   },
   {
     "id": "standardnotes",
@@ -1439,7 +1439,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:standardnotes",
-    "icon_url": "https://api.iconify.design/simple-icons:standardnotes.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:standardnotes.png"
   },
   {
     "id": "anytype",
@@ -1451,7 +1451,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:anytype",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-anytype.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-anytype.png"
   },
   {
     "id": "craft",
@@ -1463,7 +1463,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:craft",
-    "icon_url": "https://api.iconify.design/simple-icons:craft.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:craft.png"
   },
   {
     "id": "bear",
@@ -1475,7 +1475,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:bear",
-    "icon_url": "https://api.iconify.design/simple-icons:bear.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:bear.png"
   },
   {
     "id": "typora",
@@ -1487,7 +1487,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:typora",
-    "icon_url": "https://api.iconify.design/simple-icons:typora.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:typora.png"
   },
   {
     "id": "readme",
@@ -1499,7 +1499,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:readme",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-readme.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-readme.png"
   },
   {
     "id": "gitbook",
@@ -1511,7 +1511,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:gitbook",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gitbook.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gitbook.png"
   },
   {
     "id": "jira",
@@ -1523,7 +1523,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:jira",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-jira.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-jira.png"
   },
   {
     "id": "trello",
@@ -1535,7 +1535,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:trello",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-trello.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-trello.png"
   },
   {
     "id": "asana",
@@ -1547,7 +1547,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:asana",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-asana.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-asana.png"
   },
   {
     "id": "clickup",
@@ -1559,7 +1559,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:clickup",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-clickup.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-clickup.png"
   },
   {
     "id": "monday",
@@ -1571,7 +1571,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:mondaydotcom",
-    "icon_url": "https://api.iconify.design/simple-icons:mondaydotcom.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:mondaydotcom.png"
   },
   {
     "id": "linear",
@@ -1583,7 +1583,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:linear",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-linear.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-linear.png"
   },
   {
     "id": "basecamp",
@@ -1595,7 +1595,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:basecamp",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-basecamp.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-basecamp.png"
   },
   {
     "id": "todoist",
@@ -1607,7 +1607,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:todoist",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-todoist.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-todoist.png"
   },
   {
     "id": "tick_tick",
@@ -1619,7 +1619,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:ticktick",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-ticktick.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-ticktick.png"
   },
   {
     "id": "wrike",
@@ -1631,7 +1631,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:wrike",
-    "icon_url": "https://api.iconify.design/simple-icons:wrike.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:wrike.png"
   },
   {
     "id": "smartsheet",
@@ -1643,7 +1643,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:smartsheet",
-    "icon_url": "https://api.iconify.design/simple-icons:smartsheet.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:smartsheet.png"
   },
   {
     "id": "airtable",
@@ -1655,7 +1655,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:airtable",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-airtable.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-airtable.png"
   },
   {
     "id": "miro",
@@ -1667,7 +1667,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:miro",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-miro.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-miro.png"
   },
   {
     "id": "mural",
@@ -1679,7 +1679,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:mural",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mural.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mural.png"
   },
   {
     "id": "coda",
@@ -1691,7 +1691,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:coda",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-coda.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-coda.png"
   },
   {
     "id": "slack",
@@ -1703,7 +1703,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:slack",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-slack.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-slack.png"
   },
   {
     "id": "teams",
@@ -1716,7 +1716,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:microsoftteams",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftteams.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftteams.png"
   },
   {
     "id": "zoom",
@@ -1728,7 +1728,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:zoom",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zoom.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zoom.png"
   },
   {
     "id": "googlemeet",
@@ -1740,7 +1740,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:googlemeet",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlemeet.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlemeet.png"
   },
   {
     "id": "discord",
@@ -1752,7 +1752,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:discord",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-discord.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-discord.png"
   },
   {
     "id": "skype",
@@ -1764,7 +1764,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:skype",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-skype.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-skype.png"
   },
   {
     "id": "webex",
@@ -1776,7 +1776,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:webex",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-webex.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-webex.png"
   },
   {
     "id": "gmail_app",
@@ -1788,7 +1788,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:gmail",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gmail.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gmail.png"
   },
   {
     "id": "figma",
@@ -1800,7 +1800,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:figma",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-figma.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-figma.png"
   },
   {
     "id": "figjam",
@@ -1812,7 +1812,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:figma",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-figma.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-figma.png"
   },
   {
     "id": "sketch",
@@ -1824,7 +1824,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:sketch",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sketch.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sketch.png"
   },
   {
     "id": "adobexd",
@@ -1836,7 +1836,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobexd",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobexd.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobexd.png"
   },
   {
     "id": "photoshop",
@@ -1848,7 +1848,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobephotoshop",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobephotoshop.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobephotoshop.png"
   },
   {
     "id": "illustrator",
@@ -1860,7 +1860,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobeillustrator",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeillustrator.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeillustrator.png"
   },
   {
     "id": "indesign",
@@ -1872,7 +1872,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobeindesign",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeindesign.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeindesign.png"
   },
   {
     "id": "lightroom",
@@ -1884,7 +1884,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobelightroom",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobelightroom.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobelightroom.png"
   },
   {
     "id": "acrobat",
@@ -1896,7 +1896,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobeacrobatreader",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeacrobatreader.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeacrobatreader.png"
   },
   {
     "id": "affinitydesigner",
@@ -1908,7 +1908,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:affinitydesigner",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-affinitydesigner.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-affinitydesigner.png"
   },
   {
     "id": "affinityphoto",
@@ -1920,7 +1920,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:affinityphoto",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-affinityphoto.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-affinityphoto.png"
   },
   {
     "id": "affinitypublisher",
@@ -1932,7 +1932,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:affinitypublisher",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-affinitypublisher.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-affinitypublisher.png"
   },
   {
     "id": "canva",
@@ -1944,7 +1944,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:canva",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-canva.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-canva.png"
   },
   {
     "id": "gimp",
@@ -1956,7 +1956,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:gimp",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gimp.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-gimp.png"
   },
   {
     "id": "inkscape",
@@ -1968,7 +1968,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:inkscape",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-inkscape.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-inkscape.png"
   },
   {
     "id": "krita",
@@ -1980,7 +1980,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:krita",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-krita.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-krita.png"
   },
   {
     "id": "blender",
@@ -1992,7 +1992,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:blender",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-blender.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-blender.png"
   },
   {
     "id": "zeplin",
@@ -2004,7 +2004,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:zeplin",
-    "icon_url": "https://api.iconify.design/simple-icons:zeplin.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:zeplin.png"
   },
   {
     "id": "framer",
@@ -2016,7 +2016,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:framer",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-framer.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-framer.png"
   },
   {
     "id": "penpot",
@@ -2028,7 +2028,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:penpot",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-penpot.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-penpot.png"
   },
   {
     "id": "premiere",
@@ -2040,7 +2040,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:adobepremierepro",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobepremierepro.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobepremierepro.png"
   },
   {
     "id": "aftereffects",
@@ -2052,7 +2052,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:adobeaftereffects",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeaftereffects.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeaftereffects.png"
   },
   {
     "id": "davinciresolve",
@@ -2064,7 +2064,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:davinciresolve",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-davinciresolve.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-davinciresolve.png"
   },
   {
     "id": "finalcutpro",
@@ -2076,7 +2076,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:finalcutpro",
-    "icon_url": "https://api.iconify.design/simple-icons:finalcutpro.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:finalcutpro.png"
   },
   {
     "id": "audition",
@@ -2088,7 +2088,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:adobeaudition",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeaudition.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeaudition.png"
   },
   {
     "id": "obs",
@@ -2101,7 +2101,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:obsstudio",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-obsstudio.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-obsstudio.png"
   },
   {
     "id": "audacity",
@@ -2113,7 +2113,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:audacity",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-audacity.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-audacity.png"
   },
   {
     "id": "handbrake",
@@ -2125,7 +2125,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:handbrake",
-    "icon_url": "https://api.iconify.design/simple-icons:handbrake.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:handbrake.png"
   },
   {
     "id": "vlc",
@@ -2137,7 +2137,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:vlcmediaplayer",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vlcmediaplayer.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vlcmediaplayer.png"
   },
   {
     "id": "ableton",
@@ -2149,7 +2149,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:abletonlive",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-abletonlive.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-abletonlive.png"
   },
   {
     "id": "flstudio",
@@ -2161,7 +2161,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:flstudio",
-    "icon_url": "https://api.iconify.design/simple-icons:flstudio.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:flstudio.png"
   },
   {
     "id": "logicpro",
@@ -2173,7 +2173,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:logicpro",
-    "icon_url": "https://api.iconify.design/simple-icons:logicpro.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:logicpro.png"
   },
   {
     "id": "streamlabs",
@@ -2185,7 +2185,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:streamlabs",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-streamlabs.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-streamlabs.png"
   },
   {
     "id": "cyberlink",
@@ -2197,7 +2197,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:cyberlink",
-    "icon_url": "https://api.iconify.design/simple-icons:cyberlink.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:cyberlink.png"
   },
   {
     "id": "shotcut",
@@ -2209,7 +2209,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:shotcut",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-shotcut.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-shotcut.png"
   },
   {
     "id": "kdenlive",
@@ -2221,7 +2221,7 @@
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:kdenlive",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-kdenlive.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-kdenlive.png"
   },
   {
     "id": "autocad",
@@ -2233,7 +2233,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:autocad",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-autocad.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-autocad.png"
   },
   {
     "id": "sketchup",
@@ -2245,7 +2245,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:sketchup",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sketchup.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sketchup.png"
   },
   {
     "id": "solidworks",
@@ -2257,7 +2257,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:solidworks",
-    "icon_url": "https://api.iconify.design/simple-icons:solidworks.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:solidworks.png"
   },
   {
     "id": "fusion360",
@@ -2269,7 +2269,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:autodesk",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-autodesk.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-autodesk.png"
   },
   {
     "id": "cinema4d",
@@ -2281,7 +2281,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:cinema4d",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-cinema4d.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-cinema4d.png"
   },
   {
     "id": "unrealengine",
@@ -2293,7 +2293,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:unrealengine",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-unrealengine.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-unrealengine.png"
   },
   {
     "id": "unity",
@@ -2305,7 +2305,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:unity",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-unity.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-unity.png"
   },
   {
     "id": "chrome",
@@ -2317,7 +2317,7 @@
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:googlechrome",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlechrome.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlechrome.png"
   },
   {
     "id": "firefox",
@@ -2329,7 +2329,7 @@
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:firefox",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-firefox.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-firefox.png"
   },
   {
     "id": "edge",
@@ -2341,7 +2341,7 @@
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:microsoftedge",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftedge.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftedge.png"
   },
   {
     "id": "brave",
@@ -2353,7 +2353,7 @@
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:brave",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-brave.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-brave.png"
   },
   {
     "id": "opera",
@@ -2365,7 +2365,7 @@
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:opera",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-opera.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-opera.png"
   },
   {
     "id": "arc",
@@ -2377,7 +2377,7 @@
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:arc",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-arc.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-arc.png"
   },
   {
     "id": "vivaldi",
@@ -2389,7 +2389,7 @@
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:vivaldi",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vivaldi.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vivaldi.png"
   },
   {
     "id": "zen",
@@ -2401,7 +2401,7 @@
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:zenbrowser",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zenbrowser.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zenbrowser.png"
   },
   {
     "id": "1password",
@@ -2413,7 +2413,7 @@
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:1password",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-1password.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-1password.png"
   },
   {
     "id": "bitwarden",
@@ -2425,7 +2425,7 @@
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:bitwarden",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-bitwarden.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-bitwarden.png"
   },
   {
     "id": "lastpass",
@@ -2437,7 +2437,7 @@
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:lastpass",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-lastpass.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-lastpass.png"
   },
   {
     "id": "nordvpn",
@@ -2449,7 +2449,7 @@
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:nordvpn",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-nordvpn.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-nordvpn.png"
   },
   {
     "id": "expressvpn",
@@ -2461,7 +2461,7 @@
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:expressvpn",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-expressvpn.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-expressvpn.png"
   },
   {
     "id": "wireshark",
@@ -2473,7 +2473,7 @@
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:wireshark",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-wireshark.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-wireshark.png"
   },
   {
     "id": "malwarebytes",
@@ -2485,7 +2485,7 @@
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:malwarebytes",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-malwarebytes.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-malwarebytes.png"
   },
   {
     "id": "openvpn",
@@ -2497,7 +2497,7 @@
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:openvpn",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-openvpn.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-openvpn.png"
   },
   {
     "id": "putty",
@@ -2509,7 +2509,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:putty",
-    "icon_url": "https://api.iconify.design/simple-icons:putty.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:putty.png"
   },
   {
     "id": "winscp",
@@ -2521,7 +2521,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:winscp",
-    "icon_url": "https://api.iconify.design/simple-icons:winscp.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:winscp.png"
   },
   {
     "id": "filezilla",
@@ -2533,7 +2533,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:filezilla",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-filezilla.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-filezilla.png"
   },
   {
     "id": "teamviewer",
@@ -2545,7 +2545,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:teamviewer",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-teamviewer.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-teamviewer.png"
   },
   {
     "id": "anydesk",
@@ -2557,7 +2557,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:anydesk",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-anydesk.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-anydesk.png"
   },
   {
     "id": "thunderbird",
@@ -2569,7 +2569,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:thunderbird",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-thunderbird.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-thunderbird.png"
   },
   {
     "id": "googlecalendar",
@@ -2581,7 +2581,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googlecalendar",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlecalendar.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlecalendar.png"
   },
   {
     "id": "protonmail",
@@ -2593,7 +2593,7 @@
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:protonmail",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-protonmail.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-protonmail.png"
   },
   {
     "id": "aws_console",
@@ -2605,7 +2605,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:amazonaws",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-amazonaws.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-amazonaws.png"
   },
   {
     "id": "azure_portal",
@@ -2617,7 +2617,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:microsoftazure",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftazure.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-microsoftazure.png"
   },
   {
     "id": "gcp_console",
@@ -2629,7 +2629,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:googlecloud",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlecloud.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlecloud.png"
   },
   {
     "id": "digitalocean",
@@ -2641,7 +2641,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:digitalocean",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-digitalocean.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-digitalocean.png"
   },
   {
     "id": "cloudflare",
@@ -2653,7 +2653,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:cloudflare",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-cloudflare.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-cloudflare.png"
   },
   {
     "id": "vercel",
@@ -2665,7 +2665,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vercel",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vercel.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vercel.png"
   },
   {
     "id": "netlify",
@@ -2677,7 +2677,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:netlify",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-netlify.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-netlify.png"
   },
   {
     "id": "render",
@@ -2689,7 +2689,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:render",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-render.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-render.png"
   },
   {
     "id": "railway",
@@ -2701,7 +2701,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:railway",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-railway.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-railway.png"
   },
   {
     "id": "react_devtools",
@@ -2713,7 +2713,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:react",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-react.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-react.png"
   },
   {
     "id": "vuejs_devtools",
@@ -2725,7 +2725,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vuedotjs",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vuedotjs.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-vuedotjs.png"
   },
   {
     "id": "angular_devtools",
@@ -2737,7 +2737,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:angular",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-angular.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-angular.png"
   },
   {
     "id": "nextjs",
@@ -2749,7 +2749,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:nextdotjs",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-nextdotjs.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-nextdotjs.png"
   },
   {
     "id": "nuxt",
@@ -2761,7 +2761,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:nuxtdotjs",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-nuxtdotjs.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-nuxtdotjs.png"
   },
   {
     "id": "adobeacrobat_reader",
@@ -2773,7 +2773,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:adobeacrobatreader",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeacrobatreader.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeacrobatreader.png"
   },
   {
     "id": "foxitreader",
@@ -2785,7 +2785,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:foxit",
-    "icon_url": "https://api.iconify.design/simple-icons:foxit.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:foxit.png"
   },
   {
     "id": "everynote_web",
@@ -2797,7 +2797,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:notion",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-notion.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-notion.png"
   },
   {
     "id": "calendly",
@@ -2809,7 +2809,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:calendly",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-calendly.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-calendly.png"
   },
   {
     "id": "zapier",
@@ -2821,7 +2821,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:zapier",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zapier.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zapier.png"
   },
   {
     "id": "ifttt",
@@ -2833,7 +2833,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:ifttt",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-ifttt.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-ifttt.png"
   },
   {
     "id": "make",
@@ -2845,7 +2845,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:make",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-make.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-make.png"
   },
   {
     "id": "n8n",
@@ -2857,7 +2857,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:n8n",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-n8n.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-n8n.png"
   },
   {
     "id": "greenshot",
@@ -2869,7 +2869,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:sharex",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sharex.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sharex.png"
   },
   {
     "id": "sharex",
@@ -2881,7 +2881,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:sharex",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sharex.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-sharex.png"
   },
   {
     "id": "snagit",
@@ -2893,7 +2893,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:techsmith",
-    "icon_url": "https://api.iconify.design/simple-icons:techsmith.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:techsmith.png"
   },
   {
     "id": "loom",
@@ -2905,7 +2905,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:loom",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-loom.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-loom.png"
   },
   {
     "id": "camtasia",
@@ -2917,7 +2917,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:techsmith",
-    "icon_url": "https://api.iconify.design/simple-icons:techsmith.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:techsmith.png"
   },
   {
     "id": "quickbooks",
@@ -2929,7 +2929,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:quickbooks",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-quickbooks.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-quickbooks.png"
   },
   {
     "id": "xero",
@@ -2941,7 +2941,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:xero",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-xero.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-xero.png"
   },
   {
     "id": "stripe_dashboard",
@@ -2953,7 +2953,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:stripe",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-stripe.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-stripe.png"
   },
   {
     "id": "paypal",
@@ -2965,7 +2965,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:paypal",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-paypal.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-paypal.png"
   },
   {
     "id": "hubspot",
@@ -2977,7 +2977,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:hubspot",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-hubspot.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-hubspot.png"
   },
   {
     "id": "salesforce",
@@ -2989,7 +2989,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:salesforce",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-salesforce.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-salesforce.png"
   },
   {
     "id": "mailchimp",
@@ -3001,7 +3001,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:mailchimp",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mailchimp.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mailchimp.png"
   },
   {
     "id": "googleanalytics",
@@ -3013,7 +3013,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googleanalytics",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googleanalytics.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googleanalytics.png"
   },
   {
     "id": "googleads",
@@ -3025,7 +3025,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googleads",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googleads.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googleads.png"
   },
   {
     "id": "semrush",
@@ -3037,7 +3037,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:semrush",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-semrush.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-semrush.png"
   },
   {
     "id": "ahrefs",
@@ -3049,7 +3049,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:ahrefs",
-    "icon_url": "https://api.iconify.design/simple-icons:ahrefs.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:ahrefs.png"
   },
   {
     "id": "browserstack",
@@ -3061,7 +3061,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:browserstack",
-    "icon_url": "https://api.iconify.design/simple-icons:browserstack.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:browserstack.png"
   },
   {
     "id": "bitrise",
@@ -3073,7 +3073,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:bitrise",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-bitrise.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-bitrise.png"
   },
   {
     "id": "expo",
@@ -3085,7 +3085,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:expo",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-expo.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-expo.png"
   },
   {
     "id": "flutter",
@@ -3097,7 +3097,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:flutter",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-flutter.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-flutter.png"
   },
   {
     "id": "reactnative",
@@ -3109,7 +3109,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:react",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-react.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-react.png"
   },
   {
     "id": "backblaze",
@@ -3121,7 +3121,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:backblaze",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-backblaze.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-backblaze.png"
   },
   {
     "id": "veeam",
@@ -3133,7 +3133,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:veeam",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-veeam.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-veeam.png"
   },
   {
     "id": "mega",
@@ -3145,7 +3145,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:mega",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mega.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-mega.png"
   },
   {
     "id": "pcloud",
@@ -3157,7 +3157,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:pcloud",
-    "icon_url": "https://api.iconify.design/simple-icons:pcloud.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:pcloud.png"
   },
   {
     "id": "fontbase",
@@ -3169,7 +3169,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:font",
-    "icon_url": "https://api.iconify.design/simple-icons:font.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:font.png"
   },
   {
     "id": "googlefonts",
@@ -3181,7 +3181,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:googlefonts",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlefonts.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-googlefonts.png"
   },
   {
     "id": "shopify",
@@ -3193,7 +3193,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:shopify",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-shopify.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-shopify.png"
   },
   {
     "id": "woocommerce",
@@ -3205,7 +3205,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:woocommerce",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-woocommerce.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-woocommerce.png"
   },
   {
     "id": "wordpress",
@@ -3217,7 +3217,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:wordpress",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-wordpress.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-wordpress.png"
   },
   {
     "id": "wix",
@@ -3229,7 +3229,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:wix",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-wix.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-wix.png"
   },
   {
     "id": "webflow",
@@ -3241,7 +3241,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:webflow",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-webflow.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-webflow.png"
   },
   {
     "id": "chatgpt",
@@ -3253,7 +3253,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:openai",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-openai.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-openai.png"
   },
   {
     "id": "claude_desktop",
@@ -3265,7 +3265,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:anthropic",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-anthropic.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-anthropic.png"
   },
   {
     "id": "githubcopilot",
@@ -3277,7 +3277,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:githubcopilot",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-githubcopilot.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-githubcopilot.png"
   },
   {
     "id": "perplexity",
@@ -3289,7 +3289,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:perplexity",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-perplexity.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-perplexity.png"
   },
   {
     "id": "midjourney",
@@ -3301,7 +3301,7 @@
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:midjourney",
-    "icon_url": "https://api.iconify.design/simple-icons:midjourney.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:midjourney.png"
   },
   {
     "id": "huggingface",
@@ -3313,7 +3313,7 @@
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:huggingface",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-huggingface.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-huggingface.png"
   },
   {
     "id": "cutepdf",
@@ -3325,7 +3325,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:adobeacrobatreader",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeacrobatreader.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeacrobatreader.png"
   },
   {
     "id": "pdf24",
@@ -3337,7 +3337,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:adobeacrobatreader",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeacrobatreader.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-adobeacrobatreader.png"
   },
   {
     "id": "smallpdf",
@@ -3349,7 +3349,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:smallpdf",
-    "icon_url": "https://api.iconify.design/simple-icons:smallpdf.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:smallpdf.png"
   },
   {
     "id": "winrar",
@@ -3361,7 +3361,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:winrar",
-    "icon_url": "https://api.iconify.design/simple-icons:winrar.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:winrar.png"
   },
   {
     "id": "7zip",
@@ -3373,7 +3373,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:sevenzip",
-    "icon_url": "https://api.iconify.design/simple-icons:sevenzip.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:sevenzip.png"
   },
   {
     "id": "totalcommander",
@@ -3385,7 +3385,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:totalcommander",
-    "icon_url": "https://api.iconify.design/simple-icons:totalcommander.svg"
+    "icon_url": "https://api.iconify.design/simple-icons:totalcommander.png"
   },
   {
     "id": "ccleaner",
@@ -3397,7 +3397,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:ccleaner",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-ccleaner.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-ccleaner.png"
   },
   {
     "id": "everything",
@@ -3409,7 +3409,7 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:files",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-files.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-files.png"
   },
   {
     "id": "revouninstaller",
@@ -3421,6 +3421,6 @@
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:windows",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-windows.svg"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-windows.png"
   }
 ]

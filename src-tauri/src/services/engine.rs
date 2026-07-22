@@ -315,7 +315,9 @@ impl PresenceEngine {
 
         let large_image = if rule.large_image == "auto" {
             if let Some(app) = self.app_registry.find_app(process_name) {
-                if let Some(ref icon_str) = app.icon {
+                if let Some(ref icon_url) = app.icon_url {
+                    get_discord_asset_key(icon_url)
+                } else if let Some(ref icon_str) = app.icon {
                     get_discord_asset_key(icon_str)
                 } else {
                     discord_icon.unwrap_or_else(|| "default".to_string())
@@ -324,7 +326,7 @@ impl PresenceEngine {
                 discord_icon.unwrap_or_else(|| "default".to_string())
             }
         } else {
-            if rule.large_image.contains(':') {
+            if rule.large_image.contains(':') || rule.large_image.starts_with("http") {
                 get_discord_asset_key(&rule.large_image)
             } else {
                 rule.large_image.clone()
@@ -354,7 +356,9 @@ impl PresenceEngine {
         });
 
         let large_image = if let Some(app) = self.app_registry.find_app(process_name) {
-            if let Some(ref icon_str) = app.icon {
+            if let Some(ref icon_url) = app.icon_url {
+                get_discord_asset_key(icon_url)
+            } else if let Some(ref icon_str) = app.icon {
                 get_discord_asset_key(icon_str)
             } else {
                 discord_icon.unwrap_or_else(|| "default".to_string())
@@ -457,13 +461,23 @@ impl PresenceEngine {
 }
 
 pub fn get_discord_asset_key(icon: &str) -> String {
-    // If it's already an HTTP URL (e.g., custom user override), pass it through
-    if icon.starts_with("http") {
-        return icon.to_string();
+    let icon_trimmed = icon.trim();
+    if icon_trimmed.starts_with("http://") || icon_trimmed.starts_with("https://") {
+        if icon_trimmed.ends_with(".svg") {
+            return format!("{}.png", icon_trimmed.trim_end_matches(".svg"));
+        }
+        return icon_trimmed.to_string();
     }
-    // Extract the raw icon name from Iconify format (e.g. "simple-icons:zenbrowser" -> "zenbrowser")
-    let parts: Vec<&str> = icon.split(':').collect();
-    parts.last().unwrap_or(&icon).to_string()
+    if icon_trimmed.contains(':') {
+        let parts: Vec<&str> = icon_trimmed.split(':').collect();
+        if parts.len() == 2 {
+            let collection = parts[0];
+            let name = parts[1];
+            return format!("https://api.iconify.design/{}/{}.png?height=512", collection, name);
+        }
+        return parts.last().unwrap_or(&icon_trimmed).to_string();
+    }
+    icon_trimmed.to_string()
 }
 
 /// Helper function to spawn the engine task
