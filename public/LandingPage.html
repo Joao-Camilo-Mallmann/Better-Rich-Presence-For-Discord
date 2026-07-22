@@ -1046,13 +1046,33 @@
 
     .stat-card__value {
       font-family: var(--font-display);
-      font-size: 40px;
+      font-size: 44px;
       font-weight: 800;
       color: var(--blurple);
       letter-spacing: -0.03em;
       line-height: 1;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       text-shadow: 2px 2px 0 var(--ink-dark);
+    }
+
+    .perf-badge {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      background-color: var(--canvas);
+      color: var(--ink);
+      padding: 6px 12px;
+      border-radius: var(--rounded-sm);
+      border: 2px solid var(--ink-dark);
+      margin-bottom: 20px;
+    }
+
+    .perf-badge--highlight {
+      background-color: var(--yellow);
+      color: var(--ink-dark);
+      box-shadow: 2px 2px 0 var(--ink-dark);
     }
 
     .perf-comparison {
@@ -1065,17 +1085,28 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      padding: 4px 6px;
+      border-radius: 6px;
+    }
+
+    .perf-bar-row--active {
+      background-color: rgba(53, 237, 126, 0.15);
+      border: 1px solid var(--green);
     }
 
     .perf-bar-name {
-      width: 72px;
-      font-weight: 700;
+      width: 76px;
+      font-weight: 800;
       font-size: 12px;
+    }
+
+    .perf-bar-row--active .perf-bar-name {
+      color: var(--ink-dark);
     }
 
     .perf-bar-track {
       flex-grow: 1;
-      height: 12px;
+      height: 14px;
       background-color: #e0e0e0;
       border: 2px solid var(--ink-dark);
       border-radius: 6px;
@@ -1099,18 +1130,10 @@
     }
 
     .perf-bar-value {
-      width: 48px;
+      width: 52px;
       text-align: right;
       font-weight: 800;
       font-size: 12px;
-    }
-
-    .stat-card__note {
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 2px dashed var(--ink-dark);
     }
 
     /* Animated bar widths when visible */
@@ -1622,10 +1645,14 @@
         <div class="perf-grid reveal d2" id="perf-grid">
           <!-- Memory -->
           <div class="stat-card">
-            <div class="stat-card__label">Memory</div>
+            <div class="stat-card__label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M6 19v-3"/><path d="M10 19v-6"/><path d="M14 19v-9"/><path d="M18 19V4"/></svg>
+              Memory Usage
+            </div>
             <div class="stat-card__value">~18 MB</div>
+            <div class="perf-badge perf-badge--highlight">⚡ 10× lighter than Electron</div>
             <div class="perf-comparison">
-              <div class="perf-bar-row">
+              <div class="perf-bar-row perf-bar-row--active">
                 <span class="perf-bar-name">Better RPC</span>
                 <div class="perf-bar-track">
                   <div class="perf-bar-fill accent" id="bar-mem-rpc"></div>
@@ -1640,15 +1667,18 @@
                 <span class="perf-bar-value">180 MB</span>
               </div>
             </div>
-            <div class="stat-card__note">10× lighter than Electron</div>
           </div>
 
           <!-- CPU -->
           <div class="stat-card">
-            <div class="stat-card__label">CPU</div>
+            <div class="stat-card__label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
+              CPU Usage
+            </div>
             <div class="stat-card__value">&lt;0.2%</div>
+            <div class="perf-badge">🪶 Invisible to system</div>
             <div class="perf-comparison">
-              <div class="perf-bar-row">
+              <div class="perf-bar-row perf-bar-row--active">
                 <span class="perf-bar-name">Better RPC</span>
                 <div class="perf-bar-track">
                   <div class="perf-bar-fill accent" id="bar-cpu-rpc"></div>
@@ -1663,15 +1693,18 @@
                 <span class="perf-bar-value">4.5%</span>
               </div>
             </div>
-            <div class="stat-card__note">Invisible to your system</div>
           </div>
 
           <!-- Binary size -->
           <div class="stat-card">
-            <div class="stat-card__label">Binary size</div>
+            <div class="stat-card__label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              Binary Size
+            </div>
             <div class="stat-card__value">~4 MB</div>
+            <div class="perf-badge">📦 Single binary</div>
             <div class="perf-comparison">
-              <div class="perf-bar-row">
+              <div class="perf-bar-row perf-bar-row--active">
                 <span class="perf-bar-name">Better RPC</span>
                 <div class="perf-bar-track">
                   <div class="perf-bar-fill accent" id="bar-size-rpc"></div>
@@ -1686,15 +1719,18 @@
                 <span class="perf-bar-value">80 MB</span>
               </div>
             </div>
-            <div class="stat-card__note">Single standalone binary</div>
           </div>
 
           <!-- Startup -->
           <div class="stat-card">
-            <div class="stat-card__label">Startup</div>
+            <div class="stat-card__label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Startup Time
+            </div>
             <div class="stat-card__value">&lt;1s</div>
+            <div class="perf-badge">🚀 Instant boot</div>
             <div class="perf-comparison">
-              <div class="perf-bar-row">
+              <div class="perf-bar-row perf-bar-row--active">
                 <span class="perf-bar-name">Better RPC</span>
                 <div class="perf-bar-track">
                   <div class="perf-bar-fill accent" id="bar-start-rpc"></div>
@@ -1709,7 +1745,6 @@
                 <span class="perf-bar-value">~5s</span>
               </div>
             </div>
-            <div class="stat-card__note">Opens instantly on boot</div>
           </div>
         </div>
       </div>
