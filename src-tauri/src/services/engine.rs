@@ -463,21 +463,52 @@ impl PresenceEngine {
 pub fn get_discord_asset_key(icon: &str) -> String {
     let icon_trimmed = icon.trim();
     if icon_trimmed.starts_with("http://") || icon_trimmed.starts_with("https://") {
-        if icon_trimmed.ends_with(".svg") {
-            return format!("{}.png", icon_trimmed.trim_end_matches(".svg"));
+        let url = if icon_trimmed.ends_with(".svg") {
+            format!("{}.png", icon_trimmed.trim_end_matches(".svg"))
+        } else {
+            icon_trimmed.to_string()
+        };
+        if url.contains("raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/") {
+            return url.replace(
+                "raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/",
+                "cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/",
+            );
         }
-        return icon_trimmed.to_string();
+        return url;
     }
     if icon_trimmed.contains(':') {
         let parts: Vec<&str> = icon_trimmed.split(':').collect();
         if parts.len() == 2 {
             let collection = parts[0];
             let name = parts[1];
-            return format!("https://api.iconify.design/{}/{}.png?height=512", collection, name);
+            let filename = format!("{}-{}.png", collection, name);
+            return format!(
+                "https://cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/public/assets/icons/{}",
+                filename
+            );
         }
         return parts.last().unwrap_or(&icon_trimmed).to_string();
     }
     icon_trimmed.to_string()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_discord_asset_key_raw_github_to_jsdelivr() {
+        let input = "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zenbrowser.png";
+        let expected = "https://cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/public/assets/icons/simple-icons-zenbrowser.png";
+        assert_eq!(get_discord_asset_key(input), expected);
+    }
+
+    #[test]
+    fn test_get_discord_asset_key_iconify_colon_format() {
+        let input = "simple-icons:zenbrowser";
+        let expected = "https://cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/public/assets/icons/simple-icons-zenbrowser.png";
+        assert_eq!(get_discord_asset_key(input), expected);
+    }
 }
 
 /// Helper function to spawn the engine task
