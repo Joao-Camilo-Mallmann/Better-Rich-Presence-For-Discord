@@ -2,10 +2,7 @@
   {
     "id": "vscode",
     "name": "Visual Studio Code",
-    "executables": [
-      "code.exe",
-      "code"
-    ],
+    "executables": ["code.exe", "code"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:visualstudiocode",
@@ -14,10 +11,7 @@
   {
     "id": "vscode_insiders",
     "name": "VS Code Insiders",
-    "executables": [
-      "code - insiders.exe",
-      "code-insiders"
-    ],
+    "executables": ["code - insiders.exe", "code-insiders"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:visualstudiocode",
@@ -26,10 +20,7 @@
   {
     "id": "antigravity",
     "name": "Antigravity",
-    "executables": [
-      "antigravity.exe",
-      "antigravity"
-    ],
+    "executables": ["antigravity.exe", "antigravity"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "material-symbols:antigravity",
@@ -38,10 +29,7 @@
   {
     "id": "cursor",
     "name": "Cursor",
-    "executables": [
-      "cursor.exe",
-      "cursor"
-    ],
+    "executables": ["cursor.exe", "cursor"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:cursor",
@@ -50,10 +38,7 @@
   {
     "id": "windsurf",
     "name": "Windsurf",
-    "executables": [
-      "windsurf.exe",
-      "windsurf"
-    ],
+    "executables": ["windsurf.exe", "windsurf"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:codeium",
@@ -62,10 +47,7 @@
   {
     "id": "zed",
     "name": "Zed",
-    "executables": [
-      "zed.exe",
-      "zed"
-    ],
+    "executables": ["zed.exe", "zed"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:zedindustries",
@@ -74,10 +56,7 @@
   {
     "id": "neovim",
     "name": "Neovim",
-    "executables": [
-      "nvim.exe",
-      "nvim"
-    ],
+    "executables": ["nvim.exe", "nvim"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:neovim",
@@ -86,11 +65,7 @@
   {
     "id": "vim",
     "name": "Vim",
-    "executables": [
-      "vim.exe",
-      "vim",
-      "gvim.exe"
-    ],
+    "executables": ["vim.exe", "vim", "gvim.exe"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:vim",
@@ -99,10 +74,7 @@
   {
     "id": "emacs",
     "name": "Emacs",
-    "executables": [
-      "emacs.exe",
-      "emacs"
-    ],
+    "executables": ["emacs.exe", "emacs"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:gnuemacs",
@@ -111,10 +83,7 @@
   {
     "id": "visualstudio",
     "name": "Visual Studio",
-    "executables": [
-      "devenv.exe",
-      "devenv"
-    ],
+    "executables": ["devenv.exe", "devenv"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:visualstudio",
@@ -123,10 +92,7 @@
   {
     "id": "intellij",
     "name": "IntelliJ IDEA",
-    "executables": [
-      "idea64.exe",
-      "idea"
-    ],
+    "executables": ["idea64.exe", "idea"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:intellijidea",
@@ -135,10 +101,7 @@
   {
     "id": "pycharm",
     "name": "PyCharm",
-    "executables": [
-      "pycharm64.exe",
-      "pycharm"
-    ],
+    "executables": ["pycharm64.exe", "pycharm"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:pycharm",
@@ -147,10 +110,7 @@
   {
     "id": "webstorm",
     "name": "WebStorm",
-    "executables": [
-      "webstorm64.exe",
-      "webstorm"
-    ],
+    "executables": ["webstorm64.exe", "webstorm"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:webstorm",
@@ -159,10 +119,7 @@
   {
     "id": "phpstorm",
     "name": "PhpStorm",
-    "executables": [
-      "phpstorm64.exe",
-      "phpstorm"
-    ],
+    "executables": ["phpstorm64.exe", "phpstorm"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:phpstorm",
@@ -171,10 +128,7 @@
   {
     "id": "rubymine",
     "name": "RubyMine",
-    "executables": [
-      "rubymine64.exe",
-      "rubymine"
-    ],
+    "executables": ["rubymine64.exe", "rubymine"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:rubymine",
@@ -183,10 +137,7 @@
   {
     "id": "clion",
     "name": "CLion",
-    "executables": [
-      "clion64.exe",
-      "clion"
-    ],
+    "executables": ["clion64.exe", "clion"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:clion",
@@ -195,10 +146,7 @@
   {
     "id": "goland",
     "name": "GoLand",
-    "executables": [
-      "goland64.exe",
-      "goland"
-    ],
+    "executables": ["goland64.exe", "goland"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:goland",
@@ -207,10 +155,7 @@
   {
     "id": "rider",
     "name": "Rider",
-    "executables": [
-      "rider64.exe",
-      "rider"
-    ],
+    "executables": ["rider64.exe", "rider"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:rider",
@@ -219,10 +164,7 @@
   {
     "id": "datagrip",
     "name": "DataGrip",
-    "executables": [
-      "datagrip64.exe",
-      "datagrip"
-    ],
+    "executables": ["datagrip64.exe", "datagrip"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:datagrip",
@@ -231,10 +173,7 @@
   {
     "id": "androidstudio",
     "name": "Android Studio",
-    "executables": [
-      "studio64.exe",
-      "studio"
-    ],
+    "executables": ["studio64.exe", "studio"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:androidstudio",
@@ -243,9 +182,7 @@
   {
     "id": "xcode",
     "name": "Xcode",
-    "executables": [
-      "xcode"
-    ],
+    "executables": ["xcode"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:xcode",
@@ -254,10 +191,7 @@
   {
     "id": "sublimetext",
     "name": "Sublime Text",
-    "executables": [
-      "sublime_text.exe",
-      "sublime_text"
-    ],
+    "executables": ["sublime_text.exe", "sublime_text"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:sublimetext",
@@ -266,10 +200,7 @@
   {
     "id": "notepadplusplus",
     "name": "Notepad++",
-    "executables": [
-      "notepad++.exe",
-      "notepad++"
-    ],
+    "executables": ["notepad++.exe", "notepad++"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:notepadplusplus",
@@ -278,10 +209,7 @@
   {
     "id": "atom",
     "name": "Atom",
-    "executables": [
-      "atom.exe",
-      "atom"
-    ],
+    "executables": ["atom.exe", "atom"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:atom",
@@ -290,10 +218,7 @@
   {
     "id": "eclipse",
     "name": "Eclipse",
-    "executables": [
-      "eclipse.exe",
-      "eclipse"
-    ],
+    "executables": ["eclipse.exe", "eclipse"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:eclipseide",
@@ -302,10 +227,7 @@
   {
     "id": "netbeans",
     "name": "NetBeans",
-    "executables": [
-      "netbeans64.exe",
-      "netbeans"
-    ],
+    "executables": ["netbeans64.exe", "netbeans"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:apachenetbeanside",
@@ -314,10 +236,7 @@
   {
     "id": "codeblocks",
     "name": "Code::Blocks",
-    "executables": [
-      "codeblocks.exe",
-      "codeblocks"
-    ],
+    "executables": ["codeblocks.exe", "codeblocks"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:codeblocks",
@@ -326,10 +245,7 @@
   {
     "id": "rstudio",
     "name": "RStudio",
-    "executables": [
-      "rstudio.exe",
-      "rstudio"
-    ],
+    "executables": ["rstudio.exe", "rstudio"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:rstudio",
@@ -338,10 +254,7 @@
   {
     "id": "jupyter",
     "name": "Jupyter Notebook",
-    "executables": [
-      "jupyter-notebook.exe",
-      "jupyter"
-    ],
+    "executables": ["jupyter-notebook.exe", "jupyter"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:jupyter",
@@ -350,10 +263,7 @@
   {
     "id": "spyder",
     "name": "Spyder",
-    "executables": [
-      "spyder.exe",
-      "spyder"
-    ],
+    "executables": ["spyder.exe", "spyder"],
     "client_id": "1517170930764480552",
     "category": "editor",
     "icon": "simple-icons:spyderide",
@@ -362,10 +272,7 @@
   {
     "id": "docker_desktop",
     "name": "Docker Desktop",
-    "executables": [
-      "docker desktop.exe",
-      "docker"
-    ],
+    "executables": ["docker desktop.exe", "docker"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:docker",
@@ -374,10 +281,7 @@
   {
     "id": "kubernetes_dash",
     "name": "Kubernetes Dashboard",
-    "executables": [
-      "kubectl.exe",
-      "kubectl"
-    ],
+    "executables": ["kubectl.exe", "kubectl"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:kubernetes",
@@ -386,10 +290,7 @@
   {
     "id": "lens",
     "name": "Lens (Kubernetes IDE)",
-    "executables": [
-      "lens.exe",
-      "lens"
-    ],
+    "executables": ["lens.exe", "lens"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:kubernetes",
@@ -398,10 +299,7 @@
   {
     "id": "rancherdesktop",
     "name": "Rancher Desktop",
-    "executables": [
-      "rancher desktop.exe",
-      "rancher-desktop"
-    ],
+    "executables": ["rancher desktop.exe", "rancher-desktop"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:rancher",
@@ -410,10 +308,7 @@
   {
     "id": "vagrant",
     "name": "Vagrant",
-    "executables": [
-      "vagrant.exe",
-      "vagrant"
-    ],
+    "executables": ["vagrant.exe", "vagrant"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vagrant",
@@ -422,10 +317,7 @@
   {
     "id": "virtualbox",
     "name": "VirtualBox",
-    "executables": [
-      "virtualbox.exe",
-      "virtualbox"
-    ],
+    "executables": ["virtualbox.exe", "virtualbox"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:virtualbox",
@@ -434,10 +326,7 @@
   {
     "id": "vmware",
     "name": "VMware Workstation",
-    "executables": [
-      "vmware.exe",
-      "vmware"
-    ],
+    "executables": ["vmware.exe", "vmware"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vmware",
@@ -446,10 +335,7 @@
   {
     "id": "wsl",
     "name": "WSL / Windows Subsystem for Linux",
-    "executables": [
-      "wsl.exe",
-      "wsl"
-    ],
+    "executables": ["wsl.exe", "wsl"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:linux",
@@ -458,10 +344,7 @@
   {
     "id": "terraform",
     "name": "Terraform",
-    "executables": [
-      "terraform.exe",
-      "terraform"
-    ],
+    "executables": ["terraform.exe", "terraform"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:terraform",
@@ -470,10 +353,7 @@
   {
     "id": "ansible",
     "name": "Ansible",
-    "executables": [
-      "ansible.exe",
-      "ansible"
-    ],
+    "executables": ["ansible.exe", "ansible"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:ansible",
@@ -482,10 +362,7 @@
   {
     "id": "aws_cli",
     "name": "AWS CLI",
-    "executables": [
-      "aws.exe",
-      "aws"
-    ],
+    "executables": ["aws.exe", "aws"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:amazonaws",
@@ -494,10 +371,7 @@
   {
     "id": "azure_cli",
     "name": "Azure CLI",
-    "executables": [
-      "az.exe",
-      "az"
-    ],
+    "executables": ["az.exe", "az"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:microsoftazure",
@@ -506,10 +380,7 @@
   {
     "id": "gcloud_cli",
     "name": "Google Cloud CLI",
-    "executables": [
-      "gcloud.exe",
-      "gcloud"
-    ],
+    "executables": ["gcloud.exe", "gcloud"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:googlecloud",
@@ -518,10 +389,7 @@
   {
     "id": "heroku_cli",
     "name": "Heroku CLI",
-    "executables": [
-      "heroku.exe",
-      "heroku"
-    ],
+    "executables": ["heroku.exe", "heroku"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:heroku",
@@ -530,10 +398,7 @@
   {
     "id": "vercel_cli",
     "name": "Vercel CLI",
-    "executables": [
-      "vercel.exe",
-      "vercel"
-    ],
+    "executables": ["vercel.exe", "vercel"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vercel",
@@ -542,10 +407,7 @@
   {
     "id": "netlify_cli",
     "name": "Netlify CLI",
-    "executables": [
-      "netlify.exe",
-      "netlify"
-    ],
+    "executables": ["netlify.exe", "netlify"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:netlify",
@@ -554,10 +416,7 @@
   {
     "id": "firebase_cli",
     "name": "Firebase CLI",
-    "executables": [
-      "firebase.exe",
-      "firebase"
-    ],
+    "executables": ["firebase.exe", "firebase"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:firebase",
@@ -566,10 +425,7 @@
   {
     "id": "supabase_cli",
     "name": "Supabase CLI",
-    "executables": [
-      "supabase.exe",
-      "supabase"
-    ],
+    "executables": ["supabase.exe", "supabase"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:supabase",
@@ -578,10 +434,7 @@
   {
     "id": "jenkins",
     "name": "Jenkins",
-    "executables": [
-      "jenkins.exe",
-      "jenkins"
-    ],
+    "executables": ["jenkins.exe", "jenkins"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:jenkins",
@@ -590,10 +443,7 @@
   {
     "id": "gitlab_runner",
     "name": "GitLab Runner",
-    "executables": [
-      "gitlab-runner.exe",
-      "gitlab-runner"
-    ],
+    "executables": ["gitlab-runner.exe", "gitlab-runner"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:gitlab",
@@ -602,10 +452,7 @@
   {
     "id": "circleci",
     "name": "CircleCI Local CLI",
-    "executables": [
-      "circleci.exe",
-      "circleci"
-    ],
+    "executables": ["circleci.exe", "circleci"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:circleci",
@@ -614,10 +461,7 @@
   {
     "id": "github_desktop",
     "name": "GitHub Desktop",
-    "executables": [
-      "githubdesktop.exe",
-      "githubdesktop"
-    ],
+    "executables": ["githubdesktop.exe", "githubdesktop"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:github",
@@ -626,10 +470,7 @@
   {
     "id": "gitkraken",
     "name": "GitKraken",
-    "executables": [
-      "gitkraken.exe",
-      "gitkraken"
-    ],
+    "executables": ["gitkraken.exe", "gitkraken"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:gitkraken",
@@ -638,10 +479,7 @@
   {
     "id": "sourcetree",
     "name": "Sourcetree",
-    "executables": [
-      "sourcetree.exe",
-      "sourcetree"
-    ],
+    "executables": ["sourcetree.exe", "sourcetree"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:sourcetree",
@@ -650,10 +488,7 @@
   {
     "id": "git",
     "name": "Git (CLI)",
-    "executables": [
-      "git.exe",
-      "git"
-    ],
+    "executables": ["git.exe", "git"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:git",
@@ -662,10 +497,7 @@
   {
     "id": "gitextensions",
     "name": "Git Extensions",
-    "executables": [
-      "gitextensions.exe",
-      "gitextensions"
-    ],
+    "executables": ["gitextensions.exe", "gitextensions"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:git",
@@ -674,10 +506,7 @@
   {
     "id": "tortoisegit",
     "name": "TortoiseGit",
-    "executables": [
-      "tortoisegitproc.exe",
-      "tortoisegitproc"
-    ],
+    "executables": ["tortoisegitproc.exe", "tortoisegitproc"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:git",
@@ -686,10 +515,7 @@
   {
     "id": "fork",
     "name": "Fork (Git Client)",
-    "executables": [
-      "fork.exe",
-      "fork"
-    ],
+    "executables": ["fork.exe", "fork"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:git",
@@ -698,10 +524,7 @@
   {
     "id": "postman",
     "name": "Postman",
-    "executables": [
-      "postman.exe",
-      "postman"
-    ],
+    "executables": ["postman.exe", "postman"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:postman",
@@ -710,10 +533,7 @@
   {
     "id": "insomnia",
     "name": "Insomnia",
-    "executables": [
-      "insomnia.exe",
-      "insomnia"
-    ],
+    "executables": ["insomnia.exe", "insomnia"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:insomnia",
@@ -722,10 +542,7 @@
   {
     "id": "bruno",
     "name": "Bruno",
-    "executables": [
-      "bruno.exe",
-      "bruno"
-    ],
+    "executables": ["bruno.exe", "bruno"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:bruno",
@@ -734,10 +551,7 @@
   {
     "id": "hoppscotch",
     "name": "Hoppscotch",
-    "executables": [
-      "hoppscotch.exe",
-      "hoppscotch"
-    ],
+    "executables": ["hoppscotch.exe", "hoppscotch"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:hoppscotch",
@@ -746,10 +560,7 @@
   {
     "id": "swagger",
     "name": "Swagger UI",
-    "executables": [
-      "swagger.exe",
-      "swagger"
-    ],
+    "executables": ["swagger.exe", "swagger"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:swagger",
@@ -758,10 +569,7 @@
   {
     "id": "terminal",
     "name": "Windows Terminal",
-    "executables": [
-      "windowsterminal.exe",
-      "windowsterminal"
-    ],
+    "executables": ["windowsterminal.exe", "windowsterminal"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:windowsterminal",
@@ -770,10 +578,7 @@
   {
     "id": "iterm2",
     "name": "iTerm2",
-    "executables": [
-      "iterm2",
-      "iterm"
-    ],
+    "executables": ["iterm2", "iterm"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:iterm2",
@@ -782,10 +587,7 @@
   {
     "id": "hyper",
     "name": "Hyper",
-    "executables": [
-      "hyper.exe",
-      "hyper"
-    ],
+    "executables": ["hyper.exe", "hyper"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:hyper",
@@ -794,10 +596,7 @@
   {
     "id": "alacritty",
     "name": "Alacritty",
-    "executables": [
-      "alacritty.exe",
-      "alacritty"
-    ],
+    "executables": ["alacritty.exe", "alacritty"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:alacritty",
@@ -806,10 +605,7 @@
   {
     "id": "warp",
     "name": "Warp Terminal",
-    "executables": [
-      "warp.exe",
-      "warp"
-    ],
+    "executables": ["warp.exe", "warp"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:warp",
@@ -818,11 +614,7 @@
   {
     "id": "powershell",
     "name": "PowerShell",
-    "executables": [
-      "powershell.exe",
-      "pwsh.exe",
-      "pwsh"
-    ],
+    "executables": ["powershell.exe", "pwsh.exe", "pwsh"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:powershell",
@@ -831,10 +623,7 @@
   {
     "id": "cmder",
     "name": "Cmder",
-    "executables": [
-      "cmder.exe",
-      "cmder"
-    ],
+    "executables": ["cmder.exe", "cmder"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:windowsterminal",
@@ -843,10 +632,7 @@
   {
     "id": "tabby",
     "name": "Tabby Terminal",
-    "executables": [
-      "tabby.exe",
-      "tabby"
-    ],
+    "executables": ["tabby.exe", "tabby"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:gnometerminal",
@@ -855,10 +641,7 @@
   {
     "id": "nodejs",
     "name": "Node.js",
-    "executables": [
-      "node.exe",
-      "node"
-    ],
+    "executables": ["node.exe", "node"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:nodedotjs",
@@ -867,11 +650,7 @@
   {
     "id": "python",
     "name": "Python",
-    "executables": [
-      "python.exe",
-      "python3",
-      "python"
-    ],
+    "executables": ["python.exe", "python3", "python"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:python",
@@ -880,10 +659,7 @@
   {
     "id": "anaconda",
     "name": "Anaconda Navigator",
-    "executables": [
-      "anaconda-navigator.exe",
-      "anaconda-navigator"
-    ],
+    "executables": ["anaconda-navigator.exe", "anaconda-navigator"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:anaconda",
@@ -892,10 +668,7 @@
   {
     "id": "docker",
     "name": "Docker Engine",
-    "executables": [
-      "dockerd.exe",
-      "dockerd"
-    ],
+    "executables": ["dockerd.exe", "dockerd"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:docker",
@@ -904,10 +677,7 @@
   {
     "id": "mysqlworkbench",
     "name": "MySQL Workbench",
-    "executables": [
-      "mysqlworkbench.exe",
-      "mysql-workbench"
-    ],
+    "executables": ["mysqlworkbench.exe", "mysql-workbench"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:mysql",
@@ -916,10 +686,7 @@
   {
     "id": "pgadmin",
     "name": "pgAdmin",
-    "executables": [
-      "pgadmin4.exe",
-      "pgadmin4"
-    ],
+    "executables": ["pgadmin4.exe", "pgadmin4"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:postgresql",
@@ -928,10 +695,7 @@
   {
     "id": "dbeaver",
     "name": "DBeaver",
-    "executables": [
-      "dbeaver.exe",
-      "dbeaver"
-    ],
+    "executables": ["dbeaver.exe", "dbeaver"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:dbeaver",
@@ -940,10 +704,7 @@
   {
     "id": "mongodbcompass",
     "name": "MongoDB Compass",
-    "executables": [
-      "mongodbcompass.exe",
-      "mongodb-compass"
-    ],
+    "executables": ["mongodbcompass.exe", "mongodb-compass"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:mongodb",
@@ -952,10 +713,7 @@
   {
     "id": "redisinsight",
     "name": "RedisInsight",
-    "executables": [
-      "redisinsight.exe",
-      "redisinsight"
-    ],
+    "executables": ["redisinsight.exe", "redisinsight"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:redis",
@@ -964,10 +722,7 @@
   {
     "id": "navicat",
     "name": "Navicat",
-    "executables": [
-      "navicat.exe",
-      "navicat"
-    ],
+    "executables": ["navicat.exe", "navicat"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:navicat",
@@ -976,10 +731,7 @@
   {
     "id": "beekeeperstudio",
     "name": "Beekeeper Studio",
-    "executables": [
-      "beekeeper-studio.exe",
-      "beekeeper-studio"
-    ],
+    "executables": ["beekeeper-studio.exe", "beekeeper-studio"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:beekeeperstudio",
@@ -988,10 +740,7 @@
   {
     "id": "tableplus",
     "name": "TablePlus",
-    "executables": [
-      "tableplus.exe",
-      "tableplus"
-    ],
+    "executables": ["tableplus.exe", "tableplus"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:tableplus",
@@ -1000,10 +749,7 @@
   {
     "id": "sqlitebrowser",
     "name": "DB Browser for SQLite",
-    "executables": [
-      "db browser for sqlite.exe",
-      "sqlitebrowser"
-    ],
+    "executables": ["db browser for sqlite.exe", "sqlitebrowser"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:sqlite",
@@ -1012,10 +758,7 @@
   {
     "id": "supabase_studio",
     "name": "Supabase Studio",
-    "executables": [
-      "supabase-studio.exe",
-      "supabase-studio"
-    ],
+    "executables": ["supabase-studio.exe", "supabase-studio"],
     "client_id": "1517170930764480552",
     "category": "database",
     "icon": "simple-icons:supabase",
@@ -1024,10 +767,7 @@
   {
     "id": "powerbi",
     "name": "Power BI Desktop",
-    "executables": [
-      "pbidesktop.exe",
-      "pbidesktop"
-    ],
+    "executables": ["pbidesktop.exe", "pbidesktop"],
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:powerbi",
@@ -1036,10 +776,7 @@
   {
     "id": "tableau",
     "name": "Tableau Desktop",
-    "executables": [
-      "tableau.exe",
-      "tableau"
-    ],
+    "executables": ["tableau.exe", "tableau"],
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:tableau",
@@ -1048,10 +785,7 @@
   {
     "id": "lookerstudio",
     "name": "Looker Studio (web)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:looker",
@@ -1060,10 +794,7 @@
   {
     "id": "metabase",
     "name": "Metabase",
-    "executables": [
-      "metabase.exe",
-      "metabase"
-    ],
+    "executables": ["metabase.exe", "metabase"],
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:metabase",
@@ -1072,10 +803,7 @@
   {
     "id": "grafana",
     "name": "Grafana",
-    "executables": [
-      "grafana.exe",
-      "grafana"
-    ],
+    "executables": ["grafana.exe", "grafana"],
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:grafana",
@@ -1084,10 +812,7 @@
   {
     "id": "excel_analysis",
     "name": "Excel (Análise de Dados)",
-    "executables": [
-      "excel.exe",
-      "excel"
-    ],
+    "executables": ["excel.exe", "excel"],
     "client_id": "1517170930764480552",
     "category": "data",
     "icon": "simple-icons:microsoftexcel",
@@ -1096,10 +821,7 @@
   {
     "id": "word",
     "name": "Microsoft Word",
-    "executables": [
-      "winword.exe",
-      "winword"
-    ],
+    "executables": ["winword.exe", "winword"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftword",
@@ -1108,10 +830,7 @@
   {
     "id": "excel",
     "name": "Microsoft Excel",
-    "executables": [
-      "excel.exe",
-      "excel"
-    ],
+    "executables": ["excel.exe", "excel"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftexcel",
@@ -1120,10 +839,7 @@
   {
     "id": "powerpoint",
     "name": "Microsoft PowerPoint",
-    "executables": [
-      "powerpnt.exe",
-      "powerpnt"
-    ],
+    "executables": ["powerpnt.exe", "powerpnt"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftpowerpoint",
@@ -1132,10 +848,7 @@
   {
     "id": "outlook",
     "name": "Microsoft Outlook",
-    "executables": [
-      "outlook.exe",
-      "outlook"
-    ],
+    "executables": ["outlook.exe", "outlook"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftoutlook",
@@ -1144,10 +857,7 @@
   {
     "id": "onenote",
     "name": "Microsoft OneNote",
-    "executables": [
-      "onenote.exe",
-      "onenote"
-    ],
+    "executables": ["onenote.exe", "onenote"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftonenote",
@@ -1156,10 +866,7 @@
   {
     "id": "access",
     "name": "Microsoft Access",
-    "executables": [
-      "msaccess.exe",
-      "msaccess"
-    ],
+    "executables": ["msaccess.exe", "msaccess"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftaccess",
@@ -1168,10 +875,7 @@
   {
     "id": "publisher",
     "name": "Microsoft Publisher",
-    "executables": [
-      "mspub.exe",
-      "mspub"
-    ],
+    "executables": ["mspub.exe", "mspub"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftoffice",
@@ -1180,10 +884,7 @@
   {
     "id": "msteams_app",
     "name": "Microsoft 365 (App)",
-    "executables": [
-      "office.exe",
-      "office"
-    ],
+    "executables": ["office.exe", "office"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftoffice",
@@ -1192,10 +893,7 @@
   {
     "id": "googledocs",
     "name": "Google Docs (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googledocs",
@@ -1204,10 +902,7 @@
   {
     "id": "googlesheets",
     "name": "Google Sheets (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googlesheets",
@@ -1216,10 +911,7 @@
   {
     "id": "googleslides",
     "name": "Google Slides (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googleslides",
@@ -1228,10 +920,7 @@
   {
     "id": "googledrive",
     "name": "Google Drive",
-    "executables": [
-      "googledrivefs.exe",
-      "googledrivefs"
-    ],
+    "executables": ["googledrivefs.exe", "googledrivefs"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googledrive",
@@ -1240,10 +929,7 @@
   {
     "id": "onedrive",
     "name": "OneDrive",
-    "executables": [
-      "onedrive.exe",
-      "onedrive"
-    ],
+    "executables": ["onedrive.exe", "onedrive"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftonedrive",
@@ -1252,10 +938,7 @@
   {
     "id": "dropbox",
     "name": "Dropbox",
-    "executables": [
-      "dropbox.exe",
-      "dropbox"
-    ],
+    "executables": ["dropbox.exe", "dropbox"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:dropbox",
@@ -1264,10 +947,7 @@
   {
     "id": "box",
     "name": "Box",
-    "executables": [
-      "box.exe",
-      "box"
-    ],
+    "executables": ["box.exe", "box"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:box",
@@ -1276,10 +956,7 @@
   {
     "id": "libreoffice_writer",
     "name": "LibreOffice Writer",
-    "executables": [
-      "swriter.exe",
-      "soffice"
-    ],
+    "executables": ["swriter.exe", "soffice"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:libreofficewriter",
@@ -1288,10 +965,7 @@
   {
     "id": "libreoffice_calc",
     "name": "LibreOffice Calc",
-    "executables": [
-      "scalc.exe",
-      "soffice"
-    ],
+    "executables": ["scalc.exe", "soffice"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:libreofficecalc",
@@ -1300,10 +974,7 @@
   {
     "id": "libreoffice_impress",
     "name": "LibreOffice Impress",
-    "executables": [
-      "simpress.exe",
-      "soffice"
-    ],
+    "executables": ["simpress.exe", "soffice"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:libreofficeimpress",
@@ -1312,10 +983,7 @@
   {
     "id": "wps_office",
     "name": "WPS Office",
-    "executables": [
-      "wps.exe",
-      "wps"
-    ],
+    "executables": ["wps.exe", "wps"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:wpsoffice",
@@ -1324,10 +992,7 @@
   {
     "id": "openoffice",
     "name": "Apache OpenOffice",
-    "executables": [
-      "soffice.exe",
-      "soffice"
-    ],
+    "executables": ["soffice.exe", "soffice"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:apacheopenoffice",
@@ -1336,10 +1001,7 @@
   {
     "id": "notion",
     "name": "Notion",
-    "executables": [
-      "notion.exe",
-      "notion"
-    ],
+    "executables": ["notion.exe", "notion"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:notion",
@@ -1348,10 +1010,7 @@
   {
     "id": "obsidian",
     "name": "Obsidian",
-    "executables": [
-      "obsidian.exe",
-      "obsidian"
-    ],
+    "executables": ["obsidian.exe", "obsidian"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:obsidian",
@@ -1360,10 +1019,7 @@
   {
     "id": "evernote",
     "name": "Evernote",
-    "executables": [
-      "evernote.exe",
-      "evernote"
-    ],
+    "executables": ["evernote.exe", "evernote"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:evernote",
@@ -1372,10 +1028,7 @@
   {
     "id": "onenote_app",
     "name": "OneNote (App)",
-    "executables": [
-      "onenoteim.exe",
-      "onenoteim"
-    ],
+    "executables": ["onenoteim.exe", "onenoteim"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:microsoftonenote",
@@ -1384,10 +1037,7 @@
   {
     "id": "confluence",
     "name": "Confluence",
-    "executables": [
-      "confluence.exe",
-      "confluence"
-    ],
+    "executables": ["confluence.exe", "confluence"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:confluence",
@@ -1396,10 +1046,7 @@
   {
     "id": "logseq",
     "name": "Logseq",
-    "executables": [
-      "logseq.exe",
-      "logseq"
-    ],
+    "executables": ["logseq.exe", "logseq"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:logseq",
@@ -1408,10 +1055,7 @@
   {
     "id": "joplin",
     "name": "Joplin",
-    "executables": [
-      "joplin.exe",
-      "joplin"
-    ],
+    "executables": ["joplin.exe", "joplin"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:joplin",
@@ -1420,10 +1064,7 @@
   {
     "id": "simplenote",
     "name": "Simplenote",
-    "executables": [
-      "simplenote.exe",
-      "simplenote"
-    ],
+    "executables": ["simplenote.exe", "simplenote"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:simplenote",
@@ -1432,10 +1073,7 @@
   {
     "id": "standardnotes",
     "name": "Standard Notes",
-    "executables": [
-      "standard notes.exe",
-      "standard-notes"
-    ],
+    "executables": ["standard notes.exe", "standard-notes"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:standardnotes",
@@ -1444,10 +1082,7 @@
   {
     "id": "anytype",
     "name": "Anytype",
-    "executables": [
-      "anytype.exe",
-      "anytype"
-    ],
+    "executables": ["anytype.exe", "anytype"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:anytype",
@@ -1456,10 +1091,7 @@
   {
     "id": "craft",
     "name": "Craft Docs",
-    "executables": [
-      "craft.exe",
-      "craft"
-    ],
+    "executables": ["craft.exe", "craft"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:craft",
@@ -1468,10 +1100,7 @@
   {
     "id": "bear",
     "name": "Bear",
-    "executables": [
-      "bear.exe",
-      "bear"
-    ],
+    "executables": ["bear.exe", "bear"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:bear",
@@ -1480,10 +1109,7 @@
   {
     "id": "typora",
     "name": "Typora",
-    "executables": [
-      "typora.exe",
-      "typora"
-    ],
+    "executables": ["typora.exe", "typora"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:typora",
@@ -1492,10 +1118,7 @@
   {
     "id": "readme",
     "name": "ReadMe (docs)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:readme",
@@ -1504,10 +1127,7 @@
   {
     "id": "gitbook",
     "name": "GitBook",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:gitbook",
@@ -1516,10 +1136,7 @@
   {
     "id": "jira",
     "name": "Jira",
-    "executables": [
-      "jira.exe",
-      "jira"
-    ],
+    "executables": ["jira.exe", "jira"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:jira",
@@ -1528,10 +1145,7 @@
   {
     "id": "trello",
     "name": "Trello",
-    "executables": [
-      "trello.exe",
-      "trello"
-    ],
+    "executables": ["trello.exe", "trello"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:trello",
@@ -1540,10 +1154,7 @@
   {
     "id": "asana",
     "name": "Asana",
-    "executables": [
-      "asana.exe",
-      "asana"
-    ],
+    "executables": ["asana.exe", "asana"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:asana",
@@ -1552,10 +1163,7 @@
   {
     "id": "clickup",
     "name": "ClickUp",
-    "executables": [
-      "clickup.exe",
-      "clickup"
-    ],
+    "executables": ["clickup.exe", "clickup"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:clickup",
@@ -1564,10 +1172,7 @@
   {
     "id": "monday",
     "name": "Monday.com",
-    "executables": [
-      "monday.exe",
-      "monday"
-    ],
+    "executables": ["monday.exe", "monday"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:mondaydotcom",
@@ -1576,10 +1181,7 @@
   {
     "id": "linear",
     "name": "Linear",
-    "executables": [
-      "linear.exe",
-      "linear"
-    ],
+    "executables": ["linear.exe", "linear"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:linear",
@@ -1588,10 +1190,7 @@
   {
     "id": "basecamp",
     "name": "Basecamp",
-    "executables": [
-      "basecamp3.exe",
-      "basecamp3"
-    ],
+    "executables": ["basecamp3.exe", "basecamp3"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:basecamp",
@@ -1600,10 +1199,7 @@
   {
     "id": "todoist",
     "name": "Todoist",
-    "executables": [
-      "todoist.exe",
-      "todoist"
-    ],
+    "executables": ["todoist.exe", "todoist"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:todoist",
@@ -1612,10 +1208,7 @@
   {
     "id": "tick_tick",
     "name": "TickTick",
-    "executables": [
-      "ticktick.exe",
-      "ticktick"
-    ],
+    "executables": ["ticktick.exe", "ticktick"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:ticktick",
@@ -1624,10 +1217,7 @@
   {
     "id": "wrike",
     "name": "Wrike",
-    "executables": [
-      "wrike.exe",
-      "wrike"
-    ],
+    "executables": ["wrike.exe", "wrike"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:wrike",
@@ -1636,10 +1226,7 @@
   {
     "id": "smartsheet",
     "name": "Smartsheet",
-    "executables": [
-      "smartsheet.exe",
-      "smartsheet"
-    ],
+    "executables": ["smartsheet.exe", "smartsheet"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:smartsheet",
@@ -1648,10 +1235,7 @@
   {
     "id": "airtable",
     "name": "Airtable",
-    "executables": [
-      "airtable.exe",
-      "airtable"
-    ],
+    "executables": ["airtable.exe", "airtable"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:airtable",
@@ -1660,10 +1244,7 @@
   {
     "id": "miro",
     "name": "Miro",
-    "executables": [
-      "miro.exe",
-      "miro"
-    ],
+    "executables": ["miro.exe", "miro"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:miro",
@@ -1672,10 +1253,7 @@
   {
     "id": "mural",
     "name": "Mural",
-    "executables": [
-      "mural.exe",
-      "mural"
-    ],
+    "executables": ["mural.exe", "mural"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:mural",
@@ -1684,10 +1262,7 @@
   {
     "id": "coda",
     "name": "Coda",
-    "executables": [
-      "coda.exe",
-      "coda"
-    ],
+    "executables": ["coda.exe", "coda"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:coda",
@@ -1696,10 +1271,7 @@
   {
     "id": "slack",
     "name": "Slack",
-    "executables": [
-      "slack.exe",
-      "slack"
-    ],
+    "executables": ["slack.exe", "slack"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:slack",
@@ -1708,11 +1280,7 @@
   {
     "id": "teams",
     "name": "Microsoft Teams",
-    "executables": [
-      "teams.exe",
-      "ms-teams.exe",
-      "teams"
-    ],
+    "executables": ["teams.exe", "ms-teams.exe", "teams"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:microsoftteams",
@@ -1721,10 +1289,7 @@
   {
     "id": "zoom",
     "name": "Zoom",
-    "executables": [
-      "zoom.exe",
-      "zoom"
-    ],
+    "executables": ["zoom.exe", "zoom"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:zoom",
@@ -1733,10 +1298,7 @@
   {
     "id": "googlemeet",
     "name": "Google Meet (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:googlemeet",
@@ -1745,10 +1307,7 @@
   {
     "id": "discord",
     "name": "Discord",
-    "executables": [
-      "discord.exe",
-      "discord"
-    ],
+    "executables": ["discord.exe", "discord"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:discord",
@@ -1757,10 +1316,7 @@
   {
     "id": "skype",
     "name": "Skype",
-    "executables": [
-      "skype.exe",
-      "skype"
-    ],
+    "executables": ["skype.exe", "skype"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:skype",
@@ -1769,10 +1325,7 @@
   {
     "id": "webex",
     "name": "Cisco Webex",
-    "executables": [
-      "webex.exe",
-      "webex"
-    ],
+    "executables": ["webex.exe", "webex"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:webex",
@@ -1781,10 +1334,7 @@
   {
     "id": "gmail_app",
     "name": "Gmail (App)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:gmail",
@@ -1793,10 +1343,7 @@
   {
     "id": "figma",
     "name": "Figma",
-    "executables": [
-      "figma.exe",
-      "figma"
-    ],
+    "executables": ["figma.exe", "figma"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:figma",
@@ -1805,10 +1352,7 @@
   {
     "id": "figjam",
     "name": "FigJam",
-    "executables": [
-      "figma.exe",
-      "figma"
-    ],
+    "executables": ["figma.exe", "figma"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:figma",
@@ -1817,10 +1361,7 @@
   {
     "id": "sketch",
     "name": "Sketch",
-    "executables": [
-      "sketch.exe",
-      "sketch"
-    ],
+    "executables": ["sketch.exe", "sketch"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:sketch",
@@ -1829,10 +1370,7 @@
   {
     "id": "adobexd",
     "name": "Adobe XD",
-    "executables": [
-      "xd.exe",
-      "xd"
-    ],
+    "executables": ["xd.exe", "xd"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobexd",
@@ -1841,10 +1379,7 @@
   {
     "id": "photoshop",
     "name": "Adobe Photoshop",
-    "executables": [
-      "photoshop.exe",
-      "photoshop"
-    ],
+    "executables": ["photoshop.exe", "photoshop"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobephotoshop",
@@ -1853,10 +1388,7 @@
   {
     "id": "illustrator",
     "name": "Adobe Illustrator",
-    "executables": [
-      "illustrator.exe",
-      "illustrator"
-    ],
+    "executables": ["illustrator.exe", "illustrator"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobeillustrator",
@@ -1865,10 +1397,7 @@
   {
     "id": "indesign",
     "name": "Adobe InDesign",
-    "executables": [
-      "indesign.exe",
-      "indesign"
-    ],
+    "executables": ["indesign.exe", "indesign"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobeindesign",
@@ -1877,10 +1406,7 @@
   {
     "id": "lightroom",
     "name": "Adobe Lightroom",
-    "executables": [
-      "lightroom.exe",
-      "lightroom"
-    ],
+    "executables": ["lightroom.exe", "lightroom"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobelightroom",
@@ -1889,10 +1415,7 @@
   {
     "id": "acrobat",
     "name": "Adobe Acrobat",
-    "executables": [
-      "acrobat.exe",
-      "acrobat"
-    ],
+    "executables": ["acrobat.exe", "acrobat"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:adobeacrobatreader",
@@ -1901,10 +1424,7 @@
   {
     "id": "affinitydesigner",
     "name": "Affinity Designer",
-    "executables": [
-      "affinity designer.exe",
-      "affinity-designer"
-    ],
+    "executables": ["affinity designer.exe", "affinity-designer"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:affinitydesigner",
@@ -1913,10 +1433,7 @@
   {
     "id": "affinityphoto",
     "name": "Affinity Photo",
-    "executables": [
-      "affinity photo.exe",
-      "affinity-photo"
-    ],
+    "executables": ["affinity photo.exe", "affinity-photo"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:affinityphoto",
@@ -1925,10 +1442,7 @@
   {
     "id": "affinitypublisher",
     "name": "Affinity Publisher",
-    "executables": [
-      "affinity publisher.exe",
-      "affinity-publisher"
-    ],
+    "executables": ["affinity publisher.exe", "affinity-publisher"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:affinitypublisher",
@@ -1937,10 +1451,7 @@
   {
     "id": "canva",
     "name": "Canva",
-    "executables": [
-      "canva.exe",
-      "canva"
-    ],
+    "executables": ["canva.exe", "canva"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:canva",
@@ -1949,10 +1460,7 @@
   {
     "id": "gimp",
     "name": "GIMP",
-    "executables": [
-      "gimp.exe",
-      "gimp"
-    ],
+    "executables": ["gimp.exe", "gimp"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:gimp",
@@ -1961,10 +1469,7 @@
   {
     "id": "inkscape",
     "name": "Inkscape",
-    "executables": [
-      "inkscape.exe",
-      "inkscape"
-    ],
+    "executables": ["inkscape.exe", "inkscape"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:inkscape",
@@ -1973,10 +1478,7 @@
   {
     "id": "krita",
     "name": "Krita",
-    "executables": [
-      "krita.exe",
-      "krita"
-    ],
+    "executables": ["krita.exe", "krita"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:krita",
@@ -1985,10 +1487,7 @@
   {
     "id": "blender",
     "name": "Blender",
-    "executables": [
-      "blender.exe",
-      "blender"
-    ],
+    "executables": ["blender.exe", "blender"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:blender",
@@ -1997,10 +1496,7 @@
   {
     "id": "zeplin",
     "name": "Zeplin",
-    "executables": [
-      "zeplin.exe",
-      "zeplin"
-    ],
+    "executables": ["zeplin.exe", "zeplin"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:zeplin",
@@ -2009,10 +1505,7 @@
   {
     "id": "framer",
     "name": "Framer",
-    "executables": [
-      "framer.exe",
-      "framer"
-    ],
+    "executables": ["framer.exe", "framer"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:framer",
@@ -2021,10 +1514,7 @@
   {
     "id": "penpot",
     "name": "Penpot",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:penpot",
@@ -2033,10 +1523,7 @@
   {
     "id": "premiere",
     "name": "Adobe Premiere Pro",
-    "executables": [
-      "premiere.exe",
-      "premiere"
-    ],
+    "executables": ["premiere.exe", "premiere"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:adobepremierepro",
@@ -2045,10 +1532,7 @@
   {
     "id": "aftereffects",
     "name": "Adobe After Effects",
-    "executables": [
-      "afterfx.exe",
-      "afterfx"
-    ],
+    "executables": ["afterfx.exe", "afterfx"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:adobeaftereffects",
@@ -2057,10 +1541,7 @@
   {
     "id": "davinciresolve",
     "name": "DaVinci Resolve",
-    "executables": [
-      "resolve.exe",
-      "resolve"
-    ],
+    "executables": ["resolve.exe", "resolve"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:davinciresolve",
@@ -2069,10 +1550,7 @@
   {
     "id": "finalcutpro",
     "name": "Final Cut Pro",
-    "executables": [
-      "final cut pro.exe",
-      "finalcutpro"
-    ],
+    "executables": ["final cut pro.exe", "finalcutpro"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:finalcutpro",
@@ -2081,10 +1559,7 @@
   {
     "id": "audition",
     "name": "Adobe Audition",
-    "executables": [
-      "audition.exe",
-      "audition"
-    ],
+    "executables": ["audition.exe", "audition"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:adobeaudition",
@@ -2093,11 +1568,7 @@
   {
     "id": "obs",
     "name": "OBS Studio",
-    "executables": [
-      "obs64.exe",
-      "obs32.exe",
-      "obs"
-    ],
+    "executables": ["obs64.exe", "obs32.exe", "obs"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:obsstudio",
@@ -2106,10 +1577,7 @@
   {
     "id": "audacity",
     "name": "Audacity",
-    "executables": [
-      "audacity.exe",
-      "audacity"
-    ],
+    "executables": ["audacity.exe", "audacity"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:audacity",
@@ -2118,10 +1586,7 @@
   {
     "id": "handbrake",
     "name": "HandBrake",
-    "executables": [
-      "handbrake.exe",
-      "handbrake"
-    ],
+    "executables": ["handbrake.exe", "handbrake"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:handbrake",
@@ -2130,10 +1595,7 @@
   {
     "id": "vlc",
     "name": "VLC media player",
-    "executables": [
-      "vlc.exe",
-      "vlc"
-    ],
+    "executables": ["vlc.exe", "vlc"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:vlcmediaplayer",
@@ -2142,10 +1604,7 @@
   {
     "id": "ableton",
     "name": "Ableton Live",
-    "executables": [
-      "ableton live.exe",
-      "ableton"
-    ],
+    "executables": ["ableton live.exe", "ableton"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:abletonlive",
@@ -2154,10 +1613,7 @@
   {
     "id": "flstudio",
     "name": "FL Studio",
-    "executables": [
-      "fl64.exe",
-      "fl"
-    ],
+    "executables": ["fl64.exe", "fl"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:flstudio",
@@ -2166,10 +1622,7 @@
   {
     "id": "logicpro",
     "name": "Logic Pro",
-    "executables": [
-      "logic pro.exe",
-      "logicpro"
-    ],
+    "executables": ["logic pro.exe", "logicpro"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:logicpro",
@@ -2178,10 +1631,7 @@
   {
     "id": "streamlabs",
     "name": "Streamlabs",
-    "executables": [
-      "streamlabs obs.exe",
-      "streamlabs"
-    ],
+    "executables": ["streamlabs obs.exe", "streamlabs"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:streamlabs",
@@ -2190,10 +1640,7 @@
   {
     "id": "cyberlink",
     "name": "CyberLink PowerDirector",
-    "executables": [
-      "powerdirector.exe",
-      "powerdirector"
-    ],
+    "executables": ["powerdirector.exe", "powerdirector"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:cyberlink",
@@ -2202,10 +1649,7 @@
   {
     "id": "shotcut",
     "name": "Shotcut",
-    "executables": [
-      "shotcut.exe",
-      "shotcut"
-    ],
+    "executables": ["shotcut.exe", "shotcut"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:shotcut",
@@ -2214,10 +1658,7 @@
   {
     "id": "kdenlive",
     "name": "Kdenlive",
-    "executables": [
-      "kdenlive.exe",
-      "kdenlive"
-    ],
+    "executables": ["kdenlive.exe", "kdenlive"],
     "client_id": "1517170930764480552",
     "category": "media",
     "icon": "simple-icons:kdenlive",
@@ -2226,10 +1667,7 @@
   {
     "id": "autocad",
     "name": "AutoCAD",
-    "executables": [
-      "acad.exe",
-      "acad"
-    ],
+    "executables": ["acad.exe", "acad"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:autocad",
@@ -2238,10 +1676,7 @@
   {
     "id": "sketchup",
     "name": "SketchUp",
-    "executables": [
-      "sketchup.exe",
-      "sketchup"
-    ],
+    "executables": ["sketchup.exe", "sketchup"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:sketchup",
@@ -2250,10 +1685,7 @@
   {
     "id": "solidworks",
     "name": "SolidWorks",
-    "executables": [
-      "sldworks.exe",
-      "sldworks"
-    ],
+    "executables": ["sldworks.exe", "sldworks"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:solidworks",
@@ -2262,10 +1694,7 @@
   {
     "id": "fusion360",
     "name": "Fusion 360",
-    "executables": [
-      "fusion360.exe",
-      "fusion360"
-    ],
+    "executables": ["fusion360.exe", "fusion360"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:autodesk",
@@ -2274,10 +1703,7 @@
   {
     "id": "cinema4d",
     "name": "Cinema 4D",
-    "executables": [
-      "cinema 4d.exe",
-      "cinema4d"
-    ],
+    "executables": ["cinema 4d.exe", "cinema4d"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:cinema4d",
@@ -2286,10 +1712,7 @@
   {
     "id": "unrealengine",
     "name": "Unreal Engine (Dev)",
-    "executables": [
-      "unrealeditor.exe",
-      "unrealeditor"
-    ],
+    "executables": ["unrealeditor.exe", "unrealeditor"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:unrealengine",
@@ -2298,10 +1721,7 @@
   {
     "id": "unity",
     "name": "Unity Editor (Dev)",
-    "executables": [
-      "unity.exe",
-      "unity"
-    ],
+    "executables": ["unity.exe", "unity"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:unity",
@@ -2310,10 +1730,7 @@
   {
     "id": "chrome",
     "name": "Google Chrome",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:googlechrome",
@@ -2322,10 +1739,7 @@
   {
     "id": "firefox",
     "name": "Firefox",
-    "executables": [
-      "firefox.exe",
-      "firefox"
-    ],
+    "executables": ["firefox.exe", "firefox"],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:firefox",
@@ -2334,10 +1748,7 @@
   {
     "id": "edge",
     "name": "Microsoft Edge",
-    "executables": [
-      "msedge.exe",
-      "msedge"
-    ],
+    "executables": ["msedge.exe", "msedge"],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:microsoftedge",
@@ -2346,10 +1757,7 @@
   {
     "id": "brave",
     "name": "Brave Browser",
-    "executables": [
-      "brave.exe",
-      "brave"
-    ],
+    "executables": ["brave.exe", "brave"],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:brave",
@@ -2358,10 +1766,7 @@
   {
     "id": "opera",
     "name": "Opera",
-    "executables": [
-      "opera.exe",
-      "opera"
-    ],
+    "executables": ["opera.exe", "opera"],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:opera",
@@ -2370,10 +1775,7 @@
   {
     "id": "arc",
     "name": "Arc Browser",
-    "executables": [
-      "arc.exe",
-      "arc"
-    ],
+    "executables": ["arc.exe", "arc"],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:arc",
@@ -2382,10 +1784,7 @@
   {
     "id": "vivaldi",
     "name": "Vivaldi",
-    "executables": [
-      "vivaldi.exe",
-      "vivaldi"
-    ],
+    "executables": ["vivaldi.exe", "vivaldi"],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:vivaldi",
@@ -2394,10 +1793,7 @@
   {
     "id": "zen",
     "name": "Zen Browser",
-    "executables": [
-      "zen.exe",
-      "zen"
-    ],
+    "executables": ["zen.exe", "zen"],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon": "simple-icons:zenbrowser",
@@ -2406,10 +1802,7 @@
   {
     "id": "1password",
     "name": "1Password",
-    "executables": [
-      "1password.exe",
-      "1password"
-    ],
+    "executables": ["1password.exe", "1password"],
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:1password",
@@ -2418,10 +1811,7 @@
   {
     "id": "bitwarden",
     "name": "Bitwarden",
-    "executables": [
-      "bitwarden.exe",
-      "bitwarden"
-    ],
+    "executables": ["bitwarden.exe", "bitwarden"],
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:bitwarden",
@@ -2430,10 +1820,7 @@
   {
     "id": "lastpass",
     "name": "LastPass",
-    "executables": [
-      "lastpass.exe",
-      "lastpass"
-    ],
+    "executables": ["lastpass.exe", "lastpass"],
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:lastpass",
@@ -2442,10 +1829,7 @@
   {
     "id": "nordvpn",
     "name": "NordVPN",
-    "executables": [
-      "nordvpn.exe",
-      "nordvpn"
-    ],
+    "executables": ["nordvpn.exe", "nordvpn"],
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:nordvpn",
@@ -2454,10 +1838,7 @@
   {
     "id": "expressvpn",
     "name": "ExpressVPN",
-    "executables": [
-      "expressvpn.exe",
-      "expressvpn"
-    ],
+    "executables": ["expressvpn.exe", "expressvpn"],
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:expressvpn",
@@ -2466,10 +1847,7 @@
   {
     "id": "wireshark",
     "name": "Wireshark",
-    "executables": [
-      "wireshark.exe",
-      "wireshark"
-    ],
+    "executables": ["wireshark.exe", "wireshark"],
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:wireshark",
@@ -2478,10 +1856,7 @@
   {
     "id": "malwarebytes",
     "name": "Malwarebytes",
-    "executables": [
-      "mbam.exe",
-      "mbam"
-    ],
+    "executables": ["mbam.exe", "mbam"],
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:malwarebytes",
@@ -2490,10 +1865,7 @@
   {
     "id": "openvpn",
     "name": "OpenVPN",
-    "executables": [
-      "openvpn-gui.exe",
-      "openvpn"
-    ],
+    "executables": ["openvpn-gui.exe", "openvpn"],
     "client_id": "1517170930764480552",
     "category": "security",
     "icon": "simple-icons:openvpn",
@@ -2502,10 +1874,7 @@
   {
     "id": "putty",
     "name": "PuTTY",
-    "executables": [
-      "putty.exe",
-      "putty"
-    ],
+    "executables": ["putty.exe", "putty"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:putty",
@@ -2514,10 +1883,7 @@
   {
     "id": "winscp",
     "name": "WinSCP",
-    "executables": [
-      "winscp.exe",
-      "winscp"
-    ],
+    "executables": ["winscp.exe", "winscp"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:winscp",
@@ -2526,10 +1892,7 @@
   {
     "id": "filezilla",
     "name": "FileZilla",
-    "executables": [
-      "filezilla.exe",
-      "filezilla"
-    ],
+    "executables": ["filezilla.exe", "filezilla"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:filezilla",
@@ -2538,10 +1901,7 @@
   {
     "id": "teamviewer",
     "name": "TeamViewer",
-    "executables": [
-      "teamviewer.exe",
-      "teamviewer"
-    ],
+    "executables": ["teamviewer.exe", "teamviewer"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:teamviewer",
@@ -2550,10 +1910,7 @@
   {
     "id": "anydesk",
     "name": "AnyDesk",
-    "executables": [
-      "anydesk.exe",
-      "anydesk"
-    ],
+    "executables": ["anydesk.exe", "anydesk"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:anydesk",
@@ -2562,10 +1919,7 @@
   {
     "id": "thunderbird",
     "name": "Thunderbird",
-    "executables": [
-      "thunderbird.exe",
-      "thunderbird"
-    ],
+    "executables": ["thunderbird.exe", "thunderbird"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:thunderbird",
@@ -2574,10 +1928,7 @@
   {
     "id": "googlecalendar",
     "name": "Google Calendar (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googlecalendar",
@@ -2586,10 +1937,7 @@
   {
     "id": "protonmail",
     "name": "Proton Mail",
-    "executables": [
-      "proton mail.exe",
-      "protonmail"
-    ],
+    "executables": ["proton mail.exe", "protonmail"],
     "client_id": "1517170930764480552",
     "category": "communication",
     "icon": "simple-icons:protonmail",
@@ -2598,10 +1946,7 @@
   {
     "id": "aws_console",
     "name": "AWS Console (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:amazonaws",
@@ -2610,10 +1955,7 @@
   {
     "id": "azure_portal",
     "name": "Azure Portal (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:microsoftazure",
@@ -2622,10 +1964,7 @@
   {
     "id": "gcp_console",
     "name": "Google Cloud Console (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:googlecloud",
@@ -2634,10 +1973,7 @@
   {
     "id": "digitalocean",
     "name": "DigitalOcean",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:digitalocean",
@@ -2646,10 +1982,7 @@
   {
     "id": "cloudflare",
     "name": "Cloudflare Dashboard",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:cloudflare",
@@ -2658,10 +1991,7 @@
   {
     "id": "vercel",
     "name": "Vercel Dashboard",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vercel",
@@ -2670,10 +2000,7 @@
   {
     "id": "netlify",
     "name": "Netlify Dashboard",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:netlify",
@@ -2682,10 +2009,7 @@
   {
     "id": "render",
     "name": "Render.com",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:render",
@@ -2694,10 +2018,7 @@
   {
     "id": "railway",
     "name": "Railway",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:railway",
@@ -2706,10 +2027,7 @@
   {
     "id": "react_devtools",
     "name": "React DevTools",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:react",
@@ -2718,10 +2036,7 @@
   {
     "id": "vuejs_devtools",
     "name": "Vue DevTools",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:vuedotjs",
@@ -2730,10 +2045,7 @@
   {
     "id": "angular_devtools",
     "name": "Angular DevTools",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:angular",
@@ -2742,10 +2054,7 @@
   {
     "id": "nextjs",
     "name": "Next.js (Dev Server)",
-    "executables": [
-      "node.exe",
-      "node"
-    ],
+    "executables": ["node.exe", "node"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:nextdotjs",
@@ -2754,10 +2063,7 @@
   {
     "id": "nuxt",
     "name": "Nuxt (Dev Server)",
-    "executables": [
-      "node.exe",
-      "node"
-    ],
+    "executables": ["node.exe", "node"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:nuxtdotjs",
@@ -2766,10 +2072,7 @@
   {
     "id": "adobeacrobat_reader",
     "name": "Adobe Acrobat Reader",
-    "executables": [
-      "acrord32.exe",
-      "acrobat"
-    ],
+    "executables": ["acrord32.exe", "acrobat"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:adobeacrobatreader",
@@ -2778,10 +2081,7 @@
   {
     "id": "foxitreader",
     "name": "Foxit PDF Reader",
-    "executables": [
-      "foxitreader.exe",
-      "foxitreader"
-    ],
+    "executables": ["foxitreader.exe", "foxitreader"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:foxit",
@@ -2790,10 +2090,7 @@
   {
     "id": "everynote_web",
     "name": "Notion Calendar",
-    "executables": [
-      "notion calendar.exe",
-      "notion-calendar"
-    ],
+    "executables": ["notion calendar.exe", "notion-calendar"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:notion",
@@ -2802,10 +2099,7 @@
   {
     "id": "calendly",
     "name": "Calendly (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:calendly",
@@ -2814,10 +2108,7 @@
   {
     "id": "zapier",
     "name": "Zapier (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:zapier",
@@ -2826,10 +2117,7 @@
   {
     "id": "ifttt",
     "name": "IFTTT (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:ifttt",
@@ -2838,10 +2126,7 @@
   {
     "id": "make",
     "name": "Make (Integromat)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:make",
@@ -2850,10 +2135,7 @@
   {
     "id": "n8n",
     "name": "n8n",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:n8n",
@@ -2862,10 +2144,7 @@
   {
     "id": "greenshot",
     "name": "Greenshot",
-    "executables": [
-      "greenshot.exe",
-      "greenshot"
-    ],
+    "executables": ["greenshot.exe", "greenshot"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:sharex",
@@ -2874,10 +2153,7 @@
   {
     "id": "sharex",
     "name": "ShareX",
-    "executables": [
-      "sharex.exe",
-      "sharex"
-    ],
+    "executables": ["sharex.exe", "sharex"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:sharex",
@@ -2886,10 +2162,7 @@
   {
     "id": "snagit",
     "name": "Snagit",
-    "executables": [
-      "snagiteditor.exe",
-      "snagiteditor"
-    ],
+    "executables": ["snagiteditor.exe", "snagiteditor"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:techsmith",
@@ -2898,10 +2171,7 @@
   {
     "id": "loom",
     "name": "Loom",
-    "executables": [
-      "loom.exe",
-      "loom"
-    ],
+    "executables": ["loom.exe", "loom"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:loom",
@@ -2910,10 +2180,7 @@
   {
     "id": "camtasia",
     "name": "Camtasia",
-    "executables": [
-      "camtasia.exe",
-      "camtasia"
-    ],
+    "executables": ["camtasia.exe", "camtasia"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:techsmith",
@@ -2922,10 +2189,7 @@
   {
     "id": "quickbooks",
     "name": "QuickBooks",
-    "executables": [
-      "quickbooks.exe",
-      "quickbooks"
-    ],
+    "executables": ["quickbooks.exe", "quickbooks"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:quickbooks",
@@ -2934,10 +2198,7 @@
   {
     "id": "xero",
     "name": "Xero (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:xero",
@@ -2946,10 +2207,7 @@
   {
     "id": "stripe_dashboard",
     "name": "Stripe Dashboard",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:stripe",
@@ -2958,10 +2216,7 @@
   {
     "id": "paypal",
     "name": "PayPal (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:paypal",
@@ -2970,10 +2225,7 @@
   {
     "id": "hubspot",
     "name": "HubSpot",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:hubspot",
@@ -2982,10 +2234,7 @@
   {
     "id": "salesforce",
     "name": "Salesforce",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:salesforce",
@@ -2994,10 +2243,7 @@
   {
     "id": "mailchimp",
     "name": "Mailchimp",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:mailchimp",
@@ -3006,10 +2252,7 @@
   {
     "id": "googleanalytics",
     "name": "Google Analytics (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googleanalytics",
@@ -3018,10 +2261,7 @@
   {
     "id": "googleads",
     "name": "Google Ads (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:googleads",
@@ -3030,10 +2270,7 @@
   {
     "id": "semrush",
     "name": "Semrush",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:semrush",
@@ -3042,10 +2279,7 @@
   {
     "id": "ahrefs",
     "name": "Ahrefs",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:ahrefs",
@@ -3054,10 +2288,7 @@
   {
     "id": "browserstack",
     "name": "BrowserStack",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:browserstack",
@@ -3066,10 +2297,7 @@
   {
     "id": "bitrise",
     "name": "Bitrise",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:bitrise",
@@ -3078,10 +2306,7 @@
   {
     "id": "expo",
     "name": "Expo (Dev Tools)",
-    "executables": [
-      "node.exe",
-      "node"
-    ],
+    "executables": ["node.exe", "node"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:expo",
@@ -3090,10 +2315,7 @@
   {
     "id": "flutter",
     "name": "Flutter (Dev Tools)",
-    "executables": [
-      "flutter.exe",
-      "flutter"
-    ],
+    "executables": ["flutter.exe", "flutter"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:flutter",
@@ -3102,10 +2324,7 @@
   {
     "id": "reactnative",
     "name": "React Native (Metro)",
-    "executables": [
-      "node.exe",
-      "node"
-    ],
+    "executables": ["node.exe", "node"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:react",
@@ -3114,10 +2333,7 @@
   {
     "id": "backblaze",
     "name": "Backblaze",
-    "executables": [
-      "backblaze.exe",
-      "backblaze"
-    ],
+    "executables": ["backblaze.exe", "backblaze"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:backblaze",
@@ -3126,10 +2342,7 @@
   {
     "id": "veeam",
     "name": "Veeam Backup",
-    "executables": [
-      "veeam.exe",
-      "veeam"
-    ],
+    "executables": ["veeam.exe", "veeam"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:veeam",
@@ -3138,10 +2351,7 @@
   {
     "id": "mega",
     "name": "MEGA",
-    "executables": [
-      "megasync.exe",
-      "megasync"
-    ],
+    "executables": ["megasync.exe", "megasync"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:mega",
@@ -3150,10 +2360,7 @@
   {
     "id": "pcloud",
     "name": "pCloud",
-    "executables": [
-      "pcloud.exe",
-      "pcloud"
-    ],
+    "executables": ["pcloud.exe", "pcloud"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:pcloud",
@@ -3162,10 +2369,7 @@
   {
     "id": "fontbase",
     "name": "FontBase",
-    "executables": [
-      "fontbase.exe",
-      "fontbase"
-    ],
+    "executables": ["fontbase.exe", "fontbase"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:font",
@@ -3174,10 +2378,7 @@
   {
     "id": "googlefonts",
     "name": "Google Fonts (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:googlefonts",
@@ -3186,10 +2387,7 @@
   {
     "id": "shopify",
     "name": "Shopify",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:shopify",
@@ -3198,10 +2396,7 @@
   {
     "id": "woocommerce",
     "name": "WooCommerce (Admin)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:woocommerce",
@@ -3210,10 +2405,7 @@
   {
     "id": "wordpress",
     "name": "WordPress Admin",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:wordpress",
@@ -3222,10 +2414,7 @@
   {
     "id": "wix",
     "name": "Wix",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:wix",
@@ -3234,10 +2423,7 @@
   {
     "id": "webflow",
     "name": "Webflow",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:webflow",
@@ -3246,10 +2432,7 @@
   {
     "id": "chatgpt",
     "name": "ChatGPT",
-    "executables": [
-      "chatgpt.exe",
-      "chatgpt"
-    ],
+    "executables": ["chatgpt.exe", "chatgpt"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:openai",
@@ -3258,10 +2441,7 @@
   {
     "id": "claude_desktop",
     "name": "Claude",
-    "executables": [
-      "claude.exe",
-      "claude"
-    ],
+    "executables": ["claude.exe", "claude"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:anthropic",
@@ -3270,10 +2450,7 @@
   {
     "id": "githubcopilot",
     "name": "GitHub Copilot",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:githubcopilot",
@@ -3282,10 +2459,7 @@
   {
     "id": "perplexity",
     "name": "Perplexity",
-    "executables": [
-      "perplexity.exe",
-      "perplexity"
-    ],
+    "executables": ["perplexity.exe", "perplexity"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:perplexity",
@@ -3294,10 +2468,7 @@
   {
     "id": "midjourney",
     "name": "Midjourney (Discord)",
-    "executables": [
-      "discord.exe",
-      "discord"
-    ],
+    "executables": ["discord.exe", "discord"],
     "client_id": "1517170930764480552",
     "category": "design",
     "icon": "simple-icons:midjourney",
@@ -3306,10 +2477,7 @@
   {
     "id": "huggingface",
     "name": "Hugging Face (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "developer",
     "icon": "simple-icons:huggingface",
@@ -3318,10 +2486,7 @@
   {
     "id": "cutepdf",
     "name": "CutePDF Writer",
-    "executables": [
-      "cutepdfwriter.exe",
-      "cutepdfwriter"
-    ],
+    "executables": ["cutepdfwriter.exe", "cutepdfwriter"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:adobeacrobatreader",
@@ -3330,10 +2495,7 @@
   {
     "id": "pdf24",
     "name": "PDF24 Creator",
-    "executables": [
-      "pdf24.exe",
-      "pdf24"
-    ],
+    "executables": ["pdf24.exe", "pdf24"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:adobeacrobatreader",
@@ -3342,10 +2504,7 @@
   {
     "id": "smallpdf",
     "name": "Smallpdf (PWA)",
-    "executables": [
-      "chrome.exe",
-      "chrome"
-    ],
+    "executables": ["chrome.exe", "chrome"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:smallpdf",
@@ -3354,10 +2513,7 @@
   {
     "id": "winrar",
     "name": "WinRAR",
-    "executables": [
-      "winrar.exe",
-      "winrar"
-    ],
+    "executables": ["winrar.exe", "winrar"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:winrar",
@@ -3366,10 +2522,7 @@
   {
     "id": "7zip",
     "name": "7-Zip",
-    "executables": [
-      "7zfm.exe",
-      "7z"
-    ],
+    "executables": ["7zfm.exe", "7z"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:sevenzip",
@@ -3378,10 +2531,7 @@
   {
     "id": "totalcommander",
     "name": "Total Commander",
-    "executables": [
-      "totalcmd64.exe",
-      "totalcmd"
-    ],
+    "executables": ["totalcmd64.exe", "totalcmd"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:totalcommander",
@@ -3390,10 +2540,7 @@
   {
     "id": "ccleaner",
     "name": "CCleaner",
-    "executables": [
-      "ccleaner64.exe",
-      "ccleaner"
-    ],
+    "executables": ["ccleaner64.exe", "ccleaner"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:ccleaner",
@@ -3402,10 +2549,7 @@
   {
     "id": "everything",
     "name": "Everything (Search)",
-    "executables": [
-      "everything.exe",
-      "everything"
-    ],
+    "executables": ["everything.exe", "everything"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:files",
@@ -3414,14 +2558,19 @@
   {
     "id": "revouninstaller",
     "name": "Revo Uninstaller",
-    "executables": [
-      "revouninstaller.exe",
-      "revouninstaller"
-    ],
+    "executables": ["revouninstaller.exe", "revouninstaller"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:windows",
     "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/windows.png"
+  },
+  {
+    "id": "wondersharefilmora",
+    "name": "Wondershare Filmora",
+    "executables": ["filmora.exe", "filmora"],
+    "client_id": "1517170930764480552",
+    "category": "productivity",
+    "icon": "simple-icons:wondershare",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/wondershare.png"
   }
 ]
-

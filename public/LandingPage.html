@@ -1361,10 +1361,283 @@
       height: 20px;
       color: var(--ink);
     }
-    .discord-activity-icon .lucide {
-      width: 28px;
-      height: 28px;
+    /* ══════════════════════════════════════════════════════
+       COMPATIBLE APPS SECTION
+       ══════════════════════════════════════════════════════ */
+    .apps-section {
+      padding: 120px 0;
+      background-color: var(--canvas);
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 2px, transparent 2px);
+      background-size: 32px 32px;
+      border-bottom: var(--border-thick);
+    }
+
+    .apps-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .apps-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .apps-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .app-tab-btn {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      border-radius: var(--rounded-sm);
+      border: var(--border-thick);
+      background-color: var(--surface-onyx);
       color: var(--ink);
+      cursor: pointer;
+      box-shadow: 3px 3px 0 var(--ink-dark);
+      transition: all 0.15s ease;
+    }
+
+    .app-tab-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 var(--ink-dark);
+      background-color: var(--surface-indigo);
+    }
+
+    .app-tab-btn.active {
+      background-color: var(--magenta);
+      color: var(--ink-dark);
+      box-shadow: 3px 3px 0 var(--ink-dark);
+    }
+
+    .apps-search-wrap {
+      position: relative;
+      flex-grow: 1;
+      max-width: 360px;
+    }
+
+    .apps-search-input {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 12px 16px 12px 42px;
+      border-radius: var(--rounded-sm);
+      border: var(--border-thick);
+      background-color: var(--surface-onyx);
+      color: var(--ink);
+      box-shadow: 4px 4px 0 var(--ink-dark);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .apps-search-input:focus {
+      border-color: var(--green);
+      box-shadow: 4px 4px 0 var(--green);
+    }
+
+    .apps-search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .apps-count-badge {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--yellow);
+      background-color: var(--ink-dark);
+      padding: 4px 12px;
+      border-radius: var(--rounded-sm);
+      border: 2px solid var(--yellow);
+      margin-bottom: 24px;
+      display: inline-block;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .app-card {
+      background-color: var(--surface-onyx);
+      border-radius: var(--rounded-lg);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-hard);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+    }
+
+    .app-card:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 8px 8px 0 var(--magenta);
+    }
+
+    .app-card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .app-card-img-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--rounded-sm);
+      background-color: var(--surface-indigo);
+      border: 2px solid var(--ink-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      padding: 6px;
+    }
+
+    .app-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .app-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .app-card-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-card-cat {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background-color: var(--surface-indigo);
+      color: var(--green);
+      border: 1px solid var(--green);
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .app-card-exe {
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--muted);
+      background-color: var(--canvas);
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .app-card-btn {
+      margin-top: auto;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      border-radius: var(--rounded-sm);
+      border: 2px solid var(--ink-dark);
+      background-color: var(--blurple);
+      color: var(--ink);
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 2px 2px 0 var(--ink-dark);
+      transition: all 0.1s ease;
+    }
+
+    .app-card-btn:hover {
+      background-color: var(--green);
+      color: var(--ink-dark);
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 var(--ink-dark);
+    }
+
+    .custom-app-banner {
+      margin-top: 60px;
+      background-color: var(--surface-indigo);
+      border-radius: var(--rounded-lg);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-hard);
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .custom-app-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);
+      pointer-events: none;
+    }
+
+    .custom-app-banner-info {
+      max-width: 600px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .custom-app-banner-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .custom-app-banner-desc {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .custom-app-banner-cta {
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
@@ -1387,6 +1660,7 @@
 
         <ul class="nav__links" id="nav-links">
           <li><a href="#features">Features</a></li>
+          <li><a href="#apps">Apps</a></li>
           <li><a href="#demo">Demo</a></li>
           <li><a href="#performance">Performance</a></li>
           <li><a href="#faq">FAQ</a></li>
@@ -1516,6 +1790,58 @@
             <p class="feature-card__desc">
               MIT licensed on GitHub. No trackers, no mandatory accounts, and no background bloat. Clean software that just works.
             </p>
+          </div>
+    <!-- ════════════ COMPATIBLE APPS SECTION ════════════ -->
+    <section id="apps" class="apps-section">
+      <div class="container">
+        <div class="apps-header reveal">
+          <div class="section-eyebrow">Out-of-the-box support</div>
+          <h2 class="section-title">Supported Applications</h2>
+          <p class="section-desc">
+            Better RPC automatically detects 50+ popular applications out-of-the-box.
+            Plus, you can add any custom app or window title in seconds!
+          </p>
+        </div>
+
+        <div class="apps-controls reveal d1">
+          <div class="apps-tabs" id="app-category-tabs">
+            <button class="app-tab-btn active" onclick="filterAppCategory('all', this)">All Apps</button>
+            <button class="app-tab-btn" onclick="filterAppCategory('editor', this)">IDEs & Editors</button>
+            <button class="app-tab-btn" onclick="filterAppCategory('browser', this)">Browsers</button>
+            <button class="app-tab-btn" onclick="filterAppCategory('developer', this)">Dev Tools</button>
+            <button class="app-tab-btn" onclick="filterAppCategory('media', this)">Media & Music</button>
+            <button class="app-tab-btn" onclick="filterAppCategory('productivity', this)">Productivity</button>
+          </div>
+
+          <div class="apps-search-wrap">
+            <div class="apps-search-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <input type="text" id="apps-search-input" class="apps-search-input" placeholder="Search apps (e.g. VS Code, Chrome...)" oninput="searchApps(this.value)">
+          </div>
+        </div>
+
+        <div class="reveal d2" style="display: flex; justify-content: space-between; align-items: center;">
+          <span class="apps-count-badge" id="apps-count-badge">Showing 50 apps</span>
+        </div>
+
+        <div class="apps-grid reveal d3" id="apps-grid">
+          <!-- Dynamically populated by JS -->
+        </div>
+
+        <div class="custom-app-banner reveal d4">
+          <div class="custom-app-banner-info">
+            <h3 class="custom-app-banner-title">Don't see your app listed?</h3>
+            <p class="custom-app-banner-desc">
+              No problem! Better RPC lets you register ANY executable or window title in seconds.
+              Add custom application names, status text, and icons directly from the desktop interface.
+            </p>
+          </div>
+          <div class="custom-app-banner-cta">
+            <a href="#demo" onclick="testCustomAppInDemo()" class="btn btn--magenta">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              Try Custom App Demo
+            </a>
           </div>
         </div>
       </div>
@@ -2038,9 +2364,173 @@
         el.classList.add("visible");
       });
 
+      // Render compatible apps grid
+      renderAppsGrid();
+
       // Start the demo
       selectApp("vscode");
     });
+
+    // ─── Compatible Apps List & Filtering ───
+    const compatibleAppsData = [
+      { name: "Visual Studio Code", cat: "editor", catLabel: "IDE / Editor", exe: "code.exe", icon: "assets/icons/visualstudiocode.png", iconKey: "code", label: "Playing a game", detail: "Editing: index.ts", state: "In a TypeScript project" },
+      { name: "VS Code Insiders", cat: "editor", catLabel: "IDE / Editor", exe: "code-insiders.exe", icon: "assets/icons/visualstudiocode.png", iconKey: "code", label: "Playing a game", detail: "Editing: app.rs", state: "In a Rust project" },
+      { name: "Cursor AI", cat: "editor", catLabel: "IDE / Editor", exe: "cursor.exe", icon: "assets/icons/cursor.png", iconKey: "code", label: "Playing a game", detail: "Generating code with AI", state: "Next.js project" },
+      { name: "Antigravity", cat: "editor", catLabel: "IDE / Editor", exe: "antigravity.exe", icon: "assets/icons/antigravity.png", iconKey: "code", label: "Playing a game", detail: "Coding with AI Agent", state: "Building desktop app" },
+      { name: "Windsurf", cat: "editor", catLabel: "IDE / Editor", exe: "windsurf.exe", icon: "assets/icons/codeium.png", iconKey: "code", label: "Playing a game", detail: "Editing code", state: "Cascade AI Flow" },
+      { name: "Zed Editor", cat: "editor", catLabel: "IDE / Editor", exe: "zed.exe", icon: "assets/icons/zedindustries.png", iconKey: "code", label: "Playing a game", detail: "High performance editor", state: "Rust Workspace" },
+      { name: "Neovim", cat: "editor", catLabel: "IDE / Editor", exe: "nvim.exe", icon: "assets/icons/neovim.png", iconKey: "code", label: "Playing a game", detail: "Editing init.lua", state: "Vim Mode Enabled" },
+      { name: "IntelliJ IDEA", cat: "editor", catLabel: "IDE / Editor", exe: "idea64.exe", icon: "assets/icons/intellijidea.png", iconKey: "code", label: "Playing a game", detail: "Building Java app", state: "Spring Boot Service" },
+      { name: "PyCharm", cat: "editor", catLabel: "IDE / Editor", exe: "pycharm64.exe", icon: "assets/icons/pycharm.png", iconKey: "code", label: "Playing a game", detail: "Refactoring model.py", state: "Python 3.12" },
+      { name: "WebStorm", cat: "editor", catLabel: "IDE / Editor", exe: "webstorm64.exe", icon: "assets/icons/webstorm.png", iconKey: "code", label: "Playing a game", detail: "Debugging Vue app", state: "Vite dev server" },
+      { name: "Visual Studio", cat: "editor", catLabel: "IDE / Editor", exe: "devenv.exe", icon: "assets/icons/visualstudio.png", iconKey: "code", label: "Playing a game", detail: "Compiling solution.sln", state: "C# / .NET 8" },
+      { name: "Sublime Text", cat: "editor", catLabel: "IDE / Editor", exe: "sublime_text.exe", icon: "assets/icons/sublimetext.png", iconKey: "code", label: "Playing a game", detail: "Editing notes.md", state: "Markdown project" },
+      { name: "Notepad++", cat: "editor", catLabel: "IDE / Editor", exe: "notepad++.exe", icon: "assets/icons/notepadplusplus.png", iconKey: "code", label: "Playing a game", detail: "Viewing config.xml", state: "Text editing" },
+      { name: "Android Studio", cat: "editor", catLabel: "IDE / Editor", exe: "studio64.exe", icon: "assets/icons/androidstudio.png", iconKey: "code", label: "Playing a game", detail: "Building APK", state: "Kotlin & Jetpack Compose" },
+
+      { name: "Google Chrome", cat: "browser", catLabel: "Browser", exe: "chrome.exe", icon: "assets/icons/googlechrome.png", iconKey: "globe", label: "Browsing the Web", detail: "Browsing GitHub", state: "Open Source Repos" },
+      { name: "Mozilla Firefox", cat: "browser", catLabel: "Browser", exe: "firefox.exe", icon: "assets/icons/firefox.png", iconKey: "globe", label: "Browsing the Web", detail: "Reading Docs", state: "MDN Web Docs" },
+      { name: "Microsoft Edge", cat: "browser", catLabel: "Browser", exe: "msedge.exe", icon: "assets/icons/microsoftedge.png", iconKey: "globe", label: "Browsing the Web", detail: "Testing Web App", state: "Developer Tools" },
+      { name: "Brave Browser", cat: "browser", catLabel: "Browser", exe: "brave.exe", icon: "assets/icons/brave.png", iconKey: "globe", label: "Browsing the Web", detail: "Browsing Web3", state: "Shields Active" },
+      { name: "Arc Browser", cat: "browser", catLabel: "Browser", exe: "arc.exe", icon: "assets/icons/arc.png", iconKey: "globe", label: "Browsing the Web", detail: "Work Spaces", state: "Productivity Tab" },
+      { name: "Zen Browser", cat: "browser", catLabel: "Browser", exe: "zen.exe", icon: "assets/icons/zenbrowser.png", iconKey: "globe", label: "Browsing the Web", detail: "Focused browsing", state: "Privacy Mode" },
+      { name: "Opera / Opera GX", cat: "browser", catLabel: "Browser", exe: "opera.exe", icon: "assets/icons/opera.png", iconKey: "globe", label: "Browsing the Web", detail: "Gaming & Web", state: "GX Corner" },
+
+      { name: "Docker Desktop", cat: "developer", catLabel: "Dev Tool", exe: "docker.exe", icon: "assets/icons/docker.png", iconKey: "cpu", label: "Using Dev Tool", detail: "Containers running", state: "4 containers active" },
+      { name: "Windows Terminal", cat: "developer", catLabel: "Dev Tool", exe: "windowsterminal.exe", icon: "assets/icons/windowsterminal.png", iconKey: "code", label: "Using Dev Tool", detail: "Running PowerShell", state: "cargo build --release" },
+      { name: "Alacritty", cat: "developer", catLabel: "Dev Tool", exe: "alacritty.exe", icon: "assets/icons/alacritty.png", iconKey: "code", label: "Using Dev Tool", detail: "Zsh session", state: "GPU Accelerated" },
+      { name: "Warp Terminal", cat: "developer", catLabel: "Dev Tool", exe: "warp.exe", icon: "assets/icons/warp.png", iconKey: "code", label: "Using Dev Tool", detail: "AI Terminal session", state: "Warp Drive Workflow" },
+      { name: "GitKraken", cat: "developer", catLabel: "Dev Tool", exe: "gitkraken.exe", icon: "assets/icons/gitkraken.png", iconKey: "github", label: "Using Dev Tool", detail: "Reviewing Pull Request", state: "main branch" },
+      { name: "GitHub Desktop", cat: "developer", catLabel: "Dev Tool", exe: "githubdesktop.exe", icon: "assets/icons/github.png", iconKey: "github", label: "Using Dev Tool", detail: "Pushing commits", state: "Repository sync" },
+      { name: "Postman", cat: "developer", catLabel: "Dev Tool", exe: "postman.exe", icon: "assets/icons/postman.png", iconKey: "zap", label: "Using Dev Tool", detail: "Testing REST API", state: "200 OK Response" },
+      { name: "Insomnia", cat: "developer", catLabel: "Dev Tool", exe: "insomnia.exe", icon: "assets/icons/insomnia.png", iconKey: "zap", label: "Using Dev Tool", detail: "GraphQL Query", state: "Endpoint testing" },
+      { name: "DBeaver", cat: "developer", catLabel: "Dev Tool", exe: "dbeaver.exe", icon: "assets/icons/dbeaver.png", iconKey: "cpu", label: "Using Dev Tool", detail: "Querying Database", state: "PostgreSQL Production" },
+
+      { name: "Spotify", cat: "media", catLabel: "Media & Music", exe: "spotify.exe", icon: "assets/icons/shopify.png", iconKey: "music", label: "Listening to Spotify", detail: "Blinding Lights", state: "by The Weeknd" },
+      { name: "VLC Media Player", cat: "media", catLabel: "Media & Music", exe: "vlc.exe", icon: "assets/icons/vlcmediaplayer.png", iconKey: "music", label: "Watching Media", detail: "Watching Video", state: "1080p 60fps" },
+      { name: "OBS Studio", cat: "media", catLabel: "Media & Streaming", exe: "obs64.exe", icon: "assets/icons/obsstudio.png", iconKey: "zap", label: "Streaming Live", detail: "Live Stream Active", state: "1080p60 Stream" },
+      { name: "Streamlabs", cat: "media", catLabel: "Media & Streaming", exe: "streamlabs.exe", icon: "assets/icons/streamlabs.png", iconKey: "zap", label: "Streaming Live", detail: "Live Broadcast", state: "Alerts Enabled" },
+      { name: "Audacity", cat: "media", catLabel: "Media & Music", exe: "audacity.exe", icon: "assets/icons/audacity.png", iconKey: "music", label: "Editing Audio", detail: "Editing Audio Track", state: "Podcast Episode" },
+
+      { name: "Figma", cat: "productivity", catLabel: "Design & Productivity", exe: "figma.exe", icon: "assets/icons/figma.png", iconKey: "wrench", label: "Designing UI", detail: "Designing UI Kit", state: "Dark Mode Components" },
+      { name: "Blender 3D", cat: "productivity", catLabel: "Design & Productivity", exe: "blender.exe", icon: "assets/icons/blender.png", iconKey: "wrench", label: "Creating 3D", detail: "Rendering 3D Scene", state: "Cycles Engine" },
+      { name: "Adobe Photoshop", cat: "productivity", catLabel: "Design & Productivity", exe: "photoshop.exe", icon: "assets/icons/adobephotoshop.png", iconKey: "wrench", label: "Editing Image", detail: "Editing Graphic Asset", state: "Layered Composition" },
+      { name: "Adobe Illustrator", cat: "productivity", catLabel: "Design & Productivity", exe: "illustrator.exe", icon: "assets/icons/adobeillustrator.png", iconKey: "wrench", label: "Creating Graphics", detail: "Creating Vector Logo", state: "CMYK Vector" },
+      { name: "Adobe Premiere Pro", cat: "productivity", catLabel: "Design & Productivity", exe: "premiere.exe", icon: "assets/icons/adobepremierepro.png", iconKey: "wrench", label: "Editing Video", detail: "Editing 4K Timeline", state: "Color Grading" },
+      { name: "Notion", cat: "productivity", catLabel: "Design & Productivity", exe: "notion.exe", icon: "assets/icons/notion.png", iconKey: "wrench", label: "Productivity", detail: "Writing Documentation", state: "Project Roadmap" },
+      { name: "Obsidian", cat: "productivity", catLabel: "Design & Productivity", exe: "obsidian.exe", icon: "assets/icons/obsidian.png", iconKey: "wrench", label: "Productivity", detail: "Knowledge Graph", state: "Zettelkasten Vault" },
+      { name: "Linear", cat: "productivity", catLabel: "Design & Productivity", exe: "linear.exe", icon: "assets/icons/linear.png", iconKey: "wrench", label: "Managing Sprint", detail: "Managing Sprint", state: "Issue Tracker" },
+      { name: "ClickUp", cat: "productivity", catLabel: "Design & Productivity", exe: "clickup.exe", icon: "assets/icons/clickup.png", iconKey: "wrench", label: "Task Management", detail: "Task Management", state: "Team Board" },
+      { name: "Minecraft", cat: "game", catLabel: "Game", exe: "javaw.exe", icon: "assets/icons/unity.png", iconKey: "gamepad-2", label: "Playing a game", detail: "Surviving on Hardcore", state: "Version 1.20" }
+    ];
+
+    let currentCategory = "all";
+    let searchQuery = "";
+
+    function renderAppsGrid() {
+      const grid = document.getElementById("apps-grid");
+      const badge = document.getElementById("apps-count-badge");
+      if (!grid) return;
+
+      const filtered = compatibleAppsData.filter(app => {
+        const matchesCategory = currentCategory === "all" || app.cat === currentCategory;
+        const matchesSearch = searchQuery === "" || 
+          app.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          app.exe.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          app.catLabel.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+
+      if (badge) {
+        badge.textContent = `Showing ${filtered.length} of ${compatibleAppsData.length} apps`;
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 48px 24px; background: var(--surface-onyx); border: var(--border-thick); border-radius: var(--rounded-lg); color: var(--muted);">
+            <div style="font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--yellow); margin-bottom: 8px;">No apps found</div>
+            <p>Don't worry! You can add "${searchQuery}" as a custom app in Better RPC!</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(app => `
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-card-img-wrap">
+              <img src="${app.icon}" alt="${app.name}" class="app-card-img" onerror="this.onerror=null; this.parentElement.innerHTML='${icons[app.iconKey]}';" />
+            </div>
+            <div class="app-card-info">
+              <div class="app-card-title">${app.name}</div>
+              <span class="app-card-cat">${app.catLabel}</span>
+            </div>
+          </div>
+          <div class="app-card-exe">${app.exe}</div>
+          <button class="app-card-btn" onclick="testAppInDemo('${app.name.replace(/'/g, "\\'")}')">
+            Test in Live Demo
+          </button>
+        </div>
+      `).join("");
+    }
+
+    function filterAppCategory(cat, btnEl) {
+      currentCategory = cat;
+      if (btnEl) {
+        document.querySelectorAll("#app-category-tabs .app-tab-btn").forEach(b => b.classList.remove("active"));
+        btnEl.classList.add("active");
+      }
+      renderAppsGrid();
+    }
+
+    function searchApps(val) {
+      searchQuery = val;
+      renderAppsGrid();
+    }
+
+    function testAppInDemo(appName) {
+      const app = compatibleAppsData.find(a => a.name === appName);
+      if (!app) return;
+
+      if (!rpcActive) {
+        const toggle = document.getElementById("rpc-toggle");
+        if (toggle) {
+          toggle.checked = true;
+          toggleRPC(true);
+        }
+      }
+
+      document.getElementById("d-label").textContent = app.label || "Playing a game";
+      document.getElementById("d-app").textContent = app.name;
+      document.getElementById("d-detail").textContent = app.detail;
+      document.getElementById("d-state").textContent = app.state;
+      document.getElementById("d-icon").innerHTML = icons[app.iconKey] || icons.code;
+      document.getElementById("d-btn").textContent = "View App Status";
+      document.getElementById("d-time").textContent = "00:05 elapsed";
+
+      elapsed = 5;
+      startTimer();
+
+      const demoSection = document.getElementById("demo");
+      if (demoSection) {
+        demoSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function testCustomAppInDemo() {
+      if (!rpcActive) {
+        const toggle = document.getElementById("rpc-toggle");
+        if (toggle) {
+          toggle.checked = true;
+          toggleRPC(true);
+        }
+      }
+      selectApp('custom');
+      const demoSection = document.getElementById("demo");
+      if (demoSection) {
+        demoSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   </script>
 </body>
 
