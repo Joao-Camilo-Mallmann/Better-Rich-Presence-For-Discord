@@ -311,6 +311,7 @@ impl DiscordManager {
             large_image = "default".to_string();
         }
 
+        println!("Rich Presence image URL: {}", large_image);
         info!(
             "[Discord] Setting activity: name='{}', details='{}', state='{}', image='{}'",
             large_text, details, state, large_image

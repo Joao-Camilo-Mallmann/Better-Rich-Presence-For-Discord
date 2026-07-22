@@ -313,7 +313,7 @@ impl PresenceEngine {
             .replace("{file}", file_name)
             .replace("{title}", window_title);
 
-        let large_image = if rule.large_image == "auto" {
+        let large_image = if rule.large_image == "auto" || rule.large_image == "default" || rule.large_image.trim().is_empty() {
             if let Some(app) = self.app_registry.find_app(process_name) {
                 if let Some(ref icon_url) = app.icon_url {
                     get_discord_asset_key(icon_url)
@@ -462,34 +462,41 @@ impl PresenceEngine {
 
 pub fn get_discord_asset_key(icon: &str) -> String {
     let icon_trimmed = icon.trim();
-    if icon_trimmed.starts_with("http://") || icon_trimmed.starts_with("https://") {
+    let final_url = if icon_trimmed.starts_with("http://") || icon_trimmed.starts_with("https://") {
         let url = if icon_trimmed.ends_with(".svg") {
             format!("{}.png", icon_trimmed.trim_end_matches(".svg"))
         } else {
             icon_trimmed.to_string()
         };
-        if url.contains("raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/") {
-            return url.replace(
-                "raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/",
-                "cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/",
-            );
-        }
-        return url;
-    }
-    if icon_trimmed.contains(':') {
+        let url = url.replace(
+            "raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/",
+            "cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/",
+        );
+        url.replace(
+            "raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/",
+            "cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/",
+        )
+    } else if icon_trimmed.contains(':') {
         let parts: Vec<&str> = icon_trimmed.split(':').collect();
         if parts.len() == 2 {
             let collection = parts[0];
             let name = parts[1];
             let filename = format!("{}-{}.png", collection, name);
-            return format!(
+            format!(
                 "https://cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/public/assets/icons/{}",
                 filename
-            );
+            )
+        } else {
+            parts.last().unwrap_or(&icon_trimmed).to_string()
         }
-        return parts.last().unwrap_or(&icon_trimmed).to_string();
-    }
-    icon_trimmed.to_string()
+    } else {
+        icon_trimmed.to_string()
+    };
+
+    println!("Original URL: {}", icon);
+    println!("Final URL: {}", final_url);
+
+    final_url
 }
 
 #[cfg(test)]
