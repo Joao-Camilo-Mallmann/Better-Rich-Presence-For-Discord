@@ -99,6 +99,10 @@ pub struct PresenceData {
     pub large_image: String,
     /// Tooltip text for the large image.
     pub large_text: String,
+    /// Asset key for the small image.
+    pub small_image: String,
+    /// Tooltip text for the small image.
+    pub small_text: String,
     /// Unix epoch timestamp (seconds) for the elapsed timer.
     pub timestamp: i64,
 }
@@ -110,6 +114,8 @@ impl Default for PresenceData {
             state: String::from("Só de boa..."),
             large_image: String::from("default"),
             large_text: String::from("Better Rich Presence"),
+            small_image: String::new(),
+            small_text: String::new(),
             timestamp: chrono::Utc::now().timestamp(),
         }
     }

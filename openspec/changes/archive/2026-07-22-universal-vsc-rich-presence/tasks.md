@@ -1,0 +1,10 @@
+- [x] Create IDE context models
+- [x] Create IDE registry
+- [x] Implement window title parser
+- [x] Implement extension mapping
+- [x] Implement session tracking
+- [x] Implement Activity Builder
+- [x] Integrate with active window polling
+- [x] Add Discord asset mappings
+- [x] Add unit tests
+- [x] Add integration tests

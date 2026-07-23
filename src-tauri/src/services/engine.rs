@@ -50,6 +50,10 @@ pub struct PresenceEngine {
     client_cache: HashMap<u64, (String, String)>,
     
     app_registry: AppRegistry,
+
+    // Session tracking for IDEs
+    current_ide_workspace: Option<String>,
+    ide_workspace_start_time: Option<i64>,
 }
 
 impl PresenceEngine {
@@ -64,6 +68,8 @@ impl PresenceEngine {
             pre_idle_data: None,
             client_cache: HashMap::new(),
             app_registry: AppRegistry::new(),
+            current_ide_workspace: None,
+            ide_workspace_start_time: None,
         }
     }
 
@@ -128,7 +134,21 @@ impl PresenceEngine {
                                         (data, rule.display_name.clone())
                                     }
                                     None => {
-                                        self.build_fallback_presence(&process_name, &window_title, discord_name, discord_icon, default_app_name)
+                                        if let Some(ide_ctx) = crate::services::title_parser::TitleParser::parse(&window_title) {
+                                            // Session Tracking
+                                            let ide_workspace = ide_ctx.workspace_name.clone().unwrap_or_default();
+                                            if self.current_ide_workspace.as_ref() != Some(&ide_workspace) {
+                                                self.current_ide_workspace = Some(ide_workspace);
+                                                self.ide_workspace_start_time = Some(chrono::Utc::now().timestamp());
+                                            }
+                                            let timestamp = self.ide_workspace_start_time.unwrap_or_else(|| chrono::Utc::now().timestamp());
+                                            
+                                            let data = crate::services::activity_builder::ActivityBuilder::build(&ide_ctx, timestamp);
+                                            (data, String::new())
+                                        } else {
+                                            self.current_ide_workspace = None; // Reset when not in an IDE
+                                            self.build_fallback_presence(&process_name, &window_title, discord_name, discord_icon, default_app_name)
+                                        }
                                     }
                                 };
 
@@ -178,6 +198,8 @@ impl PresenceEngine {
                                         state: "Inativo".to_string(),
                                         large_image: "idle".to_string(),
                                         large_text: "Inativo".to_string(),
+                                        small_image: String::new(),
+                                        small_text: String::new(),
                                         timestamp: chrono::Utc::now().timestamp(),
                                     };
 
@@ -338,6 +360,8 @@ impl PresenceEngine {
             state,
             large_image,
             large_text: rule.display_name.clone(),
+            small_image: String::new(),
+            small_text: String::new(),
             timestamp: 0,
         }
     }
@@ -379,6 +403,8 @@ impl PresenceEngine {
                 state,
                 large_image,
                 large_text: activity_app_name.clone(),
+                small_image: String::new(),
+                small_text: String::new(),
                 timestamp: 0,
             },
             activity_app_name,

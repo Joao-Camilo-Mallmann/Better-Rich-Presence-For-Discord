@@ -2567,7 +2567,7 @@
   {
     "id": "wondersharefilmora",
     "name": "Wondershare Filmora",
-    "executables": ["filmora.exe", "filmora"],
+    "executables": ["filmora.exe", "filmora", "Wondershare Filmora"],
     "client_id": "1517170930764480552",
     "category": "productivity",
     "icon": "simple-icons:wondershare",

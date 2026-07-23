@@ -333,6 +333,12 @@ impl DiscordManager {
                 if !large_text.is_empty() {
                     assets = assets.large_text(&large_text);
                 }
+                if !data.small_image.is_empty() {
+                    assets = assets.small_image(&data.small_image);
+                }
+                if !data.small_text.is_empty() {
+                    assets = assets.small_text(&data.small_text);
+                }
                 assets
             });
 
