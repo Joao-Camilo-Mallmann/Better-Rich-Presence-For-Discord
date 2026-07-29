@@ -85,6 +85,25 @@ async function svgToPng(svgString) {
     .toBuffer();
 }
 
+const FALLBACK_COLORS = {
+  adobephotoshop: '#31A8FF',
+  adobeillustrator: '#FF9A00',
+  adobepremierepro: '#9999FF',
+  adobeaftereffects: '#9999FF',
+  adobelightroom: '#31A8FF',
+  adobeacrobatreader: '#EC1C24',
+  adobeindesign: '#FF3366',
+  adobexd: '#FF61F6',
+  adobeaudition: '#9999FF',
+  salesforce: '#00A1E0',
+  openai: '#10A37F',
+  winrar: '#0000FF',
+  foxit: '#F37021',
+  affinitydesigner: '#1B72E8',
+  affinityphoto: '#C9208A',
+  affinitypublisher: '#EB3443'
+};
+
 // ── Main pipeline ────────────────────────────────────────────────────
 
 async function generateColoredIcons() {
@@ -134,6 +153,11 @@ async function generateColoredIcons() {
             `  ↳ CDN miss, trying Iconify fallback → api.iconify.design/simple-icons/${slug}.svg`
           );
           svgContent = await fetchFromIconifyAPI('simple-icons', name);
+          // Iconify returns simple-icons as monochrome with fill="currentColor".
+          // If we have a mapped color for this slug, inject it.
+          if (FALLBACK_COLORS[slug]) {
+            svgContent = svgContent.replace(/currentColor/g, FALLBACK_COLORS[slug]);
+          }
         }
       } else {
         // Non-simple-icons entries: Iconify API directly
