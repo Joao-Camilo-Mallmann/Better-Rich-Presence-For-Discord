@@ -18,4 +18,4 @@
 - [x] 3.1 Run `npm run assets:generate` to regenerate all 232 icon PNGs with brand colors
 - [x] 3.2 Visually verify a sample of generated PNGs (Discord, VS Code, Chrome, Figma) to confirm colors are correct
 - [x] 3.3 Remove any leftover intermediate SVG files from `public/assets/icons/`
-- [ ] 3.4 Stage and commit the regenerated PNGs
+- [x] 3.4 Stage and commit the regenerated PNGs
