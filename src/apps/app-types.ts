@@ -4,6 +4,5 @@ export interface AppDefinition {
   executables: string[];
   client_id: string;
   category: string;
-  icon?: string;
   icon_url?: string;
 }

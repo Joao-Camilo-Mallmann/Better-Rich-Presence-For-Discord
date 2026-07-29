@@ -40,8 +40,6 @@ export function AppIcon({ name, className = "", size = 24 }: AppIconProps) {
     );
     if (app && app.icon_url) {
       resolvedUrl = app.icon_url;
-    } else if (trimmed.includes(":")) {
-      resolvedUrl = `https://api.iconify.design/${trimmed}.svg`;
     }
   }
 

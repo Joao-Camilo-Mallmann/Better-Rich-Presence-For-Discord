@@ -7,7 +7,6 @@ pub struct AppEntry {
     pub executables: Vec<String>,
     pub client_id: String,
     pub category: String,
-    pub icon: Option<String>,
     pub icon_url: Option<String>,
 }
 

@@ -26,14 +26,7 @@ function App() {
   const appName = presence?.large_text || "Better RPC";
   let iconUrl = "/logo.png";
   if (presence?.large_image && presence.large_image !== "default") {
-    if (
-      presence.large_image.includes(":") &&
-      !presence.large_image.startsWith("http")
-    ) {
-      iconUrl = `https://api.iconify.design/${presence.large_image}.svg`;
-    } else {
-      iconUrl = presence.large_image;
-    }
+    iconUrl = presence.large_image;
   }
 
   useEffect(() => {
