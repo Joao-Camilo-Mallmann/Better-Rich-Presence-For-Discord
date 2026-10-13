@@ -2,13 +2,30 @@
   command = "npm run build"
   publish = "dist"
 
+# The public site is the static landing page; index.html is the Tauri app shell.
 [[redirects]]
   from = "/"
   to = "/LandingPage.html"
   status = 200
   force = true
 
+# Unknown URLs return a real 404 (no soft-404 from the app shell).
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
+  to = "/LandingPage.html"
+  status = 404
+
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"

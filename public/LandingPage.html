@@ -6,41 +6,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- SEO Meta Tags -->
-  <title>Better RPC — Easiest Custom Discord Rich Presence (Lightweight & Auto-Detect)</title>
-  <meta name="title" content="Better RPC — Easiest Custom Discord Rich Presence (Lightweight & Auto-Detect)" />
+  <title>Better RPC — Custom Discord Rich Presence, Lightweight &amp; Auto-Detect</title>
   <meta name="description"
-    content="The easiest way to customize your Discord status! Better RPC is a lightweight Rust-powered desktop app that auto-detects your active window and lets you add any custom app in seconds. Under 20MB RAM, zero configuration." />
-  <meta name="keywords"
-    content="discord rich presence, custom discord rpc, discord status customizer, add custom app to discord status, lightweight discord rpc, auto discord status updater, tauri rpc client, rust discord status, open source discord rpc" />
+    content="Better RPC is the easiest custom Discord Rich Presence app: a lightweight Rust &amp; Tauri client that auto-detects your apps and lets you add any custom app in seconds. Under 20MB RAM, zero setup." />
   <meta name="author" content="Better RPC" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#0b0b0f" />
   <link rel="canonical" href="https://better-discord-rich-presence.netlify.app/" />
 
   <!-- Open Graph / Discord Embeds -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Better RPC" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://better-discord-rich-presence.netlify.app/" />
   <meta property="og:title" content="Better RPC — Easiest Custom Discord Rich Presence" />
   <meta property="og:description"
     content="Easiest way to customize your Discord status. Under 20MB RAM, auto-detects running apps, and lets you add any custom app." />
-  <meta property="og:image" content="logo.png" />
+  <meta property="og:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Better RPC app showing a custom Discord Rich Presence status" />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://better-discord-rich-presence.netlify.app/" />
-  <meta property="twitter:title" content="Better RPC — Easiest Custom Discord Rich Presence" />
-  <meta property="twitter:description"
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://better-discord-rich-presence.netlify.app/" />
+  <meta name="twitter:title" content="Better RPC — Easiest Custom Discord Rich Presence" />
+  <meta name="twitter:description"
     content="Easiest way to customize your Discord status. Under 20MB RAM, auto-detects running apps, and lets you add any custom app." />
-  <meta property="twitter:image" content="logo.png" />
+  <meta name="twitter:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta name="twitter:image:alt" content="Better RPC app showing a custom Discord Rich Presence status" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="icon" type="image/png" href="/logo-256.png" />
+  <link rel="apple-touch-icon" href="/logo-256.png" />
+
+  <!-- Hero image preload (LCP) -->
+  <link rel="preload" as="image" href="/img/thumb2.webp" type="image/webp" fetchpriority="high" />
 
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "Better Discord Rich Presence",
+        "name": "Better RPC - Better Discord Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/",
+        "image": "https://better-discord-rich-presence.netlify.app/img/og.jpg",
+        "inLanguage": "en",
         "operatingSystem": "Windows, macOS, Linux",
         "applicationCategory": "UtilitiesApplication",
         "downloadUrl": "https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases",
@@ -62,6 +73,7 @@
         ],
         "requirements": "Requires Discord desktop client installed",
         "screenshot": "https://better-discord-rich-presence.netlify.app/img/site.png",
+        "sameAs": ["https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord"],
         "creator": {
           "@type": "Organization",
           "name": "Better RPC Community",
@@ -69,6 +81,50 @@
         }
       }
     </script>
+
+  <!-- JSON-LD FAQ (rich result) -->
+  <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does Better RPC detect applications?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Better RPC automatically tracks active windows in the background using native APIs (Win32 on Windows). When you switch windows, it immediately matches the executable name or window title to update your Discord status with zero manual input."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I add any custom app to Discord status?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! Better RPC lets you easily add custom applications. Simply type the name of the executable or window title, set your custom status text and active icons, and it will start showing up on your profile instantly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it really lightweight?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Unlike other Electron-based custom RPC applications that use hundreds of megabytes of RAM, Better RPC is written in Rust and Tauri. It uses less than 20MB of memory and practically 0% CPU, making it the most lightweight Discord RPC app available."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is it the easiest Discord Rich Presence tool?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most Discord status customizers require creating a developer application, setting up tokens, or writing configuration files. Better RPC handles everything inside a simple desktop app. It's completely plug-and-play!"
+            }
+          }
+        ]
+      }
+  </script>
+
+  <script>document.documentElement.classList.add("js");</script>
 
   <!-- Fonts: Space Grotesk (display) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -185,14 +241,14 @@
     /* ══════════════════════════════════════════════════════
        FADE-IN ON SCROLL
        ══════════════════════════════════════════════════════ */
-    .reveal {
+    .js .reveal {
       opacity: 0;
       transform: translateY(24px);
       transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
         transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .reveal.visible {
+    .js .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
@@ -1340,10 +1396,52 @@
       .cta-band__buttons { flex-direction: column; align-items: stretch; }
     }
 
+    @media (max-width: 768px) {
+      .faq__grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+      .apps-section { padding: 72px 0; }
+    }
+
     @media (max-width: 480px) {
       .container { padding: 0 24px; }
       .perf-grid { grid-template-columns: 1fr; }
     }
+
+    /* Getting started steps */
+    .steps {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin: 0 0 48px;
+      padding: 0;
+    }
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background-color: var(--surface-onyx);
+      border: var(--border-thick);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-hard);
+      padding: 24px;
+    }
+    .step__num {
+      flex: none;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--ink-dark);
+      background-color: var(--green);
+      border: var(--border-thick);
+      border-radius: 50%;
+    }
+    .step__title { font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+    .step__desc { color: var(--muted); line-height: 1.5; }
+    @media (max-width: 768px) { .steps { grid-template-columns: 1fr; } }
 
     /* Lucide Icon styling */
     .lucide {
@@ -1457,6 +1555,8 @@
     }
 
     .apps-count-badge {
+      display: inline-block;
+      margin: 0 0 24px;
       font-family: var(--font-display);
       font-size: 13px;
       font-weight: 800;
@@ -1469,6 +1569,8 @@
       margin-bottom: 24px;
       display: inline-block;
     }
+
+    .app-card[hidden] { display: none; }
 
     .apps-grid {
       display: grid;
@@ -1648,7 +1750,7 @@
     <nav class="nav" id="nav">
       <div class="nav__inner">
         <a href="#" class="nav__logo">
-          <img src="logo.png" alt="Better RPC" />
+          <img src="logo-256.png" alt="Better RPC logo" width="256" height="256" />
           <span>Better RPC</span>
         </a>
 
@@ -1660,7 +1762,7 @@
 
         <ul class="nav__links" id="nav-links">
           <li><a href="#features">Features</a></li>
-          <li><a href="#demo">Demo</a></li>
+          <li><a href="#apps">Apps</a></li>
           <li><a href="#performance">Performance</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li>
@@ -1687,6 +1789,7 @@
       </div>
     </nav>
 
+    <main>
     <!-- ════════════ HERO ════════════ -->
     <section class="hero">
       <div class="container">
@@ -1697,12 +1800,12 @@
         </div>
 
         <h1 class="hero__title reveal d2">
-          THE EASIEST CUSTOM<br>DISCORD RICH PRESENCE
+          ANY APP. ANY TOOL.<br>CUSTOM DISCORD RICH PRESENCE
         </h1>
 
         <p class="hero__subtitle reveal d3">
-          Auto-detects running programs and lets you easily add any custom app. 
-          Super lightweight (under 20 MB RAM) with zero complex setup.
+          Show whatever you're using on your Discord profile, from code editors to design tools.
+          Detected automatically, or add your own app in seconds. No tokens, no config files, under 20 MB RAM.
         </p>
 
         <div class="hero__actions reveal d3">
@@ -1731,7 +1834,7 @@
         <!-- App screenshot mockup -->
         <div class="hero__mockup-wrap reveal d4">
           <div class="hero__mockup" id="hero-mockup">
-            <img src="img/thumb2.jpeg" alt="Better RPC preview - Custom Discord Rich Presence status app" />
+            <img src="img/thumb2.webp" alt="Better RPC preview - Custom Discord Rich Presence status app" width="1600" height="893" fetchpriority="high" decoding="async" />
           </div>
         </div>
       </div>
@@ -1757,6 +1860,12 @@
             No developer portal tokens or coding required. Better RPC is the easiest way to customize your Discord status, reading active programs and updating your profile automatically.
           </p>
         </div>
+
+        <ol class="steps reveal d1" aria-label="How to get started">
+          <li class="step"><span class="step__num">1</span><div><h3 class="step__title">Install &amp; open</h3><p class="step__desc">Download Better RPC and keep it running in the tray. Nothing to configure.</p></div></li>
+          <li class="step"><span class="step__num">2</span><div><h3 class="step__title">Use your apps</h3><p class="step__desc">VS Code, Figma, browsers and 40+ others are detected and shown on Discord right away.</p></div></li>
+          <li class="step"><span class="step__num">3</span><div><h3 class="step__title">Add anything else</h3><p class="step__desc">Type the app's .exe or window title, pick an icon and text. That's it.</p></div></li>
+        </ol>
 
         <div class="features__grid">
           <div class="feature-card feature-card--1 reveal d1">
@@ -1800,14 +1909,14 @@
           <div class="section-eyebrow">Live preview</div>
           <h2 class="section-title">See how it looks</h2>
           <p class="section-desc" style="color: var(--ink); background: var(--canvas);">
-            Click an app to see the profile card update. This is exactly what
-            your friends see on your Discord profile.
+            This is exactly what your friends see on your Discord profile while
+            Better RPC runs in the background.
           </p>
         </div>
 
         <div class="reveal d2" style="max-width: 900px; margin: 0 auto;">
           <div style="border-radius: var(--rounded-lg); border: var(--border-thick); box-shadow: 12px 12px 0 var(--magenta); overflow: hidden; background-color: var(--surface-onyx);">
-            <img src="img/thumb2.jpeg" alt="Better RPC interface showcase - App working" style="width: 100%; height: auto; display: block;" />
+            <img src="img/thumb2.webp" alt="Better RPC interface showcase - App working" width="1600" height="893" loading="lazy" decoding="async" style="width: 100%; height: auto; display: block;" />
           </div>
         </div>
       </div>
@@ -1834,7 +1943,7 @@
             </div>
             <div class="stat-card__value">~18 MB</div>
             <div class="perf-badge perf-badge--highlight">⚡ 10× lighter than Electron</div>
-            <div class="perf-comparison">
+            <div class="perf-comparison" role="img" aria-label="Memory comparison: Better RPC 18 MB versus Electron 180 MB">
               <div class="perf-bar-row perf-bar-row--active">
                 <span class="perf-bar-name">Better RPC</span>
                 <div class="perf-bar-track">
@@ -1860,7 +1969,7 @@
             </div>
             <div class="stat-card__value">&lt;0.2%</div>
             <div class="perf-badge">🪶 Invisible to system</div>
-            <div class="perf-comparison">
+            <div class="perf-comparison" role="img" aria-label="Cpu comparison: Better RPC under 0.2% versus Electron 4.5%">
               <div class="perf-bar-row perf-bar-row--active">
                 <span class="perf-bar-name">Better RPC</span>
                 <div class="perf-bar-track">
@@ -1886,7 +1995,7 @@
             </div>
             <div class="stat-card__value">~4 MB</div>
             <div class="perf-badge">📦 Single binary</div>
-            <div class="perf-comparison">
+            <div class="perf-comparison" role="img" aria-label="Binary size comparison: Better RPC 4 MB versus Electron 80 MB">
               <div class="perf-bar-row perf-bar-row--active">
                 <span class="perf-bar-name">Better RPC</span>
                 <div class="perf-bar-track">
@@ -1912,7 +2021,7 @@
             </div>
             <div class="stat-card__value">&lt;1s</div>
             <div class="perf-badge">🚀 Instant boot</div>
-            <div class="perf-comparison">
+            <div class="perf-comparison" role="img" aria-label="Startup time comparison: Better RPC under 1 second versus Electron about 5 seconds">
               <div class="perf-bar-row perf-bar-row--active">
                 <span class="perf-bar-name">Better RPC</span>
                 <div class="perf-bar-track">
@@ -1930,6 +2039,492 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ════════════ COMPATIBLE APPS (static, crawlable) ════════════ -->
+    <section id="apps" class="apps-section">
+      <div class="container">
+        <div class="apps-header reveal">
+          <div class="section-eyebrow">Compatible apps</div>
+          <h2 class="section-title">45+ apps detected out of the box</h2>
+          <p class="section-desc">
+            VS Code, Cursor, JetBrains IDEs, browsers, Figma, Spotify and more show up on your Discord profile
+            automatically. Not on the list? Add any executable or window title as a custom app in seconds.
+          </p>
+        </div>
+
+        <div class="apps-controls reveal d1">
+          <div class="apps-tabs" id="app-category-tabs" role="group" aria-label="Filter apps by category">
+            <button type="button" class="app-tab-btn active" data-cat="all">All</button>
+            <button type="button" class="app-tab-btn" data-cat="editor">IDE / Editor</button>
+            <button type="button" class="app-tab-btn" data-cat="developer">Dev Tool</button>
+            <button type="button" class="app-tab-btn" data-cat="productivity">Design &amp; Productivity</button>
+            <button type="button" class="app-tab-btn" data-cat="browser">Browser</button>
+            <button type="button" class="app-tab-btn" data-cat="media">Media</button>
+            <button type="button" class="app-tab-btn" data-cat="game">Game</button>
+          </div>
+          <div class="apps-search-wrap">
+            <input type="search" id="app-search" class="apps-search-input" placeholder="Search apps or .exe…" aria-label="Search compatible apps" />
+          </div>
+        </div>
+        <p class="apps-count-badge" id="apps-count-badge" aria-live="polite">Showing 45 of 45 apps</p>
+
+        <ul class="apps-grid" id="apps-grid" style="list-style:none; padding:0; margin:0;">
+          <li class="app-card" data-cat="editor" data-search="visual studio code code.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/visualstudiocode.png" alt="Visual Studio Code icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Visual Studio Code</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">code.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="vs code insiders code-insiders.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/visualstudiocode.png" alt="VS Code Insiders icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">VS Code Insiders</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">code-insiders.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="cursor ai cursor.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/cursor.png" alt="Cursor AI icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Cursor AI</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">cursor.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="antigravity antigravity.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/antigravity.png" alt="Antigravity icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Antigravity</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">antigravity.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="windsurf windsurf.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/codeium.png" alt="Windsurf icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Windsurf</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">windsurf.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="zed editor zed.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/zedindustries.png" alt="Zed Editor icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Zed Editor</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">zed.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="neovim nvim.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/neovim.png" alt="Neovim icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Neovim</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">nvim.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="intellij idea idea64.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/intellijidea.png" alt="IntelliJ IDEA icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">IntelliJ IDEA</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">idea64.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="pycharm pycharm64.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/pycharm.png" alt="PyCharm icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">PyCharm</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">pycharm64.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="webstorm webstorm64.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/webstorm.png" alt="WebStorm icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">WebStorm</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">webstorm64.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="visual studio devenv.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/visualstudio.png" alt="Visual Studio icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Visual Studio</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">devenv.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="sublime text sublime_text.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/sublimetext.png" alt="Sublime Text icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Sublime Text</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">sublime_text.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="notepad++ notepad++.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/notepadplusplus.png" alt="Notepad++ icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Notepad++</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">notepad++.exe</div>
+          </li>
+          <li class="app-card" data-cat="editor" data-search="android studio studio64.exe ide / editor">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/androidstudio.png" alt="Android Studio icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Android Studio</h3>
+                <span class="app-card-cat">IDE / Editor</span>
+              </div>
+            </div>
+            <div class="app-card-exe">studio64.exe</div>
+          </li>
+          <li class="app-card" data-cat="browser" data-search="google chrome chrome.exe browser">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/googlechrome.png" alt="Google Chrome icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Google Chrome</h3>
+                <span class="app-card-cat">Browser</span>
+              </div>
+            </div>
+            <div class="app-card-exe">chrome.exe</div>
+          </li>
+          <li class="app-card" data-cat="browser" data-search="mozilla firefox firefox.exe browser">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/firefox.png" alt="Mozilla Firefox icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Mozilla Firefox</h3>
+                <span class="app-card-cat">Browser</span>
+              </div>
+            </div>
+            <div class="app-card-exe">firefox.exe</div>
+          </li>
+          <li class="app-card" data-cat="browser" data-search="microsoft edge msedge.exe browser">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/microsoftedge.png" alt="Microsoft Edge icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Microsoft Edge</h3>
+                <span class="app-card-cat">Browser</span>
+              </div>
+            </div>
+            <div class="app-card-exe">msedge.exe</div>
+          </li>
+          <li class="app-card" data-cat="browser" data-search="brave browser brave.exe browser">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/brave.png" alt="Brave Browser icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Brave Browser</h3>
+                <span class="app-card-cat">Browser</span>
+              </div>
+            </div>
+            <div class="app-card-exe">brave.exe</div>
+          </li>
+          <li class="app-card" data-cat="browser" data-search="arc browser arc.exe browser">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/arc.png" alt="Arc Browser icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Arc Browser</h3>
+                <span class="app-card-cat">Browser</span>
+              </div>
+            </div>
+            <div class="app-card-exe">arc.exe</div>
+          </li>
+          <li class="app-card" data-cat="browser" data-search="zen browser zen.exe browser">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/zenbrowser.png" alt="Zen Browser icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Zen Browser</h3>
+                <span class="app-card-cat">Browser</span>
+              </div>
+            </div>
+            <div class="app-card-exe">zen.exe</div>
+          </li>
+          <li class="app-card" data-cat="browser" data-search="opera / opera gx opera.exe browser">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/opera.png" alt="Opera / Opera GX icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Opera / Opera GX</h3>
+                <span class="app-card-cat">Browser</span>
+              </div>
+            </div>
+            <div class="app-card-exe">opera.exe</div>
+          </li>
+          <li class="app-card" data-cat="developer" data-search="docker desktop docker.exe dev tool">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/docker.png" alt="Docker Desktop icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Docker Desktop</h3>
+                <span class="app-card-cat">Dev Tool</span>
+              </div>
+            </div>
+            <div class="app-card-exe">docker.exe</div>
+          </li>
+          <li class="app-card" data-cat="developer" data-search="windows terminal windowsterminal.exe dev tool">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/windowsterminal.png" alt="Windows Terminal icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Windows Terminal</h3>
+                <span class="app-card-cat">Dev Tool</span>
+              </div>
+            </div>
+            <div class="app-card-exe">windowsterminal.exe</div>
+          </li>
+          <li class="app-card" data-cat="developer" data-search="alacritty alacritty.exe dev tool">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/alacritty.png" alt="Alacritty icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Alacritty</h3>
+                <span class="app-card-cat">Dev Tool</span>
+              </div>
+            </div>
+            <div class="app-card-exe">alacritty.exe</div>
+          </li>
+          <li class="app-card" data-cat="developer" data-search="warp terminal warp.exe dev tool">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/warp.png" alt="Warp Terminal icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Warp Terminal</h3>
+                <span class="app-card-cat">Dev Tool</span>
+              </div>
+            </div>
+            <div class="app-card-exe">warp.exe</div>
+          </li>
+          <li class="app-card" data-cat="developer" data-search="gitkraken gitkraken.exe dev tool">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/gitkraken.png" alt="GitKraken icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">GitKraken</h3>
+                <span class="app-card-cat">Dev Tool</span>
+              </div>
+            </div>
+            <div class="app-card-exe">gitkraken.exe</div>
+          </li>
+          <li class="app-card" data-cat="developer" data-search="github desktop githubdesktop.exe dev tool">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/github.png" alt="GitHub Desktop icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">GitHub Desktop</h3>
+                <span class="app-card-cat">Dev Tool</span>
+              </div>
+            </div>
+            <div class="app-card-exe">githubdesktop.exe</div>
+          </li>
+          <li class="app-card" data-cat="developer" data-search="postman postman.exe dev tool">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/postman.png" alt="Postman icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Postman</h3>
+                <span class="app-card-cat">Dev Tool</span>
+              </div>
+            </div>
+            <div class="app-card-exe">postman.exe</div>
+          </li>
+          <li class="app-card" data-cat="developer" data-search="insomnia insomnia.exe dev tool">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/insomnia.png" alt="Insomnia icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Insomnia</h3>
+                <span class="app-card-cat">Dev Tool</span>
+              </div>
+            </div>
+            <div class="app-card-exe">insomnia.exe</div>
+          </li>
+          <li class="app-card" data-cat="developer" data-search="dbeaver dbeaver.exe dev tool">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/dbeaver.png" alt="DBeaver icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">DBeaver</h3>
+                <span class="app-card-cat">Dev Tool</span>
+              </div>
+            </div>
+            <div class="app-card-exe">dbeaver.exe</div>
+          </li>
+          <li class="app-card" data-cat="media" data-search="spotify spotify.exe media &amp; music">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/shopify.png" alt="Spotify icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Spotify</h3>
+                <span class="app-card-cat">Media &amp; Music</span>
+              </div>
+            </div>
+            <div class="app-card-exe">spotify.exe</div>
+          </li>
+          <li class="app-card" data-cat="media" data-search="vlc media player vlc.exe media &amp; music">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/vlcmediaplayer.png" alt="VLC Media Player icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">VLC Media Player</h3>
+                <span class="app-card-cat">Media &amp; Music</span>
+              </div>
+            </div>
+            <div class="app-card-exe">vlc.exe</div>
+          </li>
+          <li class="app-card" data-cat="media" data-search="obs studio obs64.exe media &amp; streaming">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/obsstudio.png" alt="OBS Studio icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">OBS Studio</h3>
+                <span class="app-card-cat">Media &amp; Streaming</span>
+              </div>
+            </div>
+            <div class="app-card-exe">obs64.exe</div>
+          </li>
+          <li class="app-card" data-cat="media" data-search="streamlabs streamlabs.exe media &amp; streaming">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/streamlabs.png" alt="Streamlabs icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Streamlabs</h3>
+                <span class="app-card-cat">Media &amp; Streaming</span>
+              </div>
+            </div>
+            <div class="app-card-exe">streamlabs.exe</div>
+          </li>
+          <li class="app-card" data-cat="media" data-search="audacity audacity.exe media &amp; music">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/audacity.png" alt="Audacity icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Audacity</h3>
+                <span class="app-card-cat">Media &amp; Music</span>
+              </div>
+            </div>
+            <div class="app-card-exe">audacity.exe</div>
+          </li>
+          <li class="app-card" data-cat="productivity" data-search="figma figma.exe design &amp; productivity">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/figma.png" alt="Figma icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Figma</h3>
+                <span class="app-card-cat">Design &amp; Productivity</span>
+              </div>
+            </div>
+            <div class="app-card-exe">figma.exe</div>
+          </li>
+          <li class="app-card" data-cat="productivity" data-search="blender 3d blender.exe design &amp; productivity">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/blender.png" alt="Blender 3D icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Blender 3D</h3>
+                <span class="app-card-cat">Design &amp; Productivity</span>
+              </div>
+            </div>
+            <div class="app-card-exe">blender.exe</div>
+          </li>
+          <li class="app-card" data-cat="productivity" data-search="adobe photoshop photoshop.exe design &amp; productivity">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/adobephotoshop.png" alt="Adobe Photoshop icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Adobe Photoshop</h3>
+                <span class="app-card-cat">Design &amp; Productivity</span>
+              </div>
+            </div>
+            <div class="app-card-exe">photoshop.exe</div>
+          </li>
+          <li class="app-card" data-cat="productivity" data-search="adobe illustrator illustrator.exe design &amp; productivity">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/adobeillustrator.png" alt="Adobe Illustrator icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Adobe Illustrator</h3>
+                <span class="app-card-cat">Design &amp; Productivity</span>
+              </div>
+            </div>
+            <div class="app-card-exe">illustrator.exe</div>
+          </li>
+          <li class="app-card" data-cat="productivity" data-search="adobe premiere pro premiere.exe design &amp; productivity">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/adobepremierepro.png" alt="Adobe Premiere Pro icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Adobe Premiere Pro</h3>
+                <span class="app-card-cat">Design &amp; Productivity</span>
+              </div>
+            </div>
+            <div class="app-card-exe">premiere.exe</div>
+          </li>
+          <li class="app-card" data-cat="productivity" data-search="notion notion.exe design &amp; productivity">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/notion.png" alt="Notion icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Notion</h3>
+                <span class="app-card-cat">Design &amp; Productivity</span>
+              </div>
+            </div>
+            <div class="app-card-exe">notion.exe</div>
+          </li>
+          <li class="app-card" data-cat="productivity" data-search="obsidian obsidian.exe design &amp; productivity">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/obsidian.png" alt="Obsidian icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Obsidian</h3>
+                <span class="app-card-cat">Design &amp; Productivity</span>
+              </div>
+            </div>
+            <div class="app-card-exe">obsidian.exe</div>
+          </li>
+          <li class="app-card" data-cat="productivity" data-search="linear linear.exe design &amp; productivity">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/linear.png" alt="Linear icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Linear</h3>
+                <span class="app-card-cat">Design &amp; Productivity</span>
+              </div>
+            </div>
+            <div class="app-card-exe">linear.exe</div>
+          </li>
+          <li class="app-card" data-cat="productivity" data-search="clickup clickup.exe design &amp; productivity">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/clickup.png" alt="ClickUp icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">ClickUp</h3>
+                <span class="app-card-cat">Design &amp; Productivity</span>
+              </div>
+            </div>
+            <div class="app-card-exe">clickup.exe</div>
+          </li>
+          <li class="app-card" data-cat="game" data-search="minecraft javaw.exe game">
+            <div class="app-card-header">
+              <div class="app-card-img-wrap"><img src="assets/icons/unity.png" alt="Minecraft icon" class="app-card-img" width="48" height="48" loading="lazy" decoding="async" /></div>
+              <div class="app-card-info">
+                <h3 class="app-card-title">Minecraft</h3>
+                <span class="app-card-cat">Game</span>
+              </div>
+            </div>
+            <div class="app-card-exe">javaw.exe</div>
+          </li>
+        </ul>
+        <p id="apps-empty" hidden style="text-align:center; padding:32px; color: var(--muted);">
+          No apps found. Don't worry — you can add it as a custom app in Better RPC!
+        </p>
       </div>
     </section>
 
@@ -1981,13 +2576,15 @@
       </div>
     </section>
 
+    </main>
+
     <!-- ════════════ FOOTER ════════════ -->
     <footer class="footer">
       <div class="container">
         <div class="footer__top">
           <div class="footer__brand">
             <div class="footer__brand-logo">
-              <img src="logo.png" alt="Better RPC" />
+              <img src="logo-256.png" alt="Better RPC logo" width="256" height="256" />
               <span>Better RPC</span>
             </div>
             <p class="footer__brand-desc">
@@ -2002,6 +2599,7 @@
                 <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases"
                     target="_blank" rel="noopener">Download</a></li>
                 <li><a href="#features">Features</a></li>
+                <li><a href="#apps">Compatible apps</a></li>
                 <li><a href="#performance">Performance</a></li>
               </ul>
             </div>
@@ -2029,365 +2627,70 @@
   </div>
 
   <script>
-    // ─── Inline SVGs ───
-    const icons = {
-      zap: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-      cpu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M9 1v3"/><path d="M15 1v3"/><path d="M9 20v3"/><path d="M15 20v3"/><path d="M20 9h3"/><path d="M20 15h3"/><path d="M1 9h3"/><path d="M1 15h3"/></svg>`,
-      wrench: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
-      github: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-3"/></svg>`,
-      code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
-      music: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`,
-      "gamepad-2": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="3"/></svg>`,
-      globe: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`,
-      moon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`
-    };
+    // Nav scroll effect
+    const nav = document.getElementById("nav");
+    window.addEventListener("scroll", () => nav.classList.toggle("scrolled", window.scrollY > 50), { passive: true });
 
-    // ─── Nav Scroll Effect ───
-    window.addEventListener('scroll', () => {
-        const nav = document.getElementById('nav');
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-    });
-
-    // ─── Year ───
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // ─── Mobile nav ───
+    // Mobile nav
     const hamburger = document.getElementById("nav-hamburger");
     const navLinks = document.getElementById("nav-links");
     if (hamburger && navLinks) {
       hamburger.addEventListener("click", () => {
         navLinks.classList.toggle("active");
-        const mobileCta = document.querySelector('.nav__cta-mobile');
-        if (mobileCta) mobileCta.style.display = navLinks.classList.contains('active') ? 'block' : 'none';
+        const mobileCta = document.querySelector(".nav__cta-mobile");
+        if (mobileCta) mobileCta.style.display = navLinks.classList.contains("active") ? "block" : "none";
+      });
+      navLinks.addEventListener("click", (e) => {
+        if (e.target.closest("a")) navLinks.classList.remove("active");
       });
     }
 
-    // ─── Live timer ───
-    let elapsed = 165;
-    let timer = null;
-
-    function pad(n) {
-      return String(n).padStart(2, "0");
-    }
-
-    function tick() {
-      elapsed++;
-      const el = document.getElementById("d-time");
-      if (el && el.textContent.includes("elapsed")) {
-        el.textContent = `${pad(Math.floor(elapsed / 60))}:${pad(elapsed % 60)} elapsed`;
-      }
-    }
-
-    function startTimer() {
-      if (timer) clearInterval(timer);
-      timer = setInterval(tick, 1000);
-    }
-
-    // ─── App data ───
-    const apps = {
-      vscode: {
-        label: "Playing a game",
-        app: "Visual Studio Code",
-        detail: "Editing: main.rs",
-        state: "In a Rust project",
-        icon: "code",
-        btn: "View on GitHub",
-        time: "02:45 elapsed",
-        secs: 165,
-      },
-      spotify: {
-        label: "Listening to Spotify",
-        app: "Spotify",
-        detail: "Blinding Lights",
-        state: "by The Weeknd",
-        icon: "music",
-        btn: "Listen on Spotify",
-        time: "01:24 / 03:20",
-        secs: 0,
-      },
-      minecraft: {
-        label: "Playing a game",
-        app: "Minecraft",
-        detail: "Surviving on Hardcore",
-        state: "Version 1.20",
-        icon: "gamepad-2",
-        btn: "Join Server",
-        time: "05:12 elapsed",
-        secs: 312,
-      },
-      custom: {
-        label: "Playing a game",
-        app: "My Custom App",
-        detail: "Watching YouTube",
-        state: "Web Development",
-        icon: "globe",
-        btn: "Check it out",
-        time: "00:30 elapsed",
-        secs: 30,
-      },
-    };
-
-    let rpcActive = true;
-
-    function toggleRPC(checked) {
-      rpcActive = checked;
-      const container = document.getElementById("demo-container");
-      const statusText = document.getElementById("demo-status-text");
-      const statusDot = document.querySelector(".demo-status");
-      const discordOnline = document.querySelector(".discord-online");
-
-      if (checked) {
-        container.classList.remove("offline");
-        statusText.textContent = "Connected";
-        statusDot.classList.add("connected");
-        discordOnline.classList.remove("offline");
-
-        const activeRow = document.querySelector(".demo-row.active");
-        if (activeRow) {
-          const appKey = activeRow.id.replace("row-", "");
-          selectApp(appKey);
-        }
-      } else {
-        container.classList.add("offline");
-        statusText.textContent = "Offline";
-        statusDot.classList.remove("connected");
-        discordOnline.classList.add("offline");
-
-        if (timer) clearInterval(timer);
-
-        document.getElementById("d-label").textContent = "No Activity";
-        document.getElementById("d-icon").innerHTML = icons.moon;
-        document.getElementById("d-app").textContent = "Better RPC is offline";
-        document.getElementById("d-detail").textContent = "Daemon not running";
-        document.getElementById("d-state").textContent = "Toggle switch to start";
-        document.getElementById("d-time").textContent = "--:-- elapsed";
-      }
-    }
-
-    function selectApp(key) {
-      if (!rpcActive) return;
-
-      document.querySelectorAll(".demo-row").forEach((r) => r.classList.remove("active"));
-      document.getElementById("row-" + key).classList.add("active");
-
-      const d = apps[key];
-      document.getElementById("d-label").textContent = d.label;
-      document.getElementById("d-app").textContent = d.app;
-      document.getElementById("d-detail").textContent = d.detail;
-      document.getElementById("d-state").textContent = d.state;
-      document.getElementById("d-icon").innerHTML = icons[d.icon];
-      document.getElementById("d-btn").textContent = d.btn;
-      document.getElementById("d-time").textContent = d.time;
-
-      elapsed = d.secs;
-      if (key === "spotify") {
-        if (timer) clearInterval(timer);
-      } else {
-        startTimer();
-      }
-    }
-
-    // ─── Scroll reveal ───
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+    // Scroll reveal + perf bars. Content stays visible without JS / IntersectionObserver.
+    const revealObserver = "IntersectionObserver" in window
+      ? new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
             entry.target.classList.add("visible");
-
-            // Trigger perf bars
-            if (entry.target.id === "perf-grid") {
-              entry.target.classList.add("bars-visible");
-            }
-
+            if (entry.target.id === "perf-grid") entry.target.classList.add("bars-visible");
             revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    document.addEventListener("DOMContentLoaded", () => {
-      // Observe all reveal elements
-      document.querySelectorAll(".reveal").forEach((el) => {
-        revealObserver.observe(el);
-      });
-
-      // Mark hero elements as visible immediately
-      document.querySelectorAll(".hero .reveal").forEach((el) => {
+          });
+        }, { threshold: 0.1 })
+      : null;
+    document.querySelectorAll(".reveal").forEach((el) => {
+      if (revealObserver && !el.closest(".hero")) revealObserver.observe(el);
+      else {
         el.classList.add("visible");
-      });
-
-      // Render compatible apps grid
-      renderAppsGrid();
-
-      // Start the demo
-      selectApp("vscode");
+        if (el.id === "perf-grid") el.classList.add("bars-visible");
+      }
     });
 
-    // ─── Compatible Apps List & Filtering ───
-    const compatibleAppsData = [
-      { name: "Visual Studio Code", cat: "editor", catLabel: "IDE / Editor", exe: "code.exe", icon: "assets/icons/visualstudiocode.png", iconKey: "code", label: "Playing a game", detail: "Editing: index.ts", state: "In a TypeScript project" },
-      { name: "VS Code Insiders", cat: "editor", catLabel: "IDE / Editor", exe: "code-insiders.exe", icon: "assets/icons/visualstudiocode.png", iconKey: "code", label: "Playing a game", detail: "Editing: app.rs", state: "In a Rust project" },
-      { name: "Cursor AI", cat: "editor", catLabel: "IDE / Editor", exe: "cursor.exe", icon: "assets/icons/cursor.png", iconKey: "code", label: "Playing a game", detail: "Generating code with AI", state: "Next.js project" },
-      { name: "Antigravity", cat: "editor", catLabel: "IDE / Editor", exe: "antigravity.exe", icon: "assets/icons/antigravity.png", iconKey: "code", label: "Playing a game", detail: "Coding with AI Agent", state: "Building desktop app" },
-      { name: "Windsurf", cat: "editor", catLabel: "IDE / Editor", exe: "windsurf.exe", icon: "assets/icons/codeium.png", iconKey: "code", label: "Playing a game", detail: "Editing code", state: "Cascade AI Flow" },
-      { name: "Zed Editor", cat: "editor", catLabel: "IDE / Editor", exe: "zed.exe", icon: "assets/icons/zedindustries.png", iconKey: "code", label: "Playing a game", detail: "High performance editor", state: "Rust Workspace" },
-      { name: "Neovim", cat: "editor", catLabel: "IDE / Editor", exe: "nvim.exe", icon: "assets/icons/neovim.png", iconKey: "code", label: "Playing a game", detail: "Editing init.lua", state: "Vim Mode Enabled" },
-      { name: "IntelliJ IDEA", cat: "editor", catLabel: "IDE / Editor", exe: "idea64.exe", icon: "assets/icons/intellijidea.png", iconKey: "code", label: "Playing a game", detail: "Building Java app", state: "Spring Boot Service" },
-      { name: "PyCharm", cat: "editor", catLabel: "IDE / Editor", exe: "pycharm64.exe", icon: "assets/icons/pycharm.png", iconKey: "code", label: "Playing a game", detail: "Refactoring model.py", state: "Python 3.12" },
-      { name: "WebStorm", cat: "editor", catLabel: "IDE / Editor", exe: "webstorm64.exe", icon: "assets/icons/webstorm.png", iconKey: "code", label: "Playing a game", detail: "Debugging Vue app", state: "Vite dev server" },
-      { name: "Visual Studio", cat: "editor", catLabel: "IDE / Editor", exe: "devenv.exe", icon: "assets/icons/visualstudio.png", iconKey: "code", label: "Playing a game", detail: "Compiling solution.sln", state: "C# / .NET 8" },
-      { name: "Sublime Text", cat: "editor", catLabel: "IDE / Editor", exe: "sublime_text.exe", icon: "assets/icons/sublimetext.png", iconKey: "code", label: "Playing a game", detail: "Editing notes.md", state: "Markdown project" },
-      { name: "Notepad++", cat: "editor", catLabel: "IDE / Editor", exe: "notepad++.exe", icon: "assets/icons/notepadplusplus.png", iconKey: "code", label: "Playing a game", detail: "Viewing config.xml", state: "Text editing" },
-      { name: "Android Studio", cat: "editor", catLabel: "IDE / Editor", exe: "studio64.exe", icon: "assets/icons/androidstudio.png", iconKey: "code", label: "Playing a game", detail: "Building APK", state: "Kotlin & Jetpack Compose" },
+    // Compatible apps filter (cards are static HTML so crawlers see them)
+    const cards = [...document.querySelectorAll("#apps-grid .app-card")];
+    const tabs = [...document.querySelectorAll("#app-category-tabs .app-tab-btn")];
+    const searchInput = document.getElementById("app-search");
+    const countBadge = document.getElementById("apps-count-badge");
+    const emptyMsg = document.getElementById("apps-empty");
+    let category = "all";
 
-      { name: "Google Chrome", cat: "browser", catLabel: "Browser", exe: "chrome.exe", icon: "assets/icons/googlechrome.png", iconKey: "globe", label: "Browsing the Web", detail: "Browsing GitHub", state: "Open Source Repos" },
-      { name: "Mozilla Firefox", cat: "browser", catLabel: "Browser", exe: "firefox.exe", icon: "assets/icons/firefox.png", iconKey: "globe", label: "Browsing the Web", detail: "Reading Docs", state: "MDN Web Docs" },
-      { name: "Microsoft Edge", cat: "browser", catLabel: "Browser", exe: "msedge.exe", icon: "assets/icons/microsoftedge.png", iconKey: "globe", label: "Browsing the Web", detail: "Testing Web App", state: "Developer Tools" },
-      { name: "Brave Browser", cat: "browser", catLabel: "Browser", exe: "brave.exe", icon: "assets/icons/brave.png", iconKey: "globe", label: "Browsing the Web", detail: "Browsing Web3", state: "Shields Active" },
-      { name: "Arc Browser", cat: "browser", catLabel: "Browser", exe: "arc.exe", icon: "assets/icons/arc.png", iconKey: "globe", label: "Browsing the Web", detail: "Work Spaces", state: "Productivity Tab" },
-      { name: "Zen Browser", cat: "browser", catLabel: "Browser", exe: "zen.exe", icon: "assets/icons/zenbrowser.png", iconKey: "globe", label: "Browsing the Web", detail: "Focused browsing", state: "Privacy Mode" },
-      { name: "Opera / Opera GX", cat: "browser", catLabel: "Browser", exe: "opera.exe", icon: "assets/icons/opera.png", iconKey: "globe", label: "Browsing the Web", detail: "Gaming & Web", state: "GX Corner" },
-
-      { name: "Docker Desktop", cat: "developer", catLabel: "Dev Tool", exe: "docker.exe", icon: "assets/icons/docker.png", iconKey: "cpu", label: "Using Dev Tool", detail: "Containers running", state: "4 containers active" },
-      { name: "Windows Terminal", cat: "developer", catLabel: "Dev Tool", exe: "windowsterminal.exe", icon: "assets/icons/windowsterminal.png", iconKey: "code", label: "Using Dev Tool", detail: "Running PowerShell", state: "cargo build --release" },
-      { name: "Alacritty", cat: "developer", catLabel: "Dev Tool", exe: "alacritty.exe", icon: "assets/icons/alacritty.png", iconKey: "code", label: "Using Dev Tool", detail: "Zsh session", state: "GPU Accelerated" },
-      { name: "Warp Terminal", cat: "developer", catLabel: "Dev Tool", exe: "warp.exe", icon: "assets/icons/warp.png", iconKey: "code", label: "Using Dev Tool", detail: "AI Terminal session", state: "Warp Drive Workflow" },
-      { name: "GitKraken", cat: "developer", catLabel: "Dev Tool", exe: "gitkraken.exe", icon: "assets/icons/gitkraken.png", iconKey: "github", label: "Using Dev Tool", detail: "Reviewing Pull Request", state: "main branch" },
-      { name: "GitHub Desktop", cat: "developer", catLabel: "Dev Tool", exe: "githubdesktop.exe", icon: "assets/icons/github.png", iconKey: "github", label: "Using Dev Tool", detail: "Pushing commits", state: "Repository sync" },
-      { name: "Postman", cat: "developer", catLabel: "Dev Tool", exe: "postman.exe", icon: "assets/icons/postman.png", iconKey: "zap", label: "Using Dev Tool", detail: "Testing REST API", state: "200 OK Response" },
-      { name: "Insomnia", cat: "developer", catLabel: "Dev Tool", exe: "insomnia.exe", icon: "assets/icons/insomnia.png", iconKey: "zap", label: "Using Dev Tool", detail: "GraphQL Query", state: "Endpoint testing" },
-      { name: "DBeaver", cat: "developer", catLabel: "Dev Tool", exe: "dbeaver.exe", icon: "assets/icons/dbeaver.png", iconKey: "cpu", label: "Using Dev Tool", detail: "Querying Database", state: "PostgreSQL Production" },
-
-      { name: "Spotify", cat: "media", catLabel: "Media & Music", exe: "spotify.exe", icon: "assets/icons/shopify.png", iconKey: "music", label: "Listening to Spotify", detail: "Blinding Lights", state: "by The Weeknd" },
-      { name: "VLC Media Player", cat: "media", catLabel: "Media & Music", exe: "vlc.exe", icon: "assets/icons/vlcmediaplayer.png", iconKey: "music", label: "Watching Media", detail: "Watching Video", state: "1080p 60fps" },
-      { name: "OBS Studio", cat: "media", catLabel: "Media & Streaming", exe: "obs64.exe", icon: "assets/icons/obsstudio.png", iconKey: "zap", label: "Streaming Live", detail: "Live Stream Active", state: "1080p60 Stream" },
-      { name: "Streamlabs", cat: "media", catLabel: "Media & Streaming", exe: "streamlabs.exe", icon: "assets/icons/streamlabs.png", iconKey: "zap", label: "Streaming Live", detail: "Live Broadcast", state: "Alerts Enabled" },
-      { name: "Audacity", cat: "media", catLabel: "Media & Music", exe: "audacity.exe", icon: "assets/icons/audacity.png", iconKey: "music", label: "Editing Audio", detail: "Editing Audio Track", state: "Podcast Episode" },
-
-      { name: "Figma", cat: "productivity", catLabel: "Design & Productivity", exe: "figma.exe", icon: "assets/icons/figma.png", iconKey: "wrench", label: "Designing UI", detail: "Designing UI Kit", state: "Dark Mode Components" },
-      { name: "Blender 3D", cat: "productivity", catLabel: "Design & Productivity", exe: "blender.exe", icon: "assets/icons/blender.png", iconKey: "wrench", label: "Creating 3D", detail: "Rendering 3D Scene", state: "Cycles Engine" },
-      { name: "Adobe Photoshop", cat: "productivity", catLabel: "Design & Productivity", exe: "photoshop.exe", icon: "assets/icons/adobephotoshop.png", iconKey: "wrench", label: "Editing Image", detail: "Editing Graphic Asset", state: "Layered Composition" },
-      { name: "Adobe Illustrator", cat: "productivity", catLabel: "Design & Productivity", exe: "illustrator.exe", icon: "assets/icons/adobeillustrator.png", iconKey: "wrench", label: "Creating Graphics", detail: "Creating Vector Logo", state: "CMYK Vector" },
-      { name: "Adobe Premiere Pro", cat: "productivity", catLabel: "Design & Productivity", exe: "premiere.exe", icon: "assets/icons/adobepremierepro.png", iconKey: "wrench", label: "Editing Video", detail: "Editing 4K Timeline", state: "Color Grading" },
-      { name: "Notion", cat: "productivity", catLabel: "Design & Productivity", exe: "notion.exe", icon: "assets/icons/notion.png", iconKey: "wrench", label: "Productivity", detail: "Writing Documentation", state: "Project Roadmap" },
-      { name: "Obsidian", cat: "productivity", catLabel: "Design & Productivity", exe: "obsidian.exe", icon: "assets/icons/obsidian.png", iconKey: "wrench", label: "Productivity", detail: "Knowledge Graph", state: "Zettelkasten Vault" },
-      { name: "Linear", cat: "productivity", catLabel: "Design & Productivity", exe: "linear.exe", icon: "assets/icons/linear.png", iconKey: "wrench", label: "Managing Sprint", detail: "Managing Sprint", state: "Issue Tracker" },
-      { name: "ClickUp", cat: "productivity", catLabel: "Design & Productivity", exe: "clickup.exe", icon: "assets/icons/clickup.png", iconKey: "wrench", label: "Task Management", detail: "Task Management", state: "Team Board" },
-      { name: "Minecraft", cat: "game", catLabel: "Game", exe: "javaw.exe", icon: "assets/icons/unity.png", iconKey: "gamepad-2", label: "Playing a game", detail: "Surviving on Hardcore", state: "Version 1.20" }
-    ];
-
-    let currentCategory = "all";
-    let searchQuery = "";
-
-    function renderAppsGrid() {
-      const grid = document.getElementById("apps-grid");
-      const badge = document.getElementById("apps-count-badge");
-      if (!grid) return;
-
-      const filtered = compatibleAppsData.filter(app => {
-        const matchesCategory = currentCategory === "all" || app.cat === currentCategory;
-        const matchesSearch = searchQuery === "" || 
-          app.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          app.exe.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          app.catLabel.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
+    function applyFilter() {
+      const q = searchInput.value.trim().toLowerCase();
+      let shown = 0;
+      cards.forEach((card) => {
+        const ok = (category === "all" || card.dataset.cat === category) && (!q || card.dataset.search.includes(q));
+        card.hidden = !ok;
+        if (ok) shown++;
       });
-
-      if (badge) {
-        badge.textContent = `Showing ${filtered.length} of ${compatibleAppsData.length} apps`;
-      }
-
-      if (filtered.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 48px 24px; background: var(--surface-onyx); border: var(--border-thick); border-radius: var(--rounded-lg); color: var(--muted);">
-            <div style="font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--yellow); margin-bottom: 8px;">No apps found</div>
-            <p>Don't worry! You can add "${searchQuery}" as a custom app in Better RPC!</p>
-          </div>
-        `;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(app => `
-        <div class="app-card">
-          <div class="app-card-header">
-            <div class="app-card-img-wrap">
-              <img src="${app.icon}" alt="${app.name}" class="app-card-img" onerror="this.onerror=null; this.parentElement.innerHTML='${icons[app.iconKey]}';" />
-            </div>
-            <div class="app-card-info">
-              <div class="app-card-title">${app.name}</div>
-              <span class="app-card-cat">${app.catLabel}</span>
-            </div>
-          </div>
-          <div class="app-card-exe">${app.exe}</div>
-          <button class="app-card-btn" onclick="testAppInDemo('${app.name.replace(/'/g, "\\'")}')">
-            Test in Live Demo
-          </button>
-        </div>
-      `).join("");
+      countBadge.textContent = `Showing ${shown} of ${cards.length} apps`;
+      emptyMsg.hidden = shown !== 0;
     }
-
-    function filterAppCategory(cat, btnEl) {
-      currentCategory = cat;
-      if (btnEl) {
-        document.querySelectorAll("#app-category-tabs .app-tab-btn").forEach(b => b.classList.remove("active"));
-        btnEl.classList.add("active");
-      }
-      renderAppsGrid();
-    }
-
-    function searchApps(val) {
-      searchQuery = val;
-      renderAppsGrid();
-    }
-
-    function testAppInDemo(appName) {
-      const app = compatibleAppsData.find(a => a.name === appName);
-      if (!app) return;
-
-      if (!rpcActive) {
-        const toggle = document.getElementById("rpc-toggle");
-        if (toggle) {
-          toggle.checked = true;
-          toggleRPC(true);
-        }
-      }
-
-      document.getElementById("d-label").textContent = app.label || "Playing a game";
-      document.getElementById("d-app").textContent = app.name;
-      document.getElementById("d-detail").textContent = app.detail;
-      document.getElementById("d-state").textContent = app.state;
-      document.getElementById("d-icon").innerHTML = icons[app.iconKey] || icons.code;
-      document.getElementById("d-btn").textContent = "View App Status";
-      document.getElementById("d-time").textContent = "00:05 elapsed";
-
-      elapsed = 5;
-      startTimer();
-
-      const demoSection = document.getElementById("demo");
-      if (demoSection) {
-        demoSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-
-    function testCustomAppInDemo() {
-      if (!rpcActive) {
-        const toggle = document.getElementById("rpc-toggle");
-        if (toggle) {
-          toggle.checked = true;
-          toggleRPC(true);
-        }
-      }
-      selectApp('custom');
-      const demoSection = document.getElementById("demo");
-      if (demoSection) {
-        demoSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    tabs.forEach((btn) => btn.addEventListener("click", () => {
+      category = btn.dataset.cat;
+      tabs.forEach((b) => b.classList.toggle("active", b === btn));
+      applyFilter();
+    }));
+    searchInput.addEventListener("input", applyFilter);
   </script>
 </body>
 
