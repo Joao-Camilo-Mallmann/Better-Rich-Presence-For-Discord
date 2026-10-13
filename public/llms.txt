@@ -1,0 +1,22 @@
+# Better RPC
+
+> Better RPC is a free, open-source, lightweight Discord Rich Presence app built with Rust and Tauri. It detects the apps you run (code editors, browsers, design tools, music players, games) and shows them on your Discord profile automatically. You can also add any custom app in seconds. It needs no developer portal tokens or config files and uses under 20 MB of RAM. It is MIT licensed.
+
+## Website
+
+- [Home page](https://better-discord-rich-presence.netlify.app/): overview, features, performance comparison with Electron, FAQ
+- [Compatible apps](https://better-discord-rich-presence.netlify.app/#apps): list of apps detected out of the box
+- [FAQ](https://better-discord-rich-presence.netlify.app/#faq): how detection works, adding custom apps, resource usage
+
+## Source code and docs
+
+- [GitHub repository](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord): source code, MIT license
+- [Releases](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases): downloads for Windows, macOS and Linux
+- [Setting up rich presence](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/docs/SettingRichPresence.md): how to configure custom apps
+- [Icons](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/docs/Icons.md): how application icons are generated
+- [Issues](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues): bug reports and feature requests
+
+## Optional
+
+- [English README](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/README.en.md)
+- [Portuguese README](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/README.pt.md)
