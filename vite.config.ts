@@ -7,7 +7,23 @@ const host = process.env.TAURI_DEV_HOST;
 
 // https://vite.dev/config/
 export default defineConfig(async () => ({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react({
+      babel: {
+        // React Compiler must run first so it sees the original source.
+        // It auto-memoizes components and hooks to skip needless re-renders.
+        plugins: ["babel-plugin-react-compiler"],
+      },
+    }),
+    tailwindcss(),
+  ],
+
+  // The compiler injects `react/compiler-runtime` imports that Vite's dep
+  // scanner cannot see; pre-bundle it so a cold `tauri dev` start does not
+  // re-optimize React mid-load (full reload / duplicate React instance).
+  optimizeDeps: {
+    include: ["react/compiler-runtime"],
+  },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //

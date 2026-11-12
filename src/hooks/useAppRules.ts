@@ -13,9 +13,9 @@ export function useAppRules() {
       setRules(data);
     } catch (error) {
       console.error("Failed to fetch app rules:", error);
-    } finally {
-      if (showLoading) setLoading(false);
     }
+    // No `finally`: the React Compiler cannot compile try/finally yet.
+    if (showLoading) setLoading(false);
   };
 
   useEffect(() => { fetchRules(); }, []);

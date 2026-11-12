@@ -22,18 +22,23 @@ export function useSettings() {
       setSettings(data);
     } catch (error) {
       console.error("Failed to fetch settings:", error);
-    } finally {
-      setLoading(false);
     }
+    // No `finally`: the React Compiler cannot compile try/finally yet.
+    setLoading(false);
   };
 
   useEffect(() => { fetchSettings(); }, []);
 
   const updateSettings = async (newSettings: Settings) => {
+    // Computed outside `try`: the React Compiler cannot compile logical or
+    // conditional expressions inside try/catch yet.
+    const autostartChanged =
+      settings !== null && settings.autostart_enabled !== newSettings.autostart_enabled;
     try {
       // Handle autostart plugin
-      if (settings && settings.autostart_enabled !== newSettings.autostart_enabled) {
-        await (newSettings.autostart_enabled ? enable() : disable());
+      if (autostartChanged) {
+        if (newSettings.autostart_enabled) await enable();
+        else await disable();
       }
       await invoke("update_settings", { settings: newSettings });
       setSettings(newSettings);

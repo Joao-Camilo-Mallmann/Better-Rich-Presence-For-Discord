@@ -3,6 +3,15 @@
 - **Language Policy**: Always communicate, reply, and interact in English.
 - **Documentation & Code**: Write all code comments, commit messages, and markdown documentation files (.md) exclusively in English.
 
+## Frontend (React Compiler)
+
+`src/` is built with the React Compiler (`babel-plugin-react-compiler`, enabled in `vite.config.ts`), which auto-memoizes every component and hook.
+
+- Do not add `memo`, `useMemo`, or `useCallback` for performance; the compiler handles it. Existing calls may stay.
+- Follow the Rules of React: no mutation of props, state, or values used in render; hooks only at the top level.
+- The compiler silently skips any function it cannot compile, which drops its memoization. Compiler 1.0 cannot compile `try { … } finally { … }` or conditional / logical expressions (`?:`, `&&`, `||`, `??`, `?.`) inside a `try` block: move the `finally` body after the `try/catch`, and compute conditions before the `try`.
+- Run `bun run compiler:check` after frontend changes; it fails and lists the file and line of any skipped function.
+
 ## Planning & Task Workflow (OpenSpec)
 
 All planning in this repository goes through OpenSpec (`openspec/`). Tasks live in the change's `tasks.md` — never only in a chat plan, a TODO list, or an ad-hoc file.

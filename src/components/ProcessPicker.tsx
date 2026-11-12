@@ -38,9 +38,9 @@ export function ProcessPicker({
       } catch (err) {
         console.error("Failed to load running processes:", err);
         if (mounted) setSystemProcesses([]);
-      } finally {
-        if (mounted) setLoadingProcesses(false);
       }
+      // No `finally`: the React Compiler cannot compile try/finally yet.
+      if (mounted) setLoadingProcesses(false);
     })();
     return () => {
       mounted = false;
