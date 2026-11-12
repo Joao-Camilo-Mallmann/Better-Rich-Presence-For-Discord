@@ -6,3 +6,6 @@ pub mod ide_registry;
 pub mod title_parser;
 pub mod extension_mapping;
 pub mod activity_builder;
+pub mod detection_status;
+#[cfg(target_os = "linux")]
+pub mod linux;

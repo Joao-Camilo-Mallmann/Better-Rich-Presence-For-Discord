@@ -4,7 +4,7 @@
 //! handles debounce and anti-flicker, and sends updates to the Discord RPC thread.
 
 use crate::models::types::{
-    AppState, EngineCommand, EngineEvent, PresenceData, PresenceState, DEFAULT_CLIENT_ID,
+    AppRule, AppState, EngineCommand, EngineEvent, PresenceData, PresenceState, DEFAULT_CLIENT_ID,
 };
 use crate::services::app_registry::{AppRegistry, format_app_presence};
 use log::{debug, info};
@@ -91,9 +91,13 @@ impl PresenceEngine {
                 }
                 Some(event) = rx.recv() => {
                     match event {
-                        EngineEvent::WindowChanged { process_name, window_title, is_prioritized, foreground_app } => {
+                        EngineEvent::WindowChanged { process_name, aliases, window_title, is_prioritized, foreground_app } => {
                             let rules = self.app_state.get_app_rules().await;
                             let settings = self.app_state.get_settings().await;
+
+                            // Pick the name that matches a rule or the catalog (Linux may
+                            // report e.g. an executable name plus a window-class alias).
+                            let process_name = resolve_effective_name(&process_name, &aliases, &rules, &self.app_registry);
 
                             // Emit priority info to frontend
                             let priority_info = crate::models::types::PriorityInfo {
@@ -110,14 +114,7 @@ impl PresenceEngine {
                                 self.app_state.discord_handle.send(EngineCommand::ClearActivity);
                             } else {
                                 // Find matching rule (cross-platform, stripping .exe)
-                                let matched_rule = rules.iter().find(|r| {
-                                    if !r.enabled {
-                                        return false;
-                                    }
-                                    let rule_proc = r.process_name.strip_suffix(".exe").unwrap_or(&r.process_name).to_lowercase();
-                                    let proc = process_name.strip_suffix(".exe").unwrap_or(&process_name).to_lowercase();
-                                    rule_proc == proc
-                                });
+                                let matched_rule = rules.iter().find(|r| rule_matches(r, &process_name));
 
                                 // Resolve Client ID based on process name
                                 let app_info = self.app_registry.find_app(&process_name);
@@ -483,6 +480,52 @@ impl PresenceEngine {
     }
 }
 
+/// Normalizes a process or rule name for matching: trimmed, lowercase, without `.exe`.
+pub fn normalize_process_name(name: &str) -> String {
+    let lower = name.trim().to_lowercase();
+    match lower.strip_suffix(".exe") {
+        Some(stripped) => stripped.to_string(),
+        None => lower,
+    }
+}
+
+/// Whether an enabled rule targets the given process name.
+pub fn rule_matches(rule: &AppRule, process_name: &str) -> bool {
+    rule.enabled && normalize_process_name(&rule.process_name) == normalize_process_name(process_name)
+}
+
+/// Picks the name the engine uses for a window: the first candidate
+/// (`process_name`, then `aliases`) that matches an enabled rule, else the
+/// first that matches the app catalog, else `process_name` unchanged.
+pub fn resolve_effective_name(
+    process_name: &str,
+    aliases: &[String],
+    rules: &[AppRule],
+    registry: &AppRegistry,
+) -> String {
+    if aliases.is_empty() {
+        return process_name.to_string();
+    }
+
+    let candidates: Vec<&str> = std::iter::once(process_name)
+        .chain(aliases.iter().map(String::as_str))
+        .filter(|c| !c.trim().is_empty())
+        .collect();
+
+    if let Some(c) = candidates
+        .iter()
+        .find(|c| rules.iter().any(|r| rule_matches(r, c)))
+    {
+        return c.to_string();
+    }
+
+    if let Some(c) = candidates.iter().find(|c| registry.find_app(c).is_some()) {
+        return c.to_string();
+    }
+
+    process_name.to_string()
+}
+
 pub fn get_discord_asset_key(icon: &str) -> String {
     let icon_trimmed = icon.trim();
     let final_url = if icon_trimmed.starts_with("http://") || icon_trimmed.starts_with("https://") {
@@ -518,6 +561,62 @@ mod tests {
         let input = "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/public/assets/icons/simple-icons-zenbrowser.png";
         let expected = "https://cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/public/assets/icons/simple-icons-zenbrowser.png";
         assert_eq!(get_discord_asset_key(input), expected);
+    }
+
+    fn rule(process_name: &str, enabled: bool) -> AppRule {
+        let mut r = AppRule::new(process_name, process_name, "", "", "auto");
+        r.enabled = enabled;
+        r
+    }
+
+    #[test]
+    fn test_effective_name_without_aliases_is_unchanged() {
+        let registry = AppRegistry::new();
+        assert_eq!(resolve_effective_name("electron", &[], &[], &registry), "electron");
+    }
+
+    #[test]
+    fn test_effective_name_prefers_rule_match_on_alias() {
+        let registry = AppRegistry::new();
+        let rules = vec![rule("code.exe", true)];
+        let aliases = vec!["code".to_string()];
+        assert_eq!(resolve_effective_name("electron", &aliases, &rules, &registry), "code");
+    }
+
+    #[test]
+    fn test_effective_name_ignores_disabled_rules() {
+        let registry = AppRegistry::new();
+        let rules = vec![rule("my-tool", false)];
+        let aliases = vec!["my-tool".to_string()];
+        assert_eq!(resolve_effective_name("python3", &aliases, &rules, &registry), "python3");
+    }
+
+    #[test]
+    fn test_effective_name_falls_back_to_catalog_alias() {
+        let registry = AppRegistry::new();
+        let aliases = vec!["discord".to_string()];
+        assert_eq!(resolve_effective_name("electron", &aliases, &[], &registry), "discord");
+    }
+
+    #[test]
+    fn test_effective_name_primary_wins_when_it_matches() {
+        let registry = AppRegistry::new();
+        let aliases = vec!["discord".to_string()];
+        assert_eq!(resolve_effective_name("firefox", &aliases, &[], &registry), "firefox");
+    }
+
+    #[test]
+    fn test_effective_name_no_match_keeps_primary() {
+        let registry = AppRegistry::new();
+        let aliases = vec!["some-unknown-class".to_string()];
+        assert_eq!(resolve_effective_name("unknown-bin", &aliases, &[], &registry), "unknown-bin");
+    }
+
+    #[test]
+    fn test_rule_matches_is_exe_and_case_insensitive() {
+        assert!(rule_matches(&rule("Code.EXE", true), "code"));
+        assert!(rule_matches(&rule("code", true), "code.exe"));
+        assert!(!rule_matches(&rule("code", false), "code"));
     }
 
     #[test]

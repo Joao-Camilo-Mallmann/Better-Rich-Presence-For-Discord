@@ -142,13 +142,18 @@ pub enum EngineEvent {
     /// The foreground window changed to a new process.
     WindowChanged {
         process_name: String,
+        /// Alternative lowercase names for the same app (e.g. the Linux window
+        /// class or kernel process name). The engine tries them, in order, when
+        /// `process_name` matches no rule or catalog entry. Empty on Windows.
+        aliases: Vec<String>,
         window_title: String,
         is_prioritized: bool,
         foreground_app: Option<String>,
     },
     /// Command to clear the presence.
     ClearPresence,
-    /// The idle state changed (transition only, not periodic).
+    /// Idle status. Sent on every change of the idle-minute count while idle,
+    /// and once with `idle: false` when the user becomes active again.
     IdleChanged { idle: bool, idle_minutes: u32 },
     /// A manual profile was set by the user.
     ManualProfile(PresenceData),
