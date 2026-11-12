@@ -31,5 +31,5 @@ Here are the key reference documents for this project:
 
 - [DESIGN.md](../docs/DESIGN.md): Defines the visual design system tokens (colors, typography, spacing, etc.) using a Neo-Brutalist Arcade theme inspired by Discord's gaming-native palette.
 - [SettingRichPresence.md](../docs/SettingRichPresence.md): **IMPORTANT** Contains instructions and reference documentation on how to set up and update Discord Rich Presence within the application.
-- [Icons.md](../docs/Icons.md): Explains the single-source icon architecture — how `icon_url` in `apps.json` is rendered by the React UI and sent to Discord by the Rust engine.
+- [Icons.md](../docs/Icons.md): Explains the single-source icon architecture — how `icon_url` in `apps.json` is rendered by the React UI and sent to Discord by the Rust engine — and how icons are generated from theSVG through `scripts/icon-sources.json` (`npm run assets:generate`).
 - [openspec/specs/](../openspec/specs/): Current capability specs; archived changes live in `openspec/changes/archive/`.

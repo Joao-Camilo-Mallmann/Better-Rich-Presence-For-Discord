@@ -19,6 +19,7 @@
 //! an exponential-backoff watchdog for automatic reconnection.
 
 use crate::models::types::{EngineCommand, PresenceData, DEFAULT_CLIENT_ID};
+use discord_presence::models::rich_presence::DisplayType;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{Receiver, Sender};
 use std::sync::Arc;
@@ -297,28 +298,20 @@ impl DiscordManager {
 
         let details = format_string(&data.details);
         let state = format_string(&data.state);
-        let mut large_image = data.large_image.trim().to_string();
+        // The engine already resolved this to a URL Discord can render.
+        let large_image = data.large_image.trim().to_string();
         let large_text = format_string(&data.large_text);
         let timestamp = data.timestamp;
 
-        // Handle HTTP/HTTPS URLs for Discord RPC external assets
-        if large_image.starts_with("http://") || large_image.starts_with("https://") {
-            // Convert SVG URLs to PNG URLs since Discord cannot render raw SVGs
-            if large_image.ends_with(".svg") {
-                large_image = format!("{}.png", large_image.trim_end_matches(".svg"));
-            }
-        } else if large_image.is_empty() || large_image == "auto" {
-            large_image = "default".to_string();
-        }
-
-        println!("Rich Presence image URL: {}", large_image);
         info!(
-            "[Discord] Setting activity: name='{}', details='{}', state='{}', image='{}'",
-            large_text, details, state, large_image
+            "[Discord] Setting activity: title='{}', details='{}', state='{}', image='{}'",
+            data.activity_name, details, state, large_image
         );
 
         match client.set_activity(|mut act| {
-            act = act.name(&large_text);
+            // Discord ignores a `name` override and always titles the activity with
+            // the Discord application's name, so the member list shows `details`.
+            act = act.status_display(DisplayType::Details);
             if !details.is_empty() {
                 act = act.details(&details);
             }
@@ -327,7 +320,7 @@ impl DiscordManager {
             }
 
             act = act.assets(|mut assets| {
-                if !large_image.is_empty() && large_image != "auto" {
+                if !large_image.is_empty() {
                     assets = assets.large_image(&large_image);
                 }
                 if !large_text.is_empty() {

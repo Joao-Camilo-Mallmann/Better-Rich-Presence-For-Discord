@@ -1,6 +1,8 @@
 import { invoke } from "@tauri-apps/api/core";
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
+import { DetectionStatus } from "../components/DetectionStatus";
+import { usePlatformStatus } from "../hooks/usePlatformStatus";
 import { useSettings } from "../hooks/useSettings";
 import { Settings as SettingsType } from "../types";
 
@@ -79,6 +81,7 @@ export function Settings() {
   const { settings, loading, updateSettings } = useSettings();
   const [localSettings, setLocalSettings] = useState(settings);
   const [isSaving, setIsSaving] = useState(false);
+  const platformStatus = usePlatformStatus();
 
   useEffect(() => {
     if (settings && !localSettings) setLocalSettings(settings);
@@ -112,6 +115,8 @@ export function Settings() {
 
   return (
     <div className="flex flex-col gap-4 text-sm">
+      <DetectionStatus status={platformStatus} />
+
       <div className="flex flex-col gap-1">
         {/* Max Priority Mode */}
         <SettingRow
@@ -126,7 +131,7 @@ export function Settings() {
         </SettingRow>
 
         <SettingRow
-          label="Start with Windows"
+          label="Start on login"
           description="Open minimized on boot"
         >
           <Toggle

@@ -1,45 +1,72 @@
 //! # Watcher Module
 //!
 //! Watches for active window changes and idle state using OS-specific APIs.
+//! Windows uses Win32 calls (below); Linux delegates to
+//! [`crate::services::linux::LinuxDetector`].
 
-use crate::models::types::{EngineEvent, AppState};
+use crate::models::types::{AppState, EngineEvent};
+#[cfg(not(target_os = "linux"))]
+use crate::services::detection_status::{self, DetectionStatus};
 use log::trace;
-use sysinfo::System;
 use tokio::sync::mpsc::Sender;
 use tokio::time::{interval, Duration};
+
+/// A detected window: `(process_name, aliases, window_title, is_prioritized, foreground_app)`.
+type WindowSnapshot = (String, Vec<String>, String, bool, Option<String>);
 
 /// Spawns a tokio task that polls for window and idle changes.
 pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
     tauri::async_runtime::spawn(async move {
-        let mut sys = System::new_all(); // Need all for full process list
+        #[cfg(target_os = "windows")]
+        let mut sys = sysinfo::System::new_all(); // Need all for full process list
+        #[cfg(target_os = "windows")]
+        detection_status::set(DetectionStatus {
+            window_backend: Some("win32".to_string()),
+            idle_backend: Some("win32".to_string()),
+            hint: None,
+        });
+
+        #[cfg(target_os = "linux")]
+        let mut linux = crate::services::linux::LinuxDetector::new();
+
+        #[cfg(not(any(target_os = "windows", target_os = "linux")))]
+        detection_status::set(DetectionStatus {
+            window_backend: None,
+            idle_backend: None,
+            hint: Some("Activity detection is not supported on this operating system yet.".to_string()),
+        });
+
         let mut last_process_name = String::new();
         let mut last_window_title = String::new();
-        let mut was_idle = false;
+        // `Some(minutes)` while idle, so every new idle minute is reported.
+        let mut last_idle_minutes: Option<u32> = None;
 
         let mut ticker = interval(Duration::from_secs(2));
 
         loop {
             ticker.tick().await;
 
+            #[cfg(target_os = "linux")]
+            linux.tick();
+
             // 1. Check Idle Status
             #[cfg(target_os = "windows")]
-            let (is_idle, idle_minutes) = {
-                let idle_ms = win32::get_idle_time_ms();
-                let idle_mins = (idle_ms / 1000 / 60) as u32;
-                (idle_mins > 0, idle_mins)
-            };
+            let idle_ms = u64::from(win32::get_idle_time_ms());
             #[cfg(target_os = "linux")]
-            let (is_idle, idle_minutes) = {
-                let idle_ms = linux::get_idle_time_ms();
-                let idle_mins = (idle_ms / 1000 / 60) as u32;
-                (idle_mins > 0, idle_mins)
-            };
+            let idle_ms = linux.idle_ms();
             #[cfg(not(any(target_os = "windows", target_os = "linux")))]
-            let (is_idle, idle_minutes) = (false, 0);
+            let idle_ms: u64 = 0;
 
-            if is_idle != was_idle {
-                let _ = tx.send(EngineEvent::IdleChanged { idle: is_idle, idle_minutes }).await;
-                was_idle = is_idle;
+            let idle_minutes = u32::try_from(idle_ms / 60_000).unwrap_or(u32::MAX);
+            let idle_state = (idle_minutes > 0).then_some(idle_minutes);
+            if idle_state != last_idle_minutes {
+                let _ = tx
+                    .send(EngineEvent::IdleChanged {
+                        idle: idle_state.is_some(),
+                        idle_minutes,
+                    })
+                    .await;
+                last_idle_minutes = idle_state;
             }
 
             // 2. Check Active Window or Priority App
@@ -48,28 +75,35 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
             let priority_mode = settings.priority_mode_enabled;
 
             #[cfg(target_os = "windows")]
-            let window_info = if priority_mode {
+            let window_info: Option<WindowSnapshot> = if priority_mode {
                 win32::get_priority_window_info(&mut sys, &rules)
+                    .map(|(p, t, prioritized, fg)| (p, Vec::new(), t, prioritized, fg))
             } else {
-                win32::get_foreground_window_info(&mut sys).map(|(p, t)| (p, t, false, None))
+                win32::get_foreground_window_info(&mut sys)
+                    .map(|(p, t)| (p, Vec::new(), t, false, None))
             };
-            
-            #[cfg(target_os = "linux")]
-            let window_info = if priority_mode {
-                linux::get_priority_window_info(&mut sys, &rules)
-            } else {
-                linux::get_foreground_window_info(&mut sys).map(|(p, t)| (p, t, false, None))
-            };
-            
-            #[cfg(not(any(target_os = "windows", target_os = "linux")))]
-            let window_info: Option<(String, String, bool, Option<String>)> = None;
 
-            if let Some((process_name, window_title, is_prioritized, foreground_app)) = window_info {
+            #[cfg(target_os = "linux")]
+            let window_info: Option<WindowSnapshot> = if priority_mode {
+                linux.priority_window(&rules)
+            } else {
+                linux.foreground_window(&rules).map(|w| (w, false, None))
+            }
+            .map(|(w, prioritized, fg)| (w.process_name, w.aliases, w.title, prioritized, fg));
+
+            #[cfg(not(any(target_os = "windows", target_os = "linux")))]
+            let window_info: Option<WindowSnapshot> = {
+                let _ = (priority_mode, &rules);
+                None
+            };
+
+            if let Some((process_name, aliases, window_title, is_prioritized, foreground_app)) = window_info {
                 if process_name != last_process_name || window_title != last_window_title {
                     trace!("Window changed: {} - {}", process_name, window_title);
                     let _ = tx
                         .send(EngineEvent::WindowChanged {
                             process_name: process_name.clone(),
+                            aliases,
                             window_title: window_title.clone(),
                             is_prioritized,
                             foreground_app,
@@ -80,14 +114,15 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
                     last_window_title = window_title;
                 }
             } else if !last_process_name.is_empty() {
-                 let _ = tx
-                        .send(EngineEvent::WindowChanged {
-                            process_name: String::new(),
-                            window_title: String::new(),
-                            is_prioritized: false,
-                            foreground_app: None,
-                        })
-                        .await;
+                let _ = tx
+                    .send(EngineEvent::WindowChanged {
+                        process_name: String::new(),
+                        aliases: Vec::new(),
+                        window_title: String::new(),
+                        is_prioritized: false,
+                        foreground_app: None,
+                    })
+                    .await;
                 last_process_name = String::new();
                 last_window_title = String::new();
             }
@@ -247,80 +282,5 @@ mod win32 {
 
         // Fallback to foreground if no matching priority app
         foreground.map(|(p, t)| (p, t, false, None))
-    }
-}
-
-#[cfg(target_os = "linux")]
-mod linux {
-    use sysinfo::System;
-
-    pub fn get_idle_time_ms() -> u32 {
-        // Run xprintidle command to get idle time in milliseconds
-        if let Ok(output) = std::process::Command::new("xprintidle").output() {
-            if let Ok(str_val) = String::from_utf8(output.stdout) {
-                if let Ok(ms) = str_val.trim().parse::<u32>() {
-                    return ms;
-                }
-            }
-        }
-        0
-    }
-
-    pub fn get_foreground_window_info(_sys: &mut System) -> Option<(String, String)> {
-        // 1. Run xprop to get the active window ID
-        let output = std::process::Command::new("xprop")
-            .args(&["-root", "_NET_ACTIVE_WINDOW"])
-            .output()
-            .ok()?;
-            
-        let output_str = String::from_utf8_lossy(&output.stdout);
-        
-        // Output format is: _NET_ACTIVE_WINDOW(WINDOW): window id # 0x420000a
-        let id_str = output_str.split("window id #").nth(1)?.trim();
-        if id_str.is_empty() || id_str == "0x0" {
-            return None;
-        }
-
-        // 2. Run xprop to get WM_CLASS and _NET_WM_NAME for this window
-        let info_output = std::process::Command::new("xprop")
-            .args(&["-id", id_str, "WM_CLASS", "_NET_WM_NAME"])
-            .output()
-            .ok()?;
-            
-        let info_str = String::from_utf8_lossy(&info_output.stdout);
-        
-        let mut wm_class = String::new();
-        let mut window_title = String::new();
-
-        for line in info_str.lines() {
-            if line.starts_with("WM_CLASS") {
-                // WM_CLASS(STRING) = "cursor", "Cursor"
-                if let Some(val) = line.split('=').nth(1) {
-                    if let Some(last_class) = val.split(',').last() {
-                        wm_class = last_class.replace('"', "").trim().to_lowercase();
-                    }
-                }
-            } else if line.starts_with("_NET_WM_NAME") {
-                // _NET_WM_NAME(UTF8_STRING) = "filename - folder - Cursor"
-                if let Some(val) = line.split('=').nth(1) {
-                    window_title = val.replace('"', "").trim().to_string();
-                }
-            }
-        }
-
-        if wm_class.is_empty() {
-            return None;
-        }
-
-        if wm_class == "better-rich-presence" || wm_class == "better_rich_presence" {
-            return None;
-        }
-
-        Some((wm_class, window_title))
-    }
-
-    pub fn get_priority_window_info(sys: &mut System, _rules: &[crate::models::types::AppRule]) -> Option<(String, String, bool, Option<String>)> {
-        // Priority mode not implemented for Linux yet, fallback to foreground
-        get_foreground_window_info(sys).map(|(p, t)| (p, t, false, None))
     }
 }

@@ -1,38 +1,27 @@
-use crate::models::IdeContext;
-use crate::models::types::PresenceData;
 use super::ide_registry::IdeRegistry;
-use super::extension_mapping::ExtensionMapping;
+use crate::domain::presence::ide_activity;
+use crate::models::types::PresenceData;
+use crate::models::IdeContext;
 
 pub struct ActivityBuilder;
 
 impl ActivityBuilder {
+    /// Presence for a parsed IDE window: the IDE is the app (`details`, image
+    /// text), the file and workspace are the activity (`state`). `large_image` is
+    /// the IDE's catalog id; the engine resolves it to the catalog icon URL, or to
+    /// the logo when the catalog has none.
     pub fn build(ide_ctx: &IdeContext, timestamp: i64) -> PresenceData {
-        let details = if let Some(ref file_name) = ide_ctx.file_name {
-            format!("Editing {}", file_name)
-        } else {
-            "Idle".to_string()
-        };
+        let ide_name = IdeRegistry::display_name(&ide_ctx.ide).to_string();
 
-        let state = if let Some(ref workspace) = ide_ctx.workspace_name {
-            format!("Workspace: {}", workspace)
-        } else {
-            "No Workspace".to_string()
-        };
-
-        let large_image = ExtensionMapping::get_asset_for_extension(ide_ctx.file_extension.as_deref()).to_string();
-        let large_text = ide_ctx.file_name.clone().unwrap_or_else(|| "Unknown File".to_string());
-
-        let small_image = IdeRegistry::get_asset(&ide_ctx.ide).to_string();
-        let small_text = IdeRegistry::get_asset(&ide_ctx.ide).replace("-logo", "");
-        
         PresenceData {
-            details,
-            state,
-            large_image,
-            large_text,
-            small_image,
-            small_text,
+            details: ide_name.clone(),
+            state: ide_activity(ide_ctx.file_name.as_deref(), ide_ctx.workspace_name.as_deref()),
+            large_image: IdeRegistry::catalog_id(&ide_ctx.ide).unwrap_or_default().to_string(),
+            large_text: ide_name,
+            small_image: String::new(),
+            small_text: String::new(),
             timestamp,
+            ..PresenceData::default()
         }
     }
 }
@@ -42,40 +31,40 @@ mod tests {
     use super::*;
     use crate::models::Ide;
 
+    fn context(ide: Ide, file: &str, workspace: &str) -> IdeContext {
+        IdeContext {
+            ide,
+            file_name: Some(file.to_string()),
+            workspace_name: Some(workspace.to_string()),
+            file_extension: file.rsplit_once('.').map(|(_, ext)| ext.to_string()),
+        }
+    }
+
     #[test]
     fn test_activity_builder_with_valid_context() {
-        let ide_ctx = IdeContext {
-            ide: Ide::VisualStudioCode,
-            file_name: Some("main.rs".to_string()),
-            workspace_name: Some("my-workspace".to_string()),
-            file_extension: Some("rs".to_string()),
-        };
+        let ide_ctx = context(Ide::VisualStudioCode, "main.rs", "my-project");
+        let data = ActivityBuilder::build(&ide_ctx, 123456789);
 
-        let timestamp = 123456789;
-        let data = ActivityBuilder::build(&ide_ctx, timestamp);
-
-        assert_eq!(data.details, "Editing main.rs");
-        assert_eq!(data.state, "Workspace: my-workspace");
-        assert_eq!(data.large_image, "rust-logo");
-        assert_eq!(data.large_text, "main.rs");
-        assert_eq!(data.small_image, "visual-studio-code");
-        assert_eq!(data.small_text, "visual-studio-code");
+        assert_eq!(data.details, "Visual Studio Code");
+        assert_eq!(data.state, "Editing main.rs in my-project");
+        assert_eq!(data.large_image, "vscode");
+        assert_eq!(data.large_text, "Visual Studio Code");
+        assert_eq!(data.small_image, "");
+        assert_eq!(data.small_text, "");
         assert_eq!(data.timestamp, 123456789);
     }
 
     #[test]
-    fn test_activity_builder_unknown_extension() {
-        let ide_ctx = IdeContext {
-            ide: Ide::Cursor,
-            file_name: Some("test.unknown".to_string()),
-            workspace_name: Some("workspace".to_string()),
-            file_extension: Some("unknown".to_string()),
-        };
+    fn test_activity_builder_uses_the_ide_catalog_id() {
+        let data = ActivityBuilder::build(&context(Ide::Cursor, "test.unknown", "workspace"), 0);
+        assert_eq!(data.details, "Cursor");
+        assert_eq!(data.large_image, "cursor");
+    }
 
-        let data = ActivityBuilder::build(&ide_ctx, 0);
-
-        assert_eq!(data.large_image, "file-icon");
-        assert_eq!(data.small_image, "cursor-logo");
-        assert_eq!(data.small_text, "cursor");
+    #[test]
+    fn test_activity_builder_ide_without_catalog_entry() {
+        let data = ActivityBuilder::build(&context(Ide::VSCodium, "a.ts", "w"), 0);
+        assert_eq!(data.details, "VSCodium");
+        assert_eq!(data.large_image, "");
     }
 }

@@ -16,6 +16,9 @@ export interface AppRule {
 }
 
 export interface PresenceData {
+  /** Bold title Discord shows: the Discord application's name (e.g. "Better Rich Presence"). */
+  activity_name?: string;
+  /** First line; the app name for detected apps (e.g. "Firefox"). Member lists show "Playing <details>". */
   details: string;
   state: string;
   large_image: string;
@@ -58,6 +61,22 @@ export interface PriorityInfo {
   active: boolean;
   prioritized_app: string;
   foreground_app: string;
+}
+
+/** Returned by the `get_platform_status` command */
+export interface PlatformStatus {
+  /** "windows", "linux", … */
+  os: string;
+  /** Linux only: "wayland" or "x11" */
+  session_type: string | null;
+  /** Linux only: XDG_CURRENT_DESKTOP, e.g. "ubuntu:GNOME" */
+  desktop: string | null;
+  /** e.g. "win32", "gnome-window-calls", "x11", or "process-scan" */
+  window_backend: string | null;
+  /** e.g. "win32", "gnome-mutter", "xprintidle"; null when idle detection is unavailable */
+  idle_backend: string | null;
+  /** Setup hint when detection is degraded */
+  hint: string | null;
 }
 
 export interface DiscordUser {

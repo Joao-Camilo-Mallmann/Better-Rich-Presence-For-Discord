@@ -1,4 +1,5 @@
 pub mod commands;
+pub mod domain;
 pub mod models;
 pub mod services;
 
@@ -75,6 +76,11 @@ pub fn run() {
             // Disable native window decorations (removes window border/titlebar)
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window.set_decorations(false);
+
+                // Autostart launches with `--minimized`: stay in the tray.
+                if std::env::args().any(|arg| arg == "--minimized") {
+                    let _ = window.hide();
+                }
             }
 
             // 1. Load settings from store
@@ -185,6 +191,7 @@ pub fn run() {
             commands::get_settings,
             commands::update_settings,
             commands::get_running_processes,
+            commands::get_platform_status,
         ])
         .on_window_event(|window, event| match event {
             tauri::WindowEvent::CloseRequested { api, .. } => {
