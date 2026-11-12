@@ -23,7 +23,7 @@
 
 - [x] 4.1 `npm run build` (tsc + vite build) passes with no new warnings and the bundle contains `react.memo_cache_sentinel`
 - [x] 4.2 Browser smoke test of the dev build with a mocked Tauri IPC, compiler on vs off: no runtime errors; presence timer ticks, backend events update the card, rule search filters, rule reorder / edit save and settings save send the expected commands, Advanced Settings opens; component renders over the same scripted interactions drop clearly with the compiler on (Vite 7 run: 101 → 41; Vite 8 run: 107 → 41)
-- [ ] 4.3 Check in the real app (`bun run tauri dev`): same flows as 4.2 against the real backend (app starts on the new toolchain and its dev server serves compiled modules; the click-through in the window is still open)
+- [x] 4.3 Check in the real app (`bun run tauri dev`): same flows as 4.2 against the real backend (app starts on the new toolchain, its dev server serves compiled modules, and the user confirmed the flows in the window)
 
 ## 5. Documentation
 
