@@ -6,7 +6,7 @@ context: |
   and publishes Discord Rich Presence for them.
   Tech stack:
     - Backend: Tauri 2 + Rust in `src-tauri/` (services, commands, models; tests via `cargo test`).
-    - Frontend: React 19 + React Compiler + TypeScript + Vite 7 + Tailwind CSS 4 in `src/` (build via `npm run build`; compiler bailouts via `npm run compiler:check`).
+    - Frontend: React 19 + React Compiler + TypeScript + Vite 8 + Tailwind CSS 4 in `src/` (build via `npm run build`; compiler bailouts via `npm run compiler:check`).
     - App catalog: `apps.json` (one entry per supported app; icons via `icon_url`).
     - Assets: `public/assets/icons/`, regenerated with `npm run assets:generate`.
   Conventions:

@@ -12,25 +12,27 @@
     "compiler:check": "node scripts/check-react-compiler.mjs"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.11.1",
-    "@tauri-apps/plugin-autostart": "^2.5.1",
-    "@tauri-apps/plugin-store": "^2.4.4",
-    "lucide-react": "^1.25.0",
+    "@tauri-apps/api": "^2.12.4",
+    "@tauri-apps/plugin-autostart": "^2.7.0",
+    "@tauri-apps/plugin-store": "^2.5.1",
+    "lucide-react": "^1.72.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "simple-icons": "^16.27.1"
+    "simple-icons": "^16.37.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@tailwindcss/vite": "^4.3.3",
-    "@tauri-apps/cli": "^2.11.4",
+    "@babel/core": "^7.29.13",
+    "@rolldown/plugin-babel": "^0.3.1",
+    "@tailwindcss/vite": "^4.3.5",
+    "@tauri-apps/cli": "^2.12.4",
+    "@types/babel__core": "^7.20.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react": "^5.2.0",
+    "@vitejs/plugin-react": "^6.3.0",
     "babel-plugin-react-compiler": "^1.0.0",
-    "sharp": "^0.35.3",
-    "tailwindcss": "^4.3.3",
-    "typescript": "~5.8.3",
-    "vite": "^7.3.6"
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.5",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.8"
   }
 }

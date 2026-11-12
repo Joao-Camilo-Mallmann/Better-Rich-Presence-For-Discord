@@ -5,8 +5,10 @@
 
 ## Frontend (React Compiler)
 
-`src/` is built with the React Compiler (`babel-plugin-react-compiler`, enabled in `vite.config.ts`), which auto-memoizes every component and hook.
+`src/` is built with the React Compiler (`babel-plugin-react-compiler`), which auto-memoizes every component and hook. On Vite 8 / `@vitejs/plugin-react` 6 it runs through `@rolldown/plugin-babel` with `reactCompilerPreset()` in `vite.config.ts`; plugin-react 6 silently ignores the old `react({ babel })` option.
 
+- An `assert-react-compiler` plugin in `vite.config.ts` fails `vite build` (and `tauri build`) when no module imports `react/compiler-runtime`. If it fires after a dependency bump, fix the compiler wiring; never remove the guard.
+- Keep `@babel/core` on 7.x: compiler 1.0 skips components with destructuring defaults (`{ size = 24 }`) under Babel 8. Revisit when a compiler release supports Babel 8.
 - Do not add `memo`, `useMemo`, or `useCallback` for performance; the compiler handles it. Existing calls may stay.
 - Follow the Rules of React: no mutation of props, state, or values used in render; hooks only at the top level.
 - The compiler silently skips any function it cannot compile, which drops its memoization. Compiler 1.0 cannot compile `try { … } finally { … }` or conditional / logical expressions (`?:`, `&&`, `||`, `??`, `?.`) inside a `try` block: move the `finally` body after the `try/catch`, and compute conditions before the `try`.

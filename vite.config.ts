@@ -1,29 +1,46 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import { defineConfig, type Plugin } from "vite";
 
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
+// Fails `vite build` when no module imports `react/compiler-runtime`, i.e. the
+// React Compiler was silently disconnected (plugin-react 6 ignores the old
+// `babel` option, so a toolchain bump once turned it off without any error).
+function assertReactCompiler(): Plugin {
+  let compiled = false;
+  return {
+    name: "assert-react-compiler",
+    apply: "build",
+    enforce: "post",
+    transform(code, id) {
+      if (!compiled && !id.includes("/node_modules/") && code.includes("react/compiler-runtime")) {
+        compiled = true;
+      }
+      return null;
+    },
+    buildEnd(error) {
+      if (!error && !compiled) {
+        this.error(
+          "React Compiler did not run: no module imports react/compiler-runtime. Check the compiler setup in vite.config.ts.",
+        );
+      }
+    },
+  };
+}
+
 // https://vite.dev/config/
 export default defineConfig(async () => ({
   plugins: [
-    react({
-      babel: {
-        // React Compiler must run first so it sees the original source.
-        // It auto-memoizes components and hooks to skip needless re-renders.
-        plugins: ["babel-plugin-react-compiler"],
-      },
-    }),
+    react(),
+    // React Compiler (Babel): auto-memoizes components and hooks to skip
+    // needless re-renders. plugin-react 6 has no Babel pipeline of its own.
+    babel({ presets: [reactCompilerPreset()] }),
+    assertReactCompiler(),
     tailwindcss(),
   ],
-
-  // The compiler injects `react/compiler-runtime` imports that Vite's dep
-  // scanner cannot see; pre-bundle it so a cold `tauri dev` start does not
-  // re-optimize React mid-load (full reload / duplicate React instance).
-  optimizeDeps: {
-    include: ["react/compiler-runtime"],
-  },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
@@ -55,4 +72,3 @@ export default defineConfig(async () => ({
     },
   },
 }));
-
