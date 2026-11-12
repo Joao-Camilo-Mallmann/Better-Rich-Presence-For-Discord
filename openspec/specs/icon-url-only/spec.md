@@ -14,8 +14,8 @@ The system SHALL resolve app icons exclusively through the `icon_url` field in `
 
 #### Scenario: App without icon_url
 - **WHEN** the system resolves an icon for an app that does NOT have `icon_url` defined
-- **THEN** the Rust backend SHALL use `"default"` as the Discord asset key
-- **AND** the React frontend SHALL render the generic `<Monitor/>` fallback icon
+- **THEN** the Rust backend SHALL use the Better Rich Presence logo URL (`public/logo-256.png` through jsDelivr) as the Discord large image, because the shared Discord application has no uploaded art assets
+- **AND** the Status Preview SHALL render that same logo URL, while other React icon lists keep the generic `<Monitor/>` fallback
 
 #### Scenario: icon_url points to non-existent file
 - **WHEN** the system resolves an icon whose `icon_url` points to a file that does not exist (HTTP 404)

@@ -1,7 +1,26 @@
 # Project Customization Rules
 
-- **Language Policy**: Always communicate, reply, and interact in English.
-- **Documentation & Code**: Write all code comments, commit messages, and markdown documentation files (.md) exclusively in English.
+- **Language Policy**: Always communicate, reply, and interact in English, even when the user writes in another language.
+- **Documentation & Code**: Everything that lands in the repository is English only: identifiers, code comments, log messages, user-facing strings (UI, tray menu, Discord presence text), commit messages, OpenSpec artifacts, and markdown documentation (.md). When touching code that still has non-English text, translate it.
+
+## Rust Backend Architecture (Clean Architecture)
+
+`src-tauri/src/` follows Clean Architecture. Dependencies point inward only: `interface` → `application` → `domain`, and `infrastructure` → `application`/`domain`.
+
+| Layer | Contains | May depend on |
+|---|---|---|
+| `domain/` | Entities and pure rules: `AppRule`, `PresenceData`, `Settings`, rule/catalog matching, window-title parsing, presence formatting | `std`, `serde` only |
+| `application/` | Use cases (presence engine, rule and settings management) and the **ports** (traits) they need: window source, idle source, presence publisher, rule/settings repositories | `domain` |
+| `infrastructure/` | **Adapters** implementing ports: Discord IPC, Win32 and Linux activity detection, `tauri-plugin-store` repositories, HTTP | `application`, `domain`, external crates |
+| `interface/` | Tauri commands and event emission: thin mapping between the frontend and use cases, no business logic | `application`, `domain` |
+| `lib.rs` | Composition root: builds adapters and wires them into use cases | everything |
+
+- `domain/` and `application/` never import `tauri`, `windows`, `reqwest`, `discord_presence`, `std::process`, `std::fs`, or any adapter. `application/` may use the async primitives `tokio::sync` and `tokio::time`; spawning tasks and runtime access stay in `infrastructure/` and `lib.rs`.
+- The frontend contract (Tauri command names, argument names, payload shapes, event names) is owned by `interface/` and only changes through an OpenSpec change.
+- OS-specific code lives only in `infrastructure/`, behind a port, gated with `#[cfg(target_os = "…")]` at module level.
+- Parsers for external output (D-Bus replies, CLI output, Win32 strings) are pure functions next to their adapter, unit-tested with captured samples.
+- Every domain and application rule has unit tests that run with `cargo test` without Tauri, Discord, or a desktop session.
+- Migration status: only `domain/` exists so far (`domain/presence.rs`); the rest of the backend still lives in `models/` / `services/` / `commands/`. The full migration plan was archived without being implemented in `openspec/changes/archive/2026-11-12-rust-clean-architecture/`; resuming it needs a new OpenSpec change. Until the migration is done, new code goes into the layer it belongs to and must not add new inward-pointing violations.
 
 ## Frontend (React Compiler)
 

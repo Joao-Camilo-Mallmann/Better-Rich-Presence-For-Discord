@@ -601,3 +601,27 @@ Media is presented at soft-cornered rectangles (`{rounded.lg}`–`{rounded.xl}`)
 - Don't remove the thick black borders — they are the signature of the Neo-Brutalist style.
 - Don't introduce a fifth accent beyond Blurple, Green, Magenta, and Yellow — those four are the full chord.
 - Don't make elements feel "floaty" with subtle opacity shadows — everything should feel physical and mechanical.
+
+## App Window Layout
+
+The desktop window (420×720 by default, 360×550 minimum) applies this system to a small, tall surface. Top to bottom:
+
+1. **Title bar** — one row at every width: logo, "Better RPC", and the yellow / green / red window buttons (the green one switches between maximize and restore icons). It is the window's drag region.
+2. **Status band** — a full-width color band that states whether Discord shows the user's activity, with the global **Share** switch on the right. Its color is the state:
+
+   | State | Band | Indicator | Label |
+   | --- | --- | --- | --- |
+   | Live | Blurple `{colors.primary}` | Green, pulsing | Live on Discord |
+   | Sharing off | Yellow `{colors.yellow}` | Hollow | Sharing off |
+   | Paused for a game | Yellow `{colors.yellow}` | Black | Paused for a game |
+   | Connecting | Black `{colors.surface-black}` | Yellow, pulsing | Connecting to Discord |
+   | Not connected | Black `{colors.surface-black}` | Red | Not connected to Discord |
+
+3. **View tabs** — "Now", "Apps", "Settings". The selected tab is drawn as a pressed button: Blurple fill, shifted by the shadow offset, no shadow.
+4. **View** — one centered column, at most 560 px wide, on the dot-grid canvas.
+
+Rules that keep the window calm:
+
+- One loud element per view: the tilted "What friends see" tag on Now, the green "Add app" button on Apps, nothing on Settings.
+- Uppercase display type only for the brand, band label, tabs, section headings and buttons. Labels and help text are sentence case in Inter, never below 11 px.
+- Every on/off control is the shared arcade switch (`src/components/Toggle.tsx`), a real `role="switch"` button.

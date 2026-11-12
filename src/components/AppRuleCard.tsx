@@ -1,11 +1,15 @@
+import { ChevronDown, ChevronRight, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { AppRule } from "../types";
 import { AppIcon } from "./AppIcon";
+import { Toggle } from "./Toggle";
 
 interface AppRuleCardProps {
   rule: AppRule;
   index: number;
   totalRules: number;
+  /** False while the list is filtered: positions are hidden and moving is disabled. */
+  canReorder: boolean;
   onUpdate: (rule: AppRule) => void;
   onDelete: (processName: string) => void;
   onMoveUp: () => void;
@@ -13,13 +17,16 @@ interface AppRuleCardProps {
   onMoveTo: (newIndex: number) => void;
 }
 
-const labelCls =
-  "text-[10px] text-muted-ink font-extrabold uppercase tracking-wider font-display";
+const labelCls = "text-[12px] font-semibold text-ink";
+const hintCls = "text-[11px] leading-snug text-muted-ink";
+const moveBtnCls =
+  "w-[22px] h-[22px] flex items-center justify-center bg-surface-onyx text-ink neo-border-2 hover:bg-primary hover:text-white transition-colors disabled:opacity-30 disabled:pointer-events-none";
 
 export function AppRuleCard({
   rule,
   index,
   totalRules,
+  canReorder,
   onUpdate,
   onDelete,
   onMoveUp,
@@ -27,9 +34,30 @@ export function AppRuleCard({
   onMoveTo,
 }: AppRuleCardProps) {
   const [expanded, setExpanded] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const [editRule, setEditRule] = useState<AppRule>({ ...rule });
   const [isEditingPriority, setIsEditingPriority] = useState(false);
   const [priorityInput, setPriorityInput] = useState("");
+
+  const formId = `rule-form-${rule.process_name}`;
+  const preview =
+    [rule.details, rule.state].filter(Boolean).join(" · ") || "No presence text";
+  const iconName =
+    rule.large_image && rule.large_image !== "auto"
+      ? rule.large_image
+      : rule.process_name;
+
+  const openEditor = () => {
+    setEditRule({ ...rule });
+    // Show the advanced fields right away when one of them is already in use.
+    setShowMore(
+      (rule.large_image !== "" && rule.large_image !== "auto") ||
+        Boolean(rule.client_id),
+    );
+    setExpanded(true);
+  };
+
+  const closeEditor = () => setExpanded(false);
 
   const handlePrioritySubmit = () => {
     setIsEditingPriority(false);
@@ -39,37 +67,30 @@ export function AppRuleCard({
     }
   };
 
-  const handleToggle = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onUpdate({ ...rule, enabled: !rule.enabled });
-  };
-
   const patch = (partial: Partial<AppRule>) =>
     setEditRule({ ...editRule, ...partial });
 
-  const fields: { label: string; key: keyof AppRule; row?: number }[] = [
-    { label: "Display Name", key: "display_name" },
-    { label: "Details (Line 1)", key: "details", row: 1 },
-    { label: "State (Line 2)", key: "state", row: 1 },
-    { label: "Image (Asset Key)", key: "large_image", row: 2 },
-    { label: "Discord Client ID (Opcional)", key: "client_id", row: 2 },
-  ];
-
-  const renderField = (label: string, field: keyof AppRule) => (
-    <div className="flex flex-col gap-1 flex-1" key={field}>
-      <label className={labelCls}>{label}</label>
+  const renderField = (
+    label: string,
+    field: keyof AppRule,
+    placeholder?: string,
+  ) => (
+    <label className="flex flex-col gap-1 flex-1 min-w-0" key={field}>
+      <span className={labelCls}>{label}</span>
       <input
-        className="neo-input text-sm"
+        className="neo-input text-[13px] py-1.5"
+        style={{ borderRadius: "6px" }}
         type="text"
+        placeholder={placeholder}
         value={(editRule[field] as string) || ""}
         onChange={(e) => patch({ [field]: e.target.value })}
       />
-    </div>
+    </label>
   );
 
   return (
     <div
-      className={`neo-border bg-surface-indigo overflow-hidden transition-all duration-100 ${!rule.enabled ? "opacity-50 hover:opacity-70" : ""}`}
+      className="neo-border bg-surface-indigo overflow-hidden transition-shadow duration-100"
       style={{
         borderRadius: "8px",
         boxShadow: expanded
@@ -77,18 +98,18 @@ export function AppRuleCard({
           : "4px 4px 0 var(--neo-shadow-color)",
       }}
     >
-      <div
-        className="p-3 flex justify-between items-center gap-3 cursor-pointer hover:bg-white/5 transition-colors"
-        onClick={() => !expanded && setExpanded(true)}
-      >
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          {/* Priority slot badge inside the card */}
-          {isEditingPriority ? (
+      <div className="flex items-center gap-2 py-2.5 pl-2.5 pr-3">
+        {/* Position in the priority order; click to type a new one */}
+        {canReorder &&
+          (isEditingPriority ? (
             <input
               type="number"
-              className="text-[10px] font-black text-ink bg-surface-onyx px-1 py-1 neo-border-2 font-display shrink-0 w-10 text-center focus:outline-none"
-              style={{ borderRadius: "4px", borderColor: "var(--neo-border-color)", MozAppearance: "textfield" }}
+              aria-label={`New position for ${rule.display_name}`}
+              className="w-9 shrink-0 text-[12px] font-black text-ink bg-surface-onyx py-1 neo-border-2 font-display text-center focus:outline-none"
+              style={{ borderRadius: "4px", MozAppearance: "textfield" }}
               autoFocus
+              min={1}
+              max={totalRules}
               value={priorityInput}
               onChange={(e) => setPriorityInput(e.target.value)}
               onBlur={handlePrioritySubmit}
@@ -96,128 +117,165 @@ export function AppRuleCard({
                 if (e.key === "Enter") handlePrioritySubmit();
                 if (e.key === "Escape") setIsEditingPriority(false);
               }}
-              onClick={(e) => e.stopPropagation()}
             />
           ) : (
-            <div
-              className="text-[10px] font-black text-ink bg-surface-onyx px-2 py-1 neo-border-2 select-none font-display shrink-0 cursor-text hover:bg-white/10 transition-colors"
-              style={{
-                borderRadius: "4px",
-                borderColor: "var(--neo-border-color)",
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
+            <button
+              type="button"
+              className="w-9 shrink-0 text-[12px] font-black text-ink bg-surface-onyx py-1 neo-border-2 font-display hover:bg-white/10 transition-colors"
+              style={{ borderRadius: "4px" }}
+              onClick={() => {
                 setPriorityInput((index + 1).toString());
                 setIsEditingPriority(true);
               }}
-              title="Click to edit priority"
+              title="Position in priority order. Click to change it."
+              aria-label={`Position ${index + 1}. Change position of ${rule.display_name}`}
             >
-              #{index + 1}
-            </div>
-          )}
-          <div
-            className="w-10 h-10 bg-surface-onyx flex items-center justify-center overflow-hidden flex-shrink-0 neo-border-2"
+              {index + 1}
+            </button>
+          ))}
+
+        {/* Row body opens the editor */}
+        <button
+          type="button"
+          onClick={expanded ? closeEditor : openEditor}
+          aria-expanded={expanded}
+          aria-controls={formId}
+          aria-label={`Edit ${rule.display_name}`}
+          className="flex items-center gap-3 flex-1 min-w-0 text-left rounded-md px-1 py-0.5 hover:bg-white/5 transition-colors"
+        >
+          <span
+            className={`w-9 h-9 shrink-0 flex items-center justify-center overflow-hidden bg-surface-onyx neo-border-2 ${rule.enabled ? "" : "opacity-40"}`}
             style={{ borderRadius: "6px" }}
           >
-            <AppIcon
-              name={
-                rule.large_image && rule.large_image !== "auto"
-                  ? rule.large_image
-                  : rule.process_name
-              }
-              className="w-7 h-7 object-contain"
-              size={28}
-            />
-          </div>
-          <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-sm text-ink font-extrabold m-0 truncate font-display">
-                {rule.display_name}
-              </h3>
-            </div>
-            <div className="text-[10px] text-muted-ink font-mono truncate">
-              {rule.process_name}
-            </div>
-            <div className="text-xs text-muted-ink truncate">
-              "{rule.details}" • "{rule.state}"
-            </div>
-          </div>
-        </div>
-        <div
-          className="flex items-center gap-3 flex-shrink-0"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Priority Up/Down arrow buttons */}
-          <div className="flex flex-col gap-[3px]">
+            <AppIcon name={iconName} className="w-6 h-6 object-contain" size={24} />
+          </span>
+          <span
+            className={`flex flex-col min-w-0 flex-1 ${rule.enabled ? "" : "opacity-50"}`}
+          >
+            <span className="text-[14px] text-ink font-bold font-display truncate">
+              {rule.display_name}
+            </span>
+            <span className="text-[12px] text-muted-ink truncate">{preview}</span>
+          </span>
+          <ChevronDown
+            size={16}
+            aria-hidden
+            className={`shrink-0 text-muted-ink transition-transform ${expanded ? "rotate-180" : ""}`}
+          />
+        </button>
+
+        {canReorder && (
+          <div className="flex flex-col gap-1 shrink-0">
             <button
+              type="button"
               onClick={onMoveUp}
               disabled={index === 0}
-              className="w-5 h-5 flex items-center justify-center text-[10px] font-black bg-surface-onyx text-ink neo-border-2 neo-press disabled:opacity-30 disabled:pointer-events-none"
+              className={moveBtnCls}
               style={{ borderRadius: "3px" }}
-              title="Move Up (Increase Priority)"
+              title="Move up (higher priority)"
+              aria-label={`Move ${rule.display_name} up`}
             >
-              ▲
+              <ChevronUp size={13} strokeWidth={3} />
             </button>
             <button
+              type="button"
               onClick={onMoveDown}
               disabled={index === totalRules - 1}
-              className="w-5 h-5 flex items-center justify-center text-[10px] font-black bg-surface-onyx text-ink neo-border-2 neo-press disabled:opacity-30 disabled:pointer-events-none"
+              className={moveBtnCls}
               style={{ borderRadius: "3px" }}
-              title="Move Down (Decrease Priority)"
+              title="Move down (lower priority)"
+              aria-label={`Move ${rule.display_name} down`}
             >
-              ▼
+              <ChevronDown size={13} strokeWidth={3} />
             </button>
           </div>
+        )}
 
-          {/* Arcade Toggle */}
-          <div
-            className={`neo-toggle ${rule.enabled ? "active" : ""}`}
-            onClick={handleToggle}
-            title={rule.enabled ? "Disable" : "Enable"}
-          >
-            <div className="neo-toggle-knob" />
-          </div>
-        </div>
+        <Toggle
+          checked={rule.enabled}
+          onChange={(enabled) => onUpdate({ ...rule, enabled })}
+          label={`Show ${rule.display_name} on Discord`}
+        />
       </div>
 
       {expanded && (
         <div
+          id={formId}
           className="p-4 bg-surface-onyx flex flex-col gap-3"
           style={{ borderTop: "3px solid var(--neo-border-color)" }}
         >
-          {renderField(fields[0].label, fields[0].key)}
-          <div className="flex flex-col sm:flex-row gap-4">
-            {fields
-              .filter((f) => f.row === 1)
-              .map((f) => renderField(f.label, f.key))}
+          <p className={hintCls}>
+            Matches the process{" "}
+            <code className="font-mono text-ink">{rule.process_name}</code>
+          </p>
+
+          {renderField("Name", "display_name")}
+
+          <div className="flex flex-col gap-1">
+            <div className="flex flex-col min-[480px]:flex-row gap-3">
+              {renderField("First line", "details")}
+              {renderField("Second line", "state")}
+            </div>
+            <p className={hintCls}>
+              Use <code className="font-mono text-ink">{"{title}"}</code> for the
+              window title and{" "}
+              <code className="font-mono text-ink">{"{file}"}</code> for the open
+              file.
+            </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4">
-            {fields
-              .filter((f) => f.row === 2)
-              .map((f) => renderField(f.label, f.key))}
-          </div>
-          <div className="flex flex-col-reverse sm:flex-row justify-between mt-4 gap-3">
+
+          <button
+            type="button"
+            onClick={() => setShowMore(!showMore)}
+            aria-expanded={showMore}
+            className="self-start flex items-center gap-1 text-[12px] font-bold font-display uppercase tracking-wide text-muted-ink hover:text-ink transition-colors"
+          >
+            <ChevronRight
+              size={14}
+              strokeWidth={3}
+              aria-hidden
+              className={`transition-transform ${showMore ? "rotate-90" : ""}`}
+            />
+            More options
+          </button>
+
+          {showMore && (
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-1">
+                {renderField("Image", "large_image", "auto")}
+                <p className={hintCls}>
+                  "auto" uses the app's own icon. You can also enter an image URL.
+                </p>
+              </div>
+              {renderField("Discord application ID (optional)", "client_id")}
+            </div>
+          )}
+
+          <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
             <button
-              className="neo-btn bg-danger text-white px-4 py-2 text-sm w-full sm:w-auto"
+              type="button"
+              className="neo-btn bg-danger text-white px-3.5 py-2 text-[12px]"
+              style={{ borderRadius: "6px" }}
               onClick={() => onDelete(rule.process_name)}
             >
               Delete
             </button>
-            <div className="flex gap-2 w-full sm:w-auto">
+            <div className="flex gap-3">
               <button
-                className="neo-btn bg-surface-indigo text-ink px-4 py-2 text-sm flex-1 sm:flex-none"
-                onClick={() => {
-                  setEditRule({ ...rule });
-                  setExpanded(false);
-                }}
+                type="button"
+                className="neo-btn bg-surface-indigo text-ink px-3.5 py-2 text-[12px]"
+                style={{ borderRadius: "6px" }}
+                onClick={closeEditor}
               >
                 Cancel
               </button>
               <button
-                className="neo-btn bg-green-accent text-ink-dark px-4 py-2 text-sm font-extrabold flex-1 sm:flex-none"
+                type="button"
+                className="neo-btn bg-primary text-white px-4 py-2 text-[12px]"
+                style={{ borderRadius: "6px" }}
                 onClick={() => {
                   onUpdate(editRule);
-                  setExpanded(false);
+                  closeEditor();
                 }}
               >
                 Save

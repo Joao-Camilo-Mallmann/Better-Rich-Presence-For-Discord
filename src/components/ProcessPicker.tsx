@@ -57,8 +57,18 @@ export function ProcessPicker({
     <div
       className="fixed inset-0 bg-black/70 flex items-start justify-center pt-[10vh] px-4 z-50"
       style={{ animation: "neo-bounce-in 0.15s ease-out" }}
+      onMouseDown={(e) => {
+        // Close only on a click on the backdrop itself, not inside the dialog.
+        if (e.target === e.currentTarget) onClose();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") onClose();
+      }}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Add an app"
         className="bg-surface-indigo w-full max-w-[500px] flex flex-col overflow-hidden neo-card neo-shadow-heavy"
         style={{ borderRadius: "12px" }}
       >
@@ -67,23 +77,26 @@ export function ProcessPicker({
           className="relative bg-primary"
           style={{ borderBottom: "3px solid var(--neo-border-color)" }}
         >
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 flex items-center">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 flex items-center pointer-events-none">
             <Search size={20} />
           </span>
           <input
             type="text"
-            placeholder="Search running processes..."
+            aria-label="Search running apps"
+            placeholder="Search running apps"
             autoFocus
             value={pickerSearch}
             onChange={(e) => setPickerSearch(e.target.value)}
-            className="w-full bg-transparent text-white text-base pl-12 pr-14 py-4 focus:outline-none placeholder:text-white/50 font-display font-bold"
+            className="w-full bg-transparent text-white text-base pl-12 pr-14 py-4 focus:outline-none placeholder:text-white/60 font-display font-bold"
           />
           <button
             onClick={onClose}
-            className="absolute right-3 top-1/2 -translate-y-1/2 neo-btn bg-surface-black text-white px-2 py-1 text-[10px]"
+            className="absolute right-3 top-1/2 -translate-y-1/2 neo-btn bg-surface-black text-white px-2 py-1 text-[11px]"
             style={{ borderRadius: "4px" }}
+            title="Close (Esc)"
+            aria-label="Close"
           >
-            ESC
+            Esc
           </button>
         </div>
         {/* Process List */}
@@ -95,8 +108,8 @@ export function ProcessPicker({
                 className="w-6 h-6 neo-border-2 bg-primary"
                 style={{ animation: "neo-spin 0.8s linear infinite" }}
               />
-              <span className="text-xs text-muted-ink font-display font-bold uppercase">
-                Scanning system...
+              <span className="text-[12px] text-muted-ink font-display font-bold uppercase">
+                Looking for running apps…
               </span>
             </div>
           ) : filteredProcesses.length > 0 ? (
@@ -137,15 +150,15 @@ export function ProcessPicker({
                     </div>
                     <div>
                       {isAlreadyAdded ? (
-                        <span className="text-[10px] font-extrabold text-green-accent flex items-center gap-1 font-display uppercase">
-                          <span>✓</span> Added
+                        <span className="text-[11px] font-extrabold text-green-accent flex items-center gap-1 font-display uppercase">
+                          <span aria-hidden>✓</span> Added
                         </span>
                       ) : (
                         <span
-                          className="text-[10px] font-extrabold text-primary opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 neo-border-2 bg-primary/20 font-display uppercase"
+                          className="text-[11px] font-extrabold text-ink opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity px-2 py-1 neo-border-2 bg-primary font-display uppercase"
                           style={{ borderRadius: "4px" }}
                         >
-                          Enter ↵
+                          Add
                         </span>
                       )}
                     </div>
@@ -156,19 +169,19 @@ export function ProcessPicker({
           ) : (
             <div className="text-center py-10 px-4 flex flex-col items-center">
               <Search size={32} className="mb-2 text-muted-ink" />
-              <p className="text-xs text-muted-ink font-display uppercase font-bold">
-                No running process matches your search.
+              <p className="text-[13px] text-muted-ink">
+                No running app matches your search.
               </p>
             </div>
           )}
         </div>
         {/* Footer */}
         <div
-          className="px-4 py-2 flex justify-between items-center text-[10px] text-muted-ink font-display font-bold uppercase bg-surface-black"
+          className="px-4 py-2 flex justify-between items-center text-[11px] text-muted-ink font-display font-bold uppercase bg-surface-black"
           style={{ borderTop: "3px solid var(--neo-border-color)" }}
         >
-          <span>Use arrows to navigate</span>
-          <span>{systemProcesses.length} active processes</span>
+          <span>Apps running now</span>
+          <span>{systemProcesses.length} found</span>
         </div>
       </div>
     </div>

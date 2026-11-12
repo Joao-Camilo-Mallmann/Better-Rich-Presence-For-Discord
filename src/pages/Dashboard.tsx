@@ -1,113 +1,95 @@
 import { ArrowUp } from "lucide-react";
-import { useEffect, useState } from "react";
 import { PresenceCard } from "../components/PresenceCard";
+import { BandState } from "../components/StatusBand";
 import { usePresence } from "../hooks/usePresence";
 
-export function Dashboard() {
-  const { presence, connectionInfo, priorityInfo, discordUser } = usePresence();
-  const [elapsed, setElapsed] = useState<string>("0m");
+/** One line of guidance for states where the preview is not what Discord shows. */
+const GUIDANCE: Partial<Record<BandState, string>> = {
+  off: "Sharing is off, so Discord shows nothing. Turn on Share above to show this card.",
+  disconnected:
+    "Open the Discord desktop app. Better RPC connects to it on its own.",
+  paused:
+    "A game is showing its own status on Discord. Better RPC steps aside until it closes.",
+};
 
-  useEffect(() => {
-    if (!presence?.timestamp) {
-      setElapsed("0m");
-      return;
-    }
-    const updateTimer = () => {
-      const diff = Math.max(
-        0,
-        Math.floor(Date.now() / 1000) - presence.timestamp!,
-      );
-      setElapsed(`${Math.floor(diff / 60)}m`);
-    };
-    updateTimer();
-    const interval = setInterval(updateTimer, 60000);
-    return () => clearInterval(interval);
-  }, [presence?.timestamp]);
+interface DashboardProps {
+  bandState: BandState;
+}
+
+/** The "Now" view: a preview of the Discord profile card with the current activity. */
+export function Dashboard({ bandState }: DashboardProps) {
+  const { presence, priorityInfo, discordUser } = usePresence();
+  const guidance = GUIDANCE[bandState];
+  const dimmed = bandState === "off";
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex justify-center w-full">
-        <div
-          className="flex flex-col gap-3 items-center justify-center w-full max-w-2xl bg-surface-indigo p-8 neo-card dot-grid"
-          style={{ borderRadius: "12px" }}
-        >
-          {/* Tilted eyebrow label */}
-          <h3
-            className="text-[24px] text-ink uppercase tracking-wider font-extrabold font-display neo-tilt px-3 py-1 bg-magenta-accent neo-border-2"
-            style={{
-              boxShadow: "2px 2px 0 var(--neo-shadow-color)",
-              borderRadius: "4px",
-              color: "var(--ink-dark)",
-            }}
-          >
-            Status Preview
-          </h3>
-          <PresenceCard
-            presence={presence}
-            profile={
-              discordUser
-                ? {
-                    displayName: discordUser.username,
-                    username: discordUser.username,
-                    avatarUrl: discordUser.avatar_url,
-                    customStatus: "",
-                    status: "online",
-                    themePrimary: "#5865f2",
-                    themeSecondary: "#2c327d",
-                    isGradient: true,
-                  }
-                : undefined
-            }
-          />
-        </div>
-      </div>
-
-      {/* Status Chips — Hard bordered */}
-      <div
-        className="flex flex-wrap gap-3 text-xs pt-4"
-        style={{ borderTop: "3px solid var(--neo-border-color)" }}
+    <div className="flex flex-col items-center gap-4">
+      <span
+        className="neo-tilt self-center text-[12px] font-extrabold font-display uppercase tracking-wider px-2.5 py-0.5 bg-magenta-accent text-ink-dark neo-border-2"
+        style={{
+          boxShadow: "3px 3px 0 var(--neo-shadow-color)",
+          borderRadius: "4px",
+        }}
       >
-        <span
-          className="bg-surface-indigo px-3 py-2 font-bold flex items-center gap-2 neo-border-2 neo-shadow-sm neo-press font-display uppercase"
-          style={{ borderRadius: "6px" }}
-        >
-          <span
-            className={`w-3 h-3 ${connectionInfo.state === "Connected" ? "bg-green-accent" : "bg-danger"}`}
-            style={{ border: "2px solid var(--neo-border-color)" }}
-          />
-          Engine:{" "}
-          {connectionInfo.state === "Connected" ? "Connected" : "Disconnected"}
-        </span>
+        What friends see
+      </span>
 
-        <span
-          className="bg-surface-indigo px-3 py-2 font-bold text-muted-ink neo-border-2 neo-shadow-sm neo-press font-display uppercase"
-          style={{ borderRadius: "6px" }}
-        >
-          Session: <span className="text-ink">{elapsed}</span>
-        </span>
-
-        {/* Priority Mode Indicator */}
-        {priorityInfo.active && (
-          <span
-            className="flex items-center gap-2 px-3 py-2 font-bold text-ink neo-border-2 neo-shadow-sm font-display uppercase"
-            style={{
-              backgroundColor: "var(--magenta-accent)",
-              color: "var(--ink-dark)",
-              borderRadius: "6px",
-              animation: "neo-pulse 2s infinite",
-            }}
-            title={`Foreground: ${priorityInfo.foreground_app || "unknown"}`}
-          >
-            <ArrowUp size={14} />
-            <span>
-              Prioritizing:{" "}
-              <span className="font-extrabold">
-                {priorityInfo.prioritized_app || "app"}
-              </span>
-            </span>
-          </span>
-        )}
+      <div
+        className={`w-full flex justify-center transition-opacity duration-150 ${dimmed ? "opacity-40 grayscale" : ""}`}
+      >
+        <PresenceCard
+          presence={presence}
+          profile={
+            discordUser
+              ? {
+                  displayName: discordUser.username,
+                  username: discordUser.username,
+                  avatarUrl: discordUser.avatar_url,
+                  customStatus: "",
+                  status: "online",
+                  themePrimary: "#5865f2",
+                  themeSecondary: "#2c327d",
+                  isGradient: true,
+                }
+              : undefined
+          }
+        />
       </div>
+
+      {guidance && (
+        <p className="w-full max-w-[340px] text-center text-[13px] leading-snug text-muted-ink">
+          {guidance}
+        </p>
+      )}
+
+      {priorityInfo.active && bandState === "live" && (
+        <div
+          className="w-full max-w-[340px] flex items-start gap-3 p-3 bg-surface-indigo neo-border-2 neo-shadow-sm"
+          style={{ borderRadius: "8px" }}
+        >
+          <span
+            aria-hidden
+            className="shrink-0 w-6 h-6 flex items-center justify-center bg-magenta-accent text-ink-dark neo-border-2"
+            style={{ borderRadius: "4px" }}
+          >
+            <ArrowUp size={14} strokeWidth={3} />
+          </span>
+          <p className="text-[13px] leading-snug text-ink">
+            Showing{" "}
+            <strong className="font-bold">
+              {priorityInfo.prioritized_app || "an app"}
+            </strong>{" "}
+            instead of{" "}
+            <strong className="font-bold">
+              {priorityInfo.foreground_app || "the app in focus"}
+            </strong>
+            , the app in focus.{" "}
+            <span className="text-muted-ink">
+              Max priority mode shows the highest app in your list.
+            </span>
+          </p>
+        </div>
+      )}
     </div>
   );
 }

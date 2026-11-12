@@ -251,6 +251,12 @@
     transform: translate(4px, 4px);
     box-shadow: 0px 0px 0px var(--neo-shadow-color);
   }
+  .neo-btn:disabled,
+  .neo-btn:disabled:hover,
+  .neo-btn:disabled:active {
+    transform: none;
+    box-shadow: 4px 4px 0px var(--neo-shadow-color);
+  }
 
   /* ── Input Base ── */
   .neo-input {
@@ -293,6 +299,40 @@
   }
   .neo-toggle.active .neo-toggle-knob {
     transform: translateX(20px);
+  }
+
+  /* ── View Tabs — the selected tab stays pressed in ── */
+  .neo-tab {
+    border: 3px solid var(--neo-border-color);
+    border-radius: 8px;
+    box-shadow: 4px 4px 0px var(--neo-shadow-color);
+    background-color: var(--surface-indigo);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 7px 0;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
+  }
+  .neo-tab:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--neo-shadow-color);
+  }
+  .neo-tab[aria-selected="true"] {
+    background-color: var(--primary);
+    color: #ffffff;
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px var(--neo-shadow-color);
+    cursor: default;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neo-press, .neo-btn, .neo-tab, .neo-toggle, .neo-toggle-knob {
+    transition: none;
   }
 }
 
