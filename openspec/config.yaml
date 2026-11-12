@@ -1,20 +1,21 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+# Project context shown to AI when creating artifacts.
+context: |
+  Better Rich Presence for Discord: a desktop app that detects running applications
+  and publishes Discord Rich Presence for them.
+  Tech stack:
+    - Backend: Tauri 2 + Rust in `src-tauri/` (services, commands, models; tests via `cargo test`).
+    - Frontend: React 19 + TypeScript + Vite 7 + Tailwind CSS 4 in `src/` (build via `npm run build`).
+    - App catalog: `apps.json` (one entry per supported app; icons via `icon_url`).
+    - Assets: `public/assets/icons/`, regenerated with `npm run assets:generate`.
+  Conventions:
+    - All artifacts, code comments, commit messages, and docs are written in English.
+    - Agent rules live in `.agents/AGENTS.md`; reference docs live in `docs/`
+      (DESIGN.md, SettingRichPresence.md, Icons.md).
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+# Per-artifact rules.
+rules:
+  tasks:
+    - Include a "Verification" group with the checks that apply (e.g. `cargo test` in `src-tauri/`, `npm run build`, manual check in the running app).
+    - The last group is always "Documentation" and contains the task "Update `.agents/AGENTS.md` if conventions, workflows, or reference docs changed (mark N/A otherwise)".
