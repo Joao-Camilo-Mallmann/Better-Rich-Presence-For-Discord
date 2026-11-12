@@ -91,11 +91,15 @@ impl AppRule {
 /// The data payload that describes the current Rich Presence shown on Discord.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PresenceData {
-    /// First line of the presence (e.g., "Programando no VSCode").
+    /// Bold title Discord shows: the Discord application's registered name
+    /// (Discord ignores overrides). Filled in by the engine before publishing.
+    #[serde(default)]
+    pub activity_name: String,
+    /// First line under the title; the app name for generated presences (e.g., "Firefox").
     pub details: String,
-    /// Second line of the presence (e.g., "Desenvolvendo").
+    /// Second line under the title; what the user is doing (e.g., "Browsing GitHub").
     pub state: String,
-    /// Asset key for the large image.
+    /// Large image: an image URL, or a catalog id / asset key the engine resolves to one.
     pub large_image: String,
     /// Tooltip text for the large image.
     pub large_text: String,
@@ -110,9 +114,10 @@ pub struct PresenceData {
 impl Default for PresenceData {
     fn default() -> Self {
         Self {
-            details: String::from("Navegando no PC"),
-            state: String::from("Só de boa..."),
-            large_image: String::from("default"),
+            activity_name: String::from(crate::domain::presence::DEFAULT_ACTIVITY_NAME),
+            details: String::from("Browsing the PC"),
+            state: String::from("Just chilling..."),
+            large_image: String::from(crate::domain::presence::LOGO_IMAGE_URL),
             large_text: String::from("Better Rich Presence"),
             small_image: String::new(),
             small_text: String::new(),

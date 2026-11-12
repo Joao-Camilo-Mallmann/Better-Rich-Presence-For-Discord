@@ -16,6 +16,9 @@ export interface AppRule {
 }
 
 export interface PresenceData {
+  /** Bold title Discord shows: the Discord application's name (e.g. "Better Rich Presence"). */
+  activity_name?: string;
+  /** First line; the app name for detected apps (e.g. "Firefox"). Member lists show "Playing <details>". */
   details: string;
   state: string;
   large_image: string;

@@ -103,7 +103,11 @@ export function PresenceCard({
     }
   };
 
-  const appName = presence?.large_text || "Better Rich Presence";
+  // Mirror Discord: the bold title is the Discord application's name, the app
+  // name is the details line, and member lists show "Playing <details>".
+  const activityName = presence?.activity_name || "Better Rich Presence";
+  const details = presence?.details || "No application running";
+  const state = presence?.state || "Waiting for detection...";
 
   return (
     <div
@@ -174,6 +178,14 @@ export function PresenceCard({
           <span className="font-extrabold text-[15px] leading-tight text-white font-display">
             @{profile.username}
           </span>
+          {presence?.details && (
+            <span
+              className="text-[12px] text-zinc-300 leading-tight mt-1 max-w-full truncate"
+              title="How member and friends lists show you"
+            >
+              Playing <span className="font-bold text-white">{presence.details}</span>
+            </span>
+          )}
           {profile.customStatus && (
             <div
               className="text-[12px] text-zinc-200 mt-2 px-2 py-1.5 italic text-left neo-border-2"
@@ -194,7 +206,7 @@ export function PresenceCard({
               className="neo-stroke"
               style={{ WebkitTextStroke: "0.5px rgba(0,0,0,0.3)" }}
             >
-              USING AN APPLICATION
+              PLAYING
             </span>
           </div>
           {/* Activity Layout */}
@@ -207,24 +219,26 @@ export function PresenceCard({
               }}
             >
               {presence ? (
-                <AppIcon
-                  name={presence.large_image || appName}
-                  className="w-full h-full object-contain p-1"
-                  size={52}
-                />
+                <span className="contents" title={presence.large_text}>
+                  <AppIcon
+                    name={presence.large_image}
+                    className="w-full h-full object-contain p-1"
+                    size={52}
+                  />
+                </span>
               ) : (
                 <div className="text-xl font-bold text-zinc-400">?</div>
               )}
             </div>
             <div className="flex flex-col min-w-0 flex-1 justify-center py-0.5 select-text">
               <div className="font-bold text-[13px] text-white leading-tight truncate font-display">
-                {presence?.large_text || "Better Rich Presence"}
+                {activityName}
               </div>
               <div className="text-[12px] text-zinc-300 leading-tight truncate mt-1">
-                {presence?.details || "No application running"}
+                {details}
               </div>
               <div className="text-[12px] leading-tight truncate mt-1 text-zinc-300/80">
-                {presence?.state || "Waiting for detection..."}
+                {state}
               </div>
               {elapsed && (
                 <div className="text-[11.5px] text-zinc-400 leading-tight truncate mt-1 font-bold font-display">

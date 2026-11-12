@@ -9,7 +9,9 @@ This document explains the standard pattern for assigning and rendering applicat
 The project uses a **single-source icon architecture** based on the `icon_url` field in `apps.json`. Each app entry optionally specifies an `icon_url` pointing to a PNG hosted in the repository at `public/assets/icons/`.
 
 - **Frontend (UI):** The React `AppIcon` component renders the `icon_url` directly. If the URL fails or is absent, it falls back to a generic `<Monitor/>` icon.
-- **Backend (Discord RPC):** The Rust engine rewrites GitHub Raw URLs to jsDelivr CDN URLs for Discord consumption. If no `icon_url` is set, it sends `"default"` as the asset key.
+- **Backend (Discord RPC):** The Rust engine rewrites GitHub Raw URLs to jsDelivr CDN URLs for Discord consumption. If no `icon_url` is set, it sends the Better Rich Presence logo URL (`public/logo-256.png` through jsDelivr).
+
+> The shared Discord application (`DEFAULT_CLIENT_ID`) has **no uploaded art assets**, so asset keys such as `default`, `idle` or `rust-logo` render blank in Discord. Every image the app sends to it must be a full URL. The engine enforces this in `domain/presence.rs` (`resolve_large_image`).
 
 ---
 
@@ -31,9 +33,9 @@ When adding a new application to `apps.json`, define `icon_url` pointing to a PN
 ### `icon_url` (Optional)
 
 - **Format:** Full HTTPS URL pointing to a PNG in `public/assets/icons/` via GitHub Raw.
-- **Backend behavior:** The Rust engine rewrites `raw.githubusercontent.com` URLs to `cdn.jsdelivr.net` for Discord Rich Presence. Non-URL strings (like `"default"`) pass through unchanged.
+- **Backend behavior:** The Rust engine rewrites `raw.githubusercontent.com` URLs to `cdn.jsdelivr.net` for Discord Rich Presence. A non-URL image value (for example a rule image `firefox`) is looked up in the catalog by id or executable, the same way `AppIcon` does it. When the lookup fails, the engine sends the logo URL.
 - **Frontend behavior:** The React `AppIcon` component renders this URL as an `<img>`. On load failure, it shows a `<Monitor/>` fallback.
-- **If absent:** The app shows a generic monitor icon in the UI and `"default"` in Discord.
+- **If absent:** App lists show a generic monitor icon, while Discord and the Status Preview show the Better Rich Presence logo.
 
 ---
 
@@ -55,6 +57,6 @@ When adding a new application to `apps.json`, define `icon_url` pointing to a PN
 icon_url present?
   ├─ YES → GitHub Raw URL → jsDelivr CDN rewrite → Discord
   │                        → Direct render → React UI
-  └─ NO  → "default" → Discord
-           → <Monitor/> → React UI
+  └─ NO  → logo URL (jsDelivr) → Discord and Status Preview
+           → <Monitor/>          → app lists in the React UI
 ```
