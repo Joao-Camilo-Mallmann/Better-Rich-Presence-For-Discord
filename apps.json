@@ -1356,7 +1356,8 @@
       "typora"
     ],
     "client_id": "1517170930764480552",
-    "category": "productivity"
+    "category": "productivity",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/typora.png"
   },
   {
     "id": "readme",
@@ -1432,7 +1433,8 @@
       "monday"
     ],
     "client_id": "1517170930764480552",
-    "category": "productivity"
+    "category": "productivity",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/monday.png"
   },
   {
     "id": "linear",
@@ -2282,7 +2284,8 @@
       "putty"
     ],
     "client_id": "1517170930764480552",
-    "category": "developer"
+    "category": "developer",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/putty.png"
   },
   {
     "id": "winscp",
@@ -2772,7 +2775,8 @@
       "chrome"
     ],
     "client_id": "1517170930764480552",
-    "category": "productivity"
+    "category": "productivity",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/ahrefs.png"
   },
   {
     "id": "browserstack",
@@ -2782,7 +2786,8 @@
       "chrome"
     ],
     "client_id": "1517170930764480552",
-    "category": "developer"
+    "category": "developer",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/browserstack.png"
   },
   {
     "id": "bitrise",
@@ -2879,7 +2884,8 @@
       "fontbase"
     ],
     "client_id": "1517170930764480552",
-    "category": "design"
+    "category": "design",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/fontbase.png"
   },
   {
     "id": "googlefonts",
@@ -2999,7 +3005,8 @@
       "discord"
     ],
     "client_id": "1517170930764480552",
-    "category": "design"
+    "category": "design",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/midjourney.png"
   },
   {
     "id": "huggingface",
@@ -3062,7 +3069,8 @@
       "7z"
     ],
     "client_id": "1517170930764480552",
-    "category": "productivity"
+    "category": "productivity",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/7zip.png"
   },
   {
     "id": "totalcommander",
