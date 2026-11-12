@@ -1072,13 +1072,15 @@
     }
 
     .stat-card {
+      display: flex;
+      flex-direction: column;
       background-color: var(--ink);
       border-radius: var(--rounded-lg);
-      padding: 32px 24px;
+      padding: 28px 24px 24px;
       border: var(--border-thick);
       box-shadow: var(--shadow-hard);
       color: var(--ink-dark);
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .stat-card:hover {
@@ -1095,7 +1097,7 @@
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       padding-bottom: 12px;
       border-bottom: 2px solid var(--ink-dark);
     }
@@ -1107,63 +1109,79 @@
       color: var(--blurple);
       letter-spacing: -0.03em;
       line-height: 1;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       text-shadow: 2px 2px 0 var(--ink-dark);
     }
 
     .perf-badge {
-      display: inline-block;
+      align-self: flex-start;
       font-family: var(--font-display);
       font-size: 13px;
       font-weight: 800;
       text-transform: uppercase;
-      background-color: var(--canvas);
-      color: var(--ink);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      background-color: var(--yellow);
+      color: var(--ink-dark);
       padding: 6px 12px;
       border-radius: var(--rounded-sm);
       border: 2px solid var(--ink-dark);
-      margin-bottom: 20px;
-    }
-
-    .perf-badge--highlight {
-      background-color: var(--yellow);
-      color: var(--ink-dark);
       box-shadow: 2px 2px 0 var(--ink-dark);
+      margin-bottom: 24px;
     }
 
     .perf-comparison {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+      margin-top: auto;
+      padding-top: 18px;
+      border-top: 2px dashed rgba(0, 0, 0, 0.2);
     }
 
     .perf-bar-row {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px 6px;
-      border-radius: 6px;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    .perf-bar-row--active {
-      background-color: rgba(53, 237, 126, 0.15);
-      border: 1px solid var(--green);
+    .perf-bar-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 13px;
+      font-weight: 700;
+      color: #5c5c70;
+    }
+
+    .perf-bar-row--active .perf-bar-meta {
+      color: var(--ink-dark);
+      font-weight: 800;
     }
 
     .perf-bar-name {
-      width: 76px;
-      font-weight: 800;
-      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .perf-bar-row--active .perf-bar-name {
-      color: var(--ink-dark);
+    .perf-bar-row--active .perf-bar-name::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--green);
+      border: 2px solid var(--ink-dark);
+    }
+
+    .perf-bar-value {
+      font-family: var(--font-display);
+      font-variant-numeric: tabular-nums;
     }
 
     .perf-bar-track {
-      flex-grow: 1;
-      height: 14px;
-      background-color: #e0e0e0;
+      height: 18px;
+      background-color: #ececf3;
       border: 2px solid var(--ink-dark);
       border-radius: 6px;
       overflow: hidden;
@@ -1177,22 +1195,34 @@
 
     .perf-bar-fill.accent {
       background-color: var(--green);
-      border-right: 2px solid var(--ink-dark);
     }
 
     .perf-bar-fill.muted {
       background-color: var(--red);
+      background-image: repeating-linear-gradient(-45deg, transparent 0 6px, rgba(0, 0, 0, 0.12) 6px 12px);
+    }
+
+    .perf-grid.bars-visible .perf-bar-fill {
       border-right: 2px solid var(--ink-dark);
     }
 
-    .perf-bar-value {
-      width: 52px;
-      text-align: right;
-      font-weight: 800;
-      font-size: 12px;
+    /* Tiny values still need a visible sliver */
+    .perf-grid.bars-visible .perf-bar-fill.accent {
+      min-width: 10px;
     }
 
-    /* Animated bar widths when visible */
+    .perf-note {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #7a7a90;
+    }
+
+    /* Animated bar widths when visible (Electron = 100%) */
     .perf-grid.bars-visible #bar-mem-rpc { width: 10%; }
     .perf-grid.bars-visible #bar-mem-ele { width: 100%; }
     .perf-grid.bars-visible #bar-cpu-rpc { width: 4.4%; }
@@ -1201,6 +1231,10 @@
     .perf-grid.bars-visible #bar-size-ele { width: 100%; }
     .perf-grid.bars-visible #bar-start-rpc { width: 20%; }
     .perf-grid.bars-visible #bar-start-ele { width: 100%; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .perf-bar-fill { transition: none; }
+    }
 
     /* ══════════════════════════════════════════════════════
        CTA BAND
@@ -1942,22 +1976,17 @@
               Memory Usage
             </div>
             <div class="stat-card__value">~18 MB</div>
-            <div class="perf-badge perf-badge--highlight">⚡ 10× lighter than Electron</div>
+            <div class="perf-badge">⚡ 10× less RAM</div>
             <div class="perf-comparison" role="img" aria-label="Memory comparison: Better RPC 18 MB versus Electron 180 MB">
               <div class="perf-bar-row perf-bar-row--active">
-                <span class="perf-bar-name">Better RPC</span>
-                <div class="perf-bar-track">
-                  <div class="perf-bar-fill accent" id="bar-mem-rpc"></div>
-                </div>
-                <span class="perf-bar-value">18 MB</span>
+                <div class="perf-bar-meta"><span class="perf-bar-name">Better RPC</span><span class="perf-bar-value">18 MB</span></div>
+                <div class="perf-bar-track"><div class="perf-bar-fill accent" id="bar-mem-rpc"></div></div>
               </div>
               <div class="perf-bar-row">
-                <span class="perf-bar-name">Electron</span>
-                <div class="perf-bar-track">
-                  <div class="perf-bar-fill muted" id="bar-mem-ele"></div>
-                </div>
-                <span class="perf-bar-value">180 MB</span>
+                <div class="perf-bar-meta"><span class="perf-bar-name">Electron</span><span class="perf-bar-value">180 MB</span></div>
+                <div class="perf-bar-track"><div class="perf-bar-fill muted" id="bar-mem-ele"></div></div>
               </div>
+              <div class="perf-note">↓ Lower is better</div>
             </div>
           </div>
 
@@ -1968,22 +1997,17 @@
               CPU Usage
             </div>
             <div class="stat-card__value">&lt;0.2%</div>
-            <div class="perf-badge">🪶 Invisible to system</div>
-            <div class="perf-comparison" role="img" aria-label="Cpu comparison: Better RPC under 0.2% versus Electron 4.5%">
+            <div class="perf-badge">🪶 20× less CPU</div>
+            <div class="perf-comparison" role="img" aria-label="CPU comparison: Better RPC under 0.2% versus Electron 4.5%">
               <div class="perf-bar-row perf-bar-row--active">
-                <span class="perf-bar-name">Better RPC</span>
-                <div class="perf-bar-track">
-                  <div class="perf-bar-fill accent" id="bar-cpu-rpc"></div>
-                </div>
-                <span class="perf-bar-value">&lt;0.2%</span>
+                <div class="perf-bar-meta"><span class="perf-bar-name">Better RPC</span><span class="perf-bar-value">&lt;0.2%</span></div>
+                <div class="perf-bar-track"><div class="perf-bar-fill accent" id="bar-cpu-rpc"></div></div>
               </div>
               <div class="perf-bar-row">
-                <span class="perf-bar-name">Electron</span>
-                <div class="perf-bar-track">
-                  <div class="perf-bar-fill muted" id="bar-cpu-ele"></div>
-                </div>
-                <span class="perf-bar-value">4.5%</span>
+                <div class="perf-bar-meta"><span class="perf-bar-name">Electron</span><span class="perf-bar-value">4.5%</span></div>
+                <div class="perf-bar-track"><div class="perf-bar-fill muted" id="bar-cpu-ele"></div></div>
               </div>
+              <div class="perf-note">↓ Lower is better</div>
             </div>
           </div>
 
@@ -1994,22 +2018,17 @@
               Binary Size
             </div>
             <div class="stat-card__value">~4 MB</div>
-            <div class="perf-badge">📦 Single binary</div>
+            <div class="perf-badge">📦 20× smaller</div>
             <div class="perf-comparison" role="img" aria-label="Binary size comparison: Better RPC 4 MB versus Electron 80 MB">
               <div class="perf-bar-row perf-bar-row--active">
-                <span class="perf-bar-name">Better RPC</span>
-                <div class="perf-bar-track">
-                  <div class="perf-bar-fill accent" id="bar-size-rpc"></div>
-                </div>
-                <span class="perf-bar-value">4 MB</span>
+                <div class="perf-bar-meta"><span class="perf-bar-name">Better RPC</span><span class="perf-bar-value">4 MB</span></div>
+                <div class="perf-bar-track"><div class="perf-bar-fill accent" id="bar-size-rpc"></div></div>
               </div>
               <div class="perf-bar-row">
-                <span class="perf-bar-name">Electron</span>
-                <div class="perf-bar-track">
-                  <div class="perf-bar-fill muted" id="bar-size-ele"></div>
-                </div>
-                <span class="perf-bar-value">80 MB</span>
+                <div class="perf-bar-meta"><span class="perf-bar-name">Electron</span><span class="perf-bar-value">80 MB</span></div>
+                <div class="perf-bar-track"><div class="perf-bar-fill muted" id="bar-size-ele"></div></div>
               </div>
+              <div class="perf-note">↓ Smaller is better</div>
             </div>
           </div>
 
@@ -2020,22 +2039,17 @@
               Startup Time
             </div>
             <div class="stat-card__value">&lt;1s</div>
-            <div class="perf-badge">🚀 Instant boot</div>
+            <div class="perf-badge">🚀 5× faster</div>
             <div class="perf-comparison" role="img" aria-label="Startup time comparison: Better RPC under 1 second versus Electron about 5 seconds">
               <div class="perf-bar-row perf-bar-row--active">
-                <span class="perf-bar-name">Better RPC</span>
-                <div class="perf-bar-track">
-                  <div class="perf-bar-fill accent" id="bar-start-rpc"></div>
-                </div>
-                <span class="perf-bar-value">&lt;1s</span>
+                <div class="perf-bar-meta"><span class="perf-bar-name">Better RPC</span><span class="perf-bar-value">&lt;1s</span></div>
+                <div class="perf-bar-track"><div class="perf-bar-fill accent" id="bar-start-rpc"></div></div>
               </div>
               <div class="perf-bar-row">
-                <span class="perf-bar-name">Electron</span>
-                <div class="perf-bar-track">
-                  <div class="perf-bar-fill muted" id="bar-start-ele"></div>
-                </div>
-                <span class="perf-bar-value">~5s</span>
+                <div class="perf-bar-meta"><span class="perf-bar-name">Electron</span><span class="perf-bar-value">~5s</span></div>
+                <div class="perf-bar-track"><div class="perf-bar-fill muted" id="bar-start-ele"></div></div>
               </div>
+              <div class="perf-note">↓ Faster is better</div>
             </div>
           </div>
         </div>
