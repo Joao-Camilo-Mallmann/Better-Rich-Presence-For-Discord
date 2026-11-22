@@ -162,8 +162,55 @@ pub enum EngineEvent {
     IdleChanged { idle: bool, idle_minutes: u32 },
     /// A manual profile was set by the user.
     ManualProfile(PresenceData),
+    /// A Claude Code HTTP hook event arrived on the localhost receiver.
+    ClaudeCodeEvent(crate::domain::claude_code::ClaudeHookPayload),
+    /// The user disconnected Claude Code hooks from Settings.
+    ClaudeCodeDisconnected,
+    /// Settings affecting Claude Code integration changed.
+    ClaudeCodeConfigChanged,
     /// The application is shutting down.
     Shutdown,
+}
+
+// ---------------------------------------------------------------------------
+// ClaudeCodeStatus — snapshot of Claude Code hook & session state for UI
+// ---------------------------------------------------------------------------
+
+/// Live status of the Claude Code HTTP hook integration, exposed to the frontend.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ClaudeCodeStatus {
+    /// Whether Better RPC's hooks are installed in `~/.claude/settings.json`.
+    pub install_state: crate::domain::claude_code::ClaudeHookInstallState,
+    /// Resolved path to the Claude Code `settings.json` file.
+    pub settings_path: String,
+    /// Localhost HTTP endpoint URL configured for hooks.
+    pub endpoint_url: String,
+    /// Whether the embedded localhost HTTP receiver is listening.
+    pub server_listening: bool,
+    /// Bind error if the listener failed to start, or config read error if any.
+    pub server_error: Option<String>,
+    /// Number of currently tracked unexpired Claude Code sessions.
+    pub active_sessions: usize,
+    /// Project name of the active Claude Code session, if any.
+    pub active_project: Option<String>,
+    /// Formatted activity line of the active Claude Code session, if any.
+    pub active_activity: Option<String>,
+}
+
+impl Default for ClaudeCodeStatus {
+    fn default() -> Self {
+        let port = crate::domain::claude_code::DEFAULT_CLAUDE_CODE_PORT;
+        Self {
+            install_state: crate::domain::claude_code::ClaudeHookInstallState::NotInstalled,
+            settings_path: String::new(),
+            endpoint_url: crate::services::claude_code_config::hook_endpoint_url(port),
+            server_listening: false,
+            server_error: None,
+            active_sessions: 0,
+            active_project: None,
+            active_activity: None,
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -234,6 +281,18 @@ impl Default for PriorityInfo {
 // Settings — user-configurable application settings
 // ---------------------------------------------------------------------------
 
+fn default_claude_code_enabled() -> bool {
+    true
+}
+
+fn default_claude_code_port() -> u16 {
+    crate::domain::claude_code::DEFAULT_CLAUDE_CODE_PORT
+}
+
+fn default_claude_code_timeout_minutes() -> u32 {
+    crate::domain::claude_code::DEFAULT_CLAUDE_CODE_TIMEOUT_MINUTES
+}
+
 /// User-configurable application settings, persisted via `tauri-plugin-store`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Settings {
@@ -253,6 +312,15 @@ pub struct Settings {
     pub priority_mode_enabled: bool,
     /// Master switch to enable/disable the rich presence entirely.
     pub global_enabled: bool,
+    /// Whether an active Claude Code session takes priority over window detection.
+    #[serde(default = "default_claude_code_enabled")]
+    pub claude_code_enabled: bool,
+    /// Localhost port for the Claude Code HTTP hook receiver.
+    #[serde(default = "default_claude_code_port")]
+    pub claude_code_port: u16,
+    /// Minutes of inactivity before a waiting Claude Code session auto-expires.
+    #[serde(default = "default_claude_code_timeout_minutes")]
+    pub claude_code_timeout_minutes: u32,
 }
 
 impl Default for Settings {
@@ -260,12 +328,15 @@ impl Default for Settings {
         Self {
             idle_enabled: true,
             idle_threshold_minutes: 5,
-            idle_message: String::from("Ausente"),
+            idle_message: String::from("Away"),
             autostart_enabled: false,
             debounce_seconds: 2,
             settle_delay_seconds: 3,
             priority_mode_enabled: true,
             global_enabled: true,
+            claude_code_enabled: default_claude_code_enabled(),
+            claude_code_port: default_claude_code_port(),
+            claude_code_timeout_minutes: default_claude_code_timeout_minutes(),
         }
     }
 }
@@ -285,9 +356,9 @@ pub enum AppError {
 impl std::fmt::Display for AppError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Store(msg) => write!(f, "Erro de armazenamento: {}", msg),
-            Self::Serialization(msg) => write!(f, "Erro de serialização: {}", msg),
-            Self::System(msg) => write!(f, "Erro do sistema: {}", msg),
+            Self::Store(msg) => write!(f, "Storage error: {}", msg),
+            Self::Serialization(msg) => write!(f, "Serialization error: {}", msg),
+            Self::System(msg) => write!(f, "System error: {}", msg),
         }
     }
 }
@@ -319,6 +390,7 @@ pub struct AppStateInner {
     pub settings: Settings,
     pub current_client_id: u64,
     pub discord_user: Option<DiscordUser>,
+    pub claude_code_status: ClaudeCodeStatus,
 }
 
 // ---------------------------------------------------------------------------
@@ -344,6 +416,19 @@ impl AppState {
         app_rules: Vec<AppRule>,
         settings: Settings,
     ) -> Self {
+        let mut claude_code_status = ClaudeCodeStatus::default();
+        claude_code_status.endpoint_url =
+            crate::services::claude_code_config::hook_endpoint_url(settings.claude_code_port);
+        if let Ok(path) = crate::services::claude_code_config::resolve_settings_path() {
+            claude_code_status.settings_path = path.display().to_string();
+            if let Ok(state) = crate::services::claude_code_config::inspect_settings_file(
+                &path,
+                settings.claude_code_port,
+            ) {
+                claude_code_status.install_state = state;
+            }
+        }
+
         let inner = AppStateInner {
             app_rules,
             current_presence: None,
@@ -352,6 +437,7 @@ impl AppState {
             settings,
             current_client_id: DEFAULT_CLIENT_ID,
             discord_user: None,
+            claude_code_status,
         };
         Self {
             inner: Arc::new(RwLock::new(inner)),
@@ -542,4 +628,89 @@ impl AppState {
 
         changed
     }
+
+    // Claude Code Status Helpers
+    pub async fn get_claude_code_status(&self) -> ClaudeCodeStatus {
+        self.inner.read().await.claude_code_status.clone()
+    }
+
+    pub async fn set_claude_server_status(
+        &self,
+        port: u16,
+        listening: bool,
+        error: Option<String>,
+    ) {
+        let mut inner = self.inner.write().await;
+        inner.claude_code_status.endpoint_url =
+            crate::services::claude_code_config::hook_endpoint_url(port);
+        inner.claude_code_status.server_listening = listening;
+        inner.claude_code_status.server_error = error;
+    }
+
+    pub async fn set_claude_session_snapshot(
+        &self,
+        active_sessions: usize,
+        active_project: Option<String>,
+        active_activity: Option<String>,
+    ) -> bool {
+        let mut inner = self.inner.write().await;
+        let status = &mut inner.claude_code_status;
+        if status.active_sessions != active_sessions
+            || status.active_project != active_project
+            || status.active_activity != active_activity
+        {
+            status.active_sessions = active_sessions;
+            status.active_project = active_project;
+            status.active_activity = active_activity;
+            true
+        } else {
+            false
+        }
+    }
+
+    pub async fn refresh_claude_install_status(&self) -> Result<ClaudeCodeStatus, AppError> {
+        let port = self.inner.read().await.settings.claude_code_port;
+        let path = crate::services::claude_code_config::resolve_settings_path()
+            .map_err(AppError::System)?;
+        let install_state =
+            crate::services::claude_code_config::inspect_settings_file(&path, port)
+                .map_err(AppError::System)?;
+
+        let mut inner = self.inner.write().await;
+        inner.claude_code_status.install_state = install_state;
+        inner.claude_code_status.settings_path = path.display().to_string();
+        inner.claude_code_status.endpoint_url =
+            crate::services::claude_code_config::hook_endpoint_url(port);
+        Ok(inner.claude_code_status.clone())
+    }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn legacy_settings_json_deserializes_with_claude_code_defaults() {
+        let legacy = r#"{
+            "idle_enabled": true,
+            "idle_threshold_minutes": 10,
+            "idle_message": "Away",
+            "autostart_enabled": false,
+            "debounce_seconds": 15,
+            "settle_delay_seconds": 3,
+            "priority_mode_enabled": true,
+            "global_enabled": true
+        }"#;
+        let parsed: Settings = serde_json::from_str(legacy).unwrap();
+        assert!(parsed.claude_code_enabled);
+        assert_eq!(
+            parsed.claude_code_port,
+            crate::domain::claude_code::DEFAULT_CLAUDE_CODE_PORT
+        );
+        assert_eq!(
+            parsed.claude_code_timeout_minutes,
+            crate::domain::claude_code::DEFAULT_CLAUDE_CODE_TIMEOUT_MINUTES
+        );
+    }
+}
+

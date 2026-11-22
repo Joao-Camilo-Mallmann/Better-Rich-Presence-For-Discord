@@ -18,7 +18,7 @@ The system SHALL NOT send an activity name override. The bold title of the activ
 - **THEN** the presence's `activity_name` is that returned name
 
 ### Requirement: App-first text layout for generated presences
-For presences the system generates (catalog apps, apps not in the catalog, and IDE windows), `details` SHALL be the app name and `state` SHALL describe the activity.
+For presences the system generates (catalog apps, apps not in the catalog, IDE windows, and Claude Code live sessions), `details` SHALL be the app name and `state` SHALL describe the activity.
 
 #### Scenario: Browser with a page title
 - **WHEN** the foreground app is the catalog app `Firefox` with window title `GitHub - Mozilla Firefox`
@@ -36,6 +36,10 @@ For presences the system generates (catalog apps, apps not in the catalog, and I
 #### Scenario: IDE window
 - **WHEN** the foreground window title is `main.rs - my-project - Visual Studio Code` and no rule matches
 - **THEN** `details` is `Visual Studio Code` and `state` is `Editing main.rs in my-project`
+
+#### Scenario: Claude Code live session
+- **WHEN** a Claude Code session is active in project `my-project` editing `main.rs`
+- **THEN** `details` is `Claude Code`, `state` is `Editing main.rs in my-project`, `large_text` is `Claude Code`, and `large_image` resolves to the `claude_code` catalog icon URL (`claude.png`)
 
 ### Requirement: Rule presences keep the user's text
 For a matching enabled rule, `details` and `state` SHALL be the rule's templates with `{file}` and `{title}` filled in. On the shared client, when `details` does not already contain the rule's display name, `details` SHALL be prefixed with `<display name> - `. When the rendered `details` is empty, `details` SHALL be the display name.
@@ -120,3 +124,15 @@ While the global switch is off, the system SHALL keep building the presence for 
 - **WHEN** the global switch is off and the foreground app changes to `Firefox`
 - **THEN** the frontend receives the `Firefox` presence and Discord receives nothing
 - **AND** when the switch is turned on, Discord receives the `Firefox` presence
+
+### Requirement: Explicit session timestamps are preserved on the shared client
+When a presence source supplies a non-zero start timestamp (such as a Claude Code session start time or an IDE workspace start time), the engine SHALL preserve that timestamp instead of replacing it with the previous app's timestamp on the shared client.
+
+#### Scenario: Switching from a browser to a Claude Code session
+- **WHEN** the current presence is `Firefox` on the shared client with an earlier timestamp
+- **AND** a Claude Code session starts at timestamp `T`
+- **THEN** the published Claude Code presence uses timestamp `T`
+
+#### Scenario: Tool changes within the same Claude Code session
+- **WHEN** the same Claude Code session moves from `Thinking` to `Editing main.rs`
+- **THEN** the session's start timestamp `T` is preserved

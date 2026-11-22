@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ClaudeCodeSection } from "../components/ClaudeCodeSection";
 import { DetectionDetails, DetectionHint } from "../components/DetectionStatus";
 import { Toggle } from "../components/Toggle";
 import { usePlatformStatus } from "../hooks/usePlatformStatus";
@@ -8,6 +9,8 @@ import { Settings as SettingsType } from "../types";
 const EDITABLE_KEYS: (keyof SettingsType)[] = [
   "autostart_enabled",
   "priority_mode_enabled",
+  "claude_code_enabled",
+  "claude_code_timeout_minutes",
   "idle_enabled",
   "idle_threshold_minutes",
   "idle_message",
@@ -144,6 +147,34 @@ export function Settings({ settings, onSave }: SettingsProps) {
             onChange={(v) => set("autostart_enabled", v)}
           />
         </SettingRow>
+      </Group>
+
+      <Group title="Claude Code">
+        <ClaudeCodeSection />
+        <SettingRow
+          label="Show active sessions"
+          description="Show your live Claude Code session on Discord even when another window is in focus."
+        >
+          <Toggle
+            label="Show active sessions"
+            checked={draft.claude_code_enabled}
+            onChange={(v) => set("claude_code_enabled", v)}
+          />
+        </SettingRow>
+        {draft.claude_code_enabled && (
+          <SettingRow
+            label="Minutes before timeout"
+            description="Switch back to normal app detection after Claude Code is inactive."
+          >
+            <NumberInput
+              label="Minutes before Claude Code session timeout"
+              value={draft.claude_code_timeout_minutes}
+              onChange={(v) => set("claude_code_timeout_minutes", v)}
+              min={1}
+              max={60}
+            />
+          </SettingRow>
+        )}
       </Group>
 
       <Group title="Priority">

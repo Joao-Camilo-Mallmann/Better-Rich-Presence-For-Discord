@@ -3,11 +3,15 @@
 //! The core brain of the application. Processes incoming events, applies priority rules,
 //! handles debounce and anti-flicker, and sends updates to the Discord RPC thread.
 
-use crate::models::types::{
-    AppRule, AppState, EngineCommand, EngineEvent, PresenceData, PresenceState, DEFAULT_CLIENT_ID,
+use crate::domain::claude_code::{
+    ClaudeSession, ClaudeSessionTracker, CLAUDE_CODE_CATALOG_ID, CLAUDE_CODE_DISPLAY_NAME,
 };
 use crate::domain::presence::{activity_name, resolve_large_image, rule_details};
-use crate::services::app_registry::{AppRegistry, format_app_presence};
+use crate::models::types::{
+    AppRule, AppState, EngineCommand, EngineEvent, PresenceData, PresenceState, PriorityInfo,
+    DEFAULT_CLIENT_ID,
+};
+use crate::services::app_registry::{format_app_presence, AppRegistry};
 use log::{debug, info};
 use std::collections::HashMap;
 use tauri::Emitter;
@@ -36,6 +40,15 @@ async fn fetch_discord_app_details(client_id: u64) -> Option<(String, String)> {
     }
 }
 
+#[derive(Debug, Clone)]
+struct WindowSnapshot {
+    process_name: String,
+    aliases: Vec<String>,
+    window_title: String,
+    is_prioritized: bool,
+    foreground_app: Option<String>,
+}
+
 pub struct PresenceEngine {
     app_state: AppState,
 
@@ -50,12 +63,18 @@ pub struct PresenceEngine {
 
     // Cache for Discord application details (client_id -> (name, icon_hash))
     client_cache: HashMap<u64, (String, String)>,
-    
+
     app_registry: AppRegistry,
 
     // Session tracking for IDEs
     current_ide_workspace: Option<String>,
     ide_workspace_start_time: Option<i64>,
+
+    // Live Claude Code session tracking & precedence
+    claude_tracker: ClaudeSessionTracker,
+    claude_override_active: bool,
+    last_window_snapshot: Option<WindowSnapshot>,
+    pending_presence: Option<(u64, PresenceData)>,
 }
 
 impl PresenceEngine {
@@ -72,6 +91,10 @@ impl PresenceEngine {
             app_registry: AppRegistry::new(),
             current_ide_workspace: None,
             ide_workspace_start_time: None,
+            claude_tracker: ClaudeSessionTracker::new(),
+            claude_override_active: false,
+            last_window_snapshot: None,
+            pending_presence: None,
         }
     }
 
@@ -80,6 +103,8 @@ impl PresenceEngine {
 
         let mut settle_task: Option<tauri::async_runtime::JoinHandle<()>> = None;
         let (settle_tx, mut settle_rx) = mpsc::channel::<(u64, PresenceData)>(10);
+        let mut rate_limit_task: Option<tauri::async_runtime::JoinHandle<()>> = None;
+        let (flush_tx, mut flush_rx) = mpsc::channel::<()>(4);
         let mut connection_check_interval = tokio::time::interval(Duration::from_secs(1));
 
         // Initial sync of state to frontend
@@ -88,88 +113,185 @@ impl PresenceEngine {
         loop {
             tokio::select! {
                 _ = connection_check_interval.tick() => {
+                    let settings = self.app_state.get_settings().await;
+                    let waiting_timeout_secs =
+                        i64::from(settings.claude_code_timeout_minutes).saturating_mul(60);
+                    if self
+                        .claude_tracker
+                        .prune_expired(chrono::Utc::now().timestamp(), waiting_timeout_secs)
+                    {
+                        self.sync_claude_status().await;
+                        if settings.claude_code_enabled && self.claude_override_active {
+                            if let Some(session) = self.claude_tracker.active_session().cloned() {
+                                let data = build_claude_code_presence(&session);
+                                if !self.is_idle {
+                                    self.schedule_or_apply_presence(
+                                        DEFAULT_CLIENT_ID,
+                                        data,
+                                        &mut rate_limit_task,
+                                        &flush_tx,
+                                    )
+                                    .await;
+                                } else {
+                                    self.pre_idle_data = Some(data);
+                                }
+                            } else {
+                                self.claude_override_active = false;
+                                if !self.is_idle {
+                                    self.restore_window_presence(
+                                        &mut settle_task,
+                                        &mut rate_limit_task,
+                                        &flush_tx,
+                                    )
+                                    .await;
+                                }
+                            }
+                        }
+                    }
+
                     self.sync_state().await;
                 }
                 Some(event) = rx.recv() => {
                     match event {
                         EngineEvent::WindowChanged { process_name, aliases, window_title, is_prioritized, foreground_app } => {
-                            let rules = self.app_state.get_app_rules().await;
-                            let settings = self.app_state.get_settings().await;
-
-                            // Pick the name that matches a rule or the catalog (Linux may
-                            // report e.g. an executable name plus a window-class alias).
-                            let process_name = resolve_effective_name(&process_name, &aliases, &rules, &self.app_registry);
-
-                            // Emit priority info to frontend
-                            let priority_info = crate::models::types::PriorityInfo {
-                                active: is_prioritized,
-                                prioritized_app: if is_prioritized { Some(process_name.clone()) } else { None },
+                            let snapshot = WindowSnapshot {
+                                process_name,
+                                aliases,
+                                window_title,
+                                is_prioritized,
                                 foreground_app,
                             };
-                            let _ = self.app_state.app_handle.emit("priority-info", &priority_info);
+                            self.last_window_snapshot = Some(snapshot.clone());
 
-                            if process_name.is_empty() {
-                                if let Some(task) = settle_task.take() {
-                                    task.abort();
-                                }
-                                self.app_state.discord_handle.send(EngineCommand::ClearActivity);
-                            } else {
-                                // Find matching rule (cross-platform, stripping .exe)
-                                let matched_rule = rules.iter().find(|r| rule_matches(r, &process_name));
+                            let settings = self.app_state.get_settings().await;
+                            if settings.claude_code_enabled && self.claude_tracker.active_session().is_some() {
+                                self.claude_override_active = true;
+                                continue;
+                            }
 
-                                // Resolve Client ID based on process name
-                                let app_info = self.app_registry.find_app(&process_name);
-                                let client_id = app_info
-                                    .map(|app| app.client_id.parse::<u64>().unwrap_or(DEFAULT_CLIENT_ID))
-                                    .unwrap_or(DEFAULT_CLIENT_ID);
-                                let default_app_name = app_info.map(|app| app.name.clone());
-
-                                // Fetch application details from Discord if custom client ID and not cached
-                                let (discord_name, discord_icon) = self.resolve_discord_details(client_id).await;
-
-                                let new_data = match matched_rule {
-                                    Some(rule) => build_presence_from_rule(
-                                        &self.app_registry,
-                                        rule,
-                                        &process_name,
-                                        &window_title,
-                                        discord_icon,
-                                        client_id == DEFAULT_CLIENT_ID,
-                                    ),
-                                    None => {
-                                        if let Some(ide_ctx) = crate::services::title_parser::TitleParser::parse(&window_title) {
-                                            // Session Tracking
-                                            let ide_workspace = ide_ctx.workspace_name.clone().unwrap_or_default();
-                                            if self.current_ide_workspace.as_ref() != Some(&ide_workspace) {
-                                                self.current_ide_workspace = Some(ide_workspace);
-                                                self.ide_workspace_start_time = Some(chrono::Utc::now().timestamp());
-                                            }
-                                            let timestamp = self.ide_workspace_start_time.unwrap_or_else(|| chrono::Utc::now().timestamp());
-                                            
-                                            crate::services::activity_builder::ActivityBuilder::build(&ide_ctx, timestamp)
-                                        } else {
-                                            self.current_ide_workspace = None; // Reset when not in an IDE
-                                            build_fallback_presence(&self.app_registry, &process_name, &window_title, discord_name, discord_icon, default_app_name)
-                                        }
-                                    }
-                                };
-
-                                if !self.is_idle {
-                                    // Start anti-flicker settle timer
+                            let rules = self.app_state.get_app_rules().await;
+                            match self.resolve_window_presence(&snapshot, &rules).await {
+                                None => {
                                     if let Some(task) = settle_task.take() {
                                         task.abort();
                                     }
+                                    self.clear_pending(&mut rate_limit_task);
+                                    self.app_state.discord_handle.send(EngineCommand::ClearActivity);
+                                }
+                                Some((client_id, new_data)) => {
+                                    if !self.is_idle {
+                                        if let Some(task) = settle_task.take() {
+                                            task.abort();
+                                        }
 
-                                    let delay = settings.settle_delay_seconds;
-                                    let tx = settle_tx.clone();
-                                    let data_clone = new_data.clone();
+                                        let delay = settings.settle_delay_seconds;
+                                        let tx = settle_tx.clone();
+                                        let data_clone = new_data.clone();
 
-                                    settle_task = Some(tauri::async_runtime::spawn(async move {
-                                        sleep(Duration::from_secs(delay)).await;
-                                        let _ = tx.send((client_id, data_clone)).await;
-                                    }));
+                                        settle_task = Some(tauri::async_runtime::spawn(async move {
+                                            sleep(Duration::from_secs(delay)).await;
+                                            let _ = tx.send((client_id, data_clone)).await;
+                                        }));
+                                    } else {
+                                        self.pre_idle_data = Some(new_data);
+                                    }
+                                }
+                            }
+                        }
+                        EngineEvent::ClaudeCodeEvent(payload) => {
+                            let now = chrono::Utc::now().timestamp();
+                            if !self.claude_tracker.apply_event(&payload, now) {
+                                continue;
+                            }
+                            self.sync_claude_status().await;
+
+                            let settings = self.app_state.get_settings().await;
+                            if !settings.claude_code_enabled {
+                                continue;
+                            }
+
+                            if let Some(session) = self.claude_tracker.active_session().cloned() {
+                                if let Some(task) = settle_task.take() {
+                                    task.abort();
+                                }
+                                let _ = self
+                                    .app_state
+                                    .app_handle
+                                    .emit("priority-info", &PriorityInfo::default());
+                                self.claude_override_active = true;
+                                let claude_data = build_claude_code_presence(&session);
+                                if !self.is_idle {
+                                    self.schedule_or_apply_presence(
+                                        DEFAULT_CLIENT_ID,
+                                        claude_data,
+                                        &mut rate_limit_task,
+                                        &flush_tx,
+                                    )
+                                    .await;
                                 } else {
-                                    self.pre_idle_data = Some(new_data.clone());
+                                    self.pre_idle_data = Some(claude_data);
+                                }
+                            } else if self.claude_override_active {
+                                self.claude_override_active = false;
+                                if !self.is_idle {
+                                    self.restore_window_presence(
+                                        &mut settle_task,
+                                        &mut rate_limit_task,
+                                        &flush_tx,
+                                    )
+                                    .await;
+                                }
+                            }
+                        }
+                        EngineEvent::ClaudeCodeDisconnected => {
+                            self.claude_tracker.clear();
+                            self.sync_claude_status().await;
+                            if self.claude_override_active {
+                                self.claude_override_active = false;
+                                if !self.is_idle {
+                                    self.restore_window_presence(
+                                        &mut settle_task,
+                                        &mut rate_limit_task,
+                                        &flush_tx,
+                                    )
+                                    .await;
+                                }
+                            }
+                        }
+                        EngineEvent::ClaudeCodeConfigChanged => {
+                            let settings = self.app_state.get_settings().await;
+                            if settings.claude_code_enabled {
+                                if let Some(session) = self.claude_tracker.active_session().cloned() {
+                                    if let Some(task) = settle_task.take() {
+                                        task.abort();
+                                    }
+                                    let _ = self
+                                        .app_state
+                                        .app_handle
+                                        .emit("priority-info", &PriorityInfo::default());
+                                    self.claude_override_active = true;
+                                    let claude_data = build_claude_code_presence(&session);
+                                    if !self.is_idle {
+                                        self.schedule_or_apply_presence(
+                                            DEFAULT_CLIENT_ID,
+                                            claude_data,
+                                            &mut rate_limit_task,
+                                            &flush_tx,
+                                        )
+                                        .await;
+                                    } else {
+                                        self.pre_idle_data = Some(claude_data);
+                                    }
+                                }
+                            } else if self.claude_override_active {
+                                self.claude_override_active = false;
+                                if !self.is_idle {
+                                    self.restore_window_presence(
+                                        &mut settle_task,
+                                        &mut rate_limit_task,
+                                        &flush_tx,
+                                    )
+                                    .await;
                                 }
                             }
                         }
@@ -177,6 +299,7 @@ impl PresenceEngine {
                             if let Some(task) = settle_task.take() {
                                 task.abort();
                             }
+                            self.clear_pending(&mut rate_limit_task);
                             self.app_state.discord_handle.send(EngineCommand::ClearActivity);
                         }
                         EngineEvent::IdleChanged { idle, idle_minutes } => {
@@ -188,21 +311,60 @@ impl PresenceEngine {
                             if idle && idle_minutes >= settings.idle_threshold_minutes {
                                 if !self.is_idle {
                                     info!("User is idle, switching presence");
+                                    if let Some(task) = settle_task.take() {
+                                        task.abort();
+                                    }
                                     self.pre_idle_data = Some(self.current_data.clone());
                                     self.is_idle = true;
 
                                     let idle_data = idle_presence(&settings.idle_message);
-
-                                    self.apply_presence(DEFAULT_CLIENT_ID, idle_data).await;
+                                    self.schedule_or_apply_presence(
+                                        DEFAULT_CLIENT_ID,
+                                        idle_data,
+                                        &mut rate_limit_task,
+                                        &flush_tx,
+                                    )
+                                    .await;
                                 }
                             } else if !idle && self.is_idle {
                                 info!("User is active again, restoring presence");
                                 self.is_idle = false;
-                                if let Some(pre_idle) = self.pre_idle_data.take() {
+                                if settings.claude_code_enabled {
+                                    if let Some(session) = self.claude_tracker.active_session().cloned() {
+                                        self.pre_idle_data = None;
+                                        self.claude_override_active = true;
+                                        let claude_data = build_claude_code_presence(&session);
+                                        self.schedule_or_apply_presence(
+                                            DEFAULT_CLIENT_ID,
+                                            claude_data,
+                                            &mut rate_limit_task,
+                                            &flush_tx,
+                                        )
+                                        .await;
+                                        continue;
+                                    }
+                                }
+
+                                if self.claude_override_active {
+                                    self.claude_override_active = false;
+                                    self.pre_idle_data = None;
+                                    self.restore_window_presence(
+                                        &mut settle_task,
+                                        &mut rate_limit_task,
+                                        &flush_tx,
+                                    )
+                                    .await;
+                                } else if let Some(pre_idle) = self.pre_idle_data.take() {
                                     // Update timestamp to now to reset timer
                                     let mut restored = pre_idle;
                                     restored.timestamp = chrono::Utc::now().timestamp();
-                                    self.apply_presence(self.current_client_id, restored).await;
+                                    self.schedule_or_apply_presence(
+                                        self.current_client_id,
+                                        restored,
+                                        &mut rate_limit_task,
+                                        &flush_tx,
+                                    )
+                                    .await;
                                 }
                             }
                         }
@@ -210,10 +372,17 @@ impl PresenceEngine {
                             if let Some(task) = settle_task.take() {
                                 task.abort();
                             }
-                            self.apply_presence(DEFAULT_CLIENT_ID, data).await;
+                            self.schedule_or_apply_presence(
+                                DEFAULT_CLIENT_ID,
+                                data,
+                                &mut rate_limit_task,
+                                &flush_tx,
+                            )
+                            .await;
                         }
                         EngineEvent::Shutdown => {
                             info!("Engine received shutdown signal");
+                            self.clear_pending(&mut rate_limit_task);
                             self.app_state.discord_handle.send(EngineCommand::Disconnect);
                             break;
                         }
@@ -221,10 +390,175 @@ impl PresenceEngine {
                 }
 
                 Some((client_id, settled_data)) = settle_rx.recv() => {
-                    // This data has survived the anti-flicker delay
-                    self.apply_presence(client_id, settled_data).await;
+                    // This data has survived the anti-flicker delay. Ignore if idle or
+                    // if Claude Code took precedence while the settle timer ran.
+                    if self.is_idle {
+                        continue;
+                    }
+                    let settings = self.app_state.get_settings().await;
+                    if settings.claude_code_enabled && self.claude_tracker.active_session().is_some() {
+                        continue;
+                    }
+                    self.schedule_or_apply_presence(
+                        client_id,
+                        settled_data,
+                        &mut rate_limit_task,
+                        &flush_tx,
+                    )
+                    .await;
+                }
+
+                Some(()) = flush_rx.recv() => {
+                    rate_limit_task = None;
+                    if let Some((client_id, pending_data)) = self.pending_presence.take() {
+                        let settings = self.app_state.get_settings().await;
+                        self.commit_presence(client_id, pending_data, settings.global_enabled).await;
+                    }
                 }
             }
+        }
+    }
+
+    async fn resolve_window_presence(
+        &mut self,
+        snapshot: &WindowSnapshot,
+        rules: &[AppRule],
+    ) -> Option<(u64, PresenceData)> {
+        // Pick the name that matches a rule or the catalog (Linux may
+        // report e.g. an executable name plus a window-class alias).
+        let process_name = resolve_effective_name(
+            &snapshot.process_name,
+            &snapshot.aliases,
+            rules,
+            &self.app_registry,
+        );
+
+        let priority_info = PriorityInfo {
+            active: snapshot.is_prioritized,
+            prioritized_app: if snapshot.is_prioritized {
+                Some(process_name.clone())
+            } else {
+                None
+            },
+            foreground_app: snapshot.foreground_app.clone(),
+        };
+        let _ = self
+            .app_state
+            .app_handle
+            .emit("priority-info", &priority_info);
+
+        if process_name.is_empty() {
+            return None;
+        }
+
+        let matched_rule = rules.iter().find(|r| rule_matches(r, &process_name));
+
+        let app_info = self.app_registry.find_app(&process_name);
+        let client_id = app_info
+            .map(|app| app.client_id.parse::<u64>().unwrap_or(DEFAULT_CLIENT_ID))
+            .unwrap_or(DEFAULT_CLIENT_ID);
+        let default_app_name = app_info.map(|app| app.name.clone());
+
+        let (discord_name, discord_icon) = self.resolve_discord_details(client_id).await;
+
+        let new_data = match matched_rule {
+            Some(rule) => build_presence_from_rule(
+                &self.app_registry,
+                rule,
+                &process_name,
+                &snapshot.window_title,
+                discord_icon,
+                client_id == DEFAULT_CLIENT_ID,
+            ),
+            None => {
+                if let Some(ide_ctx) =
+                    crate::services::title_parser::TitleParser::parse(&snapshot.window_title)
+                {
+                    let ide_workspace = ide_ctx.workspace_name.clone().unwrap_or_default();
+                    if self.current_ide_workspace.as_ref() != Some(&ide_workspace) {
+                        self.current_ide_workspace = Some(ide_workspace);
+                        self.ide_workspace_start_time = Some(chrono::Utc::now().timestamp());
+                    }
+                    let timestamp = self
+                        .ide_workspace_start_time
+                        .unwrap_or_else(|| chrono::Utc::now().timestamp());
+
+                    crate::services::activity_builder::ActivityBuilder::build(&ide_ctx, timestamp)
+                } else {
+                    self.current_ide_workspace = None;
+                    build_fallback_presence(
+                        &self.app_registry,
+                        &process_name,
+                        &snapshot.window_title,
+                        discord_name,
+                        discord_icon,
+                        default_app_name,
+                    )
+                }
+            }
+        };
+
+        Some((client_id, new_data))
+    }
+
+    async fn restore_window_presence(
+        &mut self,
+        settle_task: &mut Option<tauri::async_runtime::JoinHandle<()>>,
+        rate_limit_task: &mut Option<tauri::async_runtime::JoinHandle<()>>,
+        flush_tx: &mpsc::Sender<()>,
+    ) {
+        if let Some(task) = settle_task.take() {
+            task.abort();
+        }
+        let Some(snapshot) = self.last_window_snapshot.clone() else {
+            self.schedule_or_apply_presence(
+                DEFAULT_CLIENT_ID,
+                PresenceData::default(),
+                rate_limit_task,
+                flush_tx,
+            )
+            .await;
+            return;
+        };
+
+        let rules = self.app_state.get_app_rules().await;
+        match self.resolve_window_presence(&snapshot, &rules).await {
+            Some((client_id, data)) => {
+                self.schedule_or_apply_presence(client_id, data, rate_limit_task, flush_tx)
+                    .await;
+            }
+            None => {
+                self.clear_pending(rate_limit_task);
+                self.app_state
+                    .discord_handle
+                    .send(EngineCommand::ClearActivity);
+            }
+        }
+    }
+
+    async fn sync_claude_status(&self) {
+        let active_count = self.claude_tracker.active_count();
+        let active_session = self.claude_tracker.active_session();
+        let active_project = active_session.and_then(|s| s.project_name.clone());
+        let active_activity = active_session.map(ClaudeSession::state_text);
+
+        if self
+            .app_state
+            .set_claude_session_snapshot(active_count, active_project, active_activity)
+            .await
+        {
+            let status = self.app_state.get_claude_code_status().await;
+            let _ = self
+                .app_state
+                .app_handle
+                .emit("claude-code-status-changed", &status);
+        }
+    }
+
+    fn clear_pending(&mut self, rate_limit_task: &mut Option<tauri::async_runtime::JoinHandle<()>>) {
+        self.pending_presence = None;
+        if let Some(task) = rate_limit_task.take() {
+            task.abort();
         }
     }
 
@@ -309,10 +643,22 @@ impl PresenceEngine {
         prepare_for_discord(&self.app_registry, client_id, discord_name, data);
     }
 
-    async fn apply_presence(&mut self, client_id: u64, mut new_data: PresenceData) {
+    /// Applies `new_data` immediately when outside Discord's 15-second rate-limit
+    /// window, or coalesces it into a single pending slot flushed once the window
+    /// opens so rapid events never block the engine loop.
+    async fn schedule_or_apply_presence(
+        &mut self,
+        client_id: u64,
+        mut new_data: PresenceData,
+        rate_limit_task: &mut Option<tauri::async_runtime::JoinHandle<()>>,
+        flush_tx: &mpsc::Sender<()>,
+    ) {
         self.prepare_for_discord(client_id, &mut new_data);
 
-        if client_id == self.current_client_id && same_visible_content(&new_data, &self.current_data) {
+        if self.pending_presence.is_none()
+            && client_id == self.current_client_id
+            && same_visible_content(&new_data, &self.current_data)
+        {
             return;
         }
 
@@ -321,23 +667,42 @@ impl PresenceEngine {
         // preview; `AppState::update_settings` sends it when sharing turns on.
         let sharing = settings.global_enabled;
 
-        // Rate limit (Debounce)
         if let (true, Some(last_time)) = (sharing, self.last_update_time) {
             let elapsed = last_time.elapsed();
             let debounce = Duration::from_secs(settings.debounce_seconds.max(15)); // Discord requires ~15s
             if elapsed < debounce {
                 let wait_time = debounce - elapsed;
-                debug!("Rate limiting update, waiting {:?}", wait_time);
-                sleep(wait_time).await;
+                debug!("Coalescing rate-limited update for {:?}", wait_time);
+                self.pending_presence = Some((client_id, new_data));
+                if rate_limit_task.is_none() {
+                    let tx = flush_tx.clone();
+                    *rate_limit_task = Some(tauri::async_runtime::spawn(async move {
+                        sleep(wait_time).await;
+                        let _ = tx.send(()).await;
+                    }));
+                }
+                return;
             }
         }
 
-        // Keep timestamp if client_id is the same to avoid timer reset
-        if client_id == self.current_client_id && self.current_data.timestamp > 0 {
-            new_data.timestamp = self.current_data.timestamp;
-        } else if new_data.timestamp == 0 {
-            new_data.timestamp = chrono::Utc::now().timestamp();
+        self.clear_pending(rate_limit_task);
+        self.commit_presence(client_id, new_data, sharing).await;
+    }
+
+    async fn commit_presence(&mut self, client_id: u64, mut new_data: PresenceData, sharing: bool) {
+        if client_id == self.current_client_id
+            && same_visible_content(&new_data, &self.current_data)
+        {
+            return;
         }
+
+        new_data.timestamp = resolve_timestamp(
+            self.current_client_id,
+            self.current_data.timestamp,
+            client_id,
+            new_data.timestamp,
+            chrono::Utc::now().timestamp(),
+        );
 
         self.current_data = new_data;
         self.current_client_id = client_id;
@@ -354,6 +719,39 @@ impl PresenceEngine {
 
         // Sync to shared state and emit events
         self.sync_state().await;
+    }
+}
+
+/// Chooses the timestamp for an outgoing presence: honors explicit non-zero
+/// session/workspace timestamps (e.g. Claude Code sessions, IDEs, idle),
+/// otherwise preserves the current timer on the same client ID.
+fn resolve_timestamp(
+    current_client_id: u64,
+    current_timestamp: i64,
+    next_client_id: u64,
+    requested_timestamp: i64,
+    now: i64,
+) -> i64 {
+    if requested_timestamp > 0 {
+        requested_timestamp
+    } else if next_client_id == current_client_id && current_timestamp > 0 {
+        current_timestamp
+    } else {
+        now
+    }
+}
+
+/// Builds the presence payload for an active Claude Code session.
+pub fn build_claude_code_presence(session: &ClaudeSession) -> PresenceData {
+    PresenceData {
+        activity_name: String::new(),
+        details: CLAUDE_CODE_DISPLAY_NAME.to_string(),
+        state: session.state_text(),
+        large_image: CLAUDE_CODE_CATALOG_ID.to_string(),
+        large_text: CLAUDE_CODE_DISPLAY_NAME.to_string(),
+        small_image: String::new(),
+        small_text: String::new(),
+        timestamp: session.started_at,
     }
 }
 
@@ -690,6 +1088,41 @@ mod tests {
         assert_eq!(data.state, "Just chilling...");
         assert_eq!(data.large_image, crate::domain::presence::LOGO_IMAGE_URL);
         assert_eq!(data.activity_name, crate::domain::presence::DEFAULT_ACTIVITY_NAME);
+    }
+
+    #[test]
+    fn test_claude_code_presence_resolves_catalog_icon_and_session_timestamp() {
+        let session = ClaudeSession {
+            session_id: "sess-1".to_string(),
+            project_name: Some("Better-RPC".to_string()),
+            activity: crate::domain::claude_code::ClaudeActivity::EditingFile(Some(
+                "engine.rs".to_string(),
+            )),
+            started_at: 1_700_000_000,
+            last_event_at: 1_700_000_050,
+        };
+        let data = prepared(build_claude_code_presence(&session));
+        assert_eq!(data.activity_name, crate::domain::presence::DEFAULT_ACTIVITY_NAME);
+        assert_eq!(data.details, "Claude Code");
+        assert_eq!(data.state, "Editing engine.rs in Better-RPC");
+        assert_eq!(data.large_text, "Claude Code");
+        assert_eq!(data.timestamp, 1_700_000_000);
+        assert!(
+            data.large_image.starts_with("https://cdn.jsdelivr.net/")
+                && data.large_image.ends_with("/claude.png"),
+            "{}",
+            data.large_image
+        );
+    }
+
+    #[test]
+    fn test_resolve_timestamp_honors_explicit_session_timestamp() {
+        // Explicit session start overrides prior shared-client timestamp.
+        assert_eq!(resolve_timestamp(1, 100, 1, 250, 300), 250);
+        // Zero requested timestamp preserves existing timer on the same client.
+        assert_eq!(resolve_timestamp(1, 100, 1, 0, 300), 100);
+        // Zero requested timestamp starts fresh when switching client IDs.
+        assert_eq!(resolve_timestamp(1, 100, 2, 0, 300), 300);
     }
 }
 

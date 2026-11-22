@@ -43,6 +43,25 @@ export interface Settings {
   settle_delay_seconds: number;
   /** When true, the backend scans all running processes and shows the highest-priority one */
   priority_mode_enabled: boolean;
+  /** When true, an active Claude Code session takes priority over window detection */
+  claude_code_enabled: boolean;
+  /** Localhost port for the Claude Code HTTP hook receiver */
+  claude_code_port: number;
+  /** Minutes of inactivity before a waiting Claude Code session auto-expires */
+  claude_code_timeout_minutes: number;
+}
+
+export type ClaudeHookInstallState = "not_installed" | "installed" | "outdated";
+
+export interface ClaudeCodeStatus {
+  install_state: ClaudeHookInstallState;
+  settings_path: string;
+  endpoint_url: string;
+  server_listening: boolean;
+  server_error: string | null;
+  active_sessions: number;
+  active_project: string | null;
+  active_activity: string | null;
 }
 
 export interface DiscordProfile {

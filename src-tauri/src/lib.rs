@@ -121,8 +121,8 @@ pub fn run() {
             }
 
             // 3. Set up tray
-            let quit_i = MenuItemBuilder::with_id("quit", "Sair").build(app)?;
-            let show_i = MenuItemBuilder::with_id("show", "Abrir").build(app)?;
+            let quit_i = MenuItemBuilder::with_id("quit", "Quit").build(app)?;
+            let show_i = MenuItemBuilder::with_id("show", "Open").build(app)?;
             let menu = MenuBuilder::new(app).items(&[&show_i, &quit_i]).build()?;
 
             let _tray = TrayIconBuilder::new()
@@ -163,6 +163,7 @@ pub fn run() {
             let (_discord_manager, discord_handle) = services::discord::DiscordManager::new(app.handle().clone());
 
             // 6. Shared State (Consolidated)
+            let claude_code_port = settings.claude_code_port;
             let app_state =
                 AppState::new(app.handle().clone(), discord_handle, app_rules, settings);
 
@@ -172,7 +173,14 @@ pub fn run() {
             // 7. Spawn Watcher Task
             services::watcher::start_window_watcher(tx.clone(), app_state.clone());
 
-            // 8. Spawn Engine Task
+            // 8. Spawn Claude Code HTTP Hook Receiver
+            services::claude_code_server::start_claude_code_server(
+                claude_code_port,
+                tx.clone(),
+                app_state.clone(),
+            );
+
+            // 9. Spawn Engine Task
             services::engine::start_engine(rx, app_state);
 
             Ok(())
@@ -192,6 +200,9 @@ pub fn run() {
             commands::update_settings,
             commands::get_running_processes,
             commands::get_platform_status,
+            commands::get_claude_code_status,
+            commands::connect_claude_code,
+            commands::disconnect_claude_code,
         ])
         .on_window_event(|window, event| match event {
             tauri::WindowEvent::CloseRequested { api, .. } => {
