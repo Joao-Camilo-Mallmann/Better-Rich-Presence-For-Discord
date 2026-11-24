@@ -44,7 +44,12 @@ export function SegmentedControl<T extends string>({
     return () => window.removeEventListener("keydown", hideOnEscape);
   }, [hintShown]);
 
+  // The selected option is the group's tab stop; the first one when nothing matches.
+  const selectedIndex = options.findIndex((option) => option.value === value);
+  const tabStop = Math.max(selectedIndex, 0);
+
   const selectAt = (index: number) => {
+    if (options.length === 0) return;
     const next = (index + options.length) % options.length;
     onChange(options[next].value);
     buttons.current[next]?.focus();
@@ -86,7 +91,7 @@ export function SegmentedControl<T extends string>({
               role="radio"
               aria-checked={selected}
               aria-describedby={option.hint ? `${hintId}-${index}` : undefined}
-              tabIndex={selected ? 0 : -1}
+              tabIndex={index === tabStop ? 0 : -1}
               onClick={() => onChange(option.value)}
               onKeyDown={(event) => handleKeyDown(event, index)}
               onMouseEnter={() => {
