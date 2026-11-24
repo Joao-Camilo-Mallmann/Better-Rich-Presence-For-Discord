@@ -160,10 +160,10 @@ pub enum EngineEvent {
     /// Idle status. Sent on every change of the idle-minute count while idle,
     /// and once with `idle: false` when the user becomes active again.
     IdleChanged { idle: bool, idle_minutes: u32 },
-    /// A manual profile was set by the user.
-    ManualProfile(PresenceData),
     /// A Claude Code HTTP hook event arrived on the localhost receiver.
     ClaudeCodeEvent(crate::domain::claude_code::ClaudeHookPayload),
+    /// The user pinned or unpinned a specific Claude Code chat session.
+    SelectClaudeCodeSession(Option<String>),
     /// The user disconnected Claude Code hooks from Settings.
     ClaudeCodeDisconnected,
     /// Settings affecting Claude Code integration changed.
@@ -175,6 +175,20 @@ pub enum EngineEvent {
 // ---------------------------------------------------------------------------
 // ClaudeCodeStatus — snapshot of Claude Code hook & session state for UI
 // ---------------------------------------------------------------------------
+
+/// Summary of a single live Claude Code chat session, exposed to the frontend.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ClaudeSessionSummary {
+    pub session_id: String,
+    pub project_name: Option<String>,
+    pub chat_title: Option<String>,
+    pub activity: String,
+    pub is_waiting: bool,
+    pub model: Option<String>,
+    pub git_branch: Option<String>,
+    pub started_at: i64,
+    pub last_event_at: i64,
+}
 
 /// Live status of the Claude Code HTTP hook integration, exposed to the frontend.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -195,6 +209,12 @@ pub struct ClaudeCodeStatus {
     pub active_project: Option<String>,
     /// Formatted activity line of the active Claude Code session, if any.
     pub active_activity: Option<String>,
+    /// All active unexpired sessions ordered by most recent activity.
+    pub sessions: Vec<ClaudeSessionSummary>,
+    /// Session currently driving Discord Rich Presence (pinned or auto-selected).
+    pub selected_session_id: Option<String>,
+    /// User-pinned session ID, or `None` when auto-following the latest chat.
+    pub pinned_session_id: Option<String>,
 }
 
 impl Default for ClaudeCodeStatus {
@@ -209,6 +229,9 @@ impl Default for ClaudeCodeStatus {
             active_sessions: 0,
             active_project: None,
             active_activity: None,
+            sessions: Vec::new(),
+            selected_session_id: None,
+            pinned_session_id: None,
         }
     }
 }
@@ -293,6 +316,10 @@ fn default_claude_code_timeout_minutes() -> u32 {
     crate::domain::claude_code::DEFAULT_CLAUDE_CODE_TIMEOUT_MINUTES
 }
 
+fn default_claude_code_show_chat_title() -> bool {
+    true
+}
+
 /// User-configurable application settings, persisted via `tauri-plugin-store`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Settings {
@@ -321,6 +348,9 @@ pub struct Settings {
     /// Minutes of inactivity before a waiting Claude Code session auto-expires.
     #[serde(default = "default_claude_code_timeout_minutes")]
     pub claude_code_timeout_minutes: u32,
+    /// Whether to include the active chat title in Discord's `state` line.
+    #[serde(default = "default_claude_code_show_chat_title")]
+    pub claude_code_show_chat_title: bool,
 }
 
 impl Default for Settings {
@@ -337,6 +367,7 @@ impl Default for Settings {
             claude_code_enabled: default_claude_code_enabled(),
             claude_code_port: default_claude_code_port(),
             claude_code_timeout_minutes: default_claude_code_timeout_minutes(),
+            claude_code_show_chat_title: default_claude_code_show_chat_title(),
         }
     }
 }
@@ -652,16 +683,25 @@ impl AppState {
         active_sessions: usize,
         active_project: Option<String>,
         active_activity: Option<String>,
+        sessions: Vec<ClaudeSessionSummary>,
+        selected_session_id: Option<String>,
+        pinned_session_id: Option<String>,
     ) -> bool {
         let mut inner = self.inner.write().await;
         let status = &mut inner.claude_code_status;
         if status.active_sessions != active_sessions
             || status.active_project != active_project
             || status.active_activity != active_activity
+            || status.sessions != sessions
+            || status.selected_session_id != selected_session_id
+            || status.pinned_session_id != pinned_session_id
         {
             status.active_sessions = active_sessions;
             status.active_project = active_project;
             status.active_activity = active_activity;
+            status.sessions = sessions;
+            status.selected_session_id = selected_session_id;
+            status.pinned_session_id = pinned_session_id;
             true
         } else {
             false
@@ -711,6 +751,7 @@ mod tests {
             parsed.claude_code_timeout_minutes,
             crate::domain::claude_code::DEFAULT_CLAUDE_CODE_TIMEOUT_MINUTES
         );
+        assert!(parsed.claude_code_show_chat_title);
     }
 }
 

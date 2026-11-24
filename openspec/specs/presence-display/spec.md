@@ -18,7 +18,7 @@ The system SHALL NOT send an activity name override. The bold title of the activ
 - **THEN** the presence's `activity_name` is that returned name
 
 ### Requirement: App-first text layout for generated presences
-For presences the system generates (catalog apps, apps not in the catalog, IDE windows, and Claude Code live sessions), `details` SHALL be the app name and `state` SHALL describe the activity.
+For presences the system generates (catalog apps, apps not in the catalog, IDE windows, and Claude Code live sessions), `details` SHALL be the app name (optionally paired with workspace/project) and `state` SHALL describe the activity.
 
 #### Scenario: Browser with a page title
 - **WHEN** the foreground app is the catalog app `Firefox` with window title `GitHub - Mozilla Firefox`
@@ -35,11 +35,11 @@ For presences the system generates (catalog apps, apps not in the catalog, IDE w
 
 #### Scenario: IDE window
 - **WHEN** the foreground window title is `main.rs - my-project - Visual Studio Code` and no rule matches
-- **THEN** `details` is `Visual Studio Code` and `state` is `Editing main.rs in my-project`
+- **THEN** `details` is `Visual Studio Code · my-project` and `state` is `Editing main.rs (Rust)`
 
 #### Scenario: Claude Code live session
-- **WHEN** a Claude Code session is active in project `my-project` editing `main.rs`
-- **THEN** `details` is `Claude Code`, `state` is `Editing main.rs in my-project`, `large_text` is `Claude Code`, and `large_image` resolves to the `claude_code` catalog icon URL (`claude.png`)
+- **WHEN** a Claude Code session is active in project `my-project` editing `main.rs` with chat title `Fix bug`, model `Claude Opus 4.6`, and branch `main`
+- **THEN** `details` is `Claude Code · my-project`, `state` is `Editing main.rs · Fix bug`, `large_text` is `Claude Opus 4.6 · main`, and `large_image` resolves to the `claude_code` catalog icon URL (`claude.png`)
 
 ### Requirement: Rule presences keep the user's text
 For a matching enabled rule, `details` and `state` SHALL be the rule's templates with `{file}` and `{title}` filled in. On the shared client, when `details` does not already contain the rule's display name, `details` SHALL be prefixed with `<display name> - `. When the rendered `details` is empty, `details` SHALL be the display name.
@@ -109,13 +109,17 @@ The presence shown before any app is detected SHALL read `Browsing the PC` / `Ju
 - **THEN** `details` is `Away`, `state` is `Idle` and the large image text is `Idle`
 
 ### Requirement: Status Preview mirrors the Discord activity
-The Status Preview SHALL render the presence the way Discord does: the large image from the same URL, `activity_name` as the bold title, then `details`, `state`, and the elapsed timer. Above the card body it SHALL show the member-list line `Playing <details>`.
+The Status Preview SHALL render the presence the way Discord does: the large image from the same URL (with an optional small-image corner badge and tooltip when present), `activity_name` as the bold title, then `details`, `state`, and the elapsed timer. Above the card body it SHALL show the member-list line `Playing <details>`.
 
 #### Scenario: Preview for a catalog app
 - **WHEN** the current presence is `Firefox` / `Browsing GitHub` on the shared client
 - **THEN** the preview's bold title is `Better Rich Presence`
 - **AND** its lines are `Firefox`, `Browsing GitHub` and the elapsed timer
 - **AND** its member-list line reads `Playing Firefox`
+
+#### Scenario: Preview with a small image badge
+- **WHEN** the current presence includes a non-empty `small_image` and `small_text`
+- **THEN** the preview renders the small image as a circular corner badge on the large image with `small_text` as its tooltip
 
 ### Requirement: Presence stays current while Rich Presence is off
 While the global switch is off, the system SHALL keep building the presence for the foreground app and publish it to the frontend without sending it to Discord. Turning the switch on SHALL send the latest presence.
@@ -136,3 +140,14 @@ When a presence source supplies a non-zero start timestamp (such as a Claude Cod
 #### Scenario: Tool changes within the same Claude Code session
 - **WHEN** the same Claude Code session moves from `Thinking` to `Editing main.rs`
 - **THEN** the session's start timestamp `T` is preserved
+
+### Requirement: Small image resolution on the shared client
+On the shared client, `small_image` SHALL resolve HTTP(S) URLs via `discord_image_url`, resolve catalog IDs or executables to their catalog icon URL, and resolve empty, placeholder, or unknown values to an empty string (never falling back to the Better Rich Presence logo).
+
+#### Scenario: Language icon URL in small_image
+- **WHEN** an IDE presence sets `small_image` to the Rust language icon URL (GitHub Raw form) on the shared client
+- **THEN** `small_image` resolves to the jsDelivr `rust.png` URL
+
+#### Scenario: Unknown small_image on the shared client
+- **WHEN** a presence sets `small_image` to `"unknown-key"` on the shared client
+- **THEN** `small_image` resolves to an empty string

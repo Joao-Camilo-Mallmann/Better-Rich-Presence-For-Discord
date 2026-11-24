@@ -1,18 +1,52 @@
 import { Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { AppList } from "../components/AppList";
+import { useClaudeCode } from "../hooks/useClaudeCode";
+import { usePresence } from "../hooks/usePresence";
 import { ProcessPicker } from "../components/ProcessPicker";
+import { SegmentedControl } from "../components/SegmentedControl";
 import { useAppRules } from "../hooks/useAppRules";
 import { AppRule } from "../types";
 import { getDefaultProcessRules } from "../utils/processDefaults";
 
 interface AppsProps {
-  /** Whether Max priority mode is on, which is when list order matters. */
+  /** Whether Priority list mode is on, which is when list order matters. */
   priorityMode: boolean;
+  /** Saves the presence mode right away; there is no separate save step. */
+  onPriorityModeChange: (priorityMode: boolean) => void;
+}
+
+const PRESENCE_MODES: {
+  value: "dynamic" | "priority";
+  label: string;
+  hint: string;
+}[] = [
+  {
+    value: "dynamic",
+    label: "Dynamic",
+    hint: "Discord shows whatever app you're using and switches along with you.",
+  },
+  {
+    value: "priority",
+    label: "Priority list",
+    hint: "Discord sticks to the highest app in this list that's running, even while you use something else.",
+  },
+];
+
+/** The Claude Code entry's preview line: the live session, or that none is active. */
+function claudeCodeLineFor(status: ReturnType<typeof useClaudeCode>["status"]) {
+  if (!status || status.active_sessions === 0) return "Waiting for a session";
+  const parts = [status.active_activity, status.active_project].filter(Boolean);
+  return parts.length > 0 ? parts.join(" · ") : "Active";
 }
 
 /** The "Apps" view: the rules that decide what Discord shows for each app. */
-export function Apps({ priorityMode }: AppsProps) {
+export function Apps({ priorityMode, onPriorityModeChange }: AppsProps) {
+  const { status: claudeStatus } = useClaudeCode();
+  const claudeCodeLine = claudeCodeLineFor(claudeStatus);
+  // Only IDE presences carry a language badge; the matching row shows it live.
+  const { presence } = usePresence();
+  const livePresence = presence?.small_image ? presence : null;
   const { rules, loading, updateRule, deleteRule, addRule, reorderRules } =
     useAppRules();
   const [ruleSearch, setRuleSearch] = useState("");
@@ -67,24 +101,32 @@ export function Apps({ priorityMode }: AppsProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex flex-col gap-1 min-w-0">
-          <h2 className="text-[15px] text-ink font-extrabold font-display uppercase">
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-[15px] text-ink font-extrabold font-display uppercase min-w-0">
             Your apps
           </h2>
-          <p className="text-[12px] leading-snug text-muted-ink">
-            {priorityMode
-              ? "Max priority mode is on: the highest running app in this list is shown."
-              : "Discord shows the app in focus. List order sets priority in Max priority mode."}
-          </p>
+          <button
+            onClick={() => setShowPicker(true)}
+            className="neo-btn shrink-0 bg-green-accent text-ink-dark text-[12px] px-3 py-2 flex items-center gap-1.5"
+            style={{ borderRadius: "6px" }}
+          >
+            <Plus size={14} strokeWidth={3.5} /> Add app
+          </button>
         </div>
-        <button
-          onClick={() => setShowPicker(true)}
-          className="neo-btn shrink-0 bg-green-accent text-ink-dark text-[12px] px-3 py-2 flex items-center gap-1.5"
-          style={{ borderRadius: "6px" }}
-        >
-          <Plus size={14} strokeWidth={3.5} /> Add app
-        </button>
+        <div className="flex">
+          <SegmentedControl
+            label="Presence mode"
+            options={PRESENCE_MODES}
+            value={priorityMode ? "priority" : "dynamic"}
+            onChange={(mode) => onPriorityModeChange(mode === "priority")}
+          />
+        </div>
+        <p className="text-[12px] leading-snug text-muted-ink">
+          {priorityMode
+            ? "The highest running app in this list is shown, and Claude Code shows only over apps below it."
+            : "Discord shows the app in focus. Claude Code shows over apps below it in this list."}
+        </p>
       </div>
 
       {rules.length > 0 && (
@@ -114,6 +156,8 @@ export function Apps({ priorityMode }: AppsProps) {
         onDeleteRule={deleteRule}
         onReorderRules={reorderRules}
         ruleSearch={ruleSearch}
+        claudeCodeLine={claudeCodeLine}
+        livePresence={livePresence}
       />
 
       {showPicker && (

@@ -28,6 +28,9 @@ const MIN_ACTIVE_TIMEOUT_SECS: i64 = 900;
 /// Discord's maximum length in bytes for `details` and `state` strings.
 const MAX_DISCORD_TEXT_BYTES: usize = 128;
 
+/// Maximum length in bytes for a sanitized chat title.
+const MAX_CHAT_TITLE_BYTES: usize = 64;
+
 /// Claude Code lifecycle events subscribed via HTTP hooks.
 ///
 /// `SessionStart` is intentionally omitted because Claude Code does not dispatch
@@ -79,6 +82,12 @@ pub struct ClaudeHookPayload {
     #[serde(default)]
     pub cwd: Option<String>,
     #[serde(default)]
+    pub transcript_path: Option<String>,
+    #[serde(default)]
+    pub prompt: Option<String>,
+    #[serde(default)]
+    pub permission_mode: Option<String>,
+    #[serde(default)]
     pub tool_name: Option<String>,
     #[serde(default)]
     pub tool_input: Option<ClaudeToolInput>,
@@ -86,6 +95,15 @@ pub struct ClaudeHookPayload {
     pub notification_type: Option<String>,
     #[serde(default)]
     pub agent_type: Option<String>,
+}
+
+/// Local metadata extracted from a session's transcript JSONL and `.git/HEAD`.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct ClaudeSessionMetadata {
+    pub chat_title: Option<String>,
+    pub fallback_prompt: Option<String>,
+    pub model: Option<String>,
+    pub git_branch: Option<String>,
 }
 
 /// High-level activity state of a Claude Code session.
@@ -121,15 +139,86 @@ impl ClaudeActivity {
 pub struct ClaudeSession {
     pub session_id: String,
     pub project_name: Option<String>,
+    pub cwd: Option<String>,
+    pub transcript_path: Option<String>,
+    pub chat_title: Option<String>,
+    pub has_explicit_title: bool,
+    pub model: Option<String>,
+    pub git_branch: Option<String>,
+    pub permission_mode: Option<String>,
     pub activity: ClaudeActivity,
     pub started_at: i64,
     pub last_event_at: i64,
 }
 
 impl ClaudeSession {
-    /// Formats the `state` line for Discord Rich Presence.
+    /// Returns just the human-readable action for this session.
+    pub fn action_text(&self) -> String {
+        format_action(&self.activity)
+    }
+
+    /// Formats the `state` line for Discord Rich Presence (legacy action + project).
     pub fn state_text(&self) -> String {
         format_claude_activity(&self.activity, self.project_name.as_deref())
+    }
+
+    /// Formats the `details` line: `Claude Code · <project>` or `Claude Code`.
+    pub fn details_text(&self) -> String {
+        let project = self
+            .project_name
+            .as_deref()
+            .map(str::trim)
+            .filter(|s| !s.is_empty());
+        let full = match project {
+            Some(project) => format!("{CLAUDE_CODE_DISPLAY_NAME} · {project}"),
+            None => CLAUDE_CODE_DISPLAY_NAME.to_string(),
+        };
+        truncate_discord_text(&full, MAX_DISCORD_TEXT_BYTES)
+    }
+
+    /// Formats the `state` line: `<action> · <chat_title>` (when enabled and present) or `<action>`.
+    pub fn state_text_rich(&self, show_chat_title: bool) -> String {
+        let action = self.action_text();
+        let title = if show_chat_title {
+            self.chat_title
+                .as_deref()
+                .map(str::trim)
+                .filter(|s| !s.is_empty())
+        } else {
+            None
+        };
+        let full = match title {
+            Some(title) => format!("{action} · {title}"),
+            None => action,
+        };
+        truncate_discord_text(&full, MAX_DISCORD_TEXT_BYTES)
+    }
+
+    /// Formats the `large_text` tooltip: `<model> · <git_branch> · <N> chats`.
+    pub fn large_text(&self, active_count: usize) -> String {
+        let mut parts: Vec<String> = Vec::new();
+        let model = self
+            .model
+            .as_deref()
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+            .unwrap_or(CLAUDE_CODE_DISPLAY_NAME);
+        parts.push(model.to_string());
+
+        if let Some(branch) = self
+            .git_branch
+            .as_deref()
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+        {
+            parts.push(branch.to_string());
+        }
+
+        if active_count > 1 {
+            parts.push(format!("{active_count} chats"));
+        }
+
+        truncate_discord_text(&parts.join(" · "), MAX_DISCORD_TEXT_BYTES)
     }
 }
 
@@ -137,6 +226,7 @@ impl ClaudeSession {
 #[derive(Debug, Default)]
 pub struct ClaudeSessionTracker {
     sessions: BTreeMap<String, ClaudeSession>,
+    pinned_session_id: Option<String>,
 }
 
 impl ClaudeSessionTracker {
@@ -155,18 +245,29 @@ impl ClaudeSessionTracker {
         let session_id = normalized_session_id(&payload.session_id);
 
         if event == "SessionEnd" {
-            return self.sessions.remove(&session_id).is_some();
+            let removed = self.sessions.remove(&session_id).is_some();
+            if removed && self.pinned_session_id.as_deref() == Some(session_id.as_str()) {
+                self.pinned_session_id = None;
+            }
+            return removed;
         }
 
         let project = payload.cwd.as_deref().and_then(extract_project_name);
 
-        match event {
+        let applied = match event {
             "SessionStart" => {
                 self.upsert(&session_id, project, Some(ClaudeActivity::Ready), now);
                 true
             }
             "UserPromptSubmit" => {
                 self.upsert(&session_id, project, Some(ClaudeActivity::Thinking), now);
+                if let Some(prompt_title) = payload.prompt.as_deref().and_then(sanitize_chat_title) {
+                    if let Some(session) = self.sessions.get_mut(&session_id) {
+                        if !session.has_explicit_title {
+                            session.chat_title = Some(prompt_title);
+                        }
+                    }
+                }
                 true
             }
             "PreToolUse" => {
@@ -256,7 +357,33 @@ impl ClaudeSessionTracker {
                 true
             }
             _ => false,
+        };
+
+        if applied {
+            if let Some(existing) = self.sessions.get_mut(&session_id) {
+                if let Some(cwd) = payload.cwd.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+                    existing.cwd = Some(cwd.to_string());
+                }
+                if let Some(path) = payload
+                    .transcript_path
+                    .as_deref()
+                    .map(str::trim)
+                    .filter(|s| !s.is_empty())
+                {
+                    existing.transcript_path = Some(path.to_string());
+                }
+                if let Some(mode) = payload
+                    .permission_mode
+                    .as_deref()
+                    .map(str::trim)
+                    .filter(|s| !s.is_empty())
+                {
+                    existing.permission_mode = Some(mode.to_string());
+                }
+            }
         }
+
+        applied
     }
 
     fn upsert(
@@ -280,12 +407,106 @@ impl ClaudeSessionTracker {
                 ClaudeSession {
                     session_id: session_id.to_string(),
                     project_name: project,
+                    cwd: None,
+                    transcript_path: None,
+                    chat_title: None,
+                    has_explicit_title: false,
+                    model: None,
+                    git_branch: None,
+                    permission_mode: None,
                     activity: activity.unwrap_or(ClaudeActivity::Ready),
                     started_at: now,
                     last_event_at: now,
                 },
             );
         }
+    }
+
+    /// Applies locally extracted metadata to an existing session.
+    /// Returns `true` if any visible field changed.
+    pub fn apply_metadata(&mut self, session_id: &str, meta: &ClaudeSessionMetadata) -> bool {
+        let key = normalized_session_id(session_id);
+        let Some(session) = self.sessions.get_mut(&key) else {
+            return false;
+        };
+
+        let mut changed = false;
+
+        if let Some(title) = meta.chat_title.as_deref().and_then(sanitize_chat_title) {
+            if !session.has_explicit_title || session.chat_title.as_deref() != Some(title.as_str())
+            {
+                session.chat_title = Some(title);
+                session.has_explicit_title = true;
+                changed = true;
+            }
+        } else if !session.has_explicit_title && session.chat_title.is_none() {
+            if let Some(fallback) = meta
+                .fallback_prompt
+                .as_deref()
+                .and_then(sanitize_chat_title)
+            {
+                session.chat_title = Some(fallback);
+                changed = true;
+            }
+        }
+
+        if let Some(model) = meta.model.as_deref().and_then(format_model_name) {
+            if session.model.as_deref() != Some(model.as_str()) {
+                session.model = Some(model);
+                changed = true;
+            }
+        }
+
+        if let Some(branch) = meta
+            .git_branch
+            .as_deref()
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+        {
+            if session.git_branch.as_deref() != Some(branch) {
+                session.git_branch = Some(branch.to_string());
+                changed = true;
+            }
+        }
+
+        changed
+    }
+
+    /// Pins a specific session by ID, or clears the pin when `None` is passed.
+    /// Returns `true` if the pin state changed.
+    pub fn select_session(&mut self, session_id: Option<String>) -> bool {
+        match session_id {
+            Some(raw) => {
+                let id = normalized_session_id(&raw);
+                if !self.sessions.contains_key(&id) {
+                    return false;
+                }
+                if self.pinned_session_id.as_deref() == Some(id.as_str()) {
+                    return false;
+                }
+                self.pinned_session_id = Some(id);
+                true
+            }
+            None => {
+                if self.pinned_session_id.is_some() {
+                    self.pinned_session_id = None;
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+    }
+
+    /// Returns the currently pinned session ID, if any.
+    pub fn pinned_session_id(&self) -> Option<&str> {
+        self.pinned_session_id.as_deref()
+    }
+
+    /// Looks up a tracked session by ID.
+    pub fn get_session(&self, session_id: &str) -> Option<&ClaudeSession> {
+        let key = normalized_session_id(session_id);
+        self.sessions.get(&key)
     }
 
     /// Removes sessions that have been inactive longer than their timeout.
@@ -305,18 +526,38 @@ impl ClaudeSessionTracker {
             elapsed < ttl
         });
 
+        if let Some(ref pinned) = self.pinned_session_id {
+            if !self.sessions.contains_key(pinned) {
+                self.pinned_session_id = None;
+            }
+        }
+
         self.sessions.len() != before
     }
 
-    /// Returns the most recently active Claude Code session, if any.
+    /// Returns the pinned session if active, otherwise the most recently active session.
     pub fn active_session(&self) -> Option<&ClaudeSession> {
-        self.sessions
-            .values()
-            .max_by(|a, b| {
-                a.last_event_at
-                    .cmp(&b.last_event_at)
-                    .then_with(|| a.session_id.cmp(&b.session_id))
-            })
+        if let Some(ref pinned) = self.pinned_session_id {
+            if let Some(session) = self.sessions.get(pinned) {
+                return Some(session);
+            }
+        }
+        self.sessions.values().max_by(|a, b| {
+            a.last_event_at
+                .cmp(&b.last_event_at)
+                .then_with(|| a.session_id.cmp(&b.session_id))
+        })
+    }
+
+    /// Returns all active sessions ordered by most recently active first.
+    pub fn sessions_ordered(&self) -> Vec<&ClaudeSession> {
+        let mut list: Vec<&ClaudeSession> = self.sessions.values().collect();
+        list.sort_by(|a, b| {
+            b.last_event_at
+                .cmp(&a.last_event_at)
+                .then_with(|| a.session_id.cmp(&b.session_id))
+        });
+        list
     }
 
     /// Number of currently tracked unexpired sessions.
@@ -326,8 +567,9 @@ impl ClaudeSessionTracker {
 
     /// Clears all tracked sessions (for example when disconnecting hooks).
     pub fn clear(&mut self) -> bool {
-        let had = !self.sessions.is_empty();
+        let had = !self.sessions.is_empty() || self.pinned_session_id.is_some();
         self.sessions.clear();
+        self.pinned_session_id = None;
         had
     }
 }
@@ -424,10 +666,9 @@ pub fn extract_file_name(path: &str) -> Option<String> {
     extract_project_name(path)
 }
 
-/// Formats a Claude Code activity and optional project into a Discord `state` line,
-/// capped safely at Discord's 128-byte limit.
-pub fn format_claude_activity(activity: &ClaudeActivity, project: Option<&str>) -> String {
-    let action = match activity {
+/// Formats a [`ClaudeActivity`] into a concise human-readable action string.
+pub fn format_action(activity: &ClaudeActivity) -> String {
+    match activity {
         ClaudeActivity::Ready => "Working".to_string(),
         ClaudeActivity::Thinking => "Thinking".to_string(),
         ClaudeActivity::EditingFile(Some(file)) => format!("Editing {file}"),
@@ -444,7 +685,84 @@ pub fn format_claude_activity(activity: &ClaudeActivity, project: Option<&str>) 
         ClaudeActivity::UsingTool(tool) => format!("Using {tool}"),
         ClaudeActivity::WaitingForApproval => "Waiting for approval".to_string(),
         ClaudeActivity::WaitingForInput => "Waiting for input".to_string(),
+    }
+}
+
+/// Normalizes an Anthropic model ID (e.g. `claude-opus-4-6`, `claude-haiku-4-5-20251001`)
+/// into a readable display label (e.g. `Claude Opus 4.6`, `Claude Haiku 4.5`).
+pub fn format_model_name(raw: &str) -> Option<String> {
+    let trimmed = raw.trim();
+    if trimmed.is_empty() {
+        return None;
+    }
+
+    let lower = trimmed.to_ascii_lowercase();
+    let Some(rest) = lower.strip_prefix("claude-") else {
+        return Some(trimmed.to_string());
     };
+
+    let mut tokens: Vec<&str> = rest.split('-').filter(|t| !t.is_empty()).collect();
+    if let Some(last) = tokens.last() {
+        if last.len() == 8 && last.bytes().all(|b| b.is_ascii_digit()) {
+            tokens.pop();
+        }
+    }
+
+    if tokens.is_empty() {
+        return Some("Claude".to_string());
+    }
+
+    let mut family: Option<&str> = None;
+    let mut version_parts: Vec<&str> = Vec::new();
+    let mut extras: Vec<&str> = Vec::new();
+
+    for token in tokens {
+        match token {
+            "opus" => family = Some("Opus"),
+            "sonnet" => family = Some("Sonnet"),
+            "haiku" => family = Some("Haiku"),
+            _ if token.bytes().all(|b| b.is_ascii_digit()) => version_parts.push(token),
+            _ => extras.push(token),
+        }
+    }
+
+    let mut out = vec!["Claude".to_string()];
+    if let Some(fam) = family {
+        out.push(fam.to_string());
+    }
+    if !version_parts.is_empty() {
+        out.push(version_parts.join("."));
+    }
+    for extra in extras {
+        out.push(extra.to_string());
+    }
+
+    Some(out.join(" "))
+}
+
+/// Extracts a single-line, markdown-stripped, length-capped chat title from raw text.
+pub fn sanitize_chat_title(raw: &str) -> Option<String> {
+    for line in raw.lines() {
+        let stripped = line
+            .trim()
+            .trim_start_matches(['#', '>', '-', '*', ' '])
+            .trim();
+        if stripped.is_empty() {
+            continue;
+        }
+        let collapsed: String = stripped.split_whitespace().collect::<Vec<_>>().join(" ");
+        if collapsed.is_empty() {
+            continue;
+        }
+        return Some(truncate_discord_text(&collapsed, MAX_CHAT_TITLE_BYTES));
+    }
+    None
+}
+
+/// Formats a Claude Code activity and optional project into a Discord `state` line,
+/// capped safely at Discord's 128-byte limit.
+pub fn format_claude_activity(activity: &ClaudeActivity, project: Option<&str>) -> String {
+    let action = format_action(activity);
 
     let project = project.map(str::trim).filter(|s| !s.is_empty());
     let full = match project {
@@ -464,6 +782,39 @@ fn truncate_discord_text(text: &str, max_bytes: usize) -> String {
         end -= 1;
     }
     format!("{}...", &text[..end])
+}
+
+/// `process_name` of the reserved Apps-list entry that ranks Claude Code sessions
+/// against other apps. It never matches a running process.
+pub const CLAUDE_CODE_RULE_ID: &str = CLAUDE_CODE_CATALOG_ID;
+
+fn same_rule_name(a: &str, b: &str) -> bool {
+    let a = a.trim().to_ascii_lowercase();
+    let b = b.trim().to_ascii_lowercase();
+    a.trim_end_matches(".exe") == b.trim_end_matches(".exe")
+}
+
+/// Whether an active Claude Code session replaces the window presence, given the
+/// Apps list as `(process_name, enabled)` in priority order and the app window
+/// detection selected. Without a Claude Code entry it always does (legacy); a
+/// disabled entry never does; otherwise it does unless `window_app` is an
+/// enabled rule placed above the entry.
+pub fn claude_code_takes_precedence(rules: &[(&str, bool)], window_app: Option<&str>) -> bool {
+    let Some(claude_idx) = rules
+        .iter()
+        .position(|(name, _)| same_rule_name(name, CLAUDE_CODE_RULE_ID))
+    else {
+        return true;
+    };
+    if !rules[claude_idx].1 {
+        return false;
+    }
+    let Some(app) = window_app.map(str::trim).filter(|a| !a.is_empty()) else {
+        return true;
+    };
+    !rules[..claude_idx]
+        .iter()
+        .any(|(name, enabled)| *enabled && same_rule_name(name, app))
 }
 
 #[cfg(test)]
@@ -657,5 +1008,180 @@ mod tests {
         let mut tracker = ClaudeSessionTracker::new();
         assert!(!tracker.apply_event(&payload("UnknownEvent", "s1", Some("/work/a")), 100));
         assert_eq!(tracker.active_count(), 0);
+    }
+
+    #[test]
+    fn formats_model_names_cleanly() {
+        assert_eq!(
+            format_model_name("claude-opus-4-6"),
+            Some("Claude Opus 4.6".to_string())
+        );
+        assert_eq!(
+            format_model_name("claude-sonnet-4-6"),
+            Some("Claude Sonnet 4.6".to_string())
+        );
+        assert_eq!(
+            format_model_name("claude-haiku-4-5-20251001"),
+            Some("Claude Haiku 4.5".to_string())
+        );
+        assert_eq!(
+            format_model_name("claude-3-5-sonnet-20241022"),
+            Some("Claude Sonnet 3.5".to_string())
+        );
+        assert_eq!(
+            format_model_name("custom-model"),
+            Some("custom-model".to_string())
+        );
+        assert_eq!(format_model_name("   "), None);
+    }
+
+    #[test]
+    fn sanitizes_chat_titles_safely() {
+        assert_eq!(
+            sanitize_chat_title("\n  # Fix   auth   flow \nsecond line"),
+            Some("Fix auth flow".to_string())
+        );
+        assert_eq!(
+            sanitize_chat_title("> - * Refactor engine"),
+            Some("Refactor engine".to_string())
+        );
+        assert_eq!(sanitize_chat_title("   \n  #  "), None);
+
+        let long_unicode = "é".repeat(50);
+        let truncated = sanitize_chat_title(&long_unicode).unwrap();
+        assert!(truncated.len() <= MAX_CHAT_TITLE_BYTES);
+        assert!(truncated.ends_with("..."));
+    }
+
+    #[test]
+    fn formats_rich_presence_fields_and_respects_show_chat_title() {
+        let mut tracker = ClaudeSessionTracker::new();
+        let mut prompt_ev = payload("UserPromptSubmit", "s1", Some("/work/Better-RPC"));
+        prompt_ev.prompt = Some("Add chat list preview".to_string());
+        tracker.apply_event(&prompt_ev, 100);
+
+        let mut edit_ev = payload("PreToolUse", "s1", Some("/work/Better-RPC"));
+        edit_ev.tool_name = Some("Edit".to_string());
+        edit_ev.tool_input = Some(ClaudeToolInput {
+            file_path: Some("/work/Better-RPC/src/engine.rs".to_string()),
+            ..Default::default()
+        });
+        tracker.apply_event(&edit_ev, 110);
+
+        tracker.apply_metadata(
+            "s1",
+            &ClaudeSessionMetadata {
+                chat_title: Some("Claude Code Rich Details".to_string()),
+                fallback_prompt: None,
+                model: Some("claude-opus-4-6".to_string()),
+                git_branch: Some("feat/rich-details".to_string()),
+            },
+        );
+
+        let s = tracker.active_session().unwrap();
+        assert_eq!(s.details_text(), "Claude Code · Better-RPC");
+        assert_eq!(
+            s.state_text_rich(true),
+            "Editing engine.rs · Claude Code Rich Details"
+        );
+        assert_eq!(s.state_text_rich(false), "Editing engine.rs");
+        assert_eq!(s.large_text(1), "Claude Opus 4.6 · feat/rich-details");
+        assert_eq!(
+            s.large_text(3),
+            "Claude Opus 4.6 · feat/rich-details · 3 chats"
+        );
+    }
+
+    #[test]
+    fn metadata_explicit_title_upgrades_fallback_and_is_not_overwritten_by_prompt() {
+        let mut tracker = ClaudeSessionTracker::new();
+        let mut p1 = payload("UserPromptSubmit", "s1", Some("/work/app"));
+        p1.prompt = Some("Initial prompt fallback".to_string());
+        tracker.apply_event(&p1, 10);
+        assert_eq!(
+            tracker.active_session().unwrap().chat_title.as_deref(),
+            Some("Initial prompt fallback")
+        );
+
+        // Explicit title replaces prompt fallback.
+        assert!(tracker.apply_metadata(
+            "s1",
+            &ClaudeSessionMetadata {
+                chat_title: Some("Renamed Chat".to_string()),
+                fallback_prompt: Some("Other fallback".to_string()),
+                model: None,
+                git_branch: None,
+            }
+        ));
+        assert_eq!(
+            tracker.active_session().unwrap().chat_title.as_deref(),
+            Some("Renamed Chat")
+        );
+
+        // Subsequent UserPromptSubmit does not overwrite explicit title.
+        let mut p2 = payload("UserPromptSubmit", "s1", Some("/work/app"));
+        p2.prompt = Some("Follow up prompt".to_string());
+        tracker.apply_event(&p2, 20);
+        assert_eq!(
+            tracker.active_session().unwrap().chat_title.as_deref(),
+            Some("Renamed Chat")
+        );
+    }
+
+    #[test]
+    fn tracker_pinning_and_auto_unpin_on_end_and_expiry() {
+        let mut tracker = ClaudeSessionTracker::new();
+        tracker.apply_event(&payload("UserPromptSubmit", "s1", Some("/work/a")), 100);
+        tracker.apply_event(&payload("UserPromptSubmit", "s2", Some("/work/b")), 200);
+
+        // Auto-follow picks s2 (most recent).
+        assert_eq!(tracker.active_session().unwrap().session_id, "s2");
+        assert_eq!(
+            tracker
+                .sessions_ordered()
+                .iter()
+                .map(|s| s.session_id.as_str())
+                .collect::<Vec<_>>(),
+            vec!["s2", "s1"]
+        );
+
+        // Pin s1; even newer events on s2 keep s1 active.
+        assert!(tracker.select_session(Some("s1".to_string())));
+        assert_eq!(tracker.pinned_session_id(), Some("s1"));
+        assert_eq!(tracker.active_session().unwrap().session_id, "s1");
+
+        tracker.apply_event(&payload("UserPromptSubmit", "s2", Some("/work/b")), 300);
+        assert_eq!(tracker.active_session().unwrap().session_id, "s1");
+
+        // Ending pinned s1 clears the pin and falls back to s2.
+        tracker.apply_event(&payload("SessionEnd", "s1", None), 310);
+        assert_eq!(tracker.pinned_session_id(), None);
+        assert_eq!(tracker.active_session().unwrap().session_id, "s2");
+
+        // Pin s2 and let it expire -> pin clears.
+        assert!(tracker.select_session(Some("s2".to_string())));
+        tracker.apply_event(&payload("Stop", "s2", Some("/work/b")), 320);
+        assert!(tracker.prune_expired(1000, 300));
+        assert_eq!(tracker.pinned_session_id(), None);
+        assert!(tracker.active_session().is_none());
+    }
+
+    #[test]
+    fn claude_code_precedence_follows_the_apps_list() {
+        // No entry: legacy behavior, Claude Code always wins.
+        assert!(claude_code_takes_precedence(&[("code", true)], Some("code")));
+        // Disabled entry: never wins.
+        assert!(!claude_code_takes_precedence(&[("claude_code", false)], Some("firefox")));
+        // App above the entry wins.
+        let rules = [("code", true), ("claude_code", true), ("firefox", true)];
+        assert!(!claude_code_takes_precedence(&rules, Some("code")));
+        assert!(!claude_code_takes_precedence(&rules, Some("Code.exe")));
+        // App below the entry, unknown app, or no window: Claude Code wins.
+        assert!(claude_code_takes_precedence(&rules, Some("firefox")));
+        assert!(claude_code_takes_precedence(&rules, Some("gimp")));
+        assert!(claude_code_takes_precedence(&rules, None));
+        // A disabled rule above the entry does not outrank it.
+        let rules = [("code", false), ("claude_code", true)];
+        assert!(claude_code_takes_precedence(&rules, Some("code")));
     }
 }

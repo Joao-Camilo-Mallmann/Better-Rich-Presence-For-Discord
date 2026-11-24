@@ -23,6 +23,8 @@ export interface PresenceData {
   state: string;
   large_image: string;
   large_text: string;
+  small_image?: string;
+  small_text?: string;
   timestamp: number | null;
 }
 
@@ -49,9 +51,23 @@ export interface Settings {
   claude_code_port: number;
   /** Minutes of inactivity before a waiting Claude Code session auto-expires */
   claude_code_timeout_minutes: number;
+  /** Whether to include the active chat title in Discord's state line */
+  claude_code_show_chat_title: boolean;
 }
 
 export type ClaudeHookInstallState = "not_installed" | "installed" | "outdated";
+
+export interface ClaudeSessionSummary {
+  session_id: string;
+  project_name: string | null;
+  chat_title: string | null;
+  activity: string;
+  is_waiting: boolean;
+  model: string | null;
+  git_branch: string | null;
+  started_at: number;
+  last_event_at: number;
+}
 
 export interface ClaudeCodeStatus {
   install_state: ClaudeHookInstallState;
@@ -62,6 +78,9 @@ export interface ClaudeCodeStatus {
   active_sessions: number;
   active_project: string | null;
   active_activity: string | null;
+  sessions: ClaudeSessionSummary[];
+  selected_session_id: string | null;
+  pinned_session_id: string | null;
 }
 
 export interface DiscordProfile {

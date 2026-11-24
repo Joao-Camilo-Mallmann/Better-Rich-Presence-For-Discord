@@ -34,6 +34,9 @@ export function useSettings() {
     // conditional expressions inside try/catch yet.
     const autostartChanged =
       settings !== null && settings.autostart_enabled !== newSettings.autostart_enabled;
+    const previous = settings;
+    // Shown at once, so a second change made while this one is still saving builds on it.
+    setSettings(newSettings);
     try {
       // Handle autostart plugin
       if (autostartChanged) {
@@ -41,9 +44,9 @@ export function useSettings() {
         else await disable();
       }
       await invoke("update_settings", { settings: newSettings });
-      setSettings(newSettings);
     } catch (error) {
       console.error("Failed to update settings:", error);
+      setSettings(previous);
       throw error;
     }
   };

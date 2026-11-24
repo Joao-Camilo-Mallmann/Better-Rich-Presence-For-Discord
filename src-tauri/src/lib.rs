@@ -104,8 +104,10 @@ pub fn run() {
                 models::presets::default_app_rules()
             };
 
+            // Claude Code ranks against other apps through its own list entry.
+            let mut modified = models::presets::ensure_claude_code_rule(&mut app_rules);
+
             // Proactively merge any missing default rules into the user's rules
-            let mut modified = false;
             for default_rule in models::presets::default_app_rules() {
                 if !app_rules.iter().any(|r| {
                     r.process_name.to_lowercase() == default_rule.process_name.to_lowercase()
@@ -203,6 +205,7 @@ pub fn run() {
             commands::get_claude_code_status,
             commands::connect_claude_code,
             commands::disconnect_claude_code,
+            commands::select_claude_code_session,
         ])
         .on_window_event(|window, event| match event {
             tauri::WindowEvent::CloseRequested { api, .. } => {

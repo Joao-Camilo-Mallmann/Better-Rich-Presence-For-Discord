@@ -1,9 +1,23 @@
 import { Monitor } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import APP_CATALOG_JSON from "../../apps.json";
 import { AppDefinition } from "../apps/app-types";
 
 const appCatalog = APP_CATALOG_JSON as AppDefinition[];
+const PUBLIC_ICONS_MARKER = "/public/assets/icons/";
+
+function localIconFallback(url: string): string | null {
+  const markerIndex = url.indexOf(PUBLIC_ICONS_MARKER);
+  if (markerIndex === -1) {
+    return null;
+  }
+  const rawFile = url.slice(markerIndex + PUBLIC_ICONS_MARKER.length);
+  const file = rawFile.split(/[?#]/)[0];
+  if (!file || !file.endsWith(".png") || file.includes("/")) {
+    return null;
+  }
+  return `/assets/icons/${file}`;
+}
 
 interface AppIconProps {
   name: string;
@@ -12,13 +26,16 @@ interface AppIconProps {
 }
 
 export function AppIcon({ name, className = "", size = 24 }: AppIconProps) {
-  const [failed, setFailed] = useState(false);
+  const [errorState, setErrorState] = useState<{
+    forName: string;
+    stage: "fallback" | "failed";
+  } | null>(null);
 
-  useEffect(() => {
-    setFailed(false);
-  }, [name]);
+  const activeError =
+    errorState && errorState.forName === name ? errorState.stage : null;
+  const trimmed = name ? name.trim() : "";
 
-  if (!name || failed) {
+  if (!trimmed || activeError === "failed") {
     return (
       <Monitor
         className={className}
@@ -27,7 +44,6 @@ export function AppIcon({ name, className = "", size = 24 }: AppIconProps) {
     );
   }
 
-  const trimmed = name.trim();
   let resolvedUrl = trimmed;
   const isUrl =
     trimmed.startsWith("http://") ||
@@ -43,13 +59,27 @@ export function AppIcon({ name, className = "", size = 24 }: AppIconProps) {
     }
   }
 
+  const localFallbackUrl = localIconFallback(resolvedUrl);
+  const imgSrc =
+    activeError === "fallback" && localFallbackUrl
+      ? localFallbackUrl
+      : resolvedUrl;
+
+  const handleError = () => {
+    if (activeError !== "fallback" && localFallbackUrl) {
+      setErrorState({ forName: name, stage: "fallback" });
+    } else {
+      setErrorState({ forName: name, stage: "failed" });
+    }
+  };
+
   return (
     <img
-      src={resolvedUrl}
+      src={imgSrc}
       alt=""
       className={className}
       style={{ width: size, height: size, objectFit: "contain", flexShrink: 0 }}
-      onError={() => setFailed(true)}
+      onError={handleError}
     />
   );
 }

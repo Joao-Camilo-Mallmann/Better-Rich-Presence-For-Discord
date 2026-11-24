@@ -74,5 +74,14 @@ export function useClaudeCode() {
     setBusy(false);
   };
 
-  return { status, busy, error, connect, disconnect };
+  const selectSession = async (sessionId: string | null) => {
+    setError(null);
+    try {
+      await invoke("select_claude_code_session", { sessionId });
+    } catch (err) {
+      setError(formatError(err));
+    }
+  };
+
+  return { status, busy, error, connect, disconnect, selectSession };
 }

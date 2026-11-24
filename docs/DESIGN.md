@@ -625,3 +625,5 @@ Rules that keep the window calm:
 - One loud element per view: the tilted "What friends see" tag on Now, the green "Add app" button on Apps, nothing on Settings.
 - Uppercase display type only for the brand, band label, tabs, section headings and buttons. Labels and help text are sentence case in Inter, never below 11 px.
 - Every on/off control is the shared arcade switch (`src/components/Toggle.tsx`), a real `role="switch"` button.
+- A choice between named options is the segmented control (`src/components/SegmentedControl.tsx`), a real `role="radiogroup"`: joined buttons inside one 3 px border, the selected option filled with Blurple `{colors.primary}`, never green. The presence mode selector at the top of Apps ("Dynamic" / "Priority list") is its only use so far.
+- An option that needs explaining carries a one-sentence hint. It shows in a small hard-bordered tooltip below the control on hover and on keyboard focus, hides on Escape, and is linked with `aria-describedby`. Keep hints friendly and under about 100 characters.

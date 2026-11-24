@@ -46,9 +46,23 @@ pub async fn disconnect_claude_code(
     claude_code_config::remove_hooks_at(&path).map_err(AppError::System)?;
 
     let _ = tx.send(EngineEvent::ClaudeCodeDisconnected).await;
-    state.set_claude_session_snapshot(0, None, None).await;
+    state
+        .set_claude_session_snapshot(0, None, None, Vec::new(), None, None)
+        .await;
 
     let status = state.refresh_claude_install_status().await?;
     let _ = state.app_handle.emit("claude-code-status-changed", &status);
     Ok(status)
+}
+
+/// Pins a specific Claude Code chat session, or clears the pin when `session_id` is `None`.
+#[tauri::command]
+pub async fn select_claude_code_session(
+    session_id: Option<String>,
+    tx: State<'_, Sender<EngineEvent>>,
+) -> Result<(), AppError> {
+    let _ = tx
+        .send(EngineEvent::SelectClaudeCodeSession(session_id))
+        .await;
+    Ok(())
 }

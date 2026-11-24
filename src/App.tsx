@@ -49,6 +49,15 @@ function App() {
     }
   };
 
+  const handlePriorityModeChange = async (priorityMode: boolean) => {
+    if (!settings || settings.priority_mode_enabled === priorityMode) return;
+    try {
+      await updateSettings({ ...settings, priority_mode_enabled: priorityMode });
+    } catch {
+      // `updateSettings` already logged it and restored the previous mode.
+    }
+  };
+
   const selectViewAt = (index: number) => {
     const next = (index + VIEWS.length) % VIEWS.length;
     setView(VIEWS[next].id);
@@ -197,7 +206,10 @@ function App() {
               aria-labelledby="tab-apps"
               hidden={view !== "apps"}
             >
-              <Apps priorityMode={settings?.priority_mode_enabled ?? false} />
+              <Apps
+                priorityMode={settings?.priority_mode_enabled ?? true}
+                onPriorityModeChange={handlePriorityModeChange}
+              />
             </section>
             <section
               id="panel-settings"

@@ -5,12 +5,15 @@ import { Toggle } from "../components/Toggle";
 import { usePlatformStatus } from "../hooks/usePlatformStatus";
 import { Settings as SettingsType } from "../types";
 
-/** Settings edited on this view. `global_enabled` is owned by the Share switch and never saved from here. */
+/**
+ * Settings edited on this view. `global_enabled` (Share switch) and `priority_mode_enabled`
+ * (presence mode in the Apps view) are saved where they are changed, never from here.
+ */
 const EDITABLE_KEYS: (keyof SettingsType)[] = [
   "autostart_enabled",
-  "priority_mode_enabled",
   "claude_code_enabled",
   "claude_code_timeout_minutes",
+  "claude_code_show_chat_title",
   "idle_enabled",
   "idle_threshold_minutes",
   "idle_message",
@@ -24,23 +27,30 @@ const NumberInput = ({
   onChange,
   min,
   max,
+  unit,
 }: {
   label: string;
   value: number;
   onChange: (v: number) => void;
   min: number;
   max: number;
+  unit: "sec" | "min";
 }) => (
-  <input
-    aria-label={label}
-    className="w-16 shrink-0 text-right neo-input text-[13px] py-1"
-    style={{ borderRadius: "6px" }}
-    type="number"
-    min={min}
-    max={max}
-    value={value}
-    onChange={(e) => onChange(parseInt(e.target.value) || min)}
-  />
+  <div className="flex shrink-0 items-center gap-1.5">
+    <input
+      aria-label={label}
+      className="w-20 text-right neo-input text-[13px] py-1 pl-2 pr-1"
+      style={{ borderRadius: "6px" }}
+      type="number"
+      min={min}
+      max={max}
+      value={value}
+      onChange={(e) => onChange(parseInt(e.target.value) || min)}
+    />
+    <span aria-hidden="true" className="w-7 text-[12px] font-bold text-muted-ink">
+      {unit}
+    </span>
+  </div>
 );
 
 const Group = ({
@@ -115,8 +125,10 @@ export function Settings({ settings, onSave }: SettingsProps) {
   const isDirty = EDITABLE_KEYS.some((key) => draft[key] !== settings[key]);
 
   const handleSave = async () => {
-    // Keep whatever the Share switch says right now.
-    const next = { ...draft, global_enabled: settings.global_enabled };
+    // Only the keys edited here come from the draft; the rest (Share switch,
+    // presence mode) keep whatever they are right now.
+    const edited = Object.fromEntries(EDITABLE_KEYS.map((key) => [key, draft[key]]));
+    const next: SettingsType = { ...settings, ...edited };
     setIsSaving(true);
     try {
       await onSave(next);
@@ -163,6 +175,18 @@ export function Settings({ settings, onSave }: SettingsProps) {
         </SettingRow>
         {draft.claude_code_enabled && (
           <SettingRow
+            label="Show chat title on Discord"
+            description="Include the active chat title in your Discord status."
+          >
+            <Toggle
+              label="Show chat title on Discord"
+              checked={draft.claude_code_show_chat_title}
+              onChange={(v) => set("claude_code_show_chat_title", v)}
+            />
+          </SettingRow>
+        )}
+        {draft.claude_code_enabled && (
+          <SettingRow
             label="Minutes before timeout"
             description="Switch back to normal app detection after Claude Code is inactive."
           >
@@ -172,22 +196,10 @@ export function Settings({ settings, onSave }: SettingsProps) {
               onChange={(v) => set("claude_code_timeout_minutes", v)}
               min={1}
               max={60}
+              unit="min"
             />
           </SettingRow>
         )}
-      </Group>
-
-      <Group title="Priority">
-        <SettingRow
-          label="Max priority mode"
-          description="Show the highest running app in your Apps list, even when another app is in focus."
-        >
-          <Toggle
-            label="Max priority mode"
-            checked={draft.priority_mode_enabled}
-            onChange={(v) => set("priority_mode_enabled", v)}
-          />
-        </SettingRow>
       </Group>
 
       <Group title="When you're away">
@@ -210,6 +222,7 @@ export function Settings({ settings, onSave }: SettingsProps) {
               onChange={(v) => set("idle_threshold_minutes", v)}
               min={1}
               max={60}
+              unit="min"
             />
           </SettingRow>
         )}
@@ -233,7 +246,7 @@ export function Settings({ settings, onSave }: SettingsProps) {
       <Group title="Timing">
         <SettingRow
           label="Time between updates"
-          description="Seconds between Discord updates. Discord accepts one every 15 seconds at most."
+          description="How long to wait between Discord updates, in seconds (15–60). Discord accepts at most one update every 15 seconds."
         >
           <NumberInput
             label="Time between updates in seconds"
@@ -241,11 +254,12 @@ export function Settings({ settings, onSave }: SettingsProps) {
             onChange={(v) => set("debounce_seconds", v)}
             min={15}
             max={60}
+            unit="sec"
           />
         </SettingRow>
         <SettingRow
           label="Delay before switching"
-          description="Seconds an app must stay in focus before Discord shows it, so quick switches don't flicker."
+          description="How long an app must stay in focus before Discord shows it, in seconds (1–10), so quick switches don't flicker."
         >
           <NumberInput
             label="Delay before switching in seconds"
@@ -253,6 +267,7 @@ export function Settings({ settings, onSave }: SettingsProps) {
             onChange={(v) => set("settle_delay_seconds", v)}
             min={1}
             max={10}
+            unit="sec"
           />
         </SettingRow>
       </Group>

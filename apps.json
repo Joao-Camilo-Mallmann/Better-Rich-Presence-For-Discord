@@ -55,6 +55,19 @@
     "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/codeium.png"
   },
   {
+    "id": "vscodium",
+    "name": "VSCodium",
+    "executables": [
+      "codium.exe",
+      "codium",
+      "vscodium.exe",
+      "vscodium"
+    ],
+    "client_id": "1517170930764480552",
+    "category": "editor",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/vscodium.png"
+  },
+  {
     "id": "zed",
     "name": "Zed",
     "executables": [

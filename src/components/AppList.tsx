@@ -1,5 +1,5 @@
 import { Gamepad2 } from "lucide-react";
-import { AppRule } from "../types";
+import { AppRule, PresenceData } from "../types";
 import { AppRuleCard } from "./AppRuleCard";
 
 interface AppListProps {
@@ -10,6 +10,10 @@ interface AppListProps {
   onDeleteRule: (processName: string) => Promise<void>;
   onReorderRules: (newOrder: string[]) => Promise<void>;
   ruleSearch: string;
+  /** Live preview line for the Claude Code entry. */
+  claudeCodeLine: string;
+  /** The presence shown right now, when it carries a language badge. */
+  livePresence: PresenceData | null;
 }
 
 export function AppList({
@@ -20,6 +24,8 @@ export function AppList({
   onDeleteRule,
   onReorderRules,
   ruleSearch,
+  claudeCodeLine,
+  livePresence,
 }: AppListProps) {
   const moveRuleToIndex = async (currentIndex: number, targetIndex: number) => {
     if (
@@ -67,6 +73,8 @@ export function AppList({
               onMoveUp={() => moveRuleToIndex(idx, idx - 1)}
               onMoveDown={() => moveRuleToIndex(idx, idx + 1)}
               onMoveTo={(newIndex) => moveRuleToIndex(idx, newIndex)}
+              claudeCodeLine={claudeCodeLine}
+              livePresence={livePresence}
             />
           </li>
         ))}

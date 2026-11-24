@@ -1,8 +1,23 @@
 import { invoke } from "@tauri-apps/api/core";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import APP_CATALOG_JSON from "../../apps.json";
+import { AppDefinition } from "../apps/app-types";
 import { AppRule } from "../types";
 import { AppIcon } from "./AppIcon";
+
+const appCatalog = APP_CATALOG_JSON as AppDefinition[];
+
+/** The catalog name for a known executable (e.g. `code` → `Visual Studio Code`). */
+function catalogName(processName: string): string | undefined {
+  const exe = processName.toLowerCase();
+  return appCatalog.find((app) => app.executables.includes(exe))?.name;
+}
+
+/** Names a running process after its catalog app so it can be found by that name. */
+function withCatalogName(proc: { process_name: string; display_name: string }) {
+  return { ...proc, display_name: catalogName(proc.process_name) ?? proc.display_name };
+}
 
 interface ProcessPickerProps {
   onClose: () => void;
@@ -31,7 +46,7 @@ export function ProcessPicker({
         >("get_running_processes");
         if (!mounted) return;
         const unique = Array.from(
-          new Map(procs.map((p) => [p.process_name, p])).values(),
+          new Map(procs.map((p) => [p.process_name, withCatalogName(p)])).values(),
         );
         unique.sort((a, b) => a.display_name.localeCompare(b.display_name));
         setSystemProcesses(unique);

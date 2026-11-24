@@ -7,6 +7,7 @@ pub mod title_parser;
 pub mod activity_builder;
 pub mod detection_status;
 pub mod claude_code_config;
+pub mod claude_code_metadata;
 pub mod claude_code_server;
 #[cfg(target_os = "linux")]
 pub mod linux;

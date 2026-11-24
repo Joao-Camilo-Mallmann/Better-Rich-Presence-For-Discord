@@ -298,9 +298,11 @@ impl DiscordManager {
 
         let details = format_string(&data.details);
         let state = format_string(&data.state);
-        // The engine already resolved this to a URL Discord can render.
+        // The engine already resolved these to URLs Discord can render.
         let large_image = data.large_image.trim().to_string();
         let large_text = format_string(&data.large_text);
+        let small_image = data.small_image.trim().to_string();
+        let small_text = format_string(&data.small_text);
         let timestamp = data.timestamp;
 
         info!(
@@ -326,11 +328,11 @@ impl DiscordManager {
                 if !large_text.is_empty() {
                     assets = assets.large_text(&large_text);
                 }
-                if !data.small_image.is_empty() {
-                    assets = assets.small_image(&data.small_image);
+                if !small_image.is_empty() {
+                    assets = assets.small_image(&small_image);
                 }
-                if !data.small_text.is_empty() {
-                    assets = assets.small_text(&data.small_text);
+                if !small_text.is_empty() {
+                    assets = assets.small_text(&small_text);
                 }
                 assets
             });

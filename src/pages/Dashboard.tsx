@@ -1,4 +1,5 @@
 import { ArrowUp } from "lucide-react";
+import { ClaudeCodeChats } from "../components/ClaudeCodeChats";
 import { PresenceCard } from "../components/PresenceCard";
 import { BandState } from "../components/StatusBand";
 import { usePresence } from "../hooks/usePresence";
@@ -85,11 +86,13 @@ export function Dashboard({ bandState }: DashboardProps) {
             </strong>
             , the app in focus.{" "}
             <span className="text-muted-ink">
-              Max priority mode shows the highest app in your list.
+              Priority list mode shows the highest app in your list.
             </span>
           </p>
         </div>
       )}
+
+      <ClaudeCodeChats />
     </div>
   );
 }

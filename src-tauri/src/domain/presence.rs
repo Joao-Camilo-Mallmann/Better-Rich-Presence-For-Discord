@@ -1,5 +1,5 @@
 //! Pure rules for what a Discord activity contains: its title, text lines and
-//! large image. The engine applies them; the Status Preview renders the result.
+//! images. The engine applies them; the Status Preview renders the result.
 
 /// Registered name of the shared Discord application (`DEFAULT_CLIENT_ID`).
 /// Discord always shows it as the activity's bold title.
@@ -75,6 +75,32 @@ pub fn resolve_large_image(
     LOGO_IMAGE_URL.to_string()
 }
 
+/// Resolves a presence's small image to something Discord can render, or an
+/// empty string when no small image badge should be shown.
+///
+/// Unlike [`resolve_large_image`], empty, placeholder, or unknown values on the
+/// shared client resolve to `""` rather than [`LOGO_IMAGE_URL`]. Off the shared
+/// client, an unknown non-empty, non-placeholder key passes through unchanged.
+pub fn resolve_small_image(
+    value: &str,
+    shared_client: bool,
+    catalog_icon: impl Fn(&str) -> Option<String>,
+) -> String {
+    let value = value.trim();
+    if is_image_url(value) {
+        return discord_image_url(value);
+    }
+    if !is_placeholder_image(value) {
+        if let Some(url) = catalog_icon(value) {
+            return discord_image_url(&url);
+        }
+        if !shared_client {
+            return value.to_string();
+        }
+    }
+    String::new()
+}
+
 /// The bold title Discord shows: the shared application's name, else the name
 /// Discord reported for the app's own application, else the app name.
 pub fn activity_name(shared_client: bool, discord_app_name: Option<&str>, app_name: &str) -> String {
@@ -108,21 +134,59 @@ pub fn rule_details(display_name: &str, rendered_details: &str, shared_client: b
     format!("{name} - {details}")
 }
 
-/// The `state` line of an IDE presence, from the parsed file and workspace.
-pub fn ide_activity(file_name: Option<&str>, workspace: Option<&str>) -> String {
+/// The `details` line of an IDE presence: `<IDE> · <workspace>`, or `<IDE>`
+/// when no workspace is known.
+pub fn ide_details(ide_name: &str, workspace: Option<&str>) -> String {
+    let ide = ide_name.trim();
+    let workspace = workspace.map(str::trim).filter(|s| !s.is_empty());
+    match (ide.is_empty(), workspace) {
+        (false, Some(ws)) => format!("{ide} · {ws}"),
+        (false, None) => ide.to_string(),
+        (true, Some(ws)) => ws.to_string(),
+        (true, None) => String::new(),
+    }
+}
+
+/// The `state` line of an IDE presence, from the parsed file, workspace, and
+/// optional detected language name.
+pub fn ide_state(
+    file_name: Option<&str>,
+    workspace: Option<&str>,
+    language_name: Option<&str>,
+) -> String {
     let file = file_name.map(str::trim).filter(|s| !s.is_empty());
     let workspace = workspace.map(str::trim).filter(|s| !s.is_empty());
-    match (file, workspace) {
-        (Some(file), Some(workspace)) => format!("Editing {file} in {workspace}"),
-        (Some(file), None) => format!("Editing {file}"),
-        (None, Some(workspace)) => format!("In {workspace}"),
-        (None, None) => "Active".to_string(),
+    let language = language_name.map(str::trim).filter(|s| !s.is_empty());
+    match (file, workspace, language) {
+        (Some(file), _, Some(lang)) => format!("Editing {file} ({lang})"),
+        (Some(file), _, None) => format!("Editing {file}"),
+        (None, Some(workspace), _) => format!("Working on {workspace}"),
+        (None, None, _) => "Active".to_string(),
     }
+}
+
+/// Whether an Apps rule still has the text the "Add app" picker fills in
+/// (`details` = app name or empty, `state` = `Working` or empty). Such a rule
+/// gives way to the richer IDE presence (file, workspace, language icon);
+/// a rule with custom text keeps it.
+pub fn rule_has_default_text(display_name: &str, details: &str, state: &str) -> bool {
+    let details = details.trim();
+    let state = state.trim();
+    (details.is_empty() || details.eq_ignore_ascii_case(display_name.trim()))
+        && (state.is_empty() || state.eq_ignore_ascii_case("Working"))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn default_rule_text_is_detected() {
+        assert!(rule_has_default_text("Code", "Code", "Working"));
+        assert!(rule_has_default_text("Code", "", ""));
+        assert!(!rule_has_default_text("Code", "Hacking {file}", "Working"));
+        assert!(!rule_has_default_text("Code", "Code", "In the zone"));
+    }
 
     fn catalog(id: &str) -> Option<String> {
         match id {
@@ -228,10 +292,72 @@ mod tests {
     }
 
     #[test]
-    fn ide_activity_sentences() {
-        assert_eq!(ide_activity(Some("main.rs"), Some("my-project")), "Editing main.rs in my-project");
-        assert_eq!(ide_activity(Some("main.rs"), Some(" ")), "Editing main.rs");
-        assert_eq!(ide_activity(None, Some("my-project")), "In my-project");
-        assert_eq!(ide_activity(None, None), "Active");
+    fn small_image_rewrites_urls_and_resolves_catalog_ids() {
+        let raw_rust = "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/rust.png";
+        assert_eq!(
+            resolve_small_image(raw_rust, true, catalog),
+            "https://cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/public/assets/icons/rust.png"
+        );
+        assert_eq!(
+            resolve_small_image("firefox", true, catalog),
+            "https://example.com/firefox.png"
+        );
+        assert_eq!(
+            resolve_small_image("cursor", true, catalog),
+            "https://cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/public/assets/icons/cursor.png"
+        );
+    }
+
+    #[test]
+    fn small_image_placeholders_and_unknown_on_shared_client_become_empty() {
+        for value in ["", "  ", "auto", "default", "DEFAULT"] {
+            assert_eq!(resolve_small_image(value, true, catalog), "");
+            assert_eq!(resolve_small_image(value, false, catalog), "");
+        }
+        assert_eq!(resolve_small_image("unknown-key", true, catalog), "");
+    }
+
+    #[test]
+    fn small_image_unknown_key_passes_through_on_own_client() {
+        assert_eq!(
+            resolve_small_image("my-uploaded-badge", false, catalog),
+            "my-uploaded-badge"
+        );
+    }
+
+    #[test]
+    fn ide_details_formats_with_and_without_workspace() {
+        assert_eq!(
+            ide_details("Visual Studio Code", Some("my-project")),
+            "Visual Studio Code · my-project"
+        );
+        assert_eq!(ide_details("Visual Studio Code", None), "Visual Studio Code");
+        assert_eq!(ide_details("Visual Studio Code", Some("  ")), "Visual Studio Code");
+    }
+
+    #[test]
+    fn ide_state_sentences() {
+        assert_eq!(
+            ide_state(Some("main.rs"), Some("my-project"), Some("Rust")),
+            "Editing main.rs (Rust)"
+        );
+        assert_eq!(
+            ide_state(Some("test.unknown"), Some("my-project"), None),
+            "Editing test.unknown"
+        );
+        assert_eq!(
+            ide_state(Some("test.unknown"), None, Some("  ")),
+            "Editing test.unknown"
+        );
+        assert_eq!(
+            ide_state(None, Some("my-app"), None),
+            "Working on my-app"
+        );
+        assert_eq!(
+            ide_state(Some(" "), Some("my-app"), Some("Rust")),
+            "Working on my-app"
+        );
+        assert_eq!(ide_state(None, None, None), "Active");
+        assert_eq!(ide_state(None, Some(" "), None), "Active");
     }
 }

@@ -1,6 +1,8 @@
 import { ChevronDown, ChevronRight, ChevronUp } from "lucide-react";
 import { useState } from "react";
-import { AppRule } from "../types";
+import APP_CATALOG_JSON from "../../apps.json";
+import { AppDefinition } from "../apps/app-types";
+import { AppRule, PresenceData } from "../types";
 import { AppIcon } from "./AppIcon";
 import { Toggle } from "./Toggle";
 
@@ -15,6 +17,23 @@ interface AppRuleCardProps {
   onMoveUp: () => void;
   onMoveDown: () => void;
   onMoveTo: (newIndex: number) => void;
+  /** Live preview line, used only by the Claude Code entry. */
+  claudeCodeLine?: string;
+  /** The presence shown right now, when it carries a language badge. */
+  livePresence?: PresenceData | null;
+}
+
+/** `process_name` of the reserved entry that ranks Claude Code sessions. */
+export const CLAUDE_CODE_RULE_ID = "claude_code";
+
+const appCatalog = APP_CATALOG_JSON as AppDefinition[];
+
+/** Whether the live presence (named by its `large_text`, e.g. "Visual Studio
+ *  Code") belongs to the app this rule matches. */
+function isLiveFor(processName: string, presenceName: string): boolean {
+  const exe = processName.toLowerCase();
+  const app = appCatalog.find((entry) => entry.executables.includes(exe));
+  return app !== undefined && app.name === presenceName;
 }
 
 const labelCls = "text-[12px] font-semibold text-ink";
@@ -32,7 +51,10 @@ export function AppRuleCard({
   onMoveUp,
   onMoveDown,
   onMoveTo,
+  claudeCodeLine = "",
+  livePresence = null,
 }: AppRuleCardProps) {
+  const isClaudeCode = rule.process_name === CLAUDE_CODE_RULE_ID;
   const [expanded, setExpanded] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [editRule, setEditRule] = useState<AppRule>({ ...rule });
@@ -40,8 +62,15 @@ export function AppRuleCard({
   const [priorityInput, setPriorityInput] = useState("");
 
   const formId = `rule-form-${rule.process_name}`;
-  const preview =
+  const rulePreview =
     [rule.details, rule.state].filter(Boolean).join(" · ") || "No presence text";
+  const live =
+    livePresence && isLiveFor(rule.process_name, livePresence.large_text)
+      ? livePresence
+      : null;
+  const preview = isClaudeCode
+    ? `Claude Code · ${claudeCodeLine}`
+    : (live?.state ?? rulePreview);
   const iconName =
     rule.large_image && rule.large_image !== "auto"
       ? rule.large_image
@@ -134,20 +163,32 @@ export function AppRuleCard({
             </button>
           ))}
 
-        {/* Row body opens the editor */}
+        {/* Row body opens the editor; the Claude Code entry has none. */}
         <button
           type="button"
           onClick={expanded ? closeEditor : openEditor}
+          disabled={isClaudeCode}
           aria-expanded={expanded}
           aria-controls={formId}
-          aria-label={`Edit ${rule.display_name}`}
-          className="flex items-center gap-3 flex-1 min-w-0 text-left rounded-md px-1 py-0.5 hover:bg-white/5 transition-colors"
+          aria-label={isClaudeCode ? rule.display_name : `Edit ${rule.display_name}`}
+          title={isClaudeCode ? "Claude Code text comes from your live sessions." : undefined}
+          className="flex items-center gap-3 flex-1 min-w-0 text-left rounded-md px-1 py-0.5 enabled:hover:bg-white/5 transition-colors"
         >
-          <span
-            className={`w-9 h-9 shrink-0 flex items-center justify-center overflow-hidden bg-surface-onyx neo-border-2 ${rule.enabled ? "" : "opacity-40"}`}
-            style={{ borderRadius: "6px" }}
-          >
-            <AppIcon name={iconName} className="w-6 h-6 object-contain" size={24} />
+          <span className="relative w-9 h-9 shrink-0">
+            <span
+              className={`w-9 h-9 flex items-center justify-center overflow-hidden bg-surface-onyx neo-border-2 ${rule.enabled ? "" : "opacity-40"}`}
+              style={{ borderRadius: "6px" }}
+            >
+              <AppIcon name={iconName} className="w-6 h-6 object-contain" size={24} />
+            </span>
+            {live?.small_image && (
+              <span
+                className="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center overflow-hidden bg-surface-black neo-border-2"
+                title={live.small_text || ""}
+              >
+                <AppIcon name={live.small_image} className="w-3 h-3 object-contain" size={12} />
+              </span>
+            )}
           </span>
           <span
             className={`flex flex-col min-w-0 flex-1 ${rule.enabled ? "" : "opacity-50"}`}
@@ -157,11 +198,13 @@ export function AppRuleCard({
             </span>
             <span className="text-[12px] text-muted-ink truncate">{preview}</span>
           </span>
-          <ChevronDown
-            size={16}
-            aria-hidden
-            className={`shrink-0 text-muted-ink transition-transform ${expanded ? "rotate-180" : ""}`}
-          />
+          {!isClaudeCode && (
+            <ChevronDown
+              size={16}
+              aria-hidden
+              className={`shrink-0 text-muted-ink transition-transform ${expanded ? "rotate-180" : ""}`}
+            />
+          )}
         </button>
 
         {canReorder && (
@@ -198,7 +241,7 @@ export function AppRuleCard({
         />
       </div>
 
-      {expanded && (
+      {expanded && !isClaudeCode && (
         <div
           id={formId}
           className="p-4 bg-surface-onyx flex flex-col gap-3"

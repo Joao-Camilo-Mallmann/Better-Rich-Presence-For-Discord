@@ -72,7 +72,7 @@ The window SHALL organize its content into three views, "Now", "Apps" and "Setti
 - **THEN** focus and selection move to the previous or next tab
 
 ### Requirement: Now view
-The Now view SHALL show a preview of the Discord profile card with the current activity, labelled "What friends see". When Max priority mode shows an app other than the one in focus, it SHALL also show which app is shown and which app is in focus.
+The Now view SHALL show a preview of the Discord profile card with the current activity, labelled "What friends see". When Max priority mode shows an app other than the one in focus, it SHALL also show which app is shown and which app is in focus. When one or more Claude Code sessions are active, the Now view SHALL display a live Claude Code chats list showing each chat's title, project, git branch, model, and current activity, allowing the user to pin a chat or return to auto-follow.
 
 #### Scenario: Activity detected
 - **WHEN** an app with a rule is detected
@@ -82,8 +82,13 @@ The Now view SHALL show a preview of the Discord profile card with the current a
 - **WHEN** Max priority mode shows Visual Studio Code while Firefox is in focus
 - **THEN** the Now view names Visual Studio Code as shown and Firefox as in focus
 
+#### Scenario: Active Claude Code chats shown in Now view
+- **WHEN** two Claude Code sessions are active
+- **THEN** the Now view displays both chats with their metadata and activity below the preview card
+- **AND** clicking a chat pins it as the active Discord presence, with an "Auto-follow" control to unpin
+
 ### Requirement: Apps view
-The Apps view SHALL list the configured apps in priority order. Each row shows the position, icon, name, a one-line preview of both presence lines, move up and down controls, an enable switch and an edit control. The view SHALL state that list order sets priority when Max priority mode is on.
+The Apps view SHALL list the configured apps in priority order, including the Claude Code entry. Each row shows the position, icon, name, a one-line preview of both presence lines, move up and down controls, an enable switch and an edit control. The Claude Code entry has no edit or delete control. The view SHALL state that list order sets priority, including over Claude Code sessions.
 
 #### Scenario: Add an app
 - **WHEN** the user selects "Add app" and picks a running app
@@ -96,6 +101,15 @@ The Apps view SHALL list the configured apps in priority order. Each row shows t
 #### Scenario: No apps yet
 - **WHEN** no apps are configured
 - **THEN** the view explains that apps added here are shown on Discord while in use, and offers "Add app"
+
+#### Scenario: Claude Code entry
+- **WHEN** the Apps view lists the Claude Code entry
+- **THEN** it shows the Claude Code icon (`claude.png`), the name `Claude Code`, move controls and the enable switch, and no edit or delete control
+
+#### Scenario: Claude Code entry shows live activity
+- **WHEN** a Claude Code session is active
+- **THEN** the entry's preview line shows the live Claude Code presence lines (for example `Claude Code · Editing main.rs in my-project`) and updates as hook events arrive
+- **AND** with no active session it shows `Claude Code · Waiting for a session`
 
 ### Requirement: App editing
 Editing an app SHALL offer the fields Name, First line and Second line. Image and Discord application ID SHALL be under "More options", and the application ID SHALL be marked optional. Save, Cancel and Delete actions SHALL be available, and all labels SHALL be in English.

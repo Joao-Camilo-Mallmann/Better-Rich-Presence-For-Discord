@@ -229,6 +229,18 @@ export function PresenceCard({
               ) : (
                 <div className="text-xl font-bold text-zinc-400">?</div>
               )}
+              {presence?.small_image && (
+                <div
+                  className="absolute -bottom-1.5 -right-1.5 w-6 h-6 rounded-full flex items-center justify-center overflow-hidden bg-surface-black neo-border-2"
+                  title={presence.small_text || ""}
+                >
+                  <AppIcon
+                    name={presence.small_image}
+                    className="w-4 h-4 object-contain"
+                    size={16}
+                  />
+                </div>
+              )}
             </div>
             <div className="flex flex-col min-w-0 flex-1 justify-center py-0.5 select-text">
               <div className="font-bold text-[13px] text-white leading-tight truncate font-display">

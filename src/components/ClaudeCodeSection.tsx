@@ -17,7 +17,9 @@ export function ClaudeCodeSection() {
   let summary = "Not connected · Add HTTP hooks to Claude Code";
   if (hasActiveSession && status.active_activity) {
     dotClass = "bg-green-accent";
-    summary = `Live · ${status.active_activity}`;
+    const chatCountPrefix =
+      status.active_sessions > 1 ? `${status.active_sessions} chats · ` : "";
+    summary = `Live · ${chatCountPrefix}${status.active_activity}`;
   } else if (isInstalled && status.server_listening) {
     dotClass = "bg-green-accent";
     summary = "Connected · Ready for Claude Code sessions";
