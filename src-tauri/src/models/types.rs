@@ -721,9 +721,8 @@ impl AppState {
         let port = self.inner.read().await.settings.claude_code_port;
         let path = crate::services::claude_code_config::resolve_settings_path()
             .map_err(AppError::System)?;
-        let install_state =
-            crate::services::claude_code_config::inspect_settings_file(&path, port)
-                .map_err(AppError::System)?;
+        let install_state = crate::services::claude_code_config::inspect_settings_file(&path, port)
+            .map_err(AppError::System)?;
 
         let mut inner = self.inner.write().await;
         inner.claude_code_status.install_state = install_state;
@@ -763,4 +762,3 @@ mod tests {
         assert!(parsed.claude_code_show_chat_title);
     }
 }
-

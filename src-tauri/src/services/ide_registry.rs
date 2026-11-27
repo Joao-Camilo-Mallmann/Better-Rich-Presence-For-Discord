@@ -12,36 +12,51 @@ pub struct IdeRegistry;
 
 impl IdeRegistry {
     const IDES: &'static [(Ide, IdeDefinition)] = &[
-        (Ide::VisualStudioCode, IdeDefinition {
-            display_name: "Visual Studio Code",
-            title_identifier: "Visual Studio Code",
-            title_aliases: &["Visual Studio Code - Insiders"],
-            catalog_id: Some("vscode"),
-        }),
-        (Ide::Cursor, IdeDefinition {
-            display_name: "Cursor",
-            title_identifier: "Cursor",
-            title_aliases: &[],
-            catalog_id: Some("cursor"),
-        }),
-        (Ide::VSCodium, IdeDefinition {
-            display_name: "VSCodium",
-            title_identifier: "VSCodium",
-            title_aliases: &[],
-            catalog_id: Some("vscodium"),
-        }),
-        (Ide::Windsurf, IdeDefinition {
-            display_name: "Windsurf",
-            title_identifier: "Windsurf",
-            title_aliases: &[],
-            catalog_id: Some("windsurf"),
-        }),
-        (Ide::Antigravity, IdeDefinition {
-            display_name: "Antigravity",
-            title_identifier: "Antigravity",
-            title_aliases: &[],
-            catalog_id: Some("antigravity"),
-        }),
+        (
+            Ide::VisualStudioCode,
+            IdeDefinition {
+                display_name: "Visual Studio Code",
+                title_identifier: "Visual Studio Code",
+                title_aliases: &["Visual Studio Code - Insiders"],
+                catalog_id: Some("vscode"),
+            },
+        ),
+        (
+            Ide::Cursor,
+            IdeDefinition {
+                display_name: "Cursor",
+                title_identifier: "Cursor",
+                title_aliases: &[],
+                catalog_id: Some("cursor"),
+            },
+        ),
+        (
+            Ide::VSCodium,
+            IdeDefinition {
+                display_name: "VSCodium",
+                title_identifier: "VSCodium",
+                title_aliases: &[],
+                catalog_id: Some("vscodium"),
+            },
+        ),
+        (
+            Ide::Windsurf,
+            IdeDefinition {
+                display_name: "Windsurf",
+                title_identifier: "Windsurf",
+                title_aliases: &[],
+                catalog_id: Some("windsurf"),
+            },
+        ),
+        (
+            Ide::Antigravity,
+            IdeDefinition {
+                display_name: "Antigravity",
+                title_identifier: "Antigravity",
+                title_aliases: &[],
+                catalog_id: Some("antigravity"),
+            },
+        ),
     ];
 
     pub fn detect_from_title(title: &str) -> Option<Ide> {
@@ -74,7 +89,10 @@ impl IdeRegistry {
     }
 
     fn definition(ide: &Ide) -> Option<&'static IdeDefinition> {
-        Self::IDES.iter().find(|(i, _)| i == ide).map(|(_, def)| def)
+        Self::IDES
+            .iter()
+            .find(|(i, _)| i == ide)
+            .map(|(_, def)| def)
     }
 
     /// The IDE's display name, e.g. `Visual Studio Code`.

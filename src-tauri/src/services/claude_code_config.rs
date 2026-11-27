@@ -66,8 +66,7 @@ pub fn is_better_rpc_hook(handler: &Value) -> bool {
     let Some(url) = obj.get("url").and_then(Value::as_str) else {
         return false;
     };
-    let is_loopback =
-        url.starts_with("http://127.0.0.1:") || url.starts_with("http://localhost:");
+    let is_loopback = url.starts_with("http://127.0.0.1:") || url.starts_with("http://localhost:");
     is_loopback && url.ends_with(CLAUDE_CODE_HOOK_PATH)
 }
 
@@ -173,7 +172,9 @@ pub fn install_hooks_in_json(root: &mut Value, port: u16) -> Result<(), String> 
     let hooks_obj = root_obj
         .get_mut("hooks")
         .and_then(Value::as_object_mut)
-        .ok_or_else(|| "Expected \"hooks\" in Claude Code settings.json to be an object".to_string())?;
+        .ok_or_else(|| {
+            "Expected \"hooks\" in Claude Code settings.json to be an object".to_string()
+        })?;
 
     strip_better_rpc_from_hooks_map(hooks_obj);
 
@@ -206,9 +207,9 @@ pub fn remove_hooks_from_json(root: &mut Value) -> Result<bool, String> {
         return Ok(false);
     };
 
-    let hooks_obj = hooks_val
-        .as_object_mut()
-        .ok_or_else(|| "Expected \"hooks\" in Claude Code settings.json to be an object".to_string())?;
+    let hooks_obj = hooks_val.as_object_mut().ok_or_else(|| {
+        "Expected \"hooks\" in Claude Code settings.json to be an object".to_string()
+    })?;
 
     let removed = strip_better_rpc_from_hooks_map(hooks_obj);
 
@@ -303,8 +304,7 @@ fn read_or_empty_object(path: &Path) -> Result<Value, String> {
     if content.trim().is_empty() {
         return Ok(Value::Object(Map::new()));
     }
-    serde_json::from_str(&content)
-        .map_err(|e| format!("Invalid JSON in {}: {e}", path.display()))
+    serde_json::from_str(&content).map_err(|e| format!("Invalid JSON in {}: {e}", path.display()))
 }
 
 fn write_json_atomic(path: &Path, value: &Value) -> Result<(), String> {
@@ -452,10 +452,8 @@ mod tests {
 
     #[test]
     fn file_roundtrip_and_malformed_json_protection() {
-        let dir = std::env::temp_dir().join(format!(
-            "better-rpc-claude-cfg-test-{}",
-            std::process::id()
-        ));
+        let dir =
+            std::env::temp_dir().join(format!("better-rpc-claude-cfg-test-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&dir);
         let settings_path = dir.join("settings.json");
 

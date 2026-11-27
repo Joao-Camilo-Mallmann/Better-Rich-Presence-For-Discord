@@ -48,7 +48,9 @@ impl SessionEnv {
         let wayland = session_type == "wayland"
             || (session_type != "x11" && var("WAYLAND_DISPLAY").is_some());
         let x11 = !wayland && (session_type == "x11" || var("DISPLAY").is_some());
-        let desktop = var("XDG_CURRENT_DESKTOP").unwrap_or_default().to_lowercase();
+        let desktop = var("XDG_CURRENT_DESKTOP")
+            .unwrap_or_default()
+            .to_lowercase();
         Self {
             wayland,
             x11,
@@ -311,14 +313,17 @@ impl LinuxDetector {
     /// Title of a window that belongs to the given app, if the backend can list windows.
     fn title_for_app(&self, backend: WindowBackend, pid: u32, name: &str) -> Option<String> {
         let mut windows = backend.windows();
-        let index = windows.iter().position(|w| w.pid == Some(pid)).or_else(|| {
-            windows.iter().position(|w| {
-                w.pid
-                    .and_then(process::process_name)
-                    .map_or(false, |n| same_app_name(&n, name))
-                    || same_app_name(&w.class, name)
-            })
-        })?;
+        let index = windows
+            .iter()
+            .position(|w| w.pid == Some(pid))
+            .or_else(|| {
+                windows.iter().position(|w| {
+                    w.pid
+                        .and_then(process::process_name)
+                        .map_or(false, |n| same_app_name(&n, name))
+                        || same_app_name(&w.class, name)
+                })
+            })?;
         let mut window = windows.swap_remove(index);
         backend.complete_title(&mut window);
         (!window.title.is_empty()).then_some(window.title)
@@ -408,18 +413,29 @@ mod tests {
         assert!(env.wayland && env.gnome && !env.x11);
         assert_eq!(
             window_candidates(&env),
-            vec![WindowBackend::GnomeFocusedWindow, WindowBackend::GnomeWindowCalls]
+            vec![
+                WindowBackend::GnomeFocusedWindow,
+                WindowBackend::GnomeWindowCalls
+            ]
         );
         assert_eq!(idle_candidates(&env), vec![IdleBackend::GnomeMutter]);
     }
 
     #[test]
     fn x11_session_uses_xprop() {
-        let env = env_from(&[("XDG_SESSION_TYPE", "x11"), ("XDG_CURRENT_DESKTOP", "XFCE"), ("DISPLAY", ":0")]);
+        let env = env_from(&[
+            ("XDG_SESSION_TYPE", "x11"),
+            ("XDG_CURRENT_DESKTOP", "XFCE"),
+            ("DISPLAY", ":0"),
+        ]);
         assert_eq!(window_candidates(&env), vec![WindowBackend::X11]);
         assert_eq!(idle_candidates(&env), vec![IdleBackend::XPrintIdle]);
 
-        let gnome_x11 = env_from(&[("XDG_SESSION_TYPE", "x11"), ("XDG_CURRENT_DESKTOP", "GNOME"), ("DISPLAY", ":0")]);
+        let gnome_x11 = env_from(&[
+            ("XDG_SESSION_TYPE", "x11"),
+            ("XDG_CURRENT_DESKTOP", "GNOME"),
+            ("DISPLAY", ":0"),
+        ]);
         assert_eq!(window_candidates(&gnome_x11), vec![WindowBackend::X11]);
         assert_eq!(
             idle_candidates(&gnome_x11),
@@ -444,19 +460,32 @@ mod tests {
         assert_eq!(window_candidates(&hyprland), vec![WindowBackend::Hyprland]);
         assert!(idle_candidates(&hyprland).is_empty());
 
-        let sway = env_from(&[("WAYLAND_DISPLAY", "wayland-1"), ("SWAYSOCK", "/run/user/1000/sway.sock")]);
+        let sway = env_from(&[
+            ("WAYLAND_DISPLAY", "wayland-1"),
+            ("SWAYSOCK", "/run/user/1000/sway.sock"),
+        ]);
         assert_eq!(window_candidates(&sway), vec![WindowBackend::Sway]);
     }
 
     #[test]
     fn kde_wayland_has_no_window_backend() {
-        let env = env_from(&[("XDG_SESSION_TYPE", "wayland"), ("XDG_CURRENT_DESKTOP", "KDE"), ("WAYLAND_DISPLAY", "wayland-0")]);
+        let env = env_from(&[
+            ("XDG_SESSION_TYPE", "wayland"),
+            ("XDG_CURRENT_DESKTOP", "KDE"),
+            ("WAYLAND_DISPLAY", "wayland-0"),
+        ]);
         assert!(window_candidates(&env).is_empty());
     }
 
     #[test]
     fn hint_for_gnome_wayland_without_extension() {
-        let hint = detection_hint(&gnome_wayland(), None, Some(IdleBackend::GnomeMutter), |_| true).unwrap();
+        let hint = detection_hint(
+            &gnome_wayland(),
+            None,
+            Some(IdleBackend::GnomeMutter),
+            |_| true,
+        )
+        .unwrap();
         assert!(hint.contains("Focused Window D-Bus"));
         assert!(hint.contains("extension/5592"));
         assert!(hint.contains("only apps from your rules"));
@@ -477,7 +506,10 @@ mod tests {
 
     #[test]
     fn hint_for_unsupported_wayland_desktop() {
-        let env = env_from(&[("XDG_SESSION_TYPE", "wayland"), ("XDG_CURRENT_DESKTOP", "KDE")]);
+        let env = env_from(&[
+            ("XDG_SESSION_TYPE", "wayland"),
+            ("XDG_CURRENT_DESKTOP", "KDE"),
+        ]);
         let hint = detection_hint(&env, None, None, |_| true).unwrap();
         assert!(hint.contains("not supported on this desktop"));
         assert!(hint.contains("Idle detection is not available"));
@@ -494,8 +526,14 @@ mod tests {
     #[test]
     fn same_app_name_is_symmetric() {
         assert!(same_app_name("code.exe", "code"));
-        assert!(same_app_name("rocketchat-desktop", "rocketchat-desktop.bin"));
-        assert!(same_app_name("rocketchat-desktop.bin", "rocketchat-desktop"));
+        assert!(same_app_name(
+            "rocketchat-desktop",
+            "rocketchat-desktop.bin"
+        ));
+        assert!(same_app_name(
+            "rocketchat-desktop.bin",
+            "rocketchat-desktop"
+        ));
         assert!(!same_app_name("code", "cursor"));
     }
 

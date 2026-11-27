@@ -29,7 +29,7 @@ use std::time::Duration;
 use log::{debug, error, info, warn};
 
 /// Discord Application ID constant imported from types.
-const DISCORD_APP_ID: u64 = DEFAULT_CLIENT_ID; 
+const DISCORD_APP_ID: u64 = DEFAULT_CLIENT_ID;
 
 // ---------------------------------------------------------------------------
 // DiscordHandle — send-side interface for the rest of the app
@@ -127,9 +127,15 @@ impl DiscordManager {
                         if !user_id.is_empty() && !username.is_empty() {
                             let avatar_url = if avatar.is_empty() {
                                 let disc = discriminator.parse::<u32>().unwrap_or(0);
-                                format!("https://cdn.discordapp.com/embed/avatars/{}.png", if disc > 0 { disc % 5 } else { 0 })
+                                format!(
+                                    "https://cdn.discordapp.com/embed/avatars/{}.png",
+                                    if disc > 0 { disc % 5 } else { 0 }
+                                )
                             } else {
-                                format!("https://cdn.discordapp.com/avatars/{}/{}.png", user_id, avatar)
+                                format!(
+                                    "https://cdn.discordapp.com/avatars/{}/{}.png",
+                                    user_id, avatar
+                                )
                             };
 
                             let discord_user = DiscordUser {
@@ -138,7 +144,9 @@ impl DiscordManager {
                                 avatar_url,
                             };
 
-                            if let Some(state) = app_ready.try_state::<crate::models::types::AppState>() {
+                            if let Some(state) =
+                                app_ready.try_state::<crate::models::types::AppState>()
+                            {
                                 let mut inner = tauri::async_runtime::block_on(state.inner.write());
                                 inner.discord_user = Some(discord_user.clone());
                             }
@@ -158,10 +166,7 @@ impl DiscordManager {
         let app_err = app_handle.clone();
         client
             .on_error(move |_ctx| {
-                error!(
-                    "RPC client encountered an error (client_id={})",
-                    client_id
-                );
+                error!("RPC client encountered an error (client_id={})", client_id);
                 connected_err.store(false, Ordering::Relaxed);
 
                 if let Some(state) = app_err.try_state::<crate::models::types::AppState>() {
@@ -175,7 +180,11 @@ impl DiscordManager {
     }
 
     /// Main loop for the RPC thread. Owns the `discord_presence::Client`.
-    fn rpc_thread_main(rx: Receiver<EngineCommand>, connected: Arc<AtomicBool>, app_handle: tauri::AppHandle) {
+    fn rpc_thread_main(
+        rx: Receiver<EngineCommand>,
+        connected: Arc<AtomicBool>,
+        app_handle: tauri::AppHandle,
+    ) {
         // Exponential backoff delays (seconds).
         let backoff_steps: &[u64] = &[3, 5, 10, 30, 60];
         let mut backoff_idx: usize = 0;
@@ -185,13 +194,15 @@ impl DiscordManager {
         let mut client = discord_presence::Client::new(current_client_id);
 
         // Register callbacks
-        Self::register_callbacks(&mut client, current_client_id, Arc::clone(&connected), app_handle.clone());
+        Self::register_callbacks(
+            &mut client,
+            current_client_id,
+            Arc::clone(&connected),
+            app_handle.clone(),
+        );
 
         // Attempt to start the IPC connection
-        info!(
-            "Starting IPC client (app_id={})",
-            current_client_id
-        );
+        info!("Starting IPC client (app_id={})", current_client_id);
         client.start();
 
         // Give the handshake a moment
@@ -216,7 +227,12 @@ impl DiscordManager {
                                 client = discord_presence::Client::new(client_id);
                                 current_client_id = client_id;
 
-                                Self::register_callbacks(&mut client, current_client_id, Arc::clone(&connected), app_handle.clone());
+                                Self::register_callbacks(
+                                    &mut client,
+                                    current_client_id,
+                                    Arc::clone(&connected),
+                                    app_handle.clone(),
+                                );
 
                                 client.start();
                                 thread::sleep(Duration::from_secs(2));
@@ -256,7 +272,12 @@ impl DiscordManager {
                         // Re-create the client for a fresh connection attempt
                         client = discord_presence::Client::new(current_client_id);
 
-                        Self::register_callbacks(&mut client, current_client_id, Arc::clone(&connected), app_handle.clone());
+                        Self::register_callbacks(
+                            &mut client,
+                            current_client_id,
+                            Arc::clone(&connected),
+                            app_handle.clone(),
+                        );
 
                         client.start();
                         thread::sleep(Duration::from_secs(2));

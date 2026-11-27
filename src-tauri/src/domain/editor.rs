@@ -14,13 +14,8 @@ const STATUS_TAGS: [&str; 6] = [
     "workspace",
 ];
 
-const NON_WORKSPACE_PREFIXES: [&str; 5] = [
-    "python ",
-    "wsl:",
-    "ssh:",
-    "dev container:",
-    "codespaces:",
-];
+const NON_WORKSPACE_PREFIXES: [&str; 5] =
+    ["python ", "wsl:", "ssh:", "dev container:", "codespaces:"];
 
 const WEB_TLDS: [&str; 6] = ["com", "org", "net", "io", "dev", "app"];
 
@@ -60,7 +55,11 @@ fn non_empty(value: &str) -> Option<String> {
 fn editor_aliases(app_id: &str, app_name: &str) -> Vec<&'static str> {
     let mut aliases: Vec<&'static str> = match app_id {
         "vscode" | "vscode_insiders" => {
-            vec!["Visual Studio Code - Insiders", "Visual Studio Code", "VS Code"]
+            vec![
+                "Visual Studio Code - Insiders",
+                "Visual Studio Code",
+                "VS Code",
+            ]
         }
         "cursor" => vec!["Cursor"],
         "vscodium" => vec!["VSCodium"],
@@ -231,7 +230,11 @@ fn strip_jetbrains_path_bracket(raw: &str) -> &str {
     if let Some(without_close) = s.strip_suffix(']') {
         if let Some(open_idx) = without_close.rfind('[') {
             let inner = without_close[open_idx + 1..].trim();
-            if inner.contains('/') || inner.contains('\\') || inner.contains(":\\") || inner.contains('~') {
+            if inner.contains('/')
+                || inner.contains('\\')
+                || inner.contains(":\\")
+                || inner.contains('~')
+            {
                 return without_close[..open_idx].trim_end();
             }
         }
@@ -274,10 +277,7 @@ fn strip_dirty_markers(raw: &str) -> (&str, bool) {
 }
 
 fn extract_basename(text: &str) -> &str {
-    text.rsplit(['/', '\\'])
-        .next()
-        .unwrap_or(text)
-        .trim()
+    text.rsplit(['/', '\\']).next().unwrap_or(text).trim()
 }
 
 fn has_plausible_file_ext(name: &str) -> bool {
@@ -291,9 +291,7 @@ fn has_plausible_file_ext(name: &str) -> bool {
     if ext.is_empty() || ext.len() > 8 || !ext.bytes().all(|b| b.is_ascii_alphabetic()) {
         return false;
     }
-    !WEB_TLDS
-        .iter()
-        .any(|tld| ext.eq_ignore_ascii_case(tld))
+    !WEB_TLDS.iter().any(|tld| ext.eq_ignore_ascii_case(tld))
 }
 
 fn normalize_inline_workspace(raw: &str) -> Option<String> {
@@ -341,10 +339,8 @@ fn extract_inline_workspace(raw: &str) -> (&str, Option<String>) {
     let (clean_prefix, had_dirty) = strip_dirty_markers(prefix);
     let is_path = clean_prefix.contains('/') || clean_prefix.contains('\\');
     let base = extract_basename(clean_prefix);
-    let prefix_looks_file = had_dirty
-        || is_path
-        || detect_language(base).is_some()
-        || has_plausible_file_ext(base);
+    let prefix_looks_file =
+        had_dirty || is_path || detect_language(base).is_some() || has_plausible_file_ext(base);
 
     if !prefix_looks_file {
         return (s, None);
@@ -398,7 +394,8 @@ pub fn parse_editor_title(app_id: &str, app_name: &str, window_title: &str) -> E
         return EditorTitleContext::default();
     }
 
-    let without_modified = strip_suffix_ignore_ascii_case(trimmed, " - Modified").unwrap_or(trimmed);
+    let without_modified =
+        strip_suffix_ignore_ascii_case(trimmed, " - Modified").unwrap_or(trimmed);
     let without_suffix = strip_editor_suffix(without_modified, app_id, app_name);
     let remaining = strip_leading_app_prefix(without_suffix, app_name);
 
@@ -486,21 +483,36 @@ mod tests {
     #[test]
     fn parses_zed_titles() {
         let ctx = parse_editor_title("zed", "Zed", "Better-Rich-Presence-For-Discord — engine.rs");
-        assert_eq!(ctx.workspace_name.as_deref(), Some("Better-Rich-Presence-For-Discord"));
+        assert_eq!(
+            ctx.workspace_name.as_deref(),
+            Some("Better-Rich-Presence-For-Discord")
+        );
         assert_eq!(ctx.file_name.as_deref(), Some("engine.rs"));
-        assert_eq!(ctx.language, Some(LanguageInfo { name: "Rust", icon: "rust" }));
+        assert_eq!(
+            ctx.language,
+            Some(LanguageInfo {
+                name: "Rust",
+                icon: "rust"
+            })
+        );
 
         let ctx = parse_editor_title(
             "zed",
             "Zed",
             "Better-Rich-Presence-For-Discord — src/services/engine.rs",
         );
-        assert_eq!(ctx.workspace_name.as_deref(), Some("Better-Rich-Presence-For-Discord"));
+        assert_eq!(
+            ctx.workspace_name.as_deref(),
+            Some("Better-Rich-Presence-For-Discord")
+        );
         assert_eq!(ctx.file_name.as_deref(), Some("engine.rs"));
         assert_eq!(ctx.language.map(|l| l.name), Some("Rust"));
 
         let ctx = parse_editor_title("zed", "Zed", "engine.rs — Better-Rich-Presence-For-Discord");
-        assert_eq!(ctx.workspace_name.as_deref(), Some("Better-Rich-Presence-For-Discord"));
+        assert_eq!(
+            ctx.workspace_name.as_deref(),
+            Some("Better-Rich-Presence-For-Discord")
+        );
         assert_eq!(ctx.file_name.as_deref(), Some("engine.rs"));
         assert_eq!(ctx.language.map(|l| l.name), Some("Rust"));
 
@@ -510,7 +522,10 @@ mod tests {
         assert_eq!(ctx.language.map(|l| l.name), Some("Rust"));
 
         let ctx = parse_editor_title("zed", "Zed", "Better-Rich-Presence-For-Discord");
-        assert_eq!(ctx.workspace_name.as_deref(), Some("Better-Rich-Presence-For-Discord"));
+        assert_eq!(
+            ctx.workspace_name.as_deref(),
+            Some("Better-Rich-Presence-For-Discord")
+        );
         assert_eq!(ctx.file_name, None);
         assert_eq!(ctx.language, None);
 
@@ -519,13 +534,23 @@ mod tests {
         assert_eq!(ctx.file_name.as_deref(), Some("notes.md"));
         assert_eq!(ctx.language.map(|l| l.name), Some("Markdown"));
 
-        assert_eq!(parse_editor_title("zed", "Zed", "Zed"), EditorTitleContext::default());
-        assert_eq!(parse_editor_title("zed", "Zed", ""), EditorTitleContext::default());
+        assert_eq!(
+            parse_editor_title("zed", "Zed", "Zed"),
+            EditorTitleContext::default()
+        );
+        assert_eq!(
+            parse_editor_title("zed", "Zed", ""),
+            EditorTitleContext::default()
+        );
     }
 
     #[test]
     fn parses_jetbrains_titles() {
-        let ctx = parse_editor_title("intellij", "IntelliJ IDEA", "my-spring-app – UserController.java");
+        let ctx = parse_editor_title(
+            "intellij",
+            "IntelliJ IDEA",
+            "my-spring-app – UserController.java",
+        );
         assert_eq!(ctx.workspace_name.as_deref(), Some("my-spring-app"));
         assert_eq!(ctx.file_name.as_deref(), Some("UserController.java"));
         assert_eq!(ctx.language.map(|l| l.name), Some("Java"));
@@ -635,7 +660,11 @@ mod tests {
         assert_eq!(ctx.file_name.as_deref(), Some("Main.java"));
         assert_eq!(ctx.language.map(|l| l.name), Some("Java"));
 
-        let ctx = parse_editor_title("codeblocks", "Code::Blocks", "main.cpp [my-project] - Code::Blocks");
+        let ctx = parse_editor_title(
+            "codeblocks",
+            "Code::Blocks",
+            "main.cpp [my-project] - Code::Blocks",
+        );
         assert_eq!(ctx.file_name.as_deref(), Some("main.cpp"));
         assert_eq!(ctx.workspace_name.as_deref(), Some("my-project"));
         assert_eq!(ctx.language.map(|l| l.name), Some("C++"));
@@ -656,7 +685,11 @@ mod tests {
         let ctx = parse_editor_title("emacs", "Emacs", "init.el - GNU Emacs at devbox");
         assert_eq!(ctx.file_name.as_deref(), Some("init.el"));
 
-        let ctx = parse_editor_title("jupyter", "Jupyter Notebook", "model.ipynb - Jupyter Notebook");
+        let ctx = parse_editor_title(
+            "jupyter",
+            "Jupyter Notebook",
+            "model.ipynb - Jupyter Notebook",
+        );
         assert_eq!(ctx.file_name.as_deref(), Some("model.ipynb"));
         assert_eq!(ctx.language.map(|l| l.name), Some("Jupyter"));
 
@@ -668,6 +701,12 @@ mod tests {
         let ctx = parse_editor_title("vscode", "Visual Studio Code", "Better-RPC — App.tsx");
         assert_eq!(ctx.workspace_name.as_deref(), Some("Better-RPC"));
         assert_eq!(ctx.file_name.as_deref(), Some("App.tsx"));
-        assert_eq!(ctx.language, Some(LanguageInfo { name: "TypeScript", icon: "react" }));
+        assert_eq!(
+            ctx.language,
+            Some(LanguageInfo {
+                name: "TypeScript",
+                icon: "react"
+            })
+        );
     }
 }

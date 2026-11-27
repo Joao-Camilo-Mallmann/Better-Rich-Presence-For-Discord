@@ -32,9 +32,9 @@ pub fn format_tray_snapshot(
     }
 
     if connected || presence_state == "Connected" || presence_state == "Updating" {
-        let shown = active_app
-            .map(str::trim)
-            .filter(|name| !name.is_empty() && *name != "Better Rich Presence" && *name != "Better RPC");
+        let shown = active_app.map(str::trim).filter(|name| {
+            !name.is_empty() && *name != "Better Rich Presence" && *name != "Better RPC"
+        });
         if let Some(app) = shown {
             return TraySnapshot {
                 tooltip: format!("Better Rich Presence — Showing {app}"),
@@ -84,20 +84,33 @@ mod tests {
     #[test]
     fn formats_live_connecting_and_disconnected_states() {
         let with_app = format_tray_snapshot(true, true, "Connected", Some("Visual Studio Code"));
-        assert_eq!(with_app.tooltip, "Better Rich Presence — Showing Visual Studio Code");
+        assert_eq!(
+            with_app.tooltip,
+            "Better Rich Presence — Showing Visual Studio Code"
+        );
         assert_eq!(with_app.status_text, "Showing: Visual Studio Code");
         assert!(with_app.sharing_checked);
 
-        let idle_placeholder = format_tray_snapshot(true, true, "Connected", Some("Better Rich Presence"));
-        assert_eq!(idle_placeholder.tooltip, "Better Rich Presence — Live on Discord");
+        let idle_placeholder =
+            format_tray_snapshot(true, true, "Connected", Some("Better Rich Presence"));
+        assert_eq!(
+            idle_placeholder.tooltip,
+            "Better Rich Presence — Live on Discord"
+        );
         assert_eq!(idle_placeholder.status_text, "Status: Live on Discord");
 
         let waiting = format_tray_snapshot(true, false, "WaitingDiscord", None);
-        assert_eq!(waiting.tooltip, "Better Rich Presence — Connecting to Discord");
+        assert_eq!(
+            waiting.tooltip,
+            "Better Rich Presence — Connecting to Discord"
+        );
         assert_eq!(waiting.status_text, "Status: Connecting to Discord");
 
         let disconnected = format_tray_snapshot(true, false, "Disconnected", None);
-        assert_eq!(disconnected.tooltip, "Better Rich Presence — Not connected to Discord");
+        assert_eq!(
+            disconnected.tooltip,
+            "Better Rich Presence — Not connected to Discord"
+        );
         assert_eq!(disconnected.status_text, "Status: Not connected to Discord");
     }
 }

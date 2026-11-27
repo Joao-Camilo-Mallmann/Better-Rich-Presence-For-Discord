@@ -60,8 +60,16 @@ pub fn platform_status() -> PlatformStatus {
     let is_linux = cfg!(target_os = "linux");
     PlatformStatus {
         os: std::env::consts::OS.to_string(),
-        session_type: if is_linux { non_empty_env("XDG_SESSION_TYPE") } else { None },
-        desktop: if is_linux { non_empty_env("XDG_CURRENT_DESKTOP") } else { None },
+        session_type: if is_linux {
+            non_empty_env("XDG_SESSION_TYPE")
+        } else {
+            None
+        },
+        desktop: if is_linux {
+            non_empty_env("XDG_CURRENT_DESKTOP")
+        } else {
+            None
+        },
         window_backend: detection.window_backend,
         idle_backend: detection.idle_backend,
         hint: detection.hint,

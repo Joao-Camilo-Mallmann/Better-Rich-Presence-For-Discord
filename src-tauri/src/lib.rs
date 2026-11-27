@@ -5,9 +5,7 @@ pub mod interface;
 pub mod models;
 pub mod services;
 
-use crate::models::types::{
-    AppRule, AppState, EngineEvent, Settings,
-};
+use crate::models::types::{AppRule, AppState, EngineEvent, Settings};
 use tauri::Manager;
 use tauri_plugin_store::StoreExt;
 use tokio::sync::mpsc;
@@ -82,7 +80,8 @@ pub fn run() {
             let (tx, rx) = mpsc::channel::<EngineEvent>(100);
 
             // 5. Create DiscordManager
-            let (_discord_manager, discord_handle) = services::discord::DiscordManager::new(app.handle().clone());
+            let (_discord_manager, discord_handle) =
+                services::discord::DiscordManager::new(app.handle().clone());
 
             // 6. Shared State (Consolidated)
             let claude_code_port = settings.claude_code_port;

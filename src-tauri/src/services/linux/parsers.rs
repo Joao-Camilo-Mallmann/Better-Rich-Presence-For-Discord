@@ -83,7 +83,10 @@ pub fn classify_busctl_error(stderr: &str) -> CallFailure {
 // ---------------------------------------------------------------------------
 
 fn json_str(v: &Value, key: &str) -> String {
-    v.get(key).and_then(Value::as_str).unwrap_or_default().to_string()
+    v.get(key)
+        .and_then(Value::as_str)
+        .unwrap_or_default()
+        .to_string()
 }
 
 fn json_pid(v: &Value, key: &str) -> Option<u32> {
@@ -206,7 +209,10 @@ fn collect_sway_windows(node: &Value, out: &mut Vec<(WindowInfo, bool)>) {
             })
             .unwrap_or_default()
             .to_lowercase();
-        let focused = node.get("focused").and_then(Value::as_bool).unwrap_or(false);
+        let focused = node
+            .get("focused")
+            .and_then(Value::as_bool)
+            .unwrap_or(false);
         out.push((
             WindowInfo {
                 pid: Some(pid),
@@ -338,11 +344,15 @@ mod tests {
     fn busctl_errors_are_classified() {
         // Captured on GNOME Shell 50 without the extensions installed.
         assert_eq!(
-            classify_busctl_error("Call failed: Object does not exist at path “/org/gnome/Shell/Extensions/Windows”"),
+            classify_busctl_error(
+                "Call failed: Object does not exist at path “/org/gnome/Shell/Extensions/Windows”"
+            ),
             CallFailure::Unavailable
         );
         assert_eq!(
-            classify_busctl_error("Call failed: The name org.example.Nope was not provided by any .service files"),
+            classify_busctl_error(
+                "Call failed: The name org.example.Nope was not provided by any .service files"
+            ),
             CallFailure::Unavailable
         );
         assert_eq!(
@@ -392,7 +402,10 @@ mod tests {
     fn focus_probe_order_puts_last_focused_first() {
         let windows: Vec<WindowInfo> = [Some(1), None, Some(2), Some(3)]
             .into_iter()
-            .map(|id| WindowInfo { id, ..WindowInfo::default() })
+            .map(|id| WindowInfo {
+                id,
+                ..WindowInfo::default()
+            })
             .collect();
         assert_eq!(focus_probe_order(&windows, Some(3)), vec![3, 1, 2]);
         assert_eq!(focus_probe_order(&windows, Some(99)), vec![1, 2, 3]);
@@ -401,8 +414,14 @@ mod tests {
 
     #[test]
     fn window_calls_details_focus() {
-        assert_eq!(parse_window_calls_details_focus(r#"{"id":1,"focus":true,"pid":2}"#), Some(true));
-        assert_eq!(parse_window_calls_details_focus(r#"{"id":1,"focus":false}"#), Some(false));
+        assert_eq!(
+            parse_window_calls_details_focus(r#"{"id":1,"focus":true,"pid":2}"#),
+            Some(true)
+        );
+        assert_eq!(
+            parse_window_calls_details_focus(r#"{"id":1,"focus":false}"#),
+            Some(false)
+        );
         assert_eq!(parse_window_calls_details_focus(r#"{"id":1}"#), None);
     }
 
@@ -427,7 +446,10 @@ mod tests {
         assert_eq!(w.title, "GitHub — Mozilla Firefox");
         assert!(parse_hyprland_active("{}").is_none());
 
-        let clients = format!("[{}, {{\"class\":\"kitty\",\"title\":\"~\",\"pid\":10}}]", active);
+        let clients = format!(
+            "[{}, {{\"class\":\"kitty\",\"title\":\"~\",\"pid\":10}}]",
+            active
+        );
         let all = parse_hyprland_clients(&clients);
         assert_eq!(all.len(), 2);
         assert_eq!(all[1].class, "kitty");
@@ -460,10 +482,24 @@ mod tests {
     fn xprop_window_ids() {
         // Captured from XWayland on GNOME Shell 50.
         let out = "_NET_ACTIVE_WINDOW(WINDOW): window id # 0x600003\n_NET_CLIENT_LIST(WINDOW): window id # 0x800004, 0x1000009\n";
-        assert_eq!(parse_xprop_window_ids(out, "_NET_ACTIVE_WINDOW"), vec!["0x600003"]);
-        assert_eq!(parse_xprop_window_ids(out, "_NET_CLIENT_LIST"), vec!["0x800004", "0x1000009"]);
-        assert!(parse_xprop_window_ids("_NET_ACTIVE_WINDOW(WINDOW): window id # 0x0", "_NET_ACTIVE_WINDOW").is_empty());
-        assert!(parse_xprop_window_ids("_NET_ACTIVE_WINDOW:  no such atom on any window.", "_NET_ACTIVE_WINDOW").is_empty());
+        assert_eq!(
+            parse_xprop_window_ids(out, "_NET_ACTIVE_WINDOW"),
+            vec!["0x600003"]
+        );
+        assert_eq!(
+            parse_xprop_window_ids(out, "_NET_CLIENT_LIST"),
+            vec!["0x800004", "0x1000009"]
+        );
+        assert!(parse_xprop_window_ids(
+            "_NET_ACTIVE_WINDOW(WINDOW): window id # 0x0",
+            "_NET_ACTIVE_WINDOW"
+        )
+        .is_empty());
+        assert!(parse_xprop_window_ids(
+            "_NET_ACTIVE_WINDOW:  no such atom on any window.",
+            "_NET_ACTIVE_WINDOW"
+        )
+        .is_empty());
     }
 
     #[test]

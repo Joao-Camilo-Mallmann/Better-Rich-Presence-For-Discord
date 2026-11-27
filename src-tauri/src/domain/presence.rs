@@ -10,7 +10,8 @@ pub const DEFAULT_ACTIVITY_NAME: &str = "Better Rich Presence";
 pub const LOGO_IMAGE_URL: &str =
     "https://cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/public/logo-256.png";
 
-const JSDELIVR_BASE: &str = "cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/";
+const JSDELIVR_BASE: &str =
+    "cdn.jsdelivr.net/gh/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord@main/";
 const RAW_GITHUB_BASES: [&str; 2] = [
     "raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/",
     "raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/main/",
@@ -103,7 +104,11 @@ pub fn resolve_small_image(
 
 /// The bold title Discord shows: the shared application's name, else the name
 /// Discord reported for the app's own application, else the app name.
-pub fn activity_name(shared_client: bool, discord_app_name: Option<&str>, app_name: &str) -> String {
+pub fn activity_name(
+    shared_client: bool,
+    discord_app_name: Option<&str>,
+    app_name: &str,
+) -> String {
     if shared_client {
         return DEFAULT_ACTIVITY_NAME.to_string();
     }
@@ -125,7 +130,11 @@ pub fn rule_details(display_name: &str, rendered_details: &str, shared_client: b
             .iter()
             .any(|p| details.eq_ignore_ascii_case(p));
     if is_placeholder {
-        return if name.is_empty() { details.to_string() } else { name.to_string() };
+        return if name.is_empty() {
+            details.to_string()
+        } else {
+            name.to_string()
+        };
     }
 
     if !shared_client || name.is_empty() || details.to_lowercase().contains(&name.to_lowercase()) {
@@ -208,13 +217,19 @@ mod tests {
 
     #[test]
     fn image_url_turns_svg_into_png() {
-        assert_eq!(discord_image_url("https://example.com/a.svg"), "https://example.com/a.png");
+        assert_eq!(
+            discord_image_url("https://example.com/a.svg"),
+            "https://example.com/a.png"
+        );
     }
 
     #[test]
     fn image_url_passes_plain_strings_through() {
         assert_eq!(discord_image_url(" default "), "default");
-        assert_eq!(discord_image_url("simple-icons:zenbrowser"), "simple-icons:zenbrowser");
+        assert_eq!(
+            discord_image_url("simple-icons:zenbrowser"),
+            "simple-icons:zenbrowser"
+        );
     }
 
     #[test]
@@ -247,31 +262,49 @@ mod tests {
 
     #[test]
     fn large_image_unknown_key_becomes_logo_on_shared_client() {
-        for key in ["idle", "rust-logo", "file-icon", "simple-icons:vscode", "vscodium"] {
+        for key in [
+            "idle",
+            "rust-logo",
+            "file-icon",
+            "simple-icons:vscode",
+            "vscodium",
+        ] {
             assert_eq!(resolve_large_image(key, true, catalog), LOGO_IMAGE_URL);
         }
     }
 
     #[test]
     fn large_image_unknown_key_passes_through_on_own_client() {
-        assert_eq!(resolve_large_image("my-uploaded-asset", false, catalog), "my-uploaded-asset");
+        assert_eq!(
+            resolve_large_image("my-uploaded-asset", false, catalog),
+            "my-uploaded-asset"
+        );
     }
 
     #[test]
     fn activity_name_on_shared_client_is_the_shared_app_name() {
-        assert_eq!(activity_name(true, Some("Other"), "Firefox"), DEFAULT_ACTIVITY_NAME);
+        assert_eq!(
+            activity_name(true, Some("Other"), "Firefox"),
+            DEFAULT_ACTIVITY_NAME
+        );
     }
 
     #[test]
     fn activity_name_on_own_client_prefers_the_discord_name() {
-        assert_eq!(activity_name(false, Some("Spotify Premium"), "Spotify"), "Spotify Premium");
+        assert_eq!(
+            activity_name(false, Some("Spotify Premium"), "Spotify"),
+            "Spotify Premium"
+        );
         assert_eq!(activity_name(false, Some("  "), "Spotify"), "Spotify");
         assert_eq!(activity_name(false, None, "Spotify"), "Spotify");
     }
 
     #[test]
     fn rule_details_prefixes_the_app_name_on_shared_client() {
-        assert_eq!(rule_details("Notes", "Writing Plan", true), "Notes - Writing Plan");
+        assert_eq!(
+            rule_details("Notes", "Writing Plan", true),
+            "Notes - Writing Plan"
+        );
     }
 
     #[test]
@@ -331,8 +364,14 @@ mod tests {
             ide_details("Visual Studio Code", Some("my-project")),
             "Visual Studio Code · my-project"
         );
-        assert_eq!(ide_details("Visual Studio Code", None), "Visual Studio Code");
-        assert_eq!(ide_details("Visual Studio Code", Some("  ")), "Visual Studio Code");
+        assert_eq!(
+            ide_details("Visual Studio Code", None),
+            "Visual Studio Code"
+        );
+        assert_eq!(
+            ide_details("Visual Studio Code", Some("  ")),
+            "Visual Studio Code"
+        );
     }
 
     #[test]
@@ -349,10 +388,7 @@ mod tests {
             ide_state(Some("test.unknown"), None, Some("  ")),
             "Editing test.unknown"
         );
-        assert_eq!(
-            ide_state(None, Some("my-app"), None),
-            "Working on my-app"
-        );
+        assert_eq!(ide_state(None, Some("my-app"), None), "Working on my-app");
         assert_eq!(
             ide_state(Some(" "), Some("my-app"), Some("Rust")),
             "Working on my-app"

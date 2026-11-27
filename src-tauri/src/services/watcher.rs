@@ -12,7 +12,14 @@ use tokio::sync::mpsc::Sender;
 use tokio::time::{interval, Duration};
 
 /// A detected window: `(process_name, exe_path, aliases, window_title, is_prioritized, foreground_app)`.
-type WindowSnapshot = (String, Option<String>, Vec<String>, String, bool, Option<String>);
+type WindowSnapshot = (
+    String,
+    Option<String>,
+    Vec<String>,
+    String,
+    bool,
+    Option<String>,
+);
 
 /// Spawns a tokio task that polls for window and idle changes.
 pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
@@ -33,7 +40,9 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
         detection_status::set(DetectionStatus {
             window_backend: None,
             idle_backend: None,
-            hint: Some("Activity detection is not supported on this operating system yet.".to_string()),
+            hint: Some(
+                "Activity detection is not supported on this operating system yet.".to_string(),
+            ),
         });
 
         let mut last_process_name = String::new();
@@ -91,7 +100,14 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
                 linux.foreground_window(&rules).map(|w| (w, false, None))
             }
             .map(|(w, prioritized, fg)| {
-                (w.process_name, w.exe_path, w.aliases, w.title, prioritized, fg)
+                (
+                    w.process_name,
+                    w.exe_path,
+                    w.aliases,
+                    w.title,
+                    prioritized,
+                    fg,
+                )
             });
 
             #[cfg(not(any(target_os = "windows", target_os = "linux")))]
@@ -100,12 +116,21 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
                 None
             };
 
-            if let Some((process_name, exe_path, aliases, window_title, is_prioritized, foreground_app)) = window_info {
+            if let Some((
+                process_name,
+                exe_path,
+                aliases,
+                window_title,
+                is_prioritized,
+                foreground_app,
+            )) = window_info
+            {
                 if process_name != last_process_name
                     || exe_path != last_exe_path
                     || window_title != last_window_title
                 {
-                    let truncated_title = crate::services::logger::truncate_for_log(&window_title, 80);
+                    let truncated_title =
+                        crate::services::logger::truncate_for_log(&window_title, 80);
                     if is_prioritized {
                         if let Some(ref fg) = foreground_app {
                             debug!(
@@ -158,14 +183,13 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
 
 #[cfg(target_os = "windows")]
 mod win32 {
+    use crate::models::types::AppRule;
     use sysinfo::System;
+    use windows::Win32::Foundation::{BOOL, HWND, LPARAM};
     use windows::Win32::UI::Input::KeyboardAndMouse::{GetLastInputInfo, LASTINPUTINFO};
     use windows::Win32::UI::WindowsAndMessaging::{
-        EnumWindows, GetForegroundWindow, GetWindowTextW, GetWindowThreadProcessId,
-        IsWindowVisible,
+        EnumWindows, GetForegroundWindow, GetWindowTextW, GetWindowThreadProcessId, IsWindowVisible,
     };
-    use windows::Win32::Foundation::{HWND, LPARAM, BOOL};
-    use crate::models::types::AppRule;
 
     pub fn get_idle_time_ms() -> u32 {
         let mut last_input = LASTINPUTINFO {
@@ -182,7 +206,9 @@ mod win32 {
         0
     }
 
-    pub fn get_foreground_window_info(sys: &mut System) -> Option<(String, Option<String>, String)> {
+    pub fn get_foreground_window_info(
+        sys: &mut System,
+    ) -> Option<(String, Option<String>, String)> {
         unsafe {
             let hwnd = GetForegroundWindow();
             if hwnd.0.is_null() {
@@ -281,13 +307,12 @@ mod win32 {
                 continue;
             }
 
-            let exe_path = process.exe().map(|path| path.to_string_lossy().into_owned());
-            let effective_name = crate::domain::browser::disambiguate_browser(
-                &p_name,
-                exe_path.as_deref(),
-                "",
-            )
-            .unwrap_or(&p_name);
+            let exe_path = process
+                .exe()
+                .map(|path| path.to_string_lossy().into_owned());
+            let effective_name =
+                crate::domain::browser::disambiguate_browser(&p_name, exe_path.as_deref(), "")
+                    .unwrap_or(&p_name);
 
             if let Some(idx) = rules.iter().position(|r| {
                 r.enabled

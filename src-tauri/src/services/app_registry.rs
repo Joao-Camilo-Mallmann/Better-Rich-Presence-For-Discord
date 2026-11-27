@@ -17,7 +17,8 @@ pub struct AppRegistry {
 impl AppRegistry {
     pub fn new() -> Self {
         let json_data = include_str!("../../../apps.json");
-        let apps: Vec<AppEntry> = serde_json::from_str(json_data).expect("Failed to parse apps.json");
+        let apps: Vec<AppEntry> =
+            serde_json::from_str(json_data).expect("Failed to parse apps.json");
         Self { apps }
     }
 
@@ -26,7 +27,7 @@ impl AppRegistry {
             .strip_suffix(".exe")
             .unwrap_or(process_name)
             .to_lowercase();
-        
+
         self.apps.iter().find(|app| {
             app.executables.iter().any(|exe| {
                 let e = exe.strip_suffix(".exe").unwrap_or(exe).to_lowercase();
@@ -65,7 +66,11 @@ pub fn format_app_presence(category: &str, app_name: &str, window_title: &str) -
     match category {
         "editor" => {
             let file_name = match title.split(" - ").next() {
-                Some(first) if title.contains(" - ") => first.trim().trim_start_matches('●').trim_start_matches('*').trim(),
+                Some(first) if title.contains(" - ") => first
+                    .trim()
+                    .trim_start_matches('●')
+                    .trim_start_matches('*')
+                    .trim(),
                 _ => title,
             };
             if file_name.is_empty() || file_name.eq_ignore_ascii_case(app_name) {
@@ -99,46 +104,97 @@ mod tests {
 
     #[test]
     fn browser_names_the_page() {
-        assert_eq!(format_app_presence("browser", "Firefox", "GitHub - Mozilla Firefox"), "Browsing GitHub");
-        assert_eq!(format_app_presence("browser", "Zen Browser", "Docs — Zen Browser"), "Browsing Docs");
-        assert_eq!(format_app_presence("browser", "Helium Browser", "New Tab - Helium"), "Browsing the web");
-        assert_eq!(format_app_presence("browser", "Firefox", "Firefox"), "Browsing the web");
-        assert_eq!(format_app_presence("browser", "Firefox", ""), "Browsing the web");
+        assert_eq!(
+            format_app_presence("browser", "Firefox", "GitHub - Mozilla Firefox"),
+            "Browsing GitHub"
+        );
+        assert_eq!(
+            format_app_presence("browser", "Zen Browser", "Docs — Zen Browser"),
+            "Browsing Docs"
+        );
+        assert_eq!(
+            format_app_presence("browser", "Helium Browser", "New Tab - Helium"),
+            "Browsing the web"
+        );
+        assert_eq!(
+            format_app_presence("browser", "Firefox", "Firefox"),
+            "Browsing the web"
+        );
+        assert_eq!(
+            format_app_presence("browser", "Firefox", ""),
+            "Browsing the web"
+        );
     }
 
     #[test]
     fn productivity_without_useful_title_is_generic() {
-        assert_eq!(format_app_presence("productivity", "Notion", "Notion"), "Working");
-        assert_eq!(format_app_presence("productivity", "Notion", "Roadmap - Notion"), "Working on Roadmap");
+        assert_eq!(
+            format_app_presence("productivity", "Notion", "Notion"),
+            "Working"
+        );
+        assert_eq!(
+            format_app_presence("productivity", "Notion", "Roadmap - Notion"),
+            "Working on Roadmap"
+        );
     }
 
     #[test]
     fn editor_names_the_file() {
-        assert_eq!(format_app_presence("editor", "Zed", "● main.rs - project - Zed"), "Editing main.rs");
-        assert_eq!(format_app_presence("editor", "Zed", "notes.md"), "Editing notes.md");
+        assert_eq!(
+            format_app_presence("editor", "Zed", "● main.rs - project - Zed"),
+            "Editing main.rs"
+        );
+        assert_eq!(
+            format_app_presence("editor", "Zed", "notes.md"),
+            "Editing notes.md"
+        );
         assert_eq!(format_app_presence("editor", "Zed", "Zed"), "No file open");
         assert_eq!(format_app_presence("editor", "Zed", ""), "No file open");
     }
 
     #[test]
     fn media_names_the_track() {
-        assert_eq!(format_app_presence("media", "VLC", "song.mp3 - VLC media player"), "Watching / Listening to song.mp3");
+        assert_eq!(
+            format_app_presence("media", "VLC", "song.mp3 - VLC media player"),
+            "Watching / Listening to song.mp3"
+        );
         assert_eq!(format_app_presence("media", "VLC", "VLC"), "Playing media");
     }
 
     #[test]
     fn generic_uses_the_window_title() {
-        assert_eq!(format_app_presence("generic", "my-tool", "Report Q3"), "Report Q3");
+        assert_eq!(
+            format_app_presence("generic", "my-tool", "Report Q3"),
+            "Report Q3"
+        );
         assert_eq!(format_app_presence("generic", "my-tool", ""), "Active");
-        assert_eq!(format_app_presence("database", "DBeaver", "DBeaver"), "Active");
+        assert_eq!(
+            format_app_presence("database", "DBeaver", "DBeaver"),
+            "Active"
+        );
     }
 
     #[test]
     fn find_by_id_or_executable_matches_app_icon_lookup() {
         let registry = AppRegistry::new();
-        assert_eq!(registry.find_by_id_or_executable("firefox").map(|a| a.id.as_str()), Some("firefox"));
-        assert_eq!(registry.find_by_id_or_executable("vscode").map(|a| a.id.as_str()), Some("vscode"));
-        assert_eq!(registry.find_by_id_or_executable("code.exe").map(|a| a.id.as_str()), Some("vscode"));
+        assert_eq!(
+            registry
+                .find_by_id_or_executable("firefox")
+                .map(|a| a.id.as_str()),
+            Some("firefox")
+        );
+        assert_eq!(
+            registry
+                .find_by_id_or_executable("vscode")
+                .map(|a| a.id.as_str()),
+            Some("vscode")
+        );
+        assert_eq!(
+            registry
+                .find_by_id_or_executable("code.exe")
+                .map(|a| a.id.as_str()),
+            Some("vscode")
+        );
         assert!(registry.find_by_id_or_executable("rust-logo").is_none());
     }
 
@@ -157,7 +213,9 @@ mod tests {
             ("wondershare filmora.exe", "wondersharefilmora"),
             ("filmora14.exe", "wondersharefilmora"),
         ] {
-            let app = registry.find_app(exe).unwrap_or_else(|| panic!("missing catalog entry for {exe}"));
+            let app = registry
+                .find_app(exe)
+                .unwrap_or_else(|| panic!("missing catalog entry for {exe}"));
             assert_eq!(app.id, expected_id, "unexpected id for {exe}");
             assert!(app.icon_url.is_some(), "missing icon_url for {expected_id}");
         }

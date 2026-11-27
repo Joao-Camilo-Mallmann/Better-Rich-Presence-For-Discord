@@ -94,10 +94,7 @@ mod tests {
 
     #[test]
     fn test_activity_builder_workspace_only() {
-        let data = ActivityBuilder::build(
-            &context(Ide::VisualStudioCode, None, Some("my-app")),
-            0,
-        );
+        let data = ActivityBuilder::build(&context(Ide::VisualStudioCode, None, Some("my-app")), 0);
         assert_eq!(data.details, "Visual Studio Code · my-app");
         assert_eq!(data.state, "Working on my-app");
         assert_eq!(data.large_image, "vscode");

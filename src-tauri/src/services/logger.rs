@@ -463,7 +463,12 @@ mod tests {
         assert!(should_use_color(Some(""), None, None, None));
         assert!(!should_use_color(None, Some("0"), None, None));
         assert!(!should_use_color(None, None, None, Some("dumb")));
-        assert!(should_use_color(Some("1"), Some("0"), Some("1"), Some("dumb")));
+        assert!(should_use_color(
+            Some("1"),
+            Some("0"),
+            Some("1"),
+            Some("dumb")
+        ));
         assert!(!should_use_color(Some("1"), None, Some("0"), None));
     }
 

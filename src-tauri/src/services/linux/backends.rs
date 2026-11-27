@@ -47,7 +47,15 @@ fn busctl_call(
     method: &str,
     args: &[&str],
 ) -> Result<String, CallFailure> {
-    let mut argv = vec!["--user", "--json=short", "call", destination, path, interface, method];
+    let mut argv = vec![
+        "--user",
+        "--json=short",
+        "call",
+        destination,
+        path,
+        interface,
+        method,
+    ];
     argv.extend_from_slice(args);
     let output = Command::new("busctl")
         .args(&argv)
@@ -57,7 +65,9 @@ fn busctl_call(
     if output.status.success() {
         Ok(String::from_utf8_lossy(&output.stdout).into_owned())
     } else {
-        Err(parsers::classify_busctl_error(&String::from_utf8_lossy(&output.stderr)))
+        Err(parsers::classify_busctl_error(&String::from_utf8_lossy(
+            &output.stderr,
+        )))
     }
 }
 
@@ -66,7 +76,13 @@ static LAST_WINDOW_CALLS_FOCUS: AtomicU64 = AtomicU64::new(0);
 
 /// Window Calls `List`: every window, with its focus flag on older versions.
 fn window_calls_list() -> Result<Vec<(WindowInfo, Option<bool>)>, BackendUnavailable> {
-    match busctl_call(GNOME_SHELL, WINDOW_CALLS_PATH, WINDOW_CALLS_IFACE, "List", &[]) {
+    match busctl_call(
+        GNOME_SHELL,
+        WINDOW_CALLS_PATH,
+        WINDOW_CALLS_IFACE,
+        "List",
+        &[],
+    ) {
         Ok(out) => parsers::busctl_string(&out)
             .and_then(|json| parsers::parse_window_calls_list(&json))
             .ok_or(BackendUnavailable),
@@ -78,11 +94,17 @@ fn window_calls_list() -> Result<Vec<(WindowInfo, Option<bool>)>, BackendUnavail
 /// Window Calls `Details(u id)` focus flag; `false` when the call fails.
 fn window_calls_is_focused(id: u64) -> bool {
     let id = id.to_string();
-    busctl_call(GNOME_SHELL, WINDOW_CALLS_PATH, WINDOW_CALLS_IFACE, "Details", &["u", &id])
-        .ok()
-        .and_then(|out| parsers::busctl_string(&out))
-        .and_then(|json| parsers::parse_window_calls_details_focus(&json))
-        .unwrap_or(false)
+    busctl_call(
+        GNOME_SHELL,
+        WINDOW_CALLS_PATH,
+        WINDOW_CALLS_IFACE,
+        "Details",
+        &["u", &id],
+    )
+    .ok()
+    .and_then(|out| parsers::busctl_string(&out))
+    .and_then(|json| parsers::parse_window_calls_details_focus(&json))
+    .unwrap_or(false)
 }
 
 /// The focused window from a Window Calls `List` reply. Older versions carry
@@ -110,16 +132,29 @@ fn window_calls_focused(windows: Vec<(WindowInfo, Option<bool>)>) -> Option<Wind
 /// Window Calls `GetTitle(u id)`, for versions whose `List` omits titles.
 fn window_calls_title(id: u64) -> Option<String> {
     let id = id.to_string();
-    busctl_call(GNOME_SHELL, WINDOW_CALLS_PATH, WINDOW_CALLS_IFACE, "GetTitle", &["u", &id])
-        .ok()
-        .and_then(|out| parsers::busctl_string(&out))
+    busctl_call(
+        GNOME_SHELL,
+        WINDOW_CALLS_PATH,
+        WINDOW_CALLS_IFACE,
+        "GetTitle",
+        &["u", &id],
+    )
+    .ok()
+    .and_then(|out| parsers::busctl_string(&out))
 }
 
 /// Reads one X11 window's PID, title and class with `xprop`.
 fn x11_window(id: &str) -> Result<WindowInfo, BackendUnavailable> {
     let out = command_stdout(
         "xprop",
-        &["-id", id, "_NET_WM_PID", "_NET_WM_NAME", "WM_NAME", "WM_CLASS"],
+        &[
+            "-id",
+            id,
+            "_NET_WM_PID",
+            "_NET_WM_NAME",
+            "WM_NAME",
+            "WM_CLASS",
+        ],
     )?;
     Ok(parsers::parse_xprop_window_props(&out))
 }
@@ -156,7 +191,10 @@ impl WindowBackend {
             Self::Sway => {
                 let out = command_stdout("swaymsg", &["-t", "get_tree", "-r"])?;
                 let windows = parsers::parse_sway_tree(&out).ok_or(BackendUnavailable)?;
-                Ok(windows.into_iter().find(|(_, focused)| *focused).map(|(w, _)| w))
+                Ok(windows
+                    .into_iter()
+                    .find(|(_, focused)| *focused)
+                    .map(|(w, _)| w))
             }
             Self::GnomeWindowCalls => {
                 let focused = window_calls_focused(window_calls_list()?);
@@ -166,7 +204,13 @@ impl WindowBackend {
                 }))
             }
             Self::GnomeFocusedWindow => {
-                match busctl_call(GNOME_SHELL, FOCUSED_WINDOW_PATH, FOCUSED_WINDOW_IFACE, "Get", &[]) {
+                match busctl_call(
+                    GNOME_SHELL,
+                    FOCUSED_WINDOW_PATH,
+                    FOCUSED_WINDOW_IFACE,
+                    "Get",
+                    &[],
+                ) {
                     Ok(out) => Ok(parsers::busctl_string(&out)
                         .and_then(|json| parsers::parse_focused_window_dbus(&json))),
                     Err(CallFailure::NoWindow) => Ok(None),
@@ -182,7 +226,11 @@ impl WindowBackend {
                     return Ok(None);
                 };
                 let window = x11_window(&id)?;
-                Ok(if window.class.is_empty() { None } else { Some(window) })
+                Ok(if window.class.is_empty() {
+                    None
+                } else {
+                    Some(window)
+                })
             }
         }
     }
@@ -243,10 +291,16 @@ impl IdleBackend {
     /// Milliseconds since the last user input.
     pub fn idle_ms(self) -> Result<u64, BackendUnavailable> {
         match self {
-            Self::GnomeMutter => busctl_call(MUTTER_IDLE, MUTTER_IDLE_PATH, MUTTER_IDLE, "GetIdletime", &[])
-                .ok()
-                .and_then(|out| parsers::busctl_u64(&out))
-                .ok_or(BackendUnavailable),
+            Self::GnomeMutter => busctl_call(
+                MUTTER_IDLE,
+                MUTTER_IDLE_PATH,
+                MUTTER_IDLE,
+                "GetIdletime",
+                &[],
+            )
+            .ok()
+            .and_then(|out| parsers::busctl_u64(&out))
+            .ok_or(BackendUnavailable),
             Self::XPrintIdle => command_stdout("xprintidle", &[])
                 .ok()
                 .and_then(|out| parsers::parse_xprintidle(&out))

@@ -66,7 +66,11 @@ mod tests {
 
     #[test]
     fn replaces_the_cli_rule_in_place() {
-        let mut rules = vec![rule("antigravity", true), rule("claude", false), rule("code", true)];
+        let mut rules = vec![
+            rule("antigravity", true),
+            rule("claude", false),
+            rule("code", true),
+        ];
         assert!(ensure_claude_code_rule(&mut rules));
         let names: Vec<_> = rules.iter().map(|r| r.process_name.as_str()).collect();
         assert_eq!(names, ["antigravity", "claude_code", "code"]);
@@ -75,7 +79,11 @@ mod tests {
 
     #[test]
     fn leaves_an_existing_entry_alone() {
-        let mut rules = vec![rule("code", true), claude_code_rule(true), rule("claude", true)];
+        let mut rules = vec![
+            rule("code", true),
+            claude_code_rule(true),
+            rule("claude", true),
+        ];
         assert!(!ensure_claude_code_rule(&mut rules));
         assert_eq!(rules.len(), 3);
     }

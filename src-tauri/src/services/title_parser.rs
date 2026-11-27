@@ -2,12 +2,7 @@ use super::ide_registry::IdeRegistry;
 use crate::models::IdeContext;
 use std::path::Path;
 
-const REMOTE_SUFFIX_PREFIXES: [&str; 4] = [
-    "[WSL:",
-    "[SSH:",
-    "[Dev Container:",
-    "[Codespaces:",
-];
+const REMOTE_SUFFIX_PREFIXES: [&str; 4] = ["[WSL:", "[SSH:", "[Dev Container:", "[Codespaces:"];
 
 fn clean_file_name(raw: &str) -> Option<String> {
     let mut s = raw.trim();
@@ -75,7 +70,11 @@ impl TitleParser {
             Some((raw_file, raw_workspace)) => {
                 let file = clean_file_name(raw_file);
                 let ws = raw_workspace.trim();
-                let workspace = if ws.is_empty() { None } else { Some(ws.to_string()) };
+                let workspace = if ws.is_empty() {
+                    None
+                } else {
+                    Some(ws.to_string())
+                };
                 (file, workspace)
             }
             None => {
@@ -169,8 +168,8 @@ mod tests {
 
     #[test]
     fn test_dirty_indicator_and_remote_suffix_cleanup() {
-        let ctx = TitleParser::parse("● main.rs - my-app [WSL: Ubuntu] - Visual Studio Code")
-            .unwrap();
+        let ctx =
+            TitleParser::parse("● main.rs - my-app [WSL: Ubuntu] - Visual Studio Code").unwrap();
         assert_eq!(ctx.ide, Ide::VisualStudioCode);
         assert_eq!(ctx.file_name.as_deref(), Some("main.rs"));
         assert_eq!(ctx.workspace_name.as_deref(), Some("my-app"));
@@ -180,24 +179,20 @@ mod tests {
         assert_eq!(ctx.file_name.as_deref(), Some("app.ts"));
         assert_eq!(ctx.workspace_name.as_deref(), Some("api"));
 
-        let ctx = TitleParser::parse(
-            "lib.rs - crate [Dev Container: Rust - 1.80] - Visual Studio Code",
-        )
-        .unwrap();
+        let ctx =
+            TitleParser::parse("lib.rs - crate [Dev Container: Rust - 1.80] - Visual Studio Code")
+                .unwrap();
         assert_eq!(ctx.file_name.as_deref(), Some("lib.rs"));
         assert_eq!(ctx.workspace_name.as_deref(), Some("crate"));
 
-        let ctx = TitleParser::parse(
-            "index.ts - web [Codespaces: octo-space] - Visual Studio Code",
-        )
-        .unwrap();
+        let ctx =
+            TitleParser::parse("index.ts - web [Codespaces: octo-space] - Visual Studio Code")
+                .unwrap();
         assert_eq!(ctx.file_name.as_deref(), Some("index.ts"));
         assert_eq!(ctx.workspace_name.as_deref(), Some("web"));
 
-        let ctx = TitleParser::parse(
-            "main.py - ml (Workspace) [WSL: Debian] - Visual Studio Code",
-        )
-        .unwrap();
+        let ctx = TitleParser::parse("main.py - ml (Workspace) [WSL: Debian] - Visual Studio Code")
+            .unwrap();
         assert_eq!(ctx.file_name.as_deref(), Some("main.py"));
         assert_eq!(ctx.workspace_name.as_deref(), Some("ml"));
     }

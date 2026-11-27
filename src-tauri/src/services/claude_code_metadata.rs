@@ -162,8 +162,7 @@ fn read_bounded_transcript(path: &Path) -> Option<String> {
     let mut tail = Vec::with_capacity(TAIL_READ_BYTES);
     file.read_to_end(&mut tail).ok()?;
 
-    let mut combined =
-        String::with_capacity(head.len() + tail.len() + 1);
+    let mut combined = String::with_capacity(head.len() + tail.len() + 1);
     combined.push_str(&String::from_utf8_lossy(&head));
     combined.push('\n');
     combined.push_str(&String::from_utf8_lossy(&tail));
@@ -277,7 +276,10 @@ mod tests {
             r#"{{"type":"user","message":{{"content":"First prompt in large file"}}}}"#
         )
         .unwrap();
-        let filler = format!("{{\"type\":\"progress\",\"pad\":\"{}\"}}\n", "x".repeat(1024));
+        let filler = format!(
+            "{{\"type\":\"progress\",\"pad\":\"{}\"}}\n",
+            "x".repeat(1024)
+        );
         for _ in 0..260 {
             f.write_all(filler.as_bytes()).unwrap();
         }

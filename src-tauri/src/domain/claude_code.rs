@@ -261,7 +261,8 @@ impl ClaudeSessionTracker {
             }
             "UserPromptSubmit" => {
                 self.upsert(&session_id, project, Some(ClaudeActivity::Thinking), now);
-                if let Some(prompt_title) = payload.prompt.as_deref().and_then(sanitize_chat_title) {
+                if let Some(prompt_title) = payload.prompt.as_deref().and_then(sanitize_chat_title)
+                {
                     if let Some(session) = self.sessions.get_mut(&session_id) {
                         if !session.has_explicit_title {
                             session.chat_title = Some(prompt_title);
@@ -271,10 +272,8 @@ impl ClaudeSessionTracker {
                 true
             }
             "PreToolUse" => {
-                let activity = activity_from_tool(
-                    payload.tool_name.as_deref(),
-                    payload.tool_input.as_ref(),
-                );
+                let activity =
+                    activity_from_tool(payload.tool_name.as_deref(), payload.tool_input.as_ref());
                 self.upsert(&session_id, project, Some(activity), now);
                 true
             }
@@ -361,7 +360,12 @@ impl ClaudeSessionTracker {
 
         if applied {
             if let Some(existing) = self.sessions.get_mut(&session_id) {
-                if let Some(cwd) = payload.cwd.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+                if let Some(cwd) = payload
+                    .cwd
+                    .as_deref()
+                    .map(str::trim)
+                    .filter(|s| !s.is_empty())
+                {
                     existing.cwd = Some(cwd.to_string());
                 }
                 if let Some(path) = payload
@@ -980,7 +984,10 @@ mod tests {
     fn tracker_prunes_waiting_sessions_faster_than_active_turns() {
         let mut tracker = ClaudeSessionTracker::new();
         tracker.apply_event(&payload("Stop", "waiting", Some("/work/a")), 1000);
-        tracker.apply_event(&payload("UserPromptSubmit", "running", Some("/work/b")), 1000);
+        tracker.apply_event(
+            &payload("UserPromptSubmit", "running", Some("/work/b")),
+            1000,
+        );
 
         // After 5 minutes (300s), the waiting session expires, active turn survives.
         assert!(tracker.prune_expired(1300, 300));
@@ -1169,9 +1176,15 @@ mod tests {
     #[test]
     fn claude_code_precedence_follows_the_apps_list() {
         // No entry: legacy behavior, Claude Code always wins.
-        assert!(claude_code_takes_precedence(&[("code", true)], Some("code")));
+        assert!(claude_code_takes_precedence(
+            &[("code", true)],
+            Some("code")
+        ));
         // Disabled entry: never wins.
-        assert!(!claude_code_takes_precedence(&[("claude_code", false)], Some("firefox")));
+        assert!(!claude_code_takes_precedence(
+            &[("claude_code", false)],
+            Some("firefox")
+        ));
         // App above the entry wins.
         let rules = [("code", true), ("claude_code", true), ("firefox", true)];
         assert!(!claude_code_takes_precedence(&rules, Some("code")));

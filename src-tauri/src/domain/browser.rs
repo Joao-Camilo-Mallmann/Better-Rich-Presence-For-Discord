@@ -151,7 +151,8 @@ pub fn browser_from_exe_path(exe_path: &str) -> Option<&'static str> {
     if has(&|s| s == "helium" || s == "helium-browser" || s.starts_with("helium ")) {
         return Some("helium");
     }
-    if has(&|s| s == "opera gx" || s == "opera-gx" || s == "operagx" || s.starts_with("opera gx ")) {
+    if has(&|s| s == "opera gx" || s == "opera-gx" || s == "operagx" || s.starts_with("opera gx "))
+    {
         return Some("operagx");
     }
     if has(&|s| s == "tor browser" || s == "tor-browser" || s == "torbrowser") {
@@ -392,10 +393,7 @@ mod tests {
             extract_browser_subject("Helium Browser", "New Tab - Helium"),
             None
         );
-        assert_eq!(
-            extract_browser_subject("Firefox", "Mozilla Firefox"),
-            None
-        );
+        assert_eq!(extract_browser_subject("Firefox", "Mozilla Firefox"), None);
         assert_eq!(extract_browser_subject("Firefox", ""), None);
     }
 }

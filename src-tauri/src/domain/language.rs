@@ -48,7 +48,11 @@ pub fn detect_language(file_name: &str) -> Option<LanguageInfo> {
 }
 
 fn match_special_filename(lower: &str) -> Option<LanguageInfo> {
-    if lower == "dockerfile" || lower.starts_with("dockerfile.") || lower == "containerfile" || lower == ".dockerignore" {
+    if lower == "dockerfile"
+        || lower.starts_with("dockerfile.")
+        || lower == "containerfile"
+        || lower == ".dockerignore"
+    {
         return Some(LanguageInfo::new("Docker", "docker"));
     }
     if lower == ".env" || lower.starts_with(".env.") {
@@ -141,7 +145,9 @@ fn match_extension(ext: &str) -> Option<LanguageInfo> {
         "lisp" | "lsp" | "asd" => Some(LanguageInfo::new("Common Lisp", "commonlisp")),
         "cr" => Some(LanguageInfo::new("Crystal", "crystal")),
         "d" | "di" => Some(LanguageInfo::new("D", "d")),
-        "f" | "f90" | "f95" | "f03" | "f08" | "for" => Some(LanguageInfo::new("Fortran", "fortran")),
+        "f" | "f90" | "f95" | "f03" | "f08" | "for" => {
+            Some(LanguageInfo::new("Fortran", "fortran"))
+        }
         "gleam" => Some(LanguageInfo::new("Gleam", "gleam")),
         "hack" => Some(LanguageInfo::new("Hack", "hack")),
         "hx" | "hxml" => Some(LanguageInfo::new("Haxe", "haxe")),
@@ -304,11 +310,26 @@ mod tests {
 
     #[test]
     fn matching_is_case_insensitive_and_handles_paths() {
-        assert_eq!(detect_language("MAIN.RS"), Some(LanguageInfo::new("Rust", "rust")));
-        assert_eq!(detect_language("DOCKERFILE"), Some(LanguageInfo::new("Docker", "docker")));
-        assert_eq!(detect_language("cargo.toml"), Some(LanguageInfo::new("Rust", "rust")));
-        assert_eq!(detect_language("src/main.rs"), Some(LanguageInfo::new("Rust", "rust")));
-        assert_eq!(detect_language("src\\app.ts"), Some(LanguageInfo::new("TypeScript", "typescript")));
+        assert_eq!(
+            detect_language("MAIN.RS"),
+            Some(LanguageInfo::new("Rust", "rust"))
+        );
+        assert_eq!(
+            detect_language("DOCKERFILE"),
+            Some(LanguageInfo::new("Docker", "docker"))
+        );
+        assert_eq!(
+            detect_language("cargo.toml"),
+            Some(LanguageInfo::new("Rust", "rust"))
+        );
+        assert_eq!(
+            detect_language("src/main.rs"),
+            Some(LanguageInfo::new("Rust", "rust"))
+        );
+        assert_eq!(
+            detect_language("src\\app.ts"),
+            Some(LanguageInfo::new("TypeScript", "typescript"))
+        );
         assert_eq!(
             detect_language("  my-file - test.rs  "),
             Some(LanguageInfo::new("Rust", "rust"))

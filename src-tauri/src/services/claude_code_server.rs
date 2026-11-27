@@ -28,13 +28,8 @@ pub fn start_claude_code_server(port: u16, tx: Sender<EngineEvent>, app_state: A
         let addr = format!("127.0.0.1:{port}");
         match TcpListener::bind(&addr).await {
             Ok(listener) => {
-                info!(
-                    "HTTP hook listener started on {}",
-                    hook_endpoint_url(port)
-                );
-                app_state
-                    .set_claude_server_status(port, true, None)
-                    .await;
+                info!("HTTP hook listener started on {}", hook_endpoint_url(port));
+                app_state.set_claude_server_status(port, true, None).await;
                 let status = app_state.get_claude_code_status().await;
                 let _ = app_state
                     .app_handle
@@ -64,7 +59,8 @@ pub async fn serve_listener(listener: TcpListener, tx: Sender<EngineEvent>) {
             Ok((stream, _peer)) => {
                 let tx = tx.clone();
                 tokio::spawn(async move {
-                    if let Err(err) = timeout(CONNECTION_TIMEOUT, handle_connection(stream, tx)).await
+                    if let Err(err) =
+                        timeout(CONNECTION_TIMEOUT, handle_connection(stream, tx)).await
                     {
                         debug!("Hook HTTP connection timed out: {err}");
                     }
@@ -81,9 +77,11 @@ pub async fn serve_listener(listener: TcpListener, tx: Sender<EngineEvent>) {
 async fn handle_connection(mut stream: TcpStream, tx: Sender<EngineEvent>) {
     let response = match read_http_request(&mut stream).await {
         Ok(request) => route_request(&request, &tx),
-        Err(ReadError::HeadersTooLarge) => {
-            http_json_response(431, "Request Header Fields Too Large", r#"{"error":"headers too large"}"#)
-        }
+        Err(ReadError::HeadersTooLarge) => http_json_response(
+            431,
+            "Request Header Fields Too Large",
+            r#"{"error":"headers too large"}"#,
+        ),
         Err(ReadError::PayloadTooLarge) => {
             http_json_response(413, "Payload Too Large", r#"{"error":"payload too large"}"#)
         }
@@ -208,7 +206,10 @@ fn parse_header_block(raw: &[u8]) -> Result<HeaderBlock, ReadError> {
     let mut lines = text.split("\r\n");
     let request_line = lines.next().ok_or(ReadError::BadRequest)?;
     let mut parts = request_line.split_whitespace();
-    let method = parts.next().ok_or(ReadError::BadRequest)?.to_ascii_uppercase();
+    let method = parts
+        .next()
+        .ok_or(ReadError::BadRequest)?
+        .to_ascii_uppercase();
     let target = parts.next().ok_or(ReadError::BadRequest)?;
     let _version = parts.next().ok_or(ReadError::BadRequest)?;
 
@@ -332,9 +333,11 @@ fn route_request(req: &ParsedRequest, tx: &Sender<EngineEvent>) -> Vec<u8> {
                 }
             }
         }
-        (_, CLAUDE_CODE_HOOK_PATH) => {
-            http_json_response(405, "Method Not Allowed", r#"{"error":"method not allowed"}"#)
-        }
+        (_, CLAUDE_CODE_HOOK_PATH) => http_json_response(
+            405,
+            "Method Not Allowed",
+            r#"{"error":"method not allowed"}"#,
+        ),
         _ => http_json_response(404, "Not Found", r#"{"error":"not found"}"#),
     }
 }
@@ -365,7 +368,8 @@ mod tests {
 
     #[test]
     fn decodes_chunked_transfer_encoding() {
-        let raw = b"7\r\n{\"hook_\r\n19\r\nevent_name\":\"Stop\",\"cwd\":\r\n6\r\n\"/a\"}\n\r\n0\r\n\r\n";
+        let raw =
+            b"7\r\n{\"hook_\r\n19\r\nevent_name\":\"Stop\",\"cwd\":\r\n6\r\n\"/a\"}\n\r\n0\r\n\r\n";
         assert_eq!(
             decode_chunked_body(raw),
             ChunkDecode::Complete(b"{\"hook_event_name\":\"Stop\",\"cwd\":\"/a\"}\n".to_vec())
@@ -426,7 +430,8 @@ mod tests {
         }
 
         // 4. Malformed JSON returns 400
-        let bad_req = b"POST /hooks/claude-code HTTP/1.1\r\nHost: 127.0.0.1\r\nContent-Length: 3\r\n\r\n{{{";
+        let bad_req =
+            b"POST /hooks/claude-code HTTP/1.1\r\nHost: 127.0.0.1\r\nContent-Length: 3\r\n\r\n{{{";
         let resp = send_raw(addr, bad_req).await;
         assert!(resp.starts_with("HTTP/1.1 400 Bad Request"));
 

@@ -24,9 +24,7 @@ pub async fn get_claude_code_status(
 
 /// Non-destructively installs or updates Better RPC's HTTP hooks in `~/.claude/settings.json`.
 #[tauri::command]
-pub async fn connect_claude_code(
-    state: State<'_, AppState>,
-) -> Result<ClaudeCodeStatus, AppError> {
+pub async fn connect_claude_code(state: State<'_, AppState>) -> Result<ClaudeCodeStatus, AppError> {
     let port = state.get_settings().await.claude_code_port;
     let path = claude_code_config::resolve_settings_path().map_err(AppError::System)?;
     claude_code_config::install_hooks_at(&path, port).map_err(AppError::System)?;

@@ -10,7 +10,10 @@ use std::path::Path;
 /// the kernel appends when the binary was replaced on disk (e.g. after an update).
 pub fn exe_file_name(path: &str) -> Option<String> {
     let path = path.trim().trim_end_matches(" (deleted)");
-    let name = Path::new(path).file_name()?.to_string_lossy().to_lowercase();
+    let name = Path::new(path)
+        .file_name()?
+        .to_string_lossy()
+        .to_lowercase();
     if name.is_empty() {
         None
     } else {
@@ -21,8 +24,16 @@ pub fn exe_file_name(path: &str) -> Option<String> {
 /// Full path of `/proc/<pid>/exe`, without a trailing ` (deleted)` suffix.
 pub fn exe_path(pid: u32) -> Option<String> {
     let target = std::fs::read_link(format!("/proc/{}/exe", pid)).ok()?;
-    let path = target.to_string_lossy().trim().trim_end_matches(" (deleted)").to_string();
-    if path.is_empty() { None } else { Some(path) }
+    let path = target
+        .to_string_lossy()
+        .trim()
+        .trim_end_matches(" (deleted)")
+        .to_string();
+    if path.is_empty() {
+        None
+    } else {
+        Some(path)
+    }
 }
 
 /// File name of `/proc/<pid>/exe`. `None` for kernel threads and for
@@ -128,7 +139,11 @@ impl ProcessScanner {
 
         let mut current = HashMap::with_capacity(self.names.len());
         for entry in entries.flatten() {
-            let Some(pid) = entry.file_name().to_str().and_then(|s| s.parse::<u32>().ok()) else {
+            let Some(pid) = entry
+                .file_name()
+                .to_str()
+                .and_then(|s| s.parse::<u32>().ok())
+            else {
                 continue;
             };
             let name = match self.names.remove(&pid) {
@@ -142,7 +157,10 @@ impl ProcessScanner {
         }
         self.names = current;
 
-        self.names.iter().map(|(pid, name)| (*pid, name.clone())).collect()
+        self.names
+            .iter()
+            .map(|(pid, name)| (*pid, name.clone()))
+            .collect()
     }
 }
 
@@ -158,22 +176,41 @@ mod tests {
 
     #[test]
     fn exe_file_name_handles_paths_and_deleted_suffix() {
-        assert_eq!(exe_file_name("/usr/share/code/code").as_deref(), Some("code"));
-        assert_eq!(exe_file_name("/usr/share/code/code (deleted)").as_deref(), Some("code"));
-        assert_eq!(exe_file_name("/snap/notion-desktop/3/notion-desktop").as_deref(), Some("notion-desktop"));
-        assert_eq!(exe_file_name("/app/discord/Discord").as_deref(), Some("discord"));
+        assert_eq!(
+            exe_file_name("/usr/share/code/code").as_deref(),
+            Some("code")
+        );
+        assert_eq!(
+            exe_file_name("/usr/share/code/code (deleted)").as_deref(),
+            Some("code")
+        );
+        assert_eq!(
+            exe_file_name("/snap/notion-desktop/3/notion-desktop").as_deref(),
+            Some("notion-desktop")
+        );
+        assert_eq!(
+            exe_file_name("/app/discord/Discord").as_deref(),
+            Some("discord")
+        );
         assert_eq!(exe_file_name("/"), None);
     }
 
     #[test]
     fn aliases_are_deduplicated_and_exclude_primary() {
-        assert_eq!(build_aliases("code", "Code", Some("code")), Vec::<String>::new());
+        assert_eq!(
+            build_aliases("code", "Code", Some("code")),
+            Vec::<String>::new()
+        );
         assert_eq!(
             build_aliases("electron", "code", Some("electron")),
             vec!["code".to_string()]
         );
         assert_eq!(
-            build_aliases("rocketchat-desktop.bin", "rocket.chat", Some("rocketchat-desk")),
+            build_aliases(
+                "rocketchat-desktop.bin",
+                "rocket.chat",
+                Some("rocketchat-desk")
+            ),
             vec![
                 "rocketchat-desktop".to_string(),
                 "rocket.chat".to_string(),
@@ -199,14 +236,20 @@ mod tests {
             (30, "spotify".to_string()),
         ];
         let rules = vec![rule("code.exe", true), rule("firefox", true)];
-        assert_eq!(pick_priority_rule(&processes, &rules, 1), Some((20, "code".to_string())));
+        assert_eq!(
+            pick_priority_rule(&processes, &rules, 1),
+            Some((20, "code".to_string()))
+        );
     }
 
     #[test]
     fn priority_pick_skips_disabled_rules_and_self() {
         let processes = vec![(10, "firefox".to_string()), (20, "code".to_string())];
         let rules = vec![rule("code", false), rule("firefox", true)];
-        assert_eq!(pick_priority_rule(&processes, &rules, 1), Some((10, "firefox".to_string())));
+        assert_eq!(
+            pick_priority_rule(&processes, &rules, 1),
+            Some((10, "firefox".to_string()))
+        );
         assert_eq!(pick_priority_rule(&processes, &rules, 10), None);
         assert_eq!(pick_priority_rule(&processes, &[], 1), None);
     }
@@ -226,7 +269,9 @@ mod tests {
         let mut scanner = ProcessScanner::default();
         let me = std::process::id();
         let first = scanner.scan();
-        assert!(first.iter().any(|(pid, name)| *pid == me && !name.is_empty()));
+        assert!(first
+            .iter()
+            .any(|(pid, name)| *pid == me && !name.is_empty()));
         // Second scan reuses the cache and still lists the process.
         let second = scanner.scan();
         assert!(second.iter().any(|(pid, _)| *pid == me));

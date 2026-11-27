@@ -9,8 +9,8 @@ use crate::domain::claude_code::{
 use crate::domain::editor::{parse_editor_title, EditorTitleContext};
 use crate::domain::language::{detect_language, language_icon_url};
 use crate::domain::presence::{
-    activity_name, ide_details, ide_state, resolve_large_image, resolve_small_image,
-    rule_details, rule_has_default_text,
+    activity_name, ide_details, ide_state, resolve_large_image, resolve_small_image, rule_details,
+    rule_has_default_text,
 };
 use crate::models::types::{
     AppRule, AppState, ClaudeSessionSummary, EngineCommand, EngineEvent, PresenceData,
@@ -25,7 +25,10 @@ use tokio::sync::mpsc;
 use tokio::time::{sleep, Duration, Instant};
 
 async fn fetch_discord_app_details(client_id: u64) -> Option<(String, String)> {
-    let url = format!("https://discord.com/api/v9/oauth2/applications/{}/rpc", client_id);
+    let url = format!(
+        "https://discord.com/api/v9/oauth2/applications/{}/rpc",
+        client_id
+    );
     let client = reqwest::Client::builder()
         .user_agent("Better-Rich-Presence/0.1.0")
         .timeout(Duration::from_secs(3))
@@ -804,7 +807,10 @@ impl PresenceEngine {
         }
     }
 
-    fn clear_pending(&mut self, rate_limit_task: &mut Option<tauri::async_runtime::JoinHandle<()>>) {
+    fn clear_pending(
+        &mut self,
+        rate_limit_task: &mut Option<tauri::async_runtime::JoinHandle<()>>,
+    ) {
         self.pending_presence = None;
         if let Some(task) = rate_limit_task.take() {
             task.abort();
@@ -861,7 +867,10 @@ impl PresenceEngine {
         crate::interface::tray::refresh_tray_from_state(&self.app_state).await;
     }
 
-    async fn resolve_discord_details(&mut self, client_id: u64) -> (Option<String>, Option<String>) {
+    async fn resolve_discord_details(
+        &mut self,
+        client_id: u64,
+    ) -> (Option<String>, Option<String>) {
         if client_id == DEFAULT_CLIENT_ID {
             return (None, None);
         }
@@ -870,7 +879,8 @@ impl PresenceEngine {
             if let Some((name, icon_hash)) = fetch_discord_app_details(client_id).await {
                 self.client_cache.insert(client_id, (name, icon_hash));
             } else {
-                self.client_cache.insert(client_id, (String::new(), String::new()));
+                self.client_cache
+                    .insert(client_id, (String::new(), String::new()));
             }
         }
 
@@ -883,7 +893,10 @@ impl PresenceEngine {
                 discord_name = Some(name.clone());
             }
             if !icon_hash.is_empty() {
-                discord_icon = Some(format!("https://cdn.discordapp.com/app-icons/{}/{}.png?size=128", client_id, icon_hash));
+                discord_icon = Some(format!(
+                    "https://cdn.discordapp.com/app-icons/{}/{}.png?size=128",
+                    client_id, icon_hash
+                ));
             }
         }
 
@@ -893,7 +906,10 @@ impl PresenceEngine {
     /// Makes a presence match what Discord will show: the large image becomes a
     /// URL Discord can render and `activity_name` the title Discord prints.
     fn prepare_for_discord(&self, client_id: u64, data: &mut PresenceData) {
-        let discord_name = self.client_cache.get(&client_id).map(|(name, _)| name.as_str());
+        let discord_name = self
+            .client_cache
+            .get(&client_id)
+            .map(|(name, _)| name.as_str());
         prepare_for_discord(&self.app_registry, client_id, discord_name, data);
     }
 
@@ -1046,7 +1062,8 @@ pub fn normalize_process_name(name: &str) -> String {
 
 /// Whether an enabled rule targets the given process name.
 pub fn rule_matches(rule: &AppRule, process_name: &str) -> bool {
-    rule.enabled && normalize_process_name(&rule.process_name) == normalize_process_name(process_name)
+    rule.enabled
+        && normalize_process_name(&rule.process_name) == normalize_process_name(process_name)
 }
 
 /// Resolves a window snapshot to its effective app name, applying browser
@@ -1180,10 +1197,12 @@ fn build_presence_from_rule(
     let fallback_file = activity.strip_prefix("Editing ").unwrap_or(&activity);
     let file_name = editor_file.as_deref().unwrap_or(fallback_file);
 
-    let rendered_details = rule.details
+    let rendered_details = rule
+        .details
         .replace("{file}", file_name)
         .replace("{title}", window_title);
-    let state = rule.state
+    let state = rule
+        .state
         .replace("{file}", file_name)
         .replace("{title}", window_title);
 
@@ -1266,7 +1285,13 @@ fn prepare_for_discord(
 
 /// Whether two presences show the same thing (everything but the timer start).
 fn same_visible_content(a: &PresenceData, b: &PresenceData) -> bool {
-    PresenceData { timestamp: 0, ..a.clone() } == PresenceData { timestamp: 0, ..b.clone() }
+    PresenceData {
+        timestamp: 0,
+        ..a.clone()
+    } == PresenceData {
+        timestamp: 0,
+        ..b.clone()
+    }
 }
 
 /// A process name as shown to people: trimmed, without a `.exe` suffix.
@@ -1277,7 +1302,11 @@ fn display_process_name(process_name: &str) -> String {
     } else {
         name
     };
-    if name.is_empty() { "Unknown app".to_string() } else { name.to_string() }
+    if name.is_empty() {
+        "Unknown app".to_string()
+    } else {
+        name.to_string()
+    }
 }
 
 /// Presence shown while the user is idle; `message` is the user's idle message.
@@ -1353,7 +1382,10 @@ mod tests {
     #[test]
     fn test_effective_name_without_aliases_is_unchanged() {
         let registry = AppRegistry::new();
-        assert_eq!(resolve_effective_name("electron", &[], &[], &registry), "electron");
+        assert_eq!(
+            resolve_effective_name("electron", &[], &[], &registry),
+            "electron"
+        );
     }
 
     #[test]
@@ -1361,7 +1393,10 @@ mod tests {
         let registry = AppRegistry::new();
         let rules = vec![rule("code.exe", true)];
         let aliases = vec!["code".to_string()];
-        assert_eq!(resolve_effective_name("electron", &aliases, &rules, &registry), "code");
+        assert_eq!(
+            resolve_effective_name("electron", &aliases, &rules, &registry),
+            "code"
+        );
     }
 
     #[test]
@@ -1369,28 +1404,40 @@ mod tests {
         let registry = AppRegistry::new();
         let rules = vec![rule("my-tool", false)];
         let aliases = vec!["my-tool".to_string()];
-        assert_eq!(resolve_effective_name("python3", &aliases, &rules, &registry), "python3");
+        assert_eq!(
+            resolve_effective_name("python3", &aliases, &rules, &registry),
+            "python3"
+        );
     }
 
     #[test]
     fn test_effective_name_falls_back_to_catalog_alias() {
         let registry = AppRegistry::new();
         let aliases = vec!["discord".to_string()];
-        assert_eq!(resolve_effective_name("electron", &aliases, &[], &registry), "discord");
+        assert_eq!(
+            resolve_effective_name("electron", &aliases, &[], &registry),
+            "discord"
+        );
     }
 
     #[test]
     fn test_effective_name_primary_wins_when_it_matches() {
         let registry = AppRegistry::new();
         let aliases = vec!["discord".to_string()];
-        assert_eq!(resolve_effective_name("firefox", &aliases, &[], &registry), "firefox");
+        assert_eq!(
+            resolve_effective_name("firefox", &aliases, &[], &registry),
+            "firefox"
+        );
     }
 
     #[test]
     fn test_effective_name_no_match_keeps_primary() {
         let registry = AppRegistry::new();
         let aliases = vec!["some-unknown-class".to_string()];
-        assert_eq!(resolve_effective_name("unknown-bin", &aliases, &[], &registry), "unknown-bin");
+        assert_eq!(
+            resolve_effective_name("unknown-bin", &aliases, &[], &registry),
+            "unknown-bin"
+        );
     }
 
     #[test]
@@ -1398,7 +1445,9 @@ mod tests {
         let registry = AppRegistry::new();
         let helium = WindowSnapshot {
             process_name: "chrome.exe".to_string(),
-            exe_path: Some(r"C:\Users\alice\AppData\Local\imput\Helium\Application\chrome.exe".to_string()),
+            exe_path: Some(
+                r"C:\Users\alice\AppData\Local\imput\Helium\Application\chrome.exe".to_string(),
+            ),
             aliases: Vec::new(),
             window_title: "GitHub - Helium".to_string(),
             is_prioritized: false,
@@ -1418,7 +1467,11 @@ mod tests {
         ));
         assert_eq!(data.details, "Helium Browser");
         assert_eq!(data.state, "Browsing GitHub");
-        assert!(data.large_image.ends_with("/helium.png"), "{}", data.large_image);
+        assert!(
+            data.large_image.ends_with("/helium.png"),
+            "{}",
+            data.large_image
+        );
 
         let tor = WindowSnapshot {
             process_name: "firefox.exe".to_string(),
@@ -1428,7 +1481,10 @@ mod tests {
             is_prioritized: false,
             foreground_app: None,
         };
-        assert_eq!(resolve_window_effective_name(&tor, &[], &registry), "torbrowser");
+        assert_eq!(
+            resolve_window_effective_name(&tor, &[], &registry),
+            "torbrowser"
+        );
 
         let operagx = WindowSnapshot {
             process_name: "opera.exe".to_string(),
@@ -1438,7 +1494,10 @@ mod tests {
             is_prioritized: false,
             foreground_app: None,
         };
-        assert_eq!(resolve_window_effective_name(&operagx, &[], &registry), "operagx");
+        assert_eq!(
+            resolve_window_effective_name(&operagx, &[], &registry),
+            "operagx"
+        );
     }
 
     #[test]
@@ -1450,11 +1509,20 @@ mod tests {
 
     #[test]
     fn test_same_visible_content_ignores_only_the_timestamp() {
-        let a = PresenceData { timestamp: 1, ..PresenceData::default() };
-        let b = PresenceData { timestamp: 2, ..a.clone() };
+        let a = PresenceData {
+            timestamp: 1,
+            ..PresenceData::default()
+        };
+        let b = PresenceData {
+            timestamp: 2,
+            ..a.clone()
+        };
         assert!(same_visible_content(&a, &b));
 
-        let c = PresenceData { large_text: "Other".to_string(), ..a.clone() };
+        let c = PresenceData {
+            large_text: "Other".to_string(),
+            ..a.clone()
+        };
         assert!(!same_visible_content(&a, &c));
     }
 
@@ -1478,14 +1546,25 @@ mod tests {
         assert_eq!(data.details, "Firefox");
         assert_eq!(data.state, "Browsing GitHub");
         assert_eq!(data.large_text, "Firefox");
-        assert!(data.large_image.starts_with("https://cdn.jsdelivr.net/") && data.large_image.ends_with("/firefox.png"),
-            "{}", data.large_image);
+        assert!(
+            data.large_image.starts_with("https://cdn.jsdelivr.net/")
+                && data.large_image.ends_with("/firefox.png"),
+            "{}",
+            data.large_image
+        );
     }
 
     #[test]
     fn test_unknown_app_layout() {
         let registry = AppRegistry::new();
-        let data = prepared(build_fallback_presence(&registry, "my-tool.exe", "Report Q3", None, None, None));
+        let data = prepared(build_fallback_presence(
+            &registry,
+            "my-tool.exe",
+            "Report Q3",
+            None,
+            None,
+            None,
+        ));
         assert_eq!(data.details, "my-tool");
         assert_eq!(data.state, "Report Q3");
         assert_eq!(data.large_image, crate::domain::presence::LOGO_IMAGE_URL);
@@ -1500,7 +1579,9 @@ mod tests {
             "main.rs - my-project - Visual Studio Code",
         )
         .unwrap();
-        let data = prepared(crate::services::activity_builder::ActivityBuilder::build(&ctx, 0));
+        let data = prepared(crate::services::activity_builder::ActivityBuilder::build(
+            &ctx, 0,
+        ));
         assert_eq!(data.details, "Visual Studio Code · my-project");
         assert_eq!(data.state, "Editing main.rs (Rust)");
         assert_eq!(data.large_text, "Visual Studio Code");
@@ -1516,11 +1597,18 @@ mod tests {
         );
         assert_eq!(data.small_text, "Rust");
 
-        let ctx = crate::services::title_parser::TitleParser::parse("app.ts - ui - Cursor").unwrap();
-        let data = prepared(crate::services::activity_builder::ActivityBuilder::build(&ctx, 0));
+        let ctx =
+            crate::services::title_parser::TitleParser::parse("app.ts - ui - Cursor").unwrap();
+        let data = prepared(crate::services::activity_builder::ActivityBuilder::build(
+            &ctx, 0,
+        ));
         assert_eq!(data.details, "Cursor · ui");
         assert_eq!(data.state, "Editing app.ts (TypeScript)");
-        assert!(data.large_image.ends_with("/cursor.png"), "{}", data.large_image);
+        assert!(
+            data.large_image.ends_with("/cursor.png"),
+            "{}",
+            data.large_image
+        );
         assert!(
             data.small_image.starts_with("https://cdn.jsdelivr.net/")
                 && data.small_image.ends_with("/typescript.png"),
@@ -1530,7 +1618,9 @@ mod tests {
         assert_eq!(data.small_text, "TypeScript");
 
         let ctx = crate::services::title_parser::TitleParser::parse("a.rs - w - VSCodium").unwrap();
-        let data = prepared(crate::services::activity_builder::ActivityBuilder::build(&ctx, 0));
+        let data = prepared(crate::services::activity_builder::ActivityBuilder::build(
+            &ctx, 0,
+        ));
         assert!(
             data.large_image.starts_with("https://cdn.jsdelivr.net/")
                 && data.large_image.ends_with("/vscodium.png"),
@@ -1544,9 +1634,11 @@ mod tests {
             data.small_image
         );
 
-        let ctx =
-            crate::services::title_parser::TitleParser::parse("test.unknown - ui - Cursor").unwrap();
-        let data = prepared(crate::services::activity_builder::ActivityBuilder::build(&ctx, 0));
+        let ctx = crate::services::title_parser::TitleParser::parse("test.unknown - ui - Cursor")
+            .unwrap();
+        let data = prepared(crate::services::activity_builder::ActivityBuilder::build(
+            &ctx, 0,
+        ));
         assert_eq!(data.small_image, "");
         assert_eq!(data.small_text, "");
     }
@@ -1554,9 +1646,22 @@ mod tests {
     #[test]
     fn test_rule_presence_keeps_user_text() {
         let registry = AppRegistry::new();
-        let mut notes = AppRule::new("notes-app", "Notes", "Writing {title}", "Focus mode", "auto");
+        let mut notes = AppRule::new(
+            "notes-app",
+            "Notes",
+            "Writing {title}",
+            "Focus mode",
+            "auto",
+        );
         notes.enabled = true;
-        let data = prepared(build_presence_from_rule(&registry, &notes, "notes-app", "Plan", None, true));
+        let data = prepared(build_presence_from_rule(
+            &registry,
+            &notes,
+            "notes-app",
+            "Plan",
+            None,
+            true,
+        ));
         assert_eq!(data.details, "Notes - Writing Plan");
         assert_eq!(data.state, "Focus mode");
         assert_eq!(data.large_text, "Notes");
@@ -1612,7 +1717,11 @@ mod tests {
         ));
         assert_eq!(with_file.details, "VScode - Hacking engine.rs");
         assert_eq!(with_file.state, "Focused");
-        assert!(with_file.small_image.ends_with("/rust.png"), "{}", with_file.small_image);
+        assert!(
+            with_file.small_image.ends_with("/rust.png"),
+            "{}",
+            with_file.small_image
+        );
         assert_eq!(with_file.small_text, "Rust");
 
         let workspace_only = prepared(build_presence_from_rule(
@@ -1748,8 +1857,19 @@ mod tests {
     fn test_rule_image_catalog_id_resolves_to_icon() {
         let registry = AppRegistry::new();
         let rule = AppRule::new("notes-app", "Notes", "x", "y", "firefox");
-        let data = prepared(build_presence_from_rule(&registry, &rule, "notes-app", "", None, true));
-        assert!(data.large_image.ends_with("/firefox.png"), "{}", data.large_image);
+        let data = prepared(build_presence_from_rule(
+            &registry,
+            &rule,
+            "notes-app",
+            "",
+            None,
+            true,
+        ));
+        assert!(
+            data.large_image.ends_with("/firefox.png"),
+            "{}",
+            data.large_image
+        );
     }
 
     #[test]
@@ -1773,7 +1893,10 @@ mod tests {
         assert_eq!(data.details, "Browsing the PC");
         assert_eq!(data.state, "Just chilling...");
         assert_eq!(data.large_image, crate::domain::presence::LOGO_IMAGE_URL);
-        assert_eq!(data.activity_name, crate::domain::presence::DEFAULT_ACTIVITY_NAME);
+        assert_eq!(
+            data.activity_name,
+            crate::domain::presence::DEFAULT_ACTIVITY_NAME
+        );
     }
 
     #[test]
@@ -1795,7 +1918,10 @@ mod tests {
             last_event_at: 1_700_000_050,
         };
         let data = prepared(build_claude_code_presence(&session, 2, true));
-        assert_eq!(data.activity_name, crate::domain::presence::DEFAULT_ACTIVITY_NAME);
+        assert_eq!(
+            data.activity_name,
+            crate::domain::presence::DEFAULT_ACTIVITY_NAME
+        );
         assert_eq!(data.details, "Claude Code · Better-RPC");
         assert_eq!(data.state, "Editing engine.rs · Fix rich preview");
         assert_eq!(data.large_text, "Claude Opus 4.6 · main · 2 chats");
