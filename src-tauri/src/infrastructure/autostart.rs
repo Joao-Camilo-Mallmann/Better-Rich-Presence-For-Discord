@@ -3,8 +3,8 @@
 #[cfg(target_os = "windows")]
 mod windows_impl {
     use crate::domain::startup::{
-        format_windows_run_command, is_startup_approved, select_startup_executable,
-        STARTUP_APP_NAME,
+        format_windows_run_command, is_cargo_target_path, is_startup_approved,
+        select_startup_executable, STARTUP_APP_NAME,
     };
     use log::warn;
     use std::path::{Path, PathBuf};
@@ -15,37 +15,19 @@ mod windows_impl {
     const STARTUP_APPROVED_KEY_PATH: &str =
         r"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run";
 
-    fn collect_release_candidates(current_exe: &Path) -> Vec<PathBuf> {
-        let mut candidates = Vec::new();
-
-        if let Ok(local_app_data) = std::env::var("LOCALAPPDATA") {
-            let trimmed = local_app_data.trim();
-            if !trimmed.is_empty() {
-                let installed = PathBuf::from(trimmed)
-                    .join("Better Rich Presence")
-                    .join("better-rich-presence.exe");
-                if installed.is_file() {
-                    candidates.push(installed);
-                }
-            }
+    /// Returns the installer-placed executable when it exists. Builds inside a
+    /// Cargo `target` directory are never considered: a plain
+    /// `cargo build --release` leaves the frontend out of the binary.
+    fn find_installed_exe() -> Option<PathBuf> {
+        let local_app_data = std::env::var("LOCALAPPDATA").ok()?;
+        let trimmed = local_app_data.trim();
+        if trimmed.is_empty() {
+            return None;
         }
-
-        if let Some(debug_dir) = current_exe.parent() {
-            if debug_dir.file_name().and_then(|n| n.to_str()) == Some("debug") {
-                if let Some(target_dir) = debug_dir.parent() {
-                    if target_dir.file_name().and_then(|n| n.to_str()) == Some("target") {
-                        let release = target_dir
-                            .join("release")
-                            .join("better-rich-presence.exe");
-                        if release.is_file() {
-                            candidates.push(release);
-                        }
-                    }
-                }
-            }
-        }
-
-        candidates
+        let installed = PathBuf::from(trimmed)
+            .join("Better Rich Presence")
+            .join("better-rich-presence.exe");
+        installed.is_file().then_some(installed)
     }
 
     /// Normalizes an existing Windows `Run` entry for Better Rich Presence without
@@ -73,9 +55,20 @@ mod windows_impl {
         let Ok(current_exe) = std::env::current_exe() else {
             return;
         };
-        let release_candidates = collect_release_candidates(&current_exe);
-        let selected_exe =
-            select_startup_executable(&current_exe, cfg!(dev), &release_candidates);
+        let installed_exe = find_installed_exe();
+        let Some(selected_exe) =
+            select_startup_executable(&current_exe, cfg!(dev), installed_exe.as_deref())
+        else {
+            let existing_path = existing_cmd.trim().trim_start_matches('"');
+            let existing_path = existing_path.split('"').next().unwrap_or(existing_path);
+            if is_cargo_target_path(Path::new(existing_path)) {
+                warn!(
+                    "Autostart entry points to a build in a Cargo target directory ({existing_path}); \
+                     it may not include the frontend. Install the app with the Tauri installer to fix startup."
+                );
+            }
+            return;
+        };
         let desired_cmd = format_windows_run_command(&selected_exe);
 
         if existing_cmd != desired_cmd {

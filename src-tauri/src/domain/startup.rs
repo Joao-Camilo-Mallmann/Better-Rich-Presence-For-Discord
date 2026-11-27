@@ -43,22 +43,35 @@ pub fn is_startup_approved(bytes: &[u8]) -> bool {
     (bytes[0] & 1) == 0 && bytes[4..12].iter().all(|&b| b == 0)
 }
 
-/// Picks the executable path to register for autostart.
+/// Returns `true` when `path` sits in a Cargo build output directory
+/// (`target\debug` or `target\release`). Such executables may be dev builds
+/// that load the Vite dev server instead of an embedded frontend.
+pub fn is_cargo_target_path(path: &Path) -> bool {
+    let raw = path
+        .to_string_lossy()
+        .replace('/', "\\")
+        .to_ascii_lowercase();
+    raw.contains(r"\target\debug\") || raw.contains(r"\target\release\")
+}
+
+/// Picks the executable to register for autostart, or `None` when no
+/// standalone (frontend-embedded) build is available.
 ///
-/// In dev builds (`is_dev == true`), prefers the first available release or
-/// installed executable so login autostart never points at a debug binary that
-/// expects a live Vite dev server.
+/// The installed executable always wins. Otherwise the running executable is
+/// used only when it is not a dev build and not inside a Cargo `target`
+/// directory.
 pub fn select_startup_executable(
     current_exe: &Path,
     is_dev: bool,
-    available_release_exes: &[PathBuf],
-) -> PathBuf {
-    if is_dev {
-        if let Some(release_exe) = available_release_exes.first() {
-            return release_exe.clone();
-        }
+    installed_exe: Option<&Path>,
+) -> Option<PathBuf> {
+    if let Some(installed) = installed_exe {
+        return Some(installed.to_path_buf());
     }
-    current_exe.to_path_buf()
+    if is_dev || is_cargo_target_path(current_exe) {
+        return None;
+    }
+    Some(current_exe.to_path_buf())
 }
 
 #[cfg(test)]
@@ -74,7 +87,9 @@ mod tests {
 
     #[test]
     fn formats_quoted_windows_run_command_and_strips_verbatim_prefix() {
-        let with_spaces = Path::new(r"C:\Users\Alice Smith\AppData\Local\Better Rich Presence\better-rich-presence.exe");
+        let with_spaces = Path::new(
+            r"C:\Users\Alice Smith\AppData\Local\Better Rich Presence\better-rich-presence.exe",
+        );
         assert_eq!(
             format_windows_run_command(with_spaces),
             r#""C:\Users\Alice Smith\AppData\Local\Better Rich Presence\better-rich-presence.exe" --minimized"#
@@ -89,9 +104,15 @@ mod tests {
 
     #[test]
     fn parses_startup_approved_enabled_and_disabled_bytes() {
-        let enabled = [0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
-        let disabled = [0x03, 0x00, 0x00, 0x00, 0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F, 0x01, 0x01];
-        let alt_enabled = [0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
+        let enabled = [
+            0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        ];
+        let disabled = [
+            0x03, 0x00, 0x00, 0x00, 0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F, 0x01, 0x01,
+        ];
+        let alt_enabled = [
+            0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        ];
 
         assert!(is_startup_approved(&enabled));
         assert!(is_startup_approved(&alt_enabled));
@@ -100,21 +121,47 @@ mod tests {
     }
 
     #[test]
-    fn selects_release_exe_in_dev_when_available() {
-        let debug_exe = PathBuf::from(r"D:\repo\target\debug\better-rich-presence.exe");
-        let release_exe = PathBuf::from(r"D:\repo\target\release\better-rich-presence.exe");
+    fn detects_cargo_target_paths() {
+        assert!(is_cargo_target_path(Path::new(
+            r"D:\repo\src-tauri\target\release\app.exe"
+        )));
+        assert!(is_cargo_target_path(Path::new(
+            r"D:\repo\target\debug\app.exe"
+        )));
+        assert!(is_cargo_target_path(Path::new("/repo/target/release/app")));
+        assert!(!is_cargo_target_path(Path::new(
+            r"C:\Users\A\AppData\Local\Better Rich Presence\better-rich-presence.exe"
+        )));
+    }
 
+    #[test]
+    fn installed_exe_wins() {
+        let debug_exe = PathBuf::from(r"D:\repo\target\debug\app.exe");
+        let installed = PathBuf::from(r"C:\Users\A\AppData\Local\Better Rich Presence\app.exe");
         assert_eq!(
-            select_startup_executable(&debug_exe, true, &[release_exe.clone()]),
-            release_exe
+            select_startup_executable(&debug_exe, true, Some(&installed)),
+            Some(installed)
         );
+    }
+
+    #[test]
+    fn dev_build_without_installed_selects_nothing() {
+        let debug_exe = PathBuf::from(r"D:\repo\target\debug\app.exe");
+        assert_eq!(select_startup_executable(&debug_exe, true, None), None);
+    }
+
+    #[test]
+    fn target_release_exe_is_never_selected() {
+        let release_exe = PathBuf::from(r"D:\repo\target\release\app.exe");
+        assert_eq!(select_startup_executable(&release_exe, false, None), None);
+    }
+
+    #[test]
+    fn standalone_current_exe_is_used() {
+        let exe = PathBuf::from(r"E:\Apps\Better Rich Presence\app.exe");
         assert_eq!(
-            select_startup_executable(&debug_exe, true, &[]),
-            debug_exe
-        );
-        assert_eq!(
-            select_startup_executable(&debug_exe, false, &[release_exe]),
-            debug_exe
+            select_startup_executable(&exe, false, None),
+            Some(exe.clone())
         );
     }
 }
