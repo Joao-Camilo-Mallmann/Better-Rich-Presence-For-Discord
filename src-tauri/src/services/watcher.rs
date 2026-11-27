@@ -7,12 +7,12 @@
 use crate::models::types::{AppState, EngineEvent};
 #[cfg(not(target_os = "linux"))]
 use crate::services::detection_status::{self, DetectionStatus};
-use log::trace;
+use log::debug;
 use tokio::sync::mpsc::Sender;
 use tokio::time::{interval, Duration};
 
-/// A detected window: `(process_name, aliases, window_title, is_prioritized, foreground_app)`.
-type WindowSnapshot = (String, Vec<String>, String, bool, Option<String>);
+/// A detected window: `(process_name, exe_path, aliases, window_title, is_prioritized, foreground_app)`.
+type WindowSnapshot = (String, Option<String>, Vec<String>, String, bool, Option<String>);
 
 /// Spawns a tokio task that polls for window and idle changes.
 pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
@@ -37,6 +37,7 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
         });
 
         let mut last_process_name = String::new();
+        let mut last_exe_path: Option<String> = None;
         let mut last_window_title = String::new();
         // `Some(minutes)` while idle, so every new idle minute is reported.
         let mut last_idle_minutes: Option<u32> = None;
@@ -77,10 +78,10 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
             #[cfg(target_os = "windows")]
             let window_info: Option<WindowSnapshot> = if priority_mode {
                 win32::get_priority_window_info(&mut sys, &rules)
-                    .map(|(p, t, prioritized, fg)| (p, Vec::new(), t, prioritized, fg))
+                    .map(|(p, exe, t, prioritized, fg)| (p, exe, Vec::new(), t, prioritized, fg))
             } else {
                 win32::get_foreground_window_info(&mut sys)
-                    .map(|(p, t)| (p, Vec::new(), t, false, None))
+                    .map(|(p, exe, t)| (p, exe, Vec::new(), t, false, None))
             };
 
             #[cfg(target_os = "linux")]
@@ -89,7 +90,9 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
             } else {
                 linux.foreground_window(&rules).map(|w| (w, false, None))
             }
-            .map(|(w, prioritized, fg)| (w.process_name, w.aliases, w.title, prioritized, fg));
+            .map(|(w, prioritized, fg)| {
+                (w.process_name, w.exe_path, w.aliases, w.title, prioritized, fg)
+            });
 
             #[cfg(not(any(target_os = "windows", target_os = "linux")))]
             let window_info: Option<WindowSnapshot> = {
@@ -97,12 +100,31 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
                 None
             };
 
-            if let Some((process_name, aliases, window_title, is_prioritized, foreground_app)) = window_info {
-                if process_name != last_process_name || window_title != last_window_title {
-                    trace!("Window changed: {} - {}", process_name, window_title);
+            if let Some((process_name, exe_path, aliases, window_title, is_prioritized, foreground_app)) = window_info {
+                if process_name != last_process_name
+                    || exe_path != last_exe_path
+                    || window_title != last_window_title
+                {
+                    let truncated_title = crate::services::logger::truncate_for_log(&window_title, 80);
+                    if is_prioritized {
+                        if let Some(ref fg) = foreground_app {
+                            debug!(
+                                "Window changed: {} (priority over {}) — \"{}\"",
+                                process_name, fg, truncated_title
+                            );
+                        } else {
+                            debug!(
+                                "Window changed: {} (prioritized) — \"{}\"",
+                                process_name, truncated_title
+                            );
+                        }
+                    } else {
+                        debug!("Window changed: {} — \"{}\"", process_name, truncated_title);
+                    }
                     let _ = tx
                         .send(EngineEvent::WindowChanged {
                             process_name: process_name.clone(),
+                            exe_path: exe_path.clone(),
                             aliases,
                             window_title: window_title.clone(),
                             is_prioritized,
@@ -111,12 +133,15 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
                         .await;
 
                     last_process_name = process_name;
+                    last_exe_path = exe_path;
                     last_window_title = window_title;
                 }
             } else if !last_process_name.is_empty() {
+                debug!("No active window detected");
                 let _ = tx
                     .send(EngineEvent::WindowChanged {
                         process_name: String::new(),
+                        exe_path: None,
                         aliases: Vec::new(),
                         window_title: String::new(),
                         is_prioritized: false,
@@ -124,6 +149,7 @@ pub fn start_window_watcher(tx: Sender<EngineEvent>, app_state: AppState) {
                     })
                     .await;
                 last_process_name = String::new();
+                last_exe_path = None;
                 last_window_title = String::new();
             }
         }
@@ -156,7 +182,7 @@ mod win32 {
         0
     }
 
-    pub fn get_foreground_window_info(sys: &mut System) -> Option<(String, String)> {
+    pub fn get_foreground_window_info(sys: &mut System) -> Option<(String, Option<String>, String)> {
         unsafe {
             let hwnd = GetForegroundWindow();
             if hwnd.0.is_null() {
@@ -185,35 +211,41 @@ mod win32 {
                     .without_disk_usage(),
             );
 
-            let process_name = sys
-                .process(sysinfo::Pid::from_u32(pid))
+            let proc_ref = sys.process(sysinfo::Pid::from_u32(pid));
+            let exe_path = proc_ref
+                .and_then(|p| p.exe())
+                .map(|path| path.to_string_lossy().into_owned());
+            let process_name = proc_ref
                 .map(|p| p.name().to_string_lossy().into_owned())
                 .unwrap_or_else(|| format!("unknown_{}.exe", pid));
-                
+
             // sysinfo often returns uppercase for some process names, standardize it to lowercase for matching
             let process_name = process_name.to_lowercase();
 
-            if process_name == "better-rich-presence.exe" || process_name == "better_rich_presence.exe" {
+            if process_name == "better-rich-presence.exe"
+                || process_name == "better_rich_presence.exe"
+                || process_name == "better rich presence.exe"
+            {
                 return None;
             }
 
-            Some((process_name, window_title))
+            Some((process_name, exe_path, window_title))
         }
     }
 
-    struct EnumData {
-        target_pid: u32,
+    struct EnumData<'a> {
+        target_pids: &'a [u32],
         found_title: Option<String>,
     }
 
     unsafe extern "system" fn enum_proc(hwnd: HWND, lparam: LPARAM) -> BOOL {
-        let data = &mut *(lparam.0 as *mut EnumData);
+        let data = &mut *(lparam.0 as *mut EnumData<'_>);
 
         if IsWindowVisible(hwnd).as_bool() {
             let mut pid = 0;
             GetWindowThreadProcessId(hwnd, Some(&mut pid));
 
-            if pid == data.target_pid {
+            if data.target_pids.contains(&pid) {
                 let mut title_buf = [0u16; 512];
                 let len = GetWindowTextW(hwnd, &mut title_buf);
                 if len > 0 {
@@ -228,59 +260,113 @@ mod win32 {
         BOOL(1) // Continue
     }
 
-    pub fn get_priority_window_info(sys: &mut System, rules: &[AppRule]) -> Option<(String, String, bool, Option<String>)> {
+    pub fn get_priority_window_info(
+        sys: &mut System,
+        rules: &[AppRule],
+    ) -> Option<(String, Option<String>, String, bool, Option<String>)> {
         sys.refresh_processes(sysinfo::ProcessesToUpdate::All, true);
 
         let mut highest_priority_idx = usize::MAX;
-        let mut selected_pid = None;
+        let mut selected_pids: Vec<u32> = Vec::new();
         let mut selected_process_name = String::new();
+        let mut selected_effective_name = String::new();
+        let mut selected_exe_path: Option<String> = None;
 
         for (pid, process) in sys.processes() {
             let p_name = process.name().to_string_lossy().to_lowercase();
-            if p_name == "better-rich-presence.exe" || p_name == "better_rich_presence.exe" {
+            if p_name == "better-rich-presence.exe"
+                || p_name == "better_rich_presence.exe"
+                || p_name == "better rich presence.exe"
+            {
                 continue;
             }
 
-            if let Some(idx) = rules.iter().position(|r| r.enabled && r.process_name.to_lowercase().trim_end_matches(".exe") == p_name.trim_end_matches(".exe")) {
+            let exe_path = process.exe().map(|path| path.to_string_lossy().into_owned());
+            let effective_name = crate::domain::browser::disambiguate_browser(
+                &p_name,
+                exe_path.as_deref(),
+                "",
+            )
+            .unwrap_or(&p_name);
+
+            if let Some(idx) = rules.iter().position(|r| {
+                r.enabled
+                    && r.process_name.to_lowercase().trim_end_matches(".exe")
+                        == effective_name.trim_end_matches(".exe")
+            }) {
                 if idx < highest_priority_idx {
                     highest_priority_idx = idx;
-                    selected_pid = Some(pid.as_u32());
+                    selected_pids.clear();
+                    selected_pids.push(pid.as_u32());
                     selected_process_name = p_name.clone();
+                    selected_effective_name = effective_name.to_string();
+                    selected_exe_path = exe_path;
+                } else if idx == highest_priority_idx
+                    && effective_name.trim_end_matches(".exe")
+                        == selected_effective_name.trim_end_matches(".exe")
+                {
+                    selected_pids.push(pid.as_u32());
                 }
             }
         }
 
         let foreground = get_foreground_window_info(sys);
-        
-        if let Some(target_pid) = selected_pid {
-            let mut data = EnumData {
-                target_pid,
-                found_title: None,
-            };
 
-            unsafe {
-                let _ = EnumWindows(
-                    Some(enum_proc),
-                    LPARAM(&mut data as *mut EnumData as isize),
-                );
-            }
-
-            let final_title = data.found_title.unwrap_or_else(|| selected_process_name.clone());
-
+        if !selected_pids.is_empty() {
             let mut fg_app = None;
             let mut is_prioritized = false;
+            let mut foreground_title: Option<String> = None;
 
-            if let Some((fg_name, _)) = &foreground {
-                if fg_name.to_lowercase().trim_end_matches(".exe") != selected_process_name.trim_end_matches(".exe") {
+            if let Some((fg_name, fg_exe, fg_title)) = &foreground {
+                let fg_effective = crate::domain::browser::disambiguate_browser(
+                    fg_name,
+                    fg_exe.as_deref(),
+                    fg_title,
+                )
+                .unwrap_or(fg_name.as_str());
+
+                if fg_effective.to_lowercase().trim_end_matches(".exe")
+                    == selected_effective_name.trim_end_matches(".exe")
+                {
+                    if !fg_title.is_empty() {
+                        foreground_title = Some(fg_title.clone());
+                    }
+                } else {
                     is_prioritized = true;
                     fg_app = Some(fg_name.clone());
                 }
             }
 
-            return Some((selected_process_name, final_title, is_prioritized, fg_app));
+            let final_title = match foreground_title {
+                Some(title) => title,
+                None => {
+                    let mut data = EnumData {
+                        target_pids: &selected_pids,
+                        found_title: None,
+                    };
+
+                    unsafe {
+                        let _ = EnumWindows(
+                            Some(enum_proc),
+                            LPARAM(&mut data as *mut EnumData<'_> as isize),
+                        );
+                    }
+
+                    data.found_title
+                        .unwrap_or_else(|| selected_process_name.clone())
+                }
+            };
+
+            return Some((
+                selected_process_name,
+                selected_exe_path,
+                final_title,
+                is_prioritized,
+                fg_app,
+            ));
         }
 
         // Fallback to foreground if no matching priority app
-        foreground.map(|(p, t)| (p, t, false, None))
+        foreground.map(|(p, exe, t)| (p, exe, t, false, None))
     }
 }

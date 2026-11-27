@@ -29,7 +29,7 @@ pub fn start_claude_code_server(port: u16, tx: Sender<EngineEvent>, app_state: A
         match TcpListener::bind(&addr).await {
             Ok(listener) => {
                 info!(
-                    "[ClaudeCode] HTTP hook listener started on {}",
+                    "HTTP hook listener started on {}",
                     hook_endpoint_url(port)
                 );
                 app_state
@@ -44,7 +44,7 @@ pub fn start_claude_code_server(port: u16, tx: Sender<EngineEvent>, app_state: A
             }
             Err(err) => {
                 let msg = format!("Could not listen on {addr}: {err}");
-                warn!("[ClaudeCode] {msg}");
+                warn!("{msg}");
                 app_state
                     .set_claude_server_status(port, false, Some(msg))
                     .await;
@@ -66,12 +66,12 @@ pub async fn serve_listener(listener: TcpListener, tx: Sender<EngineEvent>) {
                 tokio::spawn(async move {
                     if let Err(err) = timeout(CONNECTION_TIMEOUT, handle_connection(stream, tx)).await
                     {
-                        debug!("[ClaudeCode] Hook HTTP connection timed out: {err}");
+                        debug!("Hook HTTP connection timed out: {err}");
                     }
                 });
             }
             Err(err) => {
-                warn!("[ClaudeCode] Accept error on hook listener: {err}");
+                warn!("Accept error on hook listener: {err}");
                 tokio::time::sleep(Duration::from_millis(200)).await;
             }
         }
@@ -321,13 +321,13 @@ fn route_request(req: &ParsedRequest, tx: &Sender<EngineEvent>) -> Vec<u8> {
             match serde_json::from_slice::<ClaudeHookPayload>(&req.body) {
                 Ok(payload) => {
                     if let Err(err) = tx.try_send(EngineEvent::ClaudeCodeEvent(payload)) {
-                        debug!("[ClaudeCode] Dropping hook event (engine channel busy): {err}");
+                        debug!("Dropping hook event (engine channel busy): {err}");
                     }
                     // Empty JSON object tells Claude Code we have no decision to impose.
                     http_json_response(200, "OK", "{}")
                 }
                 Err(err) => {
-                    debug!("[ClaudeCode] Invalid hook JSON payload: {err}");
+                    debug!("Invalid hook JSON payload: {err}");
                     http_json_response(400, "Bad Request", r#"{"error":"invalid json"}"#)
                 }
             }

@@ -19,7 +19,7 @@
         "minHeight": 550,
         "center": true,
         "resizable": true,
-        "visible": true,
+        "visible": false,
         "dragDropEnabled": false
       }
     ],
@@ -30,6 +30,9 @@
   "bundle": {
     "active": true,
     "targets": ["nsis"],
+    "publisher": "João Camilo Mallmann",
+    "shortDescription": "Better Rich Presence for Discord",
+    "longDescription": "Automatic, lightweight Discord Rich Presence manager for desktop applications.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

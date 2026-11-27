@@ -74,8 +74,10 @@ pub fn format_app_presence(category: &str, app_name: &str, window_title: &str) -
                 format!("Editing {}", file_name)
             }
         }
-        "browser" if has_subject => format!("Browsing {}", subject),
-        "browser" => "Browsing the web".to_string(),
+        "browser" => match crate::domain::browser::extract_browser_subject(app_name, title) {
+            Some(page) => format!("Browsing {}", page),
+            None => "Browsing the web".to_string(),
+        },
         "communication" => "Chatting / In a call".to_string(),
         "productivity" if has_subject => format!("Working on {}", subject),
         "productivity" => "Working".to_string(),
@@ -98,6 +100,8 @@ mod tests {
     #[test]
     fn browser_names_the_page() {
         assert_eq!(format_app_presence("browser", "Firefox", "GitHub - Mozilla Firefox"), "Browsing GitHub");
+        assert_eq!(format_app_presence("browser", "Zen Browser", "Docs — Zen Browser"), "Browsing Docs");
+        assert_eq!(format_app_presence("browser", "Helium Browser", "New Tab - Helium"), "Browsing the web");
         assert_eq!(format_app_presence("browser", "Firefox", "Firefox"), "Browsing the web");
         assert_eq!(format_app_presence("browser", "Firefox", ""), "Browsing the web");
     }
@@ -136,5 +140,26 @@ mod tests {
         assert_eq!(registry.find_by_id_or_executable("vscode").map(|a| a.id.as_str()), Some("vscode"));
         assert_eq!(registry.find_by_id_or_executable("code.exe").map(|a| a.id.as_str()), Some("vscode"));
         assert!(registry.find_by_id_or_executable("rust-logo").is_none());
+    }
+
+    #[test]
+    fn find_app_matches_expanded_browsers_and_filmora() {
+        let registry = AppRegistry::new();
+        for (exe, expected_id) in [
+            ("helium.exe", "helium"),
+            ("chromium", "chromium"),
+            ("librewolf.exe", "librewolf"),
+            ("operagx.exe", "operagx"),
+            ("torbrowser.exe", "torbrowser"),
+            ("safari", "safari"),
+            ("zen-browser", "zen"),
+            ("brave-browser", "brave"),
+            ("wondershare filmora.exe", "wondersharefilmora"),
+            ("filmora14.exe", "wondersharefilmora"),
+        ] {
+            let app = registry.find_app(exe).unwrap_or_else(|| panic!("missing catalog entry for {exe}"));
+            assert_eq!(app.id, expected_id, "unexpected id for {exe}");
+            assert!(app.icon_url.is_some(), "missing icon_url for {expected_id}");
+        }
     }
 }

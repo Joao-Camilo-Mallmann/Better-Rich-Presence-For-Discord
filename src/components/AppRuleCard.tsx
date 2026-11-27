@@ -28,12 +28,38 @@ export const CLAUDE_CODE_RULE_ID = "claude_code";
 
 const appCatalog = APP_CATALOG_JSON as AppDefinition[];
 
+function normalizeExe(name: string): string {
+  const lower = name.trim().toLowerCase();
+  return lower.endsWith(".exe") ? lower.slice(0, -4) : lower;
+}
+
 /** Whether the live presence (named by its `large_text`, e.g. "Visual Studio
- *  Code") belongs to the app this rule matches. */
-function isLiveFor(processName: string, presenceName: string): boolean {
-  const exe = processName.toLowerCase();
-  const app = appCatalog.find((entry) => entry.executables.includes(exe));
-  return app !== undefined && app.name === presenceName;
+ *  Code" or a custom rule's display name) belongs to the app this rule matches. */
+function isLiveFor(
+  processName: string,
+  displayName: string,
+  presenceName: string,
+): boolean {
+  const target = presenceName.trim().toLowerCase();
+  if (!target) return false;
+  if (displayName.trim().toLowerCase() === target) {
+    return true;
+  }
+  const exe = normalizeExe(processName);
+  const app = appCatalog.find((entry) =>
+    entry.executables.some((candidate) => normalizeExe(candidate) === exe),
+  );
+  return app !== undefined && app.name.toLowerCase() === target;
+}
+
+function hasDefaultRuleText(rule: AppRule): boolean {
+  const details = rule.details.trim().toLowerCase();
+  const state = rule.state.trim().toLowerCase();
+  const displayName = rule.display_name.trim().toLowerCase();
+  return (
+    (details === "" || details === displayName) &&
+    (state === "" || state === "working")
+  );
 }
 
 const labelCls = "text-[12px] font-semibold text-ink";
@@ -65,12 +91,15 @@ export function AppRuleCard({
   const rulePreview =
     [rule.details, rule.state].filter(Boolean).join(" · ") || "No presence text";
   const live =
-    livePresence && isLiveFor(rule.process_name, livePresence.large_text)
+    livePresence &&
+    isLiveFor(rule.process_name, rule.display_name, livePresence.large_text)
       ? livePresence
       : null;
   const preview = isClaudeCode
     ? `Claude Code · ${claudeCodeLine}`
-    : (live?.state ?? rulePreview);
+    : live && hasDefaultRuleText(rule)
+      ? live.state
+      : rulePreview;
   const iconName =
     rule.large_image && rule.large_image !== "auto"
       ? rule.large_image

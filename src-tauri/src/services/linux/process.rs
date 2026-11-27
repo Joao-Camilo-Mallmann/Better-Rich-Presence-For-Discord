@@ -18,6 +18,13 @@ pub fn exe_file_name(path: &str) -> Option<String> {
     }
 }
 
+/// Full path of `/proc/<pid>/exe`, without a trailing ` (deleted)` suffix.
+pub fn exe_path(pid: u32) -> Option<String> {
+    let target = std::fs::read_link(format!("/proc/{}/exe", pid)).ok()?;
+    let path = target.to_string_lossy().trim().trim_end_matches(" (deleted)").to_string();
+    if path.is_empty() { None } else { Some(path) }
+}
+
 /// File name of `/proc/<pid>/exe`. `None` for kernel threads and for
 /// processes of other users.
 pub fn exe_name(pid: u32) -> Option<String> {

@@ -19,8 +19,8 @@ const SOURCES_PATH = path.join(rootDir, 'scripts', 'icon-sources.json');
 const APPS_JSON_PATH = path.join(rootDir, 'apps.json');
 const ICONS_DIR = path.join(rootDir, 'public', 'assets', 'icons');
 
-const SIZE = 256;
-const MARGIN = 8;
+const SIZE = 512;
+const MARGIN = 16;
 // SVGs are rasterized with their longest side at this size before trimming.
 const RASTER_SIZE = 1024;
 // A pixel is "dark neutral" (hard to see on a dark background) when its linear
@@ -33,7 +33,9 @@ const NEAR_BLACK_SHARE = 0.6;
 // Special variant: the `mono` SVG with every opaque pixel painted white.
 const MONO_WHITE = 'mono-white';
 const CONCURRENCY = 8;
-const ALLOWED_COLLECTIONS = new Set(['brands', 'community']);
+const FETCH_RETRIES = 3;
+const PURE_BLACK_SHARE = 0.98;
+const ALLOWED_COLLECTIONS = new Set(['brands', 'community', 'auth-badges']);
 
 // ── Inputs ───────────────────────────────────────────────────────────
 
@@ -60,23 +62,47 @@ function catalogIconNames(apps) {
 
 // ── theSVG access ────────────────────────────────────────────────────
 
-async function fetchOk(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
-  return response;
+async function fetchOk(urls) {
+  const candidates = Array.isArray(urls) ? urls : [urls];
+  let lastError;
+  for (const url of candidates) {
+    for (let attempt = 1; attempt <= FETCH_RETRIES; attempt++) {
+      try {
+        const response = await fetch(url);
+        if (response.ok) return response;
+        lastError = new Error(`HTTP ${response.status} for ${url}`);
+        // Retry transient 403/429/5xx; fail fast on 404 so fallback URL is tried next.
+        if (response.status >= 400 && response.status < 500 && response.status !== 403 && response.status !== 429) {
+          break;
+        }
+      } catch (err) {
+        lastError = err;
+      }
+      if (attempt < FETCH_RETRIES) {
+        await new Promise((resolve) => setTimeout(resolve, attempt * 400));
+      }
+    }
+  }
+  throw lastError;
 }
 
 function makeTheSvgClient({ repo, commit }) {
-  const base = `https://cdn.jsdelivr.net/gh/${repo}@${commit}`;
+  const bases = [
+    `https://cdn.jsdelivr.net/gh/${repo}@${commit}`,
+    `https://raw.githubusercontent.com/${repo}/${commit}`,
+  ];
+  const urlsFor = (relPath) => bases.map((base) => `${base}${relPath}`);
   return {
     async manifest() {
-      const icons = await (await fetchOk(`${base}/src/data/icons.json`)).json();
+      const icons = await (await fetchOk(urlsFor('/src/data/icons.json'))).json();
       return new Map(icons.map((icon) => [icon.slug, icon]));
     },
     async svg(variantPath) {
-      const text = await (await fetchOk(`${base}/public${variantPath}`)).text();
+      const text = await (await fetchOk(urlsFor(`/public${variantPath}`))).text();
       if (!text.includes('<svg')) throw new Error(`not an SVG: ${variantPath}`);
-      return Buffer.from(text);
+      // Resolve `currentColor` to white for dark UI / Discord dark-theme legibility
+      // so dual-color logos (e.g. AWS wordmark + orange smile) preserve brand accents.
+      return Buffer.from(text.replace(/currentColor/gi, '#ffffff'));
     },
   };
 }
@@ -159,9 +185,11 @@ async function buildIcon(client, icon, pinnedVariant) {
   if (pinnedVariant) return { png: await render(pinnedVariant), variant: pinnedVariant };
 
   const png = await render('default');
-  if ((await darkNeutralShare(png)) < NEAR_BLACK_SHARE) return { png, variant: 'default' };
+  const darkShare = await darkNeutralShare(png);
+  if (darkShare < NEAR_BLACK_SHARE) return { png, variant: 'default' };
   if (variants.dark) return { png: await render('dark'), variant: 'dark' };
   if (variants.mono) return { png: await render(MONO_WHITE), variant: MONO_WHITE };
+  if (darkShare >= PURE_BLACK_SHARE) return { png: await paintWhite(png), variant: 'default-white' };
   return { png, variant: 'default (near-black, no light alternative)' };
 }
 
@@ -201,7 +229,7 @@ async function main() {
   await runPool(todo, async ({ name, slug, variant }) => {
     const icon = manifest.get(slug);
     if (!icon || !ALLOWED_COLLECTIONS.has(icon.collection)) {
-      console.warn(`  ⚠ ${name}: theSVG slug "${slug}" not found in brands/community`);
+      console.warn(`  ⚠ ${name}: theSVG slug "${slug}" not found in brands/community/auth-badges`);
       failed.push(name);
       return;
     }

@@ -1,62 +1,14 @@
 pub mod commands;
 pub mod domain;
+pub mod infrastructure;
+pub mod interface;
 pub mod models;
 pub mod services;
 
 use crate::models::types::{
     AppRule, AppState, EngineEvent, Settings,
 };
-use log::{Level, Log, Metadata, Record};
-use std::sync::OnceLock;
-use tauri::Emitter;
-
-static APP_HANDLE: OnceLock<tauri::AppHandle> = OnceLock::new();
-
-struct AppLogger;
-
-impl Log for AppLogger {
-    fn enabled(&self, metadata: &Metadata) -> bool {
-        metadata.level() <= Level::Trace
-    }
-
-    fn log(&self, record: &Record) {
-        if self.enabled(record.metadata()) {
-            let level_str = record.level().to_string();
-            let msg = format!("{}", record.args());
-
-            // Print to standard output
-            println!("[{}] {}", level_str, msg);
-
-            // Emit to frontend if AppHandle is set
-            if let Some(app) = APP_HANDLE.get() {
-                let _ = app.emit(
-                    "app-log",
-                    LogPayload {
-                        level: level_str,
-                        message: msg,
-                        timestamp: chrono::Local::now().format("%H:%M:%S").to_string(),
-                    },
-                );
-            }
-        }
-    }
-
-    fn flush(&self) {}
-}
-
-#[derive(Clone, serde::Serialize)]
-struct LogPayload {
-    level: String,
-    message: String,
-    timestamp: String,
-}
-
-static LOGGER: AppLogger = AppLogger;
-use tauri::{
-    menu::{MenuBuilder, MenuItemBuilder},
-    tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-    Manager,
-};
+use tauri::Manager;
 use tauri_plugin_store::StoreExt;
 use tokio::sync::mpsc;
 
@@ -69,19 +21,20 @@ pub fn run() {
             Some(vec!["--minimized"]),
         ))
         .setup(|app| {
-            let _ = APP_HANDLE.set(app.handle().clone());
-            let _ = log::set_logger(&LOGGER);
-            log::set_max_level(log::LevelFilter::Trace);
+            services::logger::init(app.handle().clone());
 
-            // Disable native window decorations (removes window border/titlebar)
+            // Disable native window decorations (removes window border/titlebar).
+            // Window starts hidden in tauri.conf.json so `--minimized` launches never flash.
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window.set_decorations(false);
 
-                // Autostart launches with `--minimized`: stay in the tray.
-                if std::env::args().any(|arg| arg == "--minimized") {
-                    let _ = window.hide();
+                if !domain::startup::should_start_minimized(std::env::args()) {
+                    let _ = window.show();
+                    let _ = window.set_focus();
                 }
             }
+
+            infrastructure::autostart::sync_autostart_entry();
 
             // 1. Load settings from store
             let settings_store = app
@@ -123,40 +76,7 @@ pub fn run() {
             }
 
             // 3. Set up tray
-            let quit_i = MenuItemBuilder::with_id("quit", "Quit").build(app)?;
-            let show_i = MenuItemBuilder::with_id("show", "Open").build(app)?;
-            let menu = MenuBuilder::new(app).items(&[&show_i, &quit_i]).build()?;
-
-            let _tray = TrayIconBuilder::new()
-                .icon(app.default_window_icon().unwrap().clone())
-                .menu(&menu)
-                .on_menu_event(|app, event| match event.id().as_ref() {
-                    "quit" => {
-                        app.exit(0);
-                    }
-                    "show" => {
-                        if let Some(window) = app.get_webview_window("main") {
-                            let _ = window.show();
-                            let _ = window.set_focus();
-                        }
-                    }
-                    _ => {}
-                })
-                .on_tray_icon_event(|tray, event| {
-                    if let TrayIconEvent::Click {
-                        button: MouseButton::Left,
-                        button_state: MouseButtonState::Up,
-                        ..
-                    } = event
-                    {
-                        let app = tray.app_handle();
-                        if let Some(window) = app.get_webview_window("main") {
-                            let _ = window.show();
-                            let _ = window.set_focus();
-                        }
-                    }
-                })
-                .build(app)?;
+            interface::tray::setup_tray(app, settings.global_enabled)?;
 
             // 4. Create mpsc channel
             let (tx, rx) = mpsc::channel::<EngineEvent>(100);

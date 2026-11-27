@@ -27,7 +27,7 @@ const windowButton =
 
 function App() {
   const { settings, updateSettings } = useSettings();
-  const { presence, presenceState, connectionInfo } = usePresence();
+  const { presenceState, connectionInfo } = usePresence();
   const isMaximized = useWindowMaximized();
   const [view, setViewState] = useState<View>("now");
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -73,23 +73,9 @@ function App() {
     e.preventDefault();
   };
 
-  // The taskbar entry follows the app being shown on Discord.
-  const appName = presence?.large_text || "Better RPC";
-  let iconUrl = "/logo.png";
-  if (presence?.large_image && presence.large_image !== "default") {
-    iconUrl = presence.large_image;
-  }
-
   useEffect(() => {
-    document.title = appName;
-    let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-    if (!link) {
-      link = document.createElement("link");
-      link.rel = "icon";
-      document.head.appendChild(link);
-    }
-    link.href = iconUrl;
-  }, [appName, iconUrl]);
+    document.title = "Better Rich Presence";
+  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", "dark");

@@ -13,7 +13,11 @@ pub async fn update_settings(
     tx: State<'_, Sender<EngineEvent>>,
     settings: Settings,
 ) -> Result<(), AppError> {
+    let autostart_enabled = settings.autostart_enabled;
     state.update_settings(settings).await?;
+    if autostart_enabled {
+        crate::infrastructure::autostart::sync_autostart_entry();
+    }
     let _ = tx.send(EngineEvent::ClaudeCodeConfigChanged).await;
     Ok(())
 }

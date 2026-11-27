@@ -373,7 +373,7 @@
     ],
     "client_id": "1517170930764480552",
     "category": "developer",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/kubernetes.png"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/lens.png"
   },
   {
     "id": "rancherdesktop",
@@ -626,7 +626,7 @@
     ],
     "client_id": "1517170930764480552",
     "category": "developer",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/git.png"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/gitextensions.png"
   },
   {
     "id": "tortoisegit",
@@ -637,7 +637,7 @@
     ],
     "client_id": "1517170930764480552",
     "category": "developer",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/git.png"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/tortoisegit.png"
   },
   {
     "id": "fork",
@@ -792,7 +792,7 @@
     ],
     "client_id": "1517170930764480552",
     "category": "developer",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/gnometerminal.png"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/tabby.png"
   },
   {
     "id": "nodejs",
@@ -1328,7 +1328,8 @@
       "standard-notes"
     ],
     "client_id": "1517170930764480552",
-    "category": "productivity"
+    "category": "productivity",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/standardnotes.png"
   },
   {
     "id": "anytype",
@@ -2078,7 +2079,7 @@
     ],
     "client_id": "1517170930764480552",
     "category": "design",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/autodesk.png"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/fusion360.png"
   },
   {
     "id": "cinema4d",
@@ -2118,29 +2119,91 @@
     "name": "Google Chrome",
     "executables": [
       "chrome.exe",
-      "chrome"
+      "chrome",
+      "google-chrome",
+      "google-chrome-stable",
+      "google-chrome-beta",
+      "google-chrome-unstable"
     ],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/googlechrome.png"
   },
   {
+    "id": "chromium",
+    "name": "Chromium",
+    "executables": [
+      "chromium.exe",
+      "chromium",
+      "chromium-browser",
+      "ungoogled-chromium"
+    ],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/chromium.png"
+  },
+  {
+    "id": "helium",
+    "name": "Helium Browser",
+    "executables": [
+      "helium.exe",
+      "helium",
+      "helium-browser"
+    ],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/helium.png"
+  },
+  {
     "id": "firefox",
     "name": "Firefox",
     "executables": [
       "firefox.exe",
-      "firefox"
+      "firefox",
+      "firefox-esr",
+      "firefox-developer-edition",
+      "firefox-nightly",
+      "firefox-bin"
     ],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/firefox.png"
   },
   {
+    "id": "librewolf",
+    "name": "LibreWolf",
+    "executables": [
+      "librewolf.exe",
+      "librewolf",
+      "librewolf-bin"
+    ],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/librewolf.png"
+  },
+  {
+    "id": "torbrowser",
+    "name": "Tor Browser",
+    "executables": [
+      "torbrowser.exe",
+      "torbrowser",
+      "tor-browser"
+    ],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/torbrowser.png"
+  },
+  {
     "id": "edge",
     "name": "Microsoft Edge",
     "executables": [
       "msedge.exe",
-      "msedge"
+      "msedge",
+      "edge",
+      "microsoft-edge",
+      "microsoft-edge-stable",
+      "microsoft-edge-beta",
+      "microsoft-edge-dev"
     ],
     "client_id": "1517170930764480552",
     "category": "browser",
@@ -2151,7 +2214,11 @@
     "name": "Brave Browser",
     "executables": [
       "brave.exe",
-      "brave"
+      "brave",
+      "brave-browser",
+      "brave-browser-stable",
+      "brave-browser-beta",
+      "brave-browser-nightly"
     ],
     "client_id": "1517170930764480552",
     "category": "browser",
@@ -2162,11 +2229,26 @@
     "name": "Opera",
     "executables": [
       "opera.exe",
-      "opera"
+      "opera",
+      "opera-stable",
+      "opera-beta",
+      "opera-developer"
     ],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/opera.png"
+  },
+  {
+    "id": "operagx",
+    "name": "Opera GX",
+    "executables": [
+      "operagx.exe",
+      "operagx",
+      "opera-gx"
+    ],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/operagx.png"
   },
   {
     "id": "arc",
@@ -2184,7 +2266,10 @@
     "name": "Vivaldi",
     "executables": [
       "vivaldi.exe",
-      "vivaldi"
+      "vivaldi",
+      "vivaldi-stable",
+      "vivaldi-snapshot",
+      "vivaldi-bin"
     ],
     "client_id": "1517170930764480552",
     "category": "browser",
@@ -2195,11 +2280,25 @@
     "name": "Zen Browser",
     "executables": [
       "zen.exe",
-      "zen"
+      "zen",
+      "zen-browser",
+      "zen-bin",
+      "zen-alpha",
+      "zen-twilight"
     ],
     "client_id": "1517170930764480552",
     "category": "browser",
     "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/zenbrowser.png"
+  },
+  {
+    "id": "safari",
+    "name": "Safari",
+    "executables": [
+      "safari"
+    ],
+    "client_id": "1517170930764480552",
+    "category": "browser",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/safari.png"
   },
   {
     "id": "1password",
@@ -2887,7 +2986,8 @@
       "pcloud"
     ],
     "client_id": "1517170930764480552",
-    "category": "productivity"
+    "category": "productivity",
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/pcloud.png"
   },
   {
     "id": "fontbase",
@@ -2986,7 +3086,7 @@
     ],
     "client_id": "1517170930764480552",
     "category": "productivity",
-    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/anthropic.png"
+    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/claude.png"
   },
   {
     "id": "claude_code",
@@ -3145,7 +3245,16 @@
     "executables": [
       "filmora.exe",
       "filmora",
-      "Wondershare Filmora"
+      "wondershare filmora.exe",
+      "wondershare filmora",
+      "filmora9.exe",
+      "filmora10.exe",
+      "filmora11.exe",
+      "filmora12.exe",
+      "filmora13.exe",
+      "filmora14.exe",
+      "wondershare filmora 13.exe",
+      "wondershare filmora 14.exe"
     ],
     "client_id": "1517170930764480552",
     "category": "productivity",

@@ -167,6 +167,7 @@ fn is_self_name(name: &str) -> bool {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DetectedWindow {
     pub process_name: String,
+    pub exe_path: Option<String>,
     pub aliases: Vec<String>,
     pub title: String,
     pub pid: Option<u32>,
@@ -221,7 +222,7 @@ impl LinuxDetector {
 
         if !self.detected_once || previous != (self.window_backend, self.idle_backend) {
             info!(
-                "[Linux] Detection backends: window={}, idle={} ({:?})",
+                "Detection backends: window={}, idle={} ({:?})",
                 window_label,
                 idle_label.unwrap_or("none"),
                 self.env
@@ -272,9 +273,11 @@ impl LinuxDetector {
             return None;
         }
         let comm = window.pid.and_then(process::comm_name);
+        let exe_path = window.pid.and_then(process::exe_path);
         let aliases = process::build_aliases(&primary, &window.class, comm.as_deref());
         Some(DetectedWindow {
             process_name: primary,
+            exe_path,
             aliases,
             title: window.title,
             pid: window.pid,
@@ -329,6 +332,7 @@ impl LinuxDetector {
         }
         self.scan_rule_app(rules).map(|(pid, name)| DetectedWindow {
             title: name.clone(),
+            exe_path: process::exe_path(pid),
             process_name: name,
             aliases: Vec::new(),
             pid: Some(pid),
@@ -365,6 +369,7 @@ impl LinuxDetector {
         Some((
             DetectedWindow {
                 process_name: name,
+                exe_path: process::exe_path(pid),
                 aliases: Vec::new(),
                 title,
                 pid: Some(pid),

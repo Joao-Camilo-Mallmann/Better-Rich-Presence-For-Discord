@@ -23,14 +23,14 @@ The PNGs are generated from **[theSVG](https://thesvg.org)** (`glincker/thesvg`)
 | --- | --- |
 | `scripts/icon-sources.json` | The icon map: which PNG is built from which theSVG logo |
 | `scripts/generate-colored-icons.mjs` | The generator, run with `npm run assets:generate` |
-| `public/assets/icons/*.png` | The committed output: 256×256 PNGs with a transparent background |
+| `public/assets/icons/*.png` | The committed output: 512×512 PNGs with a transparent background |
 
 `scripts/icon-sources.json` has three parts:
 
 ```json
 {
-  "thesvg": { "repo": "glincker/thesvg", "commit": "985e12a0…" },
-  "keep": ["abletonlive", "files", "shotcut", "windowsterminal"],
+  "thesvg": { "repo": "glincker/thesvg", "commit": "e851d814…" },
+  "keep": ["abletonlive", "expressvpn", "helium", "shotcut", "windowsterminal", "wondersharefilmora"],
   "icons": {
     "discord": "discord",
     "visualstudiocode": "visual-studio-code",
@@ -40,14 +40,14 @@ The PNGs are generated from **[theSVG](https://thesvg.org)** (`glincker/thesvg`)
 ```
 
 - **`thesvg.commit`** pins the theSVG commit, so regenerating gives the same result. Bump it on purpose to pick up upstream logo updates, then review the output.
-- **`icons`** maps a PNG name (the filename used in `icon_url`) to a theSVG slug, as shown in the icon's URL on thesvg.org (`thesvg.org/icon/<slug>`). Use the object form to pin a variant.
-- **`keep`** lists PNGs that theSVG has no logo for. The generator never touches them.
+- **`icons`** maps a PNG name (the filename used in `icon_url`) to a theSVG slug, as shown in the icon's URL on thesvg.org (`thesvg.org/icon/<slug>`). Use the object form to pin a variant. Entries come from theSVG's `brands` and `community` collections, or `auth-badges` when no colored brand logo exists.
+- **`keep`** lists PNGs that are managed outside theSVG (no upstream logo or custom artwork). The generator never touches them.
 
-The folder holds 300 icons: every icon used by `apps.json`, plus icons for popular apps that are not in the catalog yet (Spotify, Steam, Telegram, WhatsApp, Claude, Gemini, …), ready for future catalog entries.
+The folder holds every icon used by `apps.json` and programming-language presence badges (`src-tauri/src/domain/language.rs`), plus icons for popular apps ready for future catalog entries (Spotify, Steam, Telegram, WhatsApp, Gemini, …).
 
 ### Readability on dark backgrounds
 
-The app UI is dark and most Discord users use the dark theme, so a near-black logo would disappear. For each icon the generator renders theSVG's `default` variant. If at least 60% of the logo is dark and uncolored, it switches to theSVG's `dark` variant (the logo drawn for dark backgrounds) when one exists, and otherwise to the `mono` variant painted white (`mono-white`). Saturated brand colors such as purple or red count as visible, so those logos keep their colors.
+The app UI is dark and most Discord users use the dark theme, so a near-black logo would disappear. Before rasterization, the generator resolves `currentColor` to `#ffffff` so dual-color logos (such as AWS) keep their brand accents alongside legible white strokes. For each icon the generator renders theSVG's `default` variant. If at least 60% of the logo is dark and uncolored, it switches to theSVG's `dark` variant (the logo drawn for dark backgrounds) when one exists, otherwise to the `mono` variant painted white (`mono-white`), or paints pure-black single-variant silhouettes white (`default-white`). Saturated brand colors such as purple or red count as visible, so those logos keep their colors.
 
 When the automatic choice looks wrong, pin a variant in the map: `default`, `dark`, `light`, `mono`, or `mono-white`.
 
@@ -55,20 +55,20 @@ When the automatic choice looks wrong, pin a variant in the map: `default`, `dar
 
 ## 3. How to add or change an icon
 
-1. **Find the logo** on [thesvg.org](https://thesvg.org) and note its slug. Prefer the brand logo over the circular "badge" entries.
+1. **Find the logo** on [thesvg.org](https://thesvg.org) and note its slug. Prefer full-color brand/community logos; use `auth-badges` only when no colored brand logo is available.
 2. **Add it to `scripts/icon-sources.json`** under `icons`, keyed by the PNG name (lowercase letters and digits, e.g. `epicgames`).
 3. **Generate it:**
    ```bash
    npm run assets:generate -- --only epicgames
    ```
-   Without `--only`, every icon in the map is regenerated.
+   Without `--only`, every icon in the map is regenerated. Transient jsDelivr failures automatically retry and fall back to GitHub Raw at the pinned commit.
 4. **Check it** on a dark background. If it is hard to see or uses the wrong artwork, pin a `variant` or choose a different slug, then regenerate.
 5. **Reference it** from the app entry in `apps.json`:
    ```json
    "icon_url": "https://raw.githubusercontent.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/refs/heads/main/public/assets/icons/epicgames.png"
    ```
 
-If theSVG has no logo for an app, add a 256×256 transparent PNG to `public/assets/icons/` by hand and list its name under `keep`.
+If theSVG has no logo for an app, add a 512×512 transparent PNG to `public/assets/icons/` by hand and list its name under `keep`.
 
 The generator exits with an error, and lists the problem, when a slug is not on theSVG, a download or conversion fails (the previous PNG is kept), or `apps.json` references a PNG that is neither in `icons` nor in `keep`.
 

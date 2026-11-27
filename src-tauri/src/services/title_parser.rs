@@ -79,9 +79,17 @@ impl TitleParser {
                 (file, workspace)
             }
             None => {
-                let ws = cleaned_prefix.trim();
-                let workspace = if ws.is_empty() { None } else { Some(ws.to_string()) };
-                (None, workspace)
+                if let Some(file) = clean_file_name(cleaned_prefix) {
+                    let had_dirty = cleaned_prefix.trim_start().starts_with('●')
+                        || cleaned_prefix.trim_start().starts_with('•');
+                    if had_dirty || crate::domain::language::detect_language(&file).is_some() {
+                        (Some(file), None)
+                    } else {
+                        (None, Some(file))
+                    }
+                } else {
+                    (None, None)
+                }
             }
         };
 
@@ -222,6 +230,20 @@ mod tests {
         assert_eq!(ctx.workspace_name.as_deref(), Some("my-project"));
 
         assert!(TitleParser::parse("Visual Studio Code - Insiders").is_none());
+    }
+
+    #[test]
+    fn test_standalone_file_without_workspace() {
+        let ctx = TitleParser::parse("main.rs - Visual Studio Code").unwrap();
+        assert_eq!(ctx.ide, Ide::VisualStudioCode);
+        assert_eq!(ctx.file_name.as_deref(), Some("main.rs"));
+        assert_eq!(ctx.workspace_name, None);
+        assert_eq!(ctx.file_extension.as_deref(), Some("rs"));
+
+        let ctx = TitleParser::parse("● notes.txt - Visual Studio Code").unwrap();
+        assert_eq!(ctx.ide, Ide::VisualStudioCode);
+        assert_eq!(ctx.file_name.as_deref(), Some("notes.txt"));
+        assert_eq!(ctx.workspace_name, None);
     }
 
     #[test]

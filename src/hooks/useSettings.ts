@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { Settings } from "../types";
 import { enable, disable, isEnabled } from "@tauri-apps/plugin-autostart";
 
@@ -27,7 +28,15 @@ export function useSettings() {
     setLoading(false);
   };
 
-  useEffect(() => { fetchSettings(); }, []);
+  useEffect(() => {
+    fetchSettings();
+    const unlistenPromise = listen<Settings>("settings-updated", (event) => {
+      setSettings(event.payload);
+    });
+    return () => {
+      unlistenPromise.then((unlisten) => unlisten());
+    };
+  }, []);
 
   const updateSettings = async (newSettings: Settings) => {
     // Computed outside `try`: the React Compiler cannot compile logical or

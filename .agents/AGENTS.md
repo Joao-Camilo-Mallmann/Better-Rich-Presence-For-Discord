@@ -20,7 +20,7 @@
 - OS-specific code lives only in `infrastructure/`, behind a port, gated with `#[cfg(target_os = "…")]` at module level.
 - Parsers for external output (D-Bus replies, CLI output, Win32 strings) are pure functions next to their adapter, unit-tested with captured samples.
 - Every domain and application rule has unit tests that run with `cargo test` without Tauri, Discord, or a desktop session.
-- Migration status: only `domain/` exists so far (`domain/presence.rs`, `domain/claude_code.rs`); the rest of the backend still lives in `models/` / `services/` / `commands/`. The full migration plan was archived without being implemented in `openspec/changes/archive/2026-11-12-rust-clean-architecture/`; resuming it needs a new OpenSpec change. Until the migration is done, new code goes into the layer it belongs to and must not add new inward-pointing violations.
+- Migration status: `domain/` (`presence.rs`, `claude_code.rs`, `editor.rs`, `language.rs`, `startup.rs`, `tray.rs`), `infrastructure/autostart.rs`, and `interface/tray.rs` exist so far; the rest of the backend still lives in `models/` / `services/` / `commands/`. The full migration plan was archived without being implemented in `openspec/changes/archive/2026-11-12-rust-clean-architecture/`; resuming it needs a new OpenSpec change. Until the migration is done, new code goes into the layer it belongs to and must not add new inward-pointing violations.
 
 ## Frontend (React Compiler)
 

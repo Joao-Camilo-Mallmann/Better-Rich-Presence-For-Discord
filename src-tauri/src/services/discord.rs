@@ -26,7 +26,7 @@ use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
 
-use log::{error, info, warn};
+use log::{debug, error, info, warn};
 
 /// Discord Application ID constant imported from types.
 const DISCORD_APP_ID: u64 = DEFAULT_CLIENT_ID; 
@@ -49,7 +49,7 @@ impl DiscordHandle {
         match self.tx.send(cmd) {
             Ok(()) => true,
             Err(e) => {
-                error!("[Discord] Failed to send command: {}", e);
+                error!("Failed to send command: {}", e);
                 false
             }
         }
@@ -109,18 +109,20 @@ impl DiscordManager {
         let app_ready = app_handle.clone();
         client
             .on_ready(move |ctx| {
-                info!(
-                    "[Discord] RPC client is READY (client_id={})",
-                    client_id
-                );
                 connected_ready.store(true, Ordering::Relaxed);
 
+                let mut logged_user = false;
                 if let discord_presence::models::EventData::Ready(ref ready_event) = ctx.event {
                     if let Some(ref user) = ready_event.user {
                         let user_id = user.id.clone().unwrap_or_default();
                         let username = user.username.clone().unwrap_or_default();
                         let discriminator = user.discriminator.clone().unwrap_or_default();
                         let avatar = user.avatar.clone().unwrap_or_default();
+
+                        if !username.is_empty() {
+                            info!("RPC ready as @{} (client_id={})", username, client_id);
+                            logged_user = true;
+                        }
 
                         if !user_id.is_empty() && !username.is_empty() {
                             let avatar_url = if avatar.is_empty() {
@@ -145,6 +147,10 @@ impl DiscordManager {
                         }
                     }
                 }
+
+                if !logged_user {
+                    info!("RPC ready (client_id={})", client_id);
+                }
             })
             .persist();
 
@@ -153,7 +159,7 @@ impl DiscordManager {
         client
             .on_error(move |_ctx| {
                 error!(
-                    "[Discord] RPC client encountered an error (client_id={})",
+                    "RPC client encountered an error (client_id={})",
                     client_id
                 );
                 connected_err.store(false, Ordering::Relaxed);
@@ -183,7 +189,7 @@ impl DiscordManager {
 
         // Attempt to start the IPC connection
         info!(
-            "[Discord] Starting IPC client (app_id={})",
+            "Starting IPC client (app_id={})",
             current_client_id
         );
         client.start();
@@ -200,7 +206,7 @@ impl DiscordManager {
                         EngineCommand::SetActivity { client_id, data } => {
                             if client_id != current_client_id {
                                 info!(
-                                    "[Discord] Switching Discord Client ID from {} to {}",
+                                    "Switching Discord Client ID from {} to {}",
                                     current_client_id, client_id
                                 );
                                 let _ = client.clear_activity();
@@ -221,13 +227,13 @@ impl DiscordManager {
                             backoff_idx = 0;
                         }
                         EngineCommand::ClearActivity => {
-                            info!("[Discord] Clearing activity");
+                            info!("Clearing activity");
                             if let Err(e) = client.clear_activity() {
-                                warn!("[Discord] Failed to clear activity: {}", e);
+                                warn!("Failed to clear activity: {}", e);
                             }
                         }
                         EngineCommand::Disconnect => {
-                            info!("[Discord] Disconnect requested — shutting down");
+                            info!("Disconnect requested — shutting down");
                             let _ = client.clear_activity();
                             // The client will be dropped, closing the connection.
                             return;
@@ -240,7 +246,7 @@ impl DiscordManager {
                     if !connected.load(Ordering::Relaxed) {
                         let delay = backoff_steps[backoff_idx.min(backoff_steps.len() - 1)];
                         warn!(
-                            "[Discord] Connection lost — reconnecting in {}s (attempt #{}) (client_id={})",
+                            "Connection lost — reconnecting in {}s (attempt #{}) (client_id={})",
                             delay,
                             backoff_idx + 1,
                             current_client_id
@@ -261,7 +267,7 @@ impl DiscordManager {
                     }
                 }
                 Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => {
-                    info!("[Discord] Command channel closed — shutting down RPC thread");
+                    info!("Command channel closed — shutting down RPC thread");
                     let _ = client.clear_activity();
                     return;
                 }
@@ -305,9 +311,20 @@ impl DiscordManager {
         let small_text = format_string(&data.small_text);
         let timestamp = data.timestamp;
 
-        info!(
-            "[Discord] Setting activity: title='{}', details='{}', state='{}', image='{}'",
-            data.activity_name, details, state, large_image
+        let app_label = if !large_text.is_empty() {
+            large_text.as_str()
+        } else if !details.is_empty() {
+            details.as_str()
+        } else {
+            "Unknown"
+        };
+
+        debug!(
+            "RPC set_activity: {} | details=\"{}\" | state=\"{}\" | icon={}",
+            app_label,
+            details,
+            state,
+            short_icon_label(&large_image)
         );
 
         match client.set_activity(|mut act| {
@@ -347,9 +364,21 @@ impl DiscordManager {
                 connected.store(true, Ordering::Relaxed);
             }
             Err(e) => {
-                error!("[Discord] Failed to set activity: {}", e);
+                error!("Failed to set activity: {}", e);
                 connected.store(false, Ordering::Relaxed);
             }
         }
     }
+}
+
+fn short_icon_label(url: &str) -> &str {
+    let trimmed = url.trim();
+    if trimmed.is_empty() {
+        return "none";
+    }
+    trimmed
+        .rsplit('/')
+        .next()
+        .filter(|s| !s.is_empty())
+        .unwrap_or(trimmed)
 }

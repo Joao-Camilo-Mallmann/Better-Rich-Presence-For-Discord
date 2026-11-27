@@ -59,7 +59,7 @@ fn list_processes() -> Vec<SystemProcessInfo> {
                || lower_name == "system idle process" || lower_name == "system" || lower_name == "registry"
                || lower_name == "smss.exe" || lower_name == "csrss.exe" || lower_name == "wininit.exe"
                || lower_name == "services.exe" || lower_name == "lsass.exe" || lower_name == "winlogon.exe"
-               || lower_name == "better-rich-presence.exe" || lower_name == "better_rich_presence.exe"
+               || lower_name == "better-rich-presence.exe" || lower_name == "better_rich_presence.exe" || lower_name == "better rich presence.exe"
                || lower_name == "runtimebroker.exe" || lower_name == "ctfmon.exe" || lower_name == "searchhost.exe"
                || lower_name == "shellexperiencehost.exe" || lower_name == "startmenuexperiencehost.exe" {
                 continue;

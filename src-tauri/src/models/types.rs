@@ -147,6 +147,9 @@ pub enum EngineEvent {
     /// The foreground window changed to a new process.
     WindowChanged {
         process_name: String,
+        /// Full executable path when available (used to disambiguate browser
+        /// forks that share an upstream binary name such as `chrome.exe`).
+        exe_path: Option<String>,
         /// Alternative lowercase names for the same app (e.g. the Linux window
         /// class or kernel process name). The engine tries them, in order, when
         /// `process_name` matches no rule or catalog entry. Empty on Windows.
@@ -430,6 +433,7 @@ pub struct AppStateInner {
 
 use crate::services::discord::DiscordHandle;
 use std::sync::Arc;
+use tauri::Emitter;
 use tauri_plugin_store::StoreExt;
 use tokio::sync::RwLock;
 
@@ -564,27 +568,32 @@ impl AppState {
     }
 
     pub async fn update_settings(&self, settings: Settings) -> Result<(), AppError> {
-        let mut inner = self.inner.write().await;
-        let was_enabled = inner.settings.global_enabled;
-        inner.settings = settings.clone();
+        {
+            let mut inner = self.inner.write().await;
+            let was_enabled = inner.settings.global_enabled;
+            inner.settings = settings.clone();
 
-        let store = self
-            .app_handle
-            .store("settings.json")
-            .map_err(|e| AppError::Store(e.to_string()))?;
-        store.set("config", serde_json::to_value(&settings)?);
-        store.save().map_err(|e| AppError::Store(e.to_string()))?;
+            let store = self
+                .app_handle
+                .store("settings.json")
+                .map_err(|e| AppError::Store(e.to_string()))?;
+            store.set("config", serde_json::to_value(&settings)?);
+            store.save().map_err(|e| AppError::Store(e.to_string()))?;
 
-        if was_enabled && !settings.global_enabled {
-            self.discord_handle.send(EngineCommand::ClearActivity);
-        } else if !was_enabled && settings.global_enabled {
-            if let Some(presence) = &inner.current_presence {
-                self.discord_handle.send(EngineCommand::SetActivity {
-                    client_id: inner.current_client_id,
-                    data: presence.clone(),
-                });
+            if was_enabled && !settings.global_enabled {
+                self.discord_handle.send(EngineCommand::ClearActivity);
+            } else if !was_enabled && settings.global_enabled {
+                if let Some(presence) = &inner.current_presence {
+                    self.discord_handle.send(EngineCommand::SetActivity {
+                        client_id: inner.current_client_id,
+                        data: presence.clone(),
+                    });
+                }
             }
         }
+
+        let _ = self.app_handle.emit("settings-updated", &settings);
+        crate::interface::tray::refresh_tray_from_state(self).await;
 
         Ok(())
     }
