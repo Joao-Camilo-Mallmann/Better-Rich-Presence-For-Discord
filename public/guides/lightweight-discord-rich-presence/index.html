@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO: title under 60 characters, description under 155, canonical with trailing slash -->
+  <title>Lightweight Discord Rich Presence: Under 20 MB RAM</title>
+  <meta name="description"
+    content="Why Better Rich Presence runs under 20 MB of RAM: a Rust and Tauri 2 core, native OS queries, debounced updates, idle detection, and a tray app." />
+  <meta name="author" content="Better Rich Presence" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#5865f2" />
+  <link rel="canonical" href="https://better-discord-rich-presence.netlify.app/guides/lightweight-discord-rich-presence/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Better Rich Presence" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://better-discord-rich-presence.netlify.app/guides/lightweight-discord-rich-presence/" />
+  <meta property="og:title" content="Lightweight Discord Rich Presence: why it stays under 20 MB of RAM" />
+  <meta property="og:description"
+    content="Why Better Rich Presence runs under 20 MB of RAM: a Rust and Tauri 2 core, native OS queries, debounced updates, idle detection, and a tray app." />
+  <meta property="og:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+  <meta property="article:published_time" content="2026-11-28" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Lightweight Discord Rich Presence: why it stays under 20 MB of RAM" />
+  <meta name="twitter:description"
+    content="Why Better Rich Presence runs under 20 MB of RAM: a Rust and Tauri 2 core, native OS queries, debounced updates, idle detection, and a tray app." />
+  <meta name="twitter:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta name="twitter:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="/logo-256.png" />
+  <link rel="apple-touch-icon" href="/logo-256.png" />
+
+  <!-- Fonts: non-blocking, with system fallbacks (same as the landing page) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+  </noscript>
+
+  <!-- Shared guide stylesheet -->
+  <link rel="stylesheet" href="/guides/_shared/guide.css" />
+
+  <!-- JSON-LD: Article -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Lightweight Discord Rich Presence: why it stays under 20 MB of RAM",
+      "description": "Why Better Rich Presence runs under 20 MB of RAM: a Rust and Tauri 2 core, native OS queries, debounced updates, idle detection, and a tray app.",
+      "image": "https://better-discord-rich-presence.netlify.app/img/og.jpg",
+      "inLanguage": "en",
+      "datePublished": "2026-11-28",
+      "dateModified": "2026-11-28",
+      "mainEntityOfPage": "https://better-discord-rich-presence.netlify.app/guides/lightweight-discord-rich-presence/",
+      "author": {
+        "@type": "Organization",
+        "name": "Better Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Better Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://better-discord-rich-presence.netlify.app/logo-256.png"
+        }
+      }
+    }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Better Rich Presence",
+          "item": "https://better-discord-rich-presence.netlify.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://better-discord-rich-presence.netlify.app/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Lightweight Discord Rich Presence",
+          "item": "https://better-discord-rich-presence.netlify.app/guides/lightweight-discord-rich-presence/"
+        }
+      ]
+    }
+  </script>
+
+  <!-- JSON-LD: FAQPage (answers must equal the visible FAQ text, no markup inside answers) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much RAM does Better Rich Presence use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Better Rich Presence typically runs under 20 MB of RAM and under 0.2% CPU, with a binary of about 4 MB that starts in under a second."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is it so much lighter than an Electron app?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Its core is written in Rust with Tauri 2, which uses your operating system's WebView instead of bundling a Chromium instance. That keeps both the binary and the memory footprint small."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will it slow down my games?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The idle CPU use is under 0.2%, because the app uses native OS window queries and debounced Discord IPC updates. When Discord detects a game, the app also yields to it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it run in the background without a window?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. It runs in the system tray on Windows and Linux. With Start on login turned on, it launches minimized at login."
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Primary">
+      <a href="/" class="nav__brand">
+        <img src="/logo-256.png" alt="Better Rich Presence logo" width="36" height="36" decoding="async" />
+        <span>Better RPC</span>
+      </a>
+      <div class="nav__actions">
+        <a class="nav__link" href="/guides/">Guides</a>
+        <a class="btn btn--green" href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest"
+          target="_blank" rel="noopener noreferrer">Download</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container container--narrow">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Better Rich Presence</a></li>
+        <li><a href="/guides/">Guides</a></li>
+        <li aria-current="page">Lightweight Discord Rich Presence</li>
+      </ol>
+    </nav>
+  </div>
+
+  <main id="main" class="article">
+    <span class="eyebrow">Guide</span>
+    <h1>Lightweight Discord Rich Presence: why it stays under 20 MB of RAM</h1>
+
+    <p class="lead">
+      <strong>Better Rich Presence typically runs under 20 MB of RAM and under 0.2% CPU because its core is written in Rust with Tauri 2, which uses your operating system's WebView instead of bundling a Chromium instance.</strong>
+      The binary is about 4 MB and it starts in under a second. This guide explains each piece of that design: the native core, native window and idle detection, debounced updates, and the tray.
+    </p>
+
+    <p class="meta">Published <time datetime="2026-11-28">November 28, 2026</time> &middot; about 5 minutes</p>
+
+    <nav class="toc" aria-labelledby="toc-title">
+      <span class="toc__title" id="toc-title">On this page</span>
+      <ol>
+        <li><a href="#numbers">The numbers</a></li>
+        <li><a href="#rust-tauri">Rust core, Tauri 2 shell</a></li>
+        <li><a href="#native-detection">Native window and idle detection</a></li>
+        <li><a href="#anti-flicker">Debounced updates stop flicker</a></li>
+        <li><a href="#tray">Lives in the tray</a></li>
+        <li><a href="#catalog-as-data">Catalog and icons are data, not code</a></li>
+        <li><a href="#no-accounts">No accounts, no tokens</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#related">Related guides</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="numbers">The numbers</h2>
+    <p>These are the typical figures published by the project for the background app:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Measure</th>
+            <th scope="col">Better Rich Presence</th>
+            <th scope="col">Typical Electron app</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Memory</td>
+            <td>Under 20 MB (about 18 MB)</td>
+            <td>About 180 MB</td>
+          </tr>
+          <tr>
+            <td>Idle CPU</td>
+            <td>Under 0.2%</td>
+            <td>About 4.5%</td>
+          </tr>
+          <tr>
+            <td>Binary size</td>
+            <td>About 4 MB</td>
+            <td>About 80 MB</td>
+          </tr>
+          <tr>
+            <td>Cold startup</td>
+            <td>Under 1 second</td>
+            <td>About 5 seconds</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout--note">
+      <span class="callout__title">How to read these figures</span>
+      They are approximate values from the project's own landing page, not a lab benchmark. The Electron column is a generic reference point for an app that bundles Chromium. Your numbers depend on your machine.
+    </div>
+
+    <h2 id="rust-tauri">Rust core, Tauri 2 shell</h2>
+    <p>
+      The background engine is written in Rust. The window you see is a small React 19 interface, built with the React Compiler, that runs in your operating system's WebView through Tauri 2. That is where the size difference comes from: there is no Chromium instance inside the app, only a thin native layer.
+    </p>
+    <figure class="figure figure--tall">
+      <img src="/img/app/now.webp" width="528" height="979"
+        alt="Better Rich Presence Now tab showing the Live on Discord band, the Share switch, and the What friends see preview of the Discord card"
+        loading="lazy" decoding="async" />
+      <figcaption>The whole interface is one compact window: status band, Share switch, and a live preview.</figcaption>
+    </figure>
+
+    <h2 id="native-detection">Native window and idle detection</h2>
+    <p>
+      Better Rich Presence asks the operating system which window is focused and matches it against its catalog of 280+ apps.
+    </p>
+    <ul>
+      <li><strong>Windows:</strong> native Win32 APIs return the foreground window title, the executable, and idle time.</li>
+      <li><strong>Linux:</strong> X11 active window hints, GNOME Wayland through D-Bus, and Hyprland and Sway through <code>hyprctl</code> and <code>swaymsg</code>. If none is available, a process scan matches your enabled rules by priority. See the <a href="/guides/discord-rich-presence-linux/">Linux guide</a>.</li>
+    </ul>
+    <p>
+      Idle detection is native too. When you step away, the app updates your status automatically instead of keeping the last app on your profile. On Windows it uses the Win32 idle APIs. On Linux, X11 reads idle time through Mutter or <code>xprintidle</code>, and GNOME Wayland uses Mutter <code>IdleMonitor</code>.    </p>
+
+    <h2 id="anti-flicker">Debounced updates stop flicker</h2>
+    <p>
+      Switching windows quickly could send a burst of presence updates to Discord. Better Rich Presence debounces the transitions, so a quick Alt-Tab does not rewrite your status. The result is a stable presence for your friends, and the project credits native OS window queries with debounced Discord IPC updates for the low idle CPU.
+    </p>
+    <div class="callout">
+      <span class="callout__title">Games stay in charge</span>
+      When Discord detects a game, the app yields to it, and the status band reads <strong>Paused for a game</strong>. The project describes the CPU cost as having zero game impact.
+    </div>
+
+    <h2 id="tray">Lives in the tray</h2>
+    <p>
+      A presence app should stay out of your way. On Windows, the NSIS installer does a single-user install and adds a system tray icon. On Linux, there is a system tray menu to reopen or quit the app. Turn on <strong>Start on login</strong> in <strong>Settings</strong> and the app starts with the <code>--minimized</code> flag, quietly in the tray.
+    </p>
+    <p>
+      The <strong>Share</strong> switch in the status band pauses or resumes your presence instantly, without closing the app.
+    </p>
+
+    <h2 id="catalog-as-data">Catalog and icons are data, not code</h2>
+    <p>
+      The 280+ apps are entries in a JSON file, <code>apps.json</code>, each with a process name, a category, and an icon URL. Adding an app is one new entry, not new detection code. The 300 full-color icons are 512x512 PNGs that live in the repository. The interface renders the icon URL directly, and for Discord the Rust engine rewrites it to a CDN URL. If an app has no icon, it sends a default key instead. You can read the details in the <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/docs/Icons.md" target="_blank" rel="noopener noreferrer">icon documentation</a>.
+    </p>
+
+    <h2 id="no-accounts">No accounts, no tokens</h2>
+    <p>
+      The app connects to your local Discord desktop client over Discord IPC. There is no Developer Portal application, no token, no mandatory account, and no telemetry. It is open source under the MIT License, so you can read the code that runs in your tray on <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer">GitHub</a>. The Rust backend follows Clean Architecture, and the architecture rules are in the <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">contributing guide</a>.
+    </p>
+
+    <div class="cta-band">
+      <p><strong>Free, open source (MIT), no accounts.</strong> Get Windows and Linux builds from the latest release.</p>
+      <a class="btn btn--white" href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest"
+        target="_blank" rel="noopener noreferrer">Download Better RPC</a>
+    </div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <div class="faq__item">
+        <h3>How much RAM does Better Rich Presence use?</h3>
+        <p>Better Rich Presence typically runs under 20 MB of RAM and under 0.2% CPU, with a binary of about 4 MB that starts in under a second.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Why is it so much lighter than an Electron app?</h3>
+        <p>Its core is written in Rust with Tauri 2, which uses your operating system's WebView instead of bundling a Chromium instance. That keeps both the binary and the memory footprint small.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Will it slow down my games?</h3>
+        <p>The idle CPU use is under 0.2%, because the app uses native OS window queries and debounced Discord IPC updates. When Discord detects a game, the app also yields to it.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Does it run in the background without a window?</h3>
+        <p>Yes. It runs in the system tray on Windows and Linux. With Start on login turned on, it launches minimized at login.</p>
+      </div>
+    </div>
+
+    <h2 id="related">Related guides</h2>
+    <ul class="guide-grid">
+      <li>
+        <a class="guide-card" href="/guides/vscode-discord-rich-presence/">
+          <span class="guide-card__title">VS Code Discord Rich Presence</span>
+          <span class="guide-card__text">Show VS Code with language icons on your profile.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/claude-code-discord-status/">
+          <span class="guide-card__title">Claude Code Discord status</span>
+          <span class="guide-card__text">Show your live Claude Code session on Discord.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/discord-rich-presence-linux/">
+          <span class="guide-card__title">Discord Rich Presence on Linux</span>
+          <span class="guide-card__text">X11, GNOME Wayland, Hyprland, and Sway.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/custom-discord-rich-presence-any-app/">
+          <span class="guide-card__title">Add any app</span>
+          <span class="guide-card__text">Custom Rich Presence with no Developer Portal.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/jetbrains-neovim-discord-presence/">
+          <span class="guide-card__title">JetBrains, Neovim, Zed, Sublime, Cursor</span>
+          <span class="guide-card__text">Presence for the other editors.</span>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand">
+            <img src="/logo-256.png" alt="Better Rich Presence logo" width="34" height="34" loading="lazy" decoding="async" />
+            <span>Better Rich Presence</span>
+          </div>
+          <p class="footer__desc">
+            Automatic Discord Rich Presence built with Rust and Tauri 2. By coders, for coders. Open source under the MIT License.
+          </p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <h2 class="footer__title">Product</h2>
+            <ul class="footer__list">
+              <li><a href="/">Home</a></li>
+              <li><a href="/guides/">Guides</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest" target="_blank" rel="noopener noreferrer">Download</a></li>
+              <li><a href="/llms.txt">llms.txt</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer__title">Open Source</h2>
+            <ul class="footer__list">
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues" target="_blank" rel="noopener noreferrer">Issues</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; 2026 João Camilo Mallmann &middot; MIT License</span>
+        <span>Not affiliated with Discord Inc. Logos belong to their respective owners.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

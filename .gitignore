@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 .vercel
 package-lock.json
+# Trailer project: raw screen recordings contain personal info (Discord friends, chats, paths)
+marketing/

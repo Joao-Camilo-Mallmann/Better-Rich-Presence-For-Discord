@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO: title under 60 characters, description under 155, canonical with trailing slash -->
+  <title>Claude Code Discord Status: Show Your Live Session</title>
+  <meta name="description"
+    content="Show your live Claude Code session on Discord with one-click hooks. It shares the action and project, never prompts or paths. Free and open source." />
+  <meta name="author" content="Better Rich Presence" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#5865f2" />
+  <link rel="canonical" href="https://better-discord-rich-presence.netlify.app/guides/claude-code-discord-status/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Better Rich Presence" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://better-discord-rich-presence.netlify.app/guides/claude-code-discord-status/" />
+  <meta property="og:title" content="How to show your Claude Code session as a Discord status" />
+  <meta property="og:description"
+    content="Show your live Claude Code session on Discord with one-click hooks. It shares the action and project, never prompts or paths. Free and open source." />
+  <meta property="og:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+  <meta property="article:published_time" content="2026-11-28" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to show your Claude Code session as a Discord status" />
+  <meta name="twitter:description"
+    content="Show your live Claude Code session on Discord with one-click hooks. It shares the action and project, never prompts or paths. Free and open source." />
+  <meta name="twitter:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta name="twitter:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="/logo-256.png" />
+  <link rel="apple-touch-icon" href="/logo-256.png" />
+
+  <!-- Fonts: non-blocking, with system fallbacks (same as the landing page) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+  </noscript>
+
+  <!-- Shared guide stylesheet -->
+  <link rel="stylesheet" href="/guides/_shared/guide.css" />
+
+  <!-- JSON-LD: Article -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "How to show your Claude Code session as a Discord status",
+      "description": "Show your live Claude Code session on Discord with one-click hooks. It shares the action and project, never prompts or paths. Free and open source.",
+      "image": "https://better-discord-rich-presence.netlify.app/img/og.jpg",
+      "inLanguage": "en",
+      "datePublished": "2026-11-28",
+      "dateModified": "2026-11-28",
+      "mainEntityOfPage": "https://better-discord-rich-presence.netlify.app/guides/claude-code-discord-status/",
+      "author": {
+        "@type": "Organization",
+        "name": "Better Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Better Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://better-discord-rich-presence.netlify.app/logo-256.png"
+        }
+      }
+    }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Better Rich Presence",
+          "item": "https://better-discord-rich-presence.netlify.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://better-discord-rich-presence.netlify.app/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Claude Code Discord Status",
+          "item": "https://better-discord-rich-presence.netlify.app/guides/claude-code-discord-status/"
+        }
+      ]
+    }
+  </script>
+
+  <!-- JSON-LD: FAQPage (answers must equal the visible FAQ text, no markup inside answers) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does Better Rich Presence show my prompts or file paths on Discord?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It shows only the current action, the project folder name, and an optional chat title. Full file paths, shell arguments, and prompt text are never sent to Discord."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to edit Claude Code settings by hand?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Click Connect in the Claude Code section of Settings and the app registers its hooks in ~/.claude/settings.json (or $CLAUDE_CONFIG_DIR/settings.json) without overwriting the rest of the file. Click Disconnect to remove them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the integration slow down Claude Code or send data online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The receiver listens strictly on 127.0.0.1:47892, so events stay on your machine, and it does not block Claude Code. The app talks to your local Discord client over Discord IPC."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens when I stop using Claude Code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "After the number of minutes set in Minutes before timeout, the app switches back to normal app detection and your status follows the window you are using."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I hide the chat title?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Turn off Show chat title on Discord in the Claude Code section of Settings, then save. The action and project folder name are still shown."
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Primary">
+      <a href="/" class="nav__brand">
+        <img src="/logo-256.png" alt="Better Rich Presence logo" width="36" height="36" decoding="async" />
+        <span>Better RPC</span>
+      </a>
+      <div class="nav__actions">
+        <a class="nav__link" href="/guides/">Guides</a>
+        <a class="btn btn--green" href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest"
+          target="_blank" rel="noopener noreferrer">Download</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container container--narrow">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Better Rich Presence</a></li>
+        <li><a href="/guides/">Guides</a></li>
+        <li aria-current="page">Claude Code Discord Status</li>
+      </ol>
+    </nav>
+  </div>
+
+  <main id="main" class="article">
+    <span class="eyebrow">Guide</span>
+    <h1>How to show your Claude Code session as a Discord status</h1>
+
+    <p class="lead">
+      <strong>To show your live Claude Code session as your Discord status, open Better Rich Presence, go to Settings, and click Connect in the Claude Code section.</strong>
+      The app registers local HTTP lifecycle hooks in your Claude Code settings file, then puts what Claude Code is doing, such as &ldquo;Running command&rdquo;, and the project folder name on your Discord profile. It is free, open source, runs on Windows and Linux, and never sends full paths, shell arguments, or prompt text.
+    </p>
+
+    <p class="meta">Published <time datetime="2026-11-28">November 28, 2026</time> &middot; about 5 minutes</p>
+
+    <nav class="toc" aria-labelledby="toc-title">
+      <span class="toc__title" id="toc-title">On this page</span>
+      <ol>
+        <li><a href="#what-you-need">What you need</a></li>
+        <li><a href="#connect">Step 1: Connect Claude Code</a></li>
+        <li><a href="#what-is-shown">Step 2: What Discord shows</a></li>
+        <li><a href="#never-shown">What is never shown</a></li>
+        <li><a href="#timeout">Step 3: Set the inactivity timeout</a></li>
+        <li><a href="#priority">Step 4: Claude Code priority over other apps</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#related">Related guides</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="what-you-need">What you need</h2>
+    <ul>
+      <li>A Windows or Linux computer with Claude Code installed.</li>
+      <li>The Discord desktop app, running. Better Rich Presence talks to it locally over Discord IPC.</li>
+      <li>Better Rich Presence from the <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest" target="_blank" rel="noopener noreferrer">latest release on GitHub</a>.</li>
+    </ul>
+    <div class="callout callout--note">
+      <span class="callout__title">No Developer Portal, no token</span>
+      There is no Discord Developer Portal application, token, or account to create. Claude Code reports to a small receiver inside Better Rich Presence, and the app talks to your local Discord client.
+    </div>
+
+    <h2 id="connect">Step 1: Connect Claude Code</h2>
+    <p>
+      Open Better Rich Presence and switch to the <strong>Settings</strong> tab. In the <strong>Claude Code</strong> section, click <strong>Connect</strong>. You do not edit any JSON by hand: the app adds its hooks to <code>~/.claude/settings.json</code> (or <code>$CLAUDE_CONFIG_DIR/settings.json</code> if you set that variable) without overwriting the rest of the file.
+    </p>
+    <p>
+      Once connected, the section shows a <strong>Live</strong> state, the config file it changed, and the listener address. The button turns into <strong>Disconnect</strong>, which removes the integration cleanly whenever you want.
+    </p>
+    <figure class="figure figure--tall">
+      <img src="/img/app/settings.webp" width="528" height="979"
+        alt="Better Rich Presence Settings tab with the Claude Code hooks section showing Live status, a Disconnect button, the listener address 127.0.0.1:47892, the Show active sessions and Show chat title on Discord switches, and a Minutes before timeout field"
+        loading="lazy" decoding="async" />
+      <figcaption>The Claude Code section in Settings: connect, switch features on or off, and set the timeout.</figcaption>
+    </figure>
+    <p>
+      The receiver listens strictly on <code>127.0.0.1:47892</code>, the loopback address, so nothing leaves your machine, and it does not block Claude Code while it works.
+    </p>
+
+    <h2 id="what-is-shown">Step 2: What Discord shows</h2>
+    <p>Start a Claude Code session and your profile updates with the live state of that session:</p>
+    <ul>
+      <li>The <strong>current action</strong>, for example <em>Running command</em>.</li>
+      <li>The <strong>project folder name</strong>, for example <em>trailer</em>. It is the folder name only, not the full path.</li>
+      <li>An optional <strong>chat title</strong>, which you can switch off.</li>
+      <li>The file name Claude Code is working on, when there is one.</li>
+    </ul>
+    <figure class="figure">
+      <img src="/img/app/card-claude.webp" width="900" height="328"
+        alt="Discord activity card for a live Claude Code session showing the Claude icon, the text Claude Code - trailer, the status Running command followed by the chat title, and an elapsed timer"
+        loading="lazy" decoding="async" />
+      <figcaption>A live Claude Code session on Discord: project folder on the first line, action and chat title on the second.</figcaption>
+    </figure>
+    <p>
+      The <strong>Now</strong> tab shows a <strong>What friends see</strong> preview of this card, plus a <strong>Claude Code chats</strong> panel. It lists each active chat and marks the one currently being shown on Discord.
+    </p>
+
+    <h2 id="never-shown">What is never shown</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Shown on Discord</th>
+            <th scope="col">Never shown</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>The active action</td>
+            <td>Full file paths</td>
+          </tr>
+          <tr>
+            <td>The project folder name</td>
+            <td>Shell arguments</td>
+          </tr>
+          <tr>
+            <td>The chat title, if you leave it on</td>
+            <td>Prompt text</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Two switches in the same Settings section control the rest. <strong>Show active sessions</strong> keeps your live Claude Code session on Discord even when another window is in focus. <strong>Show chat title on Discord</strong> decides whether the active chat title is included. If your chat titles describe private work, turn the second one off.
+    </p>
+    <div class="callout">
+      <span class="callout__title">Save your changes</span>
+      Settings has a <strong>Save changes</strong> button at the bottom. Switch the options you want, then save.
+    </div>
+
+    <h2 id="timeout">Step 3: Set the inactivity timeout</h2>
+    <p>
+      <strong>Minutes before timeout</strong> sets how long the app waits after Claude Code goes quiet. When that time passes, it switches back to normal app detection, so your status follows the window you are using again instead of staying on an idle session. The screenshot above shows the field set to 5 minutes. Use a lower value to hand the status back quickly, and a higher one if you often pause while reading output.
+    </p>
+
+    <h2 id="priority">Step 4: Claude Code priority over other apps</h2>
+    <p>
+      Claude Code is a rule in the <strong>Apps</strong> tab like any other app, so you decide where it ranks. In <strong>Priority List</strong> mode, the highest running app in the list is shown, and Claude Code shows only over the apps ranked below it. Rank it first, as in the screenshot, and your Claude Code session wins over VS Code, Cursor, and the rest while it is running. Use the arrows to reorder, or the switch to turn any app off.
+    </p>
+    <figure class="figure figure--tall">
+      <img src="/img/app/apps.webp" width="528" height="979"
+        alt="Better Rich Presence Apps tab in Priority List mode with Claude Code ranked first, followed by VS Code, Wondershare Filmora, Cursor, and Visual Studio"
+        loading="lazy" decoding="async" />
+      <figcaption>Priority List mode with Claude Code ranked first.</figcaption>
+    </figure>
+    <p>
+      <strong>Dynamic</strong> mode follows the focused window instead. Keep <strong>Show active sessions</strong> on if you want a live Claude Code session visible while you work in another window.
+    </p>
+    <div class="callout callout--note">
+      <span class="callout__title">Claude and Claude Code are separate entries</span>
+      The built-in catalog lists the Claude desktop app and Claude Code as two apps. The hooks described here drive the Claude Code entry.
+    </div>
+
+    <h2 id="troubleshooting">Troubleshooting</h2>
+    <p>Check the status band at the top of the app first.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Symptom</th>
+            <th scope="col">What to check</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Band says Connecting to Discord or Not connected to Discord</td>
+            <td>Start or restart the Discord desktop app.</td>
+          </tr>
+          <tr>
+            <td>Band says Sharing off</td>
+            <td>Turn the Share switch back on.</td>
+          </tr>
+          <tr>
+            <td>Band says Paused for a game</td>
+            <td>Discord detected a game and the app yields to it. Nothing to fix.</td>
+          </tr>
+          <tr>
+            <td>Claude Code does not appear</td>
+            <td>Confirm Settings shows Live, <strong>Show active sessions</strong> is on, and no app ranked above Claude Code is running in Priority List mode.</td>
+          </tr>
+          <tr>
+            <td>The chat title is missing</td>
+            <td>Turn on <strong>Show chat title on Discord</strong> and save.</td>
+          </tr>
+          <tr>
+            <td>Status went back to another app</td>
+            <td>The inactivity timeout passed. Raise <strong>Minutes before timeout</strong> if you want it longer.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Still stuck? Open an issue on <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues" target="_blank" rel="noopener noreferrer">GitHub</a>.
+    </p>
+
+    <div class="cta-band">
+      <p><strong>Free, open source (MIT), no accounts.</strong> Get Windows and Linux builds from the latest release.</p>
+      <a class="btn btn--white" href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest"
+        target="_blank" rel="noopener noreferrer">Download Better RPC</a>
+    </div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <div class="faq__item">
+        <h3>Does Better Rich Presence show my prompts or file paths on Discord?</h3>
+        <p>No. It shows only the current action, the project folder name, and an optional chat title. Full file paths, shell arguments, and prompt text are never sent to Discord.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Do I have to edit Claude Code settings by hand?</h3>
+        <p>No. Click Connect in the Claude Code section of Settings and the app registers its hooks in ~/.claude/settings.json (or $CLAUDE_CONFIG_DIR/settings.json) without overwriting the rest of the file. Click Disconnect to remove them.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Does the integration slow down Claude Code or send data online?</h3>
+        <p>No. The receiver listens strictly on 127.0.0.1:47892, so events stay on your machine, and it does not block Claude Code. The app talks to your local Discord client over Discord IPC.</p>
+      </div>
+      <div class="faq__item">
+        <h3>What happens when I stop using Claude Code?</h3>
+        <p>After the number of minutes set in Minutes before timeout, the app switches back to normal app detection and your status follows the window you are using.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Can I hide the chat title?</h3>
+        <p>Yes. Turn off Show chat title on Discord in the Claude Code section of Settings, then save. The action and project folder name are still shown.</p>
+      </div>
+    </div>
+
+    <h2 id="related">Related guides</h2>
+    <ul class="guide-grid">
+      <li>
+        <a class="guide-card" href="/guides/vscode-discord-rich-presence/">
+          <span class="guide-card__title">VS Code Discord Rich Presence</span>
+          <span class="guide-card__text">Show VS Code with language icons on your profile.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/discord-rich-presence-linux/">
+          <span class="guide-card__title">Discord Rich Presence on Linux</span>
+          <span class="guide-card__text">X11, GNOME Wayland, Hyprland, and Sway.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/custom-discord-rich-presence-any-app/">
+          <span class="guide-card__title">Add any app</span>
+          <span class="guide-card__text">Custom Rich Presence with no Developer Portal.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/jetbrains-neovim-discord-presence/">
+          <span class="guide-card__title">JetBrains, Neovim, Zed, Sublime, Cursor</span>
+          <span class="guide-card__text">Presence for the other editors.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/lightweight-discord-rich-presence/">
+          <span class="guide-card__title">Lightweight Rich Presence</span>
+          <span class="guide-card__text">Why a Rust and Tauri core stays under 20 MB of RAM.</span>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand">
+            <img src="/logo-256.png" alt="Better Rich Presence logo" width="34" height="34" loading="lazy" decoding="async" />
+            <span>Better Rich Presence</span>
+          </div>
+          <p class="footer__desc">
+            Automatic Discord Rich Presence built with Rust and Tauri 2. By coders, for coders. Open source under the MIT License.
+          </p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <h2 class="footer__title">Product</h2>
+            <ul class="footer__list">
+              <li><a href="/">Home</a></li>
+              <li><a href="/guides/">Guides</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest" target="_blank" rel="noopener noreferrer">Download</a></li>
+              <li><a href="/llms.txt">llms.txt</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer__title">Open Source</h2>
+            <ul class="footer__list">
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues" target="_blank" rel="noopener noreferrer">Issues</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; 2026 João Camilo Mallmann &middot; MIT License</span>
+        <span>Not affiliated with Discord Inc. Logos belong to their respective owners.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

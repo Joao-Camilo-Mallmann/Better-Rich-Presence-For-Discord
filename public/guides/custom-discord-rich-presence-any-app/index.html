@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO: title under 60 characters, description under 155, canonical with trailing slash -->
+  <title>Add Any App to Discord Rich Presence (No Dev Portal)</title>
+  <meta name="description"
+    content="Add any app to Discord Rich Presence by executable or window title in the Apps tab. No Developer Portal, no tokens. Free, open source, Windows and Linux." />
+  <meta name="author" content="Better Rich Presence" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#5865f2" />
+  <link rel="canonical" href="https://better-discord-rich-presence.netlify.app/guides/custom-discord-rich-presence-any-app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Better Rich Presence" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://better-discord-rich-presence.netlify.app/guides/custom-discord-rich-presence-any-app/" />
+  <meta property="og:title" content="How to add any app to Discord Rich Presence without the Developer Portal" />
+  <meta property="og:description"
+    content="Add any app to Discord Rich Presence by executable or window title in the Apps tab. No Developer Portal, no tokens. Free, open source, Windows and Linux." />
+  <meta property="og:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+  <meta property="article:published_time" content="2026-11-28" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to add any app to Discord Rich Presence without the Developer Portal" />
+  <meta name="twitter:description"
+    content="Add any app to Discord Rich Presence by executable or window title in the Apps tab. No Developer Portal, no tokens. Free, open source, Windows and Linux." />
+  <meta name="twitter:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta name="twitter:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="/logo-256.png" />
+  <link rel="apple-touch-icon" href="/logo-256.png" />
+
+  <!-- Fonts: non-blocking, with system fallbacks (same as the landing page) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+  </noscript>
+
+  <!-- Shared guide stylesheet -->
+  <link rel="stylesheet" href="/guides/_shared/guide.css" />
+
+  <!-- JSON-LD: Article -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "How to add any app to Discord Rich Presence without the Developer Portal",
+      "description": "Add any app to Discord Rich Presence by executable or window title in the Apps tab. No Developer Portal, no tokens. Free, open source, Windows and Linux.",
+      "image": "https://better-discord-rich-presence.netlify.app/img/og.jpg",
+      "inLanguage": "en",
+      "datePublished": "2026-11-28",
+      "dateModified": "2026-11-28",
+      "mainEntityOfPage": "https://better-discord-rich-presence.netlify.app/guides/custom-discord-rich-presence-any-app/",
+      "author": {
+        "@type": "Organization",
+        "name": "Better Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Better Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://better-discord-rich-presence.netlify.app/logo-256.png"
+        }
+      }
+    }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Better Rich Presence",
+          "item": "https://better-discord-rich-presence.netlify.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://better-discord-rich-presence.netlify.app/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Add Any App",
+          "item": "https://better-discord-rich-presence.netlify.app/guides/custom-discord-rich-presence-any-app/"
+        }
+      ]
+    }
+  </script>
+
+  <!-- JSON-LD: FAQPage (answers must equal the visible FAQ text, no markup inside answers) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need a Discord Developer Portal application to add a custom app?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. You add a custom executable or window title in the Apps tab, and Better Rich Presence connects to your local Discord desktop client over Discord IPC. There is no Developer Portal setup, no token, and no account to create."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I add an app that is not in the built-in catalog?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open the Apps tab, click Add App, and enter the executable or the window title of the app. If you want everyone to get that app out of the box, submit a pull request that adds one entry to apps.json."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between Dynamic mode and Priority List mode?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Dynamic mode follows the app in focus as you switch windows. Priority List mode keeps your highest-ranked running app shown in Discord. You pick the mode at the top of the Apps tab, and a tooltip explains each one."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I reorder apps, switch one off, or change its presence text?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. In the Apps tab you can reorder the priority list, toggle any app off, and customize the details and state text per application. A search box filters your enabled and available rules."
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Primary">
+      <a href="/" class="nav__brand">
+        <img src="/logo-256.png" alt="Better Rich Presence logo" width="36" height="36" decoding="async" />
+        <span>Better RPC</span>
+      </a>
+      <div class="nav__actions">
+        <a class="nav__link" href="/guides/">Guides</a>
+        <a class="btn btn--green" href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest"
+          target="_blank" rel="noopener noreferrer">Download</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container container--narrow">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Better Rich Presence</a></li>
+        <li><a href="/guides/">Guides</a></li>
+        <li aria-current="page">Add Any App</li>
+      </ol>
+    </nav>
+  </div>
+
+  <main id="main" class="article">
+    <span class="eyebrow">Guide</span>
+    <h1>How to add any app to Discord Rich Presence without the Developer Portal</h1>
+
+    <p class="lead">
+      <strong>To add any app to Discord Rich Presence, open the Apps tab in Better Rich Presence, click Add App, and enter the app's executable or window title.</strong>
+      No Discord Developer Portal application, token, or account is needed, because the app talks to your local Discord desktop client over Discord IPC. It is free, open source (MIT), and runs on Windows and Linux.
+    </p>
+
+    <p class="meta">Published <time datetime="2026-11-28">November 28, 2026</time> &middot; about 5 minutes</p>
+
+    <nav class="toc" aria-labelledby="toc-title">
+      <span class="toc__title" id="toc-title">On this page</span>
+      <ol>
+        <li><a href="#what-you-need">What you need</a></li>
+        <li><a href="#check-catalog">Step 1: Check the built-in catalog</a></li>
+        <li><a href="#add-app">Step 2: Add your app</a></li>
+        <li><a href="#modes">Step 3: Choose Dynamic or Priority List</a></li>
+        <li><a href="#reorder">Step 4: Reorder, toggle, and customize</a></li>
+        <li><a href="#contribute">Step 5: Add it for everyone through apps.json</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#related">Related guides</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="what-you-need">What you need</h2>
+    <ul>
+      <li>A Windows or Linux computer with <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest" target="_blank" rel="noopener noreferrer">Better Rich Presence installed</a>.</li>
+      <li>The Discord desktop app, running.</li>
+      <li>The app you want to show, so you can check its executable name or window title.</li>
+    </ul>
+    <div class="callout callout--note">
+      <span class="callout__title">No Developer Portal, no tokens</span>
+      The usual way to get custom Rich Presence is to create an application in the Discord Developer Portal and write code against it. Better Rich Presence skips that: it connects directly to your local Discord client, so adding an app is a form in the Apps tab, not a project.
+    </div>
+
+    <h2 id="check-catalog">Step 1: Check the built-in catalog</h2>
+    <p>
+      Better Rich Presence ships with a catalog of 280+ pre-configured apps, defined in <code>apps.json</code>. It covers code editors, terminals, Docker, databases, browsers, Figma, Blender, Obsidian, and media tools. Open the <strong>Apps</strong> tab and use the search box, which filters both your enabled rules and the ones available to turn on. If your app is already there, switch it on and you are done.
+    </p>
+    <figure class="figure figure--tall">
+      <img src="/img/app/apps-list.webp" width="528" height="979"
+        alt="Better Rich Presence Apps tab scrolled list showing WebStorm, CLion, Sublime Text, Neovim, Terminal, Docker Desktop, and GitHub Desktop rules"
+        loading="lazy" decoding="async" />
+      <figcaption>The Apps tab list. Every row is a rule you can switch off or reorder.</figcaption>
+    </figure>
+
+    <h2 id="add-app">Step 2: Add your app</h2>
+    <p>If the app is not in the list, add it yourself:</p>
+    <ol>
+      <li>Start the app you want to show, so it is running.</li>
+      <li>In Better Rich Presence, open the <strong>Apps</strong> tab and click <strong>Add App</strong>.</li>
+      <li>Enter the app's <strong>executable</strong> or its <strong>window title</strong>.</li>
+      <li>Check the <strong>Now</strong> tab. Its <strong>What friends see</strong> preview shows the card Discord will display.</li>
+    </ol>
+    <p>
+      Use whichever of the two identifies the app better. For reference, the catalog lists lowercase process names and includes both the Windows and the Linux name, for example <code>code.exe</code> and <code>code</code>. Matching ignores case and a trailing <code>.exe</code>.
+    </p>
+    <figure class="figure figure--tall">
+      <img src="/img/app/apps.webp" width="528" height="979"
+        alt="Better Rich Presence Apps tab showing the Dynamic and Priority List mode selector, the Add App button, and ranked rules for Claude Code, VS Code, Cursor, and Visual Studio"
+        loading="lazy" decoding="async" />
+      <figcaption>The Apps tab: the mode selector and the Add App button sit at the top, ranked rules below.</figcaption>
+    </figure>
+
+    <h2 id="modes">Step 3: Choose Dynamic or Priority List</h2>
+    <p>Once you have several apps, the mode at the top of the Apps tab decides which one owns your presence.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Mode</th>
+            <th scope="col">What Discord shows</th>
+            <th scope="col">Good for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dynamic</td>
+            <td>The app in focus, updating as you switch windows.</td>
+            <td>A status that mirrors what you are doing right now.</td>
+          </tr>
+          <tr>
+            <td>Priority List</td>
+            <td>Your highest-ranked running app.</td>
+            <td>Keeping your editor on your profile while you check other windows.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      A tooltip in the app explains each mode. Transitions are debounced, so a quick Alt-Tab does not rewrite your status.
+    </p>
+
+    <h2 id="reorder">Step 4: Reorder, toggle, and customize</h2>
+    <ul>
+      <li><strong>Reorder:</strong> change the rank of a rule with one click. In Priority List mode, rank decides which app wins.</li>
+      <li><strong>Toggle:</strong> switch any app off and it stops appearing on your profile.</li>
+      <li><strong>Customize:</strong> set the details and state text per application.</li>
+      <li><strong>Share switch:</strong> pause or resume presence instantly from the status band.</li>
+    </ul>
+    <p>
+      Better Rich Presence also yields automatically when Discord detects a game, and it updates your status when it detects you are idle.
+    </p>
+    <div class="callout">
+      <span class="callout__title">Per-app text</span>
+      Each category in the catalog (for example <code>editor</code>, <code>browser</code>, or <code>media</code>) decides the default presence text for its apps. Per-application customization lets you change that wording for a single app.
+    </div>
+
+    <h2 id="contribute">Step 5: Add it for everyone through apps.json</h2>
+    <p>
+      A rule you add in the Apps tab is yours. If the app is popular, add one entry to <code>apps.json</code> so every user gets it out of the box. The <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">contributing guide</a> describes the format. Each entry has these fields:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Field</th>
+            <th scope="col">Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>id</code></td>
+            <td>Unique lowercase identifier, for example <code>epicgames</code>.</td>
+          </tr>
+          <tr>
+            <td><code>name</code></td>
+            <td>Display name shown in the app and in Discord.</td>
+          </tr>
+          <tr>
+            <td><code>executables</code></td>
+            <td>Lowercase process names to match, with the Windows and Linux names.</td>
+          </tr>
+          <tr>
+            <td><code>client_id</code></td>
+            <td>Discord application ID. Reuse the one every other entry uses.</td>
+          </tr>
+          <tr>
+            <td><code>category</code></td>
+            <td>One of the categories already in the file. It decides the presence text.</td>
+          </tr>
+          <tr>
+            <td><code>icon_url</code></td>
+            <td>URL of the PNG in <code>public/assets/icons/</code>. Optional but strongly recommended.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The steps are short:</p>
+    <ol>
+      <li>Copy a similar entry in <code>apps.json</code> and edit it, keeping the file's formatting.</li>
+      <li>Add a 512x512 transparent PNG icon and point <code>icon_url</code> at it. Icons are generated from theSVG logos with <code>npm run assets:generate -- --only &lt;name&gt;</code>.</li>
+      <li>Run the app, open the target application, and check that the Apps tab and the status preview show it.</li>
+      <li>Open a pull request.</li>
+    </ol>
+    <div class="callout callout--note">
+      <span class="callout__title">Icons arrive after the merge</span>
+      Icons appear in Discord only after the pull request is merged to <code>main</code> and the CDN cache refreshes. Logos are trademarks of their owners and are used only to identify the running application.
+    </div>
+    <p>
+      Catalog entries and icons can skip the planning process used for larger changes. Open an issue first only if you are unsure the change fits.
+    </p>
+
+    <h2 id="troubleshooting">Troubleshooting</h2>
+    <ul>
+      <li><strong>The status band is not Live on Discord.</strong> Make sure the Discord desktop app is running and the Share switch is on.</li>
+      <li><strong>Paused for a game.</strong> Discord detected a game, and Better Rich Presence yields to it.</li>
+      <li><strong>Your app does not appear.</strong> Make sure its rule is switched on. In Dynamic mode the app has to be the focused window. In Priority List mode it has to be running and rank above the others.</li>
+      <li><strong>Wrong or missing app.</strong> Open the Now tab to see what Discord would display, then adjust the executable or window title of the rule.</li>
+    </ul>
+    <p>
+      For editors, the file name also has to appear in the window title to get a language icon. See the <a href="/guides/vscode-discord-rich-presence/">VS Code guide</a> and the <a href="/guides/jetbrains-neovim-discord-presence/">JetBrains, Neovim, Zed, Sublime, and Cursor guide</a>.
+    </p>
+
+    <div class="cta-band">
+      <p><strong>Free, open source (MIT), no accounts.</strong> Get Windows and Linux builds from the latest release.</p>
+      <a class="btn btn--white" href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest"
+        target="_blank" rel="noopener noreferrer">Download Better RPC</a>
+    </div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <div class="faq__item">
+        <h3>Do I need a Discord Developer Portal application to add a custom app?</h3>
+        <p>No. You add a custom executable or window title in the Apps tab, and Better Rich Presence connects to your local Discord desktop client over Discord IPC. There is no Developer Portal setup, no token, and no account to create.</p>
+      </div>
+      <div class="faq__item">
+        <h3>How do I add an app that is not in the built-in catalog?</h3>
+        <p>Open the Apps tab, click Add App, and enter the executable or the window title of the app. If you want everyone to get that app out of the box, submit a pull request that adds one entry to apps.json.</p>
+      </div>
+      <div class="faq__item">
+        <h3>What is the difference between Dynamic mode and Priority List mode?</h3>
+        <p>Dynamic mode follows the app in focus as you switch windows. Priority List mode keeps your highest-ranked running app shown in Discord. You pick the mode at the top of the Apps tab, and a tooltip explains each one.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Can I reorder apps, switch one off, or change its presence text?</h3>
+        <p>Yes. In the Apps tab you can reorder the priority list, toggle any app off, and customize the details and state text per application. A search box filters your enabled and available rules.</p>
+      </div>
+    </div>
+
+    <h2 id="related">Related guides</h2>
+    <ul class="guide-grid">
+      <li>
+        <a class="guide-card" href="/guides/vscode-discord-rich-presence/">
+          <span class="guide-card__title">VS Code Discord Rich Presence</span>
+          <span class="guide-card__text">Show VS Code on Discord with language icons.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/claude-code-discord-status/">
+          <span class="guide-card__title">Claude Code Discord status</span>
+          <span class="guide-card__text">Show your live Claude Code session on Discord.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/discord-rich-presence-linux/">
+          <span class="guide-card__title">Discord Rich Presence on Linux</span>
+          <span class="guide-card__text">X11, GNOME Wayland, Hyprland, and Sway.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/jetbrains-neovim-discord-presence/">
+          <span class="guide-card__title">JetBrains, Neovim, Zed, Sublime, Cursor</span>
+          <span class="guide-card__text">Presence for the other editors.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/lightweight-discord-rich-presence/">
+          <span class="guide-card__title">Lightweight Rich Presence</span>
+          <span class="guide-card__text">Why a Rust and Tauri core stays under 20 MB of RAM.</span>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand">
+            <img src="/logo-256.png" alt="Better Rich Presence logo" width="34" height="34" loading="lazy" decoding="async" />
+            <span>Better Rich Presence</span>
+          </div>
+          <p class="footer__desc">
+            Automatic Discord Rich Presence built with Rust and Tauri 2. By coders, for coders. Open source under the MIT License.
+          </p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <h2 class="footer__title">Product</h2>
+            <ul class="footer__list">
+              <li><a href="/">Home</a></li>
+              <li><a href="/guides/">Guides</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest" target="_blank" rel="noopener noreferrer">Download</a></li>
+              <li><a href="/llms.txt">llms.txt</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer__title">Open Source</h2>
+            <ul class="footer__list">
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues" target="_blank" rel="noopener noreferrer">Issues</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; 2026 João Camilo Mallmann &middot; MIT License</span>
+        <span>Not affiliated with Discord Inc. Logos belong to their respective owners.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

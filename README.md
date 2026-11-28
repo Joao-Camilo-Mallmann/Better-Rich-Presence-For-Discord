@@ -5,6 +5,8 @@
 
   <p><strong>Automatic, ultra-lightweight Discord Rich Presence for Windows and Linux.</strong></p>
 
+  <p><em>Open source, by coders, for coders: VS Code, language icons, and Claude Code, right on your Discord profile.</em></p>
+
   <p>
     <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest">
       <img src="https://img.shields.io/github/v/release/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord?style=flat-square&label=Release&color=5865F2&labelColor=1E1F22&logo=github&logoColor=white" alt="Release" />
@@ -14,6 +16,9 @@
     </a>
     <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases">
       <img src="https://img.shields.io/badge/OS-Windows%20%26%20Linux-2B2D31?style=flat-square&labelColor=1E1F22&logo=linux&logoColor=FCC624" alt="Windows and Linux" />
+    </a>
+    <a href="LICENSE">
+      <img src="https://img.shields.io/badge/License-MIT-2B2D31?style=flat-square&labelColor=1E1F22&logo=opensourceinitiative&logoColor=3DA639" alt="MIT License" />
     </a>
     <a href="https://tauri.app/">
       <img src="https://img.shields.io/badge/Tauri-2-2B2D31?style=flat-square&labelColor=1E1F22&logo=tauri&logoColor=FFC131" alt="Tauri 2" />
@@ -36,6 +41,8 @@
     <a href="#linux-support">Linux Support</a>
     ·
     <a href="#build-from-source">Build from Source</a>
+    ·
+    <a href="#contributing-and-open-source">Open Source</a>
   </p>
 
   <br />
@@ -137,11 +144,26 @@ bun run tauri build --config src-tauri/tauri.linux.conf.json
 
 ---
 
+## Contributing and Open Source
+
+Better Rich Presence is open source under the [MIT License](LICENSE), built by coders, for coders, and open to contributions from the community. You can:
+
+- **Add an app:** one entry in [`apps.json`](apps.json) lets the app detect it.
+- **Add an icon:** add the logo to [`scripts/icon-sources.json`](scripts/icon-sources.json) and run `npm run assets:generate` ([docs/Icons.md](docs/Icons.md)).
+- **Fix a bug or improve detection** on Windows and Linux.
+- **Propose or build a feature.** Bigger changes are planned with [OpenSpec](openspec/) first.
+
+Start with [CONTRIBUTING.md](CONTRIBUTING.md) for the build steps, the checklist for each kind of contribution, and the architecture rules. Issues and pull requests are welcome.
+
+---
+
 ## Documentation
 
 - [docs/DESIGN.md](docs/DESIGN.md) — Visual design system tokens and Neo-Brutalist Arcade UI guidelines.
 - [docs/Icons.md](docs/Icons.md) — Single-source icon architecture and `thesvg` generation pipeline.
 - [docs/SettingRichPresence.md](docs/SettingRichPresence.md) — Discord Rich Presence setup and configuration reference.
+- [CONTRIBUTING.md](CONTRIBUTING.md) — How to build, add an app or icon, and use the OpenSpec workflow.
+- [LICENSE](LICENSE) — MIT License.
 
 ---
 

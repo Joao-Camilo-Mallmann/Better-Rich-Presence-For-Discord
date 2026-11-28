@@ -1,22 +1,57 @@
-# Better RPC
+# Better Rich Presence for Discord (Better RPC)
 
-> Better RPC is a free, open-source, lightweight Discord Rich Presence app built with Rust and Tauri. It detects the apps you run (code editors, browsers, design tools, music players, games) and shows them on your Discord profile automatically. You can also add any custom app in seconds. It needs no developer portal tokens or config files and uses under 20 MB of RAM. It is MIT licensed.
+> Better Rich Presence (Better RPC) is a free, MIT-licensed open-source desktop app built with Rust and Tauri 2 for Windows and Linux, positioned by coders, for coders. It automatically updates your Discord Rich Presence across 280+ apps, displays programming language icons for code editors like VS Code, and streams live Claude Code sessions via local HTTP hooks—using under 20 MB of RAM and requiring zero Discord Developer Portal tokens.
 
-## Website
+## Key Facts
 
-- [Home page](https://better-discord-rich-presence.netlify.app/): overview, features, performance comparison with Electron, FAQ
-- [Compatible apps](https://better-discord-rich-presence.netlify.app/#apps): list of apps detected out of the box
-- [FAQ](https://better-discord-rich-presence.netlify.app/#faq): how detection works, adding custom apps, resource usage
+- **License:** MIT License (100% free and open source, no telemetry, no accounts)
+- **Platforms:** Windows (NSIS installer, native Win32 APIs) and Linux (`.deb`, `.rpm`, `.AppImage`; X11, GNOME Wayland, Hyprland, Sway, and process-scan fallback)
+- **Architecture & Footprint:** Rust + Tauri 2 core with a React 19 UI; typically under 20 MB RAM, under 0.2% idle CPU, ~4 MB binary, under 1s startup
+- **Built-in App Catalog:** 280+ pre-configured applications (`apps.json`) and 300 full-color 512×512 icons generated from theSVG
+- **Developer Features:** Automatic programming language icon badges (90+ languages and special files such as `Cargo.toml` and `Dockerfile`) for VS Code, Cursor, JetBrains IDEs (IntelliJ IDEA, PyCharm, WebStorm, CLion), Neovim, Zed, and Sublime Text
+- **Claude Code Integration:** One-click setup in Settings registers local HTTP lifecycle hooks in `~/.claude/settings.json` listening strictly on `127.0.0.1:47892`; displays only active action, project folder name, and optional chat title—never full paths, shell arguments, or prompt contents
+- **Presence Modes:** Dynamic mode (tracks the focused window) and Priority List mode (keeps your highest-ranked running app shown), plus anti-flicker debounce, idle detection, and custom app rules
 
-## Source code and docs
+## Links
 
-- [GitHub repository](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord): source code, MIT license
-- [Releases](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases): downloads for Windows, macOS and Linux
-- [Setting up rich presence](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/docs/SettingRichPresence.md): how to configure custom apps
-- [Icons](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/docs/Icons.md): how application icons are generated
-- [Issues](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues): bug reports and feature requests
+- [Landing Page](https://better-discord-rich-presence.netlify.app/)
+- [Latest Release (Windows & Linux Downloads)](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest)
+- [All Releases](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases)
+- [GitHub Repository](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord)
+- [README.md](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/README.md)
+- [CONTRIBUTING.md](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/CONTRIBUTING.md)
+- [Supported Apps Catalog (apps.json)](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/apps.json)
+- [Icon Pipeline Docs (docs/Icons.md)](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/docs/Icons.md)
+- [Rich Presence Setup Docs (docs/SettingRichPresence.md)](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/docs/SettingRichPresence.md)
+- [MIT License](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE)
+- [Issue Tracker](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues)
 
-## Optional
+## Guides
 
-- [English README](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/README.en.md)
-- [Portuguese README](https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/README.pt.md)
+- [All Guides](https://better-discord-rich-presence.netlify.app/guides/): Step-by-step Discord Rich Presence guides for developers
+- [How to show VS Code on Discord (with language icons)](https://better-discord-rich-presence.netlify.app/guides/vscode-discord-rich-presence/): Install the app, open a file, and get a programming language icon on your Discord profile
+- [Claude Code Discord status](https://better-discord-rich-presence.netlify.app/guides/claude-code-discord-status/): Show your live Claude Code session as your Discord status
+- [Discord Rich Presence on Linux](https://better-discord-rich-presence.netlify.app/guides/discord-rich-presence-linux/): X11, GNOME Wayland, Hyprland, and Sway support
+- [Add any app to Discord Rich Presence](https://better-discord-rich-presence.netlify.app/guides/custom-discord-rich-presence-any-app/): Custom apps without the Discord Developer Portal
+- [JetBrains, Neovim, Zed, Sublime Text, and Cursor](https://better-discord-rich-presence.netlify.app/guides/jetbrains-neovim-discord-presence/): Presence and language icons for other editors and IDEs
+- [Lightweight Discord Rich Presence](https://better-discord-rich-presence.netlify.app/guides/lightweight-discord-rich-presence/): Why a Rust and Tauri core stays under 20 MB of RAM
+
+## Frequently Asked Questions
+
+### How does Better Rich Presence detect my apps and programming languages?
+Better Rich Presence monitors the active window using native OS APIs (Win32 on Windows; X11, GNOME Wayland, Hyprland, and Sway on Linux) and matches it against 280+ pre-configured apps. For code editors like VS Code, it parses the open filename from the window title and displays the matching programming language icon on Discord automatically.
+
+### How does the Claude Code integration work, and is it private?
+In Settings, click Connect to register local HTTP lifecycle hooks in `~/.claude/settings.json` pointing strictly to `127.0.0.1:47892`. Better Rich Presence displays only the current action, project folder name, and optional chat title on Discord—never full file paths, shell arguments, or prompt contents.
+
+### Does Better Rich Presence work on both Windows and Linux?
+Yes. Windows ships with an NSIS installer using native Win32 window and idle APIs. Linux ships as `.deb`, `.rpm`, and `.AppImage` packages with native support for X11, GNOME Wayland, Hyprland, Sway, a process-scan fallback, system tray controls, and XDG login autostart.
+
+### How much RAM and CPU does it actually use?
+Because the background core is written in Rust with Tauri 2 instead of Electron, Better Rich Presence typically runs under 20 MB of RAM and under 0.2% CPU, with a ~4 MB binary that starts in under a second.
+
+### Do I need a Discord Developer Portal application or custom tokens?
+No. Better Rich Presence connects directly to your local Discord desktop client over Discord IPC with zero developer portal setup, no tokens, and no mandatory accounts.
+
+### Is Better Rich Presence free and open source, and can I add my own app?
+Yes. Better Rich Presence is 100% free and MIT-licensed on GitHub. You can add any custom executable right inside the Apps tab, or submit a pull request adding one entry to `apps.json` so everyone gets out-of-the-box support.
