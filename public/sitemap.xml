@@ -13,6 +13,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://better-discord-rich-presence.netlify.app/guides/what-is-discord-rich-presence/</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://better-discord-rich-presence.netlify.app/guides/vscode-discord-rich-presence/</loc>
     <lastmod>2026-11-28</lastmod>
     <changefreq>monthly</changefreq>

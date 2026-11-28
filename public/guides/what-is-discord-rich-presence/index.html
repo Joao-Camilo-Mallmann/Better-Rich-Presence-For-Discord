@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO: title under 60 characters, description under 155, canonical with trailing slash -->
+  <title>What Is Discord Rich Presence? How to Get It (Free)</title>
+  <meta name="description"
+    content="Discord Rich Presence is the Playing card on your profile. See how it works and how to get it for any app, free, on Windows and Linux." />
+  <meta name="author" content="Better Rich Presence" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#5865f2" />
+  <link rel="canonical" href="https://better-discord-rich-presence.netlify.app/guides/what-is-discord-rich-presence/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Better Rich Presence" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://better-discord-rich-presence.netlify.app/guides/what-is-discord-rich-presence/" />
+  <meta property="og:title" content="What is Discord Rich Presence, and how do you get it?" />
+  <meta property="og:description"
+    content="Discord Rich Presence is the Playing card on your profile. See how it works and how to get it for any app, free, on Windows and Linux." />
+  <meta property="og:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+  <meta property="article:published_time" content="2026-11-28" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="What is Discord Rich Presence, and how do you get it?" />
+  <meta name="twitter:description"
+    content="Discord Rich Presence is the Playing card on your profile. See how it works and how to get it for any app, free, on Windows and Linux." />
+  <meta name="twitter:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta name="twitter:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="/logo-256.png" />
+  <link rel="apple-touch-icon" href="/logo-256.png" />
+
+  <!-- Fonts: non-blocking, with system fallbacks (same as the landing page) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+  </noscript>
+
+  <!-- Shared guide stylesheet -->
+  <link rel="stylesheet" href="/guides/_shared/guide.css" />
+
+  <!-- JSON-LD: Article -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "What is Discord Rich Presence, and how do you get it?",
+      "description": "Discord Rich Presence is the Playing card on your profile. See how it works and how to get it for any app, free, on Windows and Linux.",
+      "image": "https://better-discord-rich-presence.netlify.app/img/og.jpg",
+      "inLanguage": "en",
+      "datePublished": "2026-11-28",
+      "dateModified": "2026-11-28",
+      "mainEntityOfPage": "https://better-discord-rich-presence.netlify.app/guides/what-is-discord-rich-presence/",
+      "author": {
+        "@type": "Organization",
+        "name": "Better Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Better Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://better-discord-rich-presence.netlify.app/logo-256.png"
+        }
+      }
+    }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Better Rich Presence",
+          "item": "https://better-discord-rich-presence.netlify.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://better-discord-rich-presence.netlify.app/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "What Is Discord Rich Presence",
+          "item": "https://better-discord-rich-presence.netlify.app/guides/what-is-discord-rich-presence/"
+        }
+      ]
+    }
+  </script>
+
+  <!-- JSON-LD: FAQPage (answers must equal the visible FAQ text, no markup inside answers) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Discord Rich Presence free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Rich Presence is a Discord feature, and Better Rich Presence is free and open source under the MIT License, with no paywalls, no telemetry, and no accounts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Discord Rich Presence work on mobile or in a browser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Discord's own documentation says Rich Presence set through RPC only works with a running Discord desktop client, and it does not support mobile, console, or web clients. Better Rich Presence is a Windows and Linux desktop app, so you need a computer with the Discord desktop app open."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe, and who can see it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rich Presence shows on your Discord profile, friend list, and server member lists, so anyone who can see your profile can see it. Better Rich Presence connects to your local Discord client over Discord IPC, needs no token or account, and is open source. You can pause everything with the Share switch or turn off any single app."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a Discord Developer Portal application or a token?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Normally an app has to be registered with Discord and use an Application ID, but Better Rich Presence already handles that. It connects directly to your local Discord desktop client over Discord IPC, with no Developer Portal setup, no token, and no account to create."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get a custom Rich Presence for an app that has none?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use a custom RPC tool. In Better Rich Presence, check the built-in catalog of 280+ apps in the Apps tab first, and if your app is missing, click Add App and enter its executable or window title. The custom app guide walks through it."
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Primary">
+      <a href="/" class="nav__brand">
+        <img src="/logo-256.png" alt="Better Rich Presence logo" width="36" height="36" decoding="async" />
+        <span>Better RPC</span>
+      </a>
+      <div class="nav__actions">
+        <a class="nav__link" href="/guides/">Guides</a>
+        <a class="btn btn--green" href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest"
+          target="_blank" rel="noopener noreferrer">Download</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container container--narrow">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Better Rich Presence</a></li>
+        <li><a href="/guides/">Guides</a></li>
+        <li aria-current="page">What Is Discord Rich Presence</li>
+      </ol>
+    </nav>
+  </div>
+
+  <main id="main" class="article">
+    <span class="eyebrow">Guide</span>
+    <h1>What is Discord Rich Presence, and how do you get it?</h1>
+
+    <p class="lead">
+      <strong>Discord Rich Presence is the activity card on your Discord profile that shows what you are doing, such as "Playing" a game, with a title, a short status line, an icon, and a timer.</strong>
+      Games and apps that support it set it for you; for any other app you can get a custom Rich Presence for free by running Better Rich Presence, which detects your app and updates the card automatically on Windows and Linux.
+    </p>
+
+    <p class="meta">Published <time datetime="2026-11-28">November 28, 2026</time> &middot; about 5 minutes</p>
+
+    <nav class="toc" aria-labelledby="toc-title">
+      <span class="toc__title" id="toc-title">On this page</span>
+      <ol>
+        <li><a href="#what-it-is">What Discord Rich Presence is</a></li>
+        <li><a href="#how-it-works">How Rich Presence normally works</a></li>
+        <li><a href="#get-it">How to get Rich Presence for any app</a></li>
+        <li><a href="#custom-rpc">Add an app that is not listed (custom RPC)</a></li>
+        <li><a href="#privacy">Privacy: who sees it and how to turn it off</a></li>
+        <li><a href="#troubleshooting">If nothing shows up</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#related">Related guides</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="what-it-is">What Discord Rich Presence is</h2>
+    <p>
+      Rich Presence, also called an "Activity" in Discord's own documentation, is the current activity of a user. Other people see it in several places on Discord:
+    </p>
+    <ul>
+      <li>Your user profile.</li>
+      <li>Friend lists.</li>
+      <li>Server member lists.</li>
+    </ul>
+    <p>
+      The classic example is a game: your profile says what you are playing, what you are doing in it, and for how long. The card is built from a few fields:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Field</th>
+            <th scope="col">What it shows</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>The game or app name, shown on your profile.</td>
+          </tr>
+          <tr>
+            <td>Details</td>
+            <td>The main line, such as what the player is doing.</td>
+          </tr>
+          <tr>
+            <td>State</td>
+            <td>A secondary status line.</td>
+          </tr>
+          <tr>
+            <td>Timestamps</td>
+            <td>Elapsed or remaining time.</td>
+          </tr>
+          <tr>
+            <td>Assets</td>
+            <td>Artwork and small icons, such as a game thumbnail or a badge.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <figure class="figure">
+      <img src="/img/app/card-vscode.webp" width="900" height="328"
+        alt="Discord activity card for VS Code showing the VS Code icon with a small Rust language badge, the text VScode - Coding, and an elapsed timer"
+        loading="lazy" decoding="async" />
+      <figcaption>A Rich Presence card for VS Code: an icon with a language badge, a short status line, and an elapsed timer.</figcaption>
+    </figure>
+    <div class="callout callout--note">
+      <span class="callout__title">Not the same as Discord Activities</span>
+      Discord's documentation separates Rich Presence from Discord Activities, which are embedded games. This guide is about Rich Presence, the status card on your profile.
+    </div>
+
+    <h2 id="how-it-works">How Rich Presence normally works</h2>
+    <p>
+      The app or game has to tell Discord what to display. Developers do that with Discord's Social SDK, or by talking to a running Discord desktop client through RPC (Remote Procedure Call). The app must be registered with Discord and have an Application ID. Discord's reference for this is the <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/docs/SettingRichPresence.md" target="_blank" rel="noopener noreferrer">Setting Rich Presence</a> page, kept in this project's docs.
+    </p>
+    <p>
+      That means a game has Rich Presence only if its developer built it in. For everything else, such as a code editor, a design tool, a terminal, or a browser, you need a separate tool that sets the presence for you. That is what people mean by custom Rich Presence or a custom RPC.
+    </p>
+    <div class="callout">
+      <span class="callout__title">Desktop client required</span>
+      Discord's documentation says Rich Presence via RPC only works with a running Discord desktop client. It does not support mobile, console, or web clients.
+    </div>
+
+    <h2 id="get-it">How to get Rich Presence for any app</h2>
+    <p>
+      Better Rich Presence is a free, open-source desktop app that does the RPC work for you. It watches the focused window and updates your Discord status automatically, with no Developer Portal application and no token. It ships with a catalog of 280+ pre-configured apps, so most apps work as soon as you run it.
+    </p>
+    <h3>Step 1: Download it</h3>
+    <p>
+      Open the <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest" target="_blank" rel="noopener noreferrer">latest release on GitHub</a> and pick the build for your system. On Windows that is the NSIS installer. On Linux it is a <code>.deb</code>, <code>.rpm</code>, or <code>.AppImage</code> package.
+    </p>
+    <h3>Step 2: Run it with Discord open</h3>
+    <p>
+      Keep the Discord desktop app running, then start Better Rich Presence. When it reaches Discord, the colored band at the top of the window reads <strong>Live on Discord</strong>. Make sure the <strong>Share</strong> switch is on.
+    </p>
+    <h3>Step 3: Open the app you want to show</h3>
+    <p>
+      Switch to a supported app, for example VS Code, Figma, Blender, Spotify, or Docker. The <strong>Now</strong> tab shows a <strong>What friends see</strong> preview of the card Discord displays, so you can check it without leaving the app.
+    </p>
+    <figure class="figure figure--tall">
+      <img src="/img/app/now.webp" width="528" height="979"
+        alt="Better Rich Presence Now tab showing the Live on Discord band, the Share switch, and the What friends see preview of the Discord card"
+        loading="lazy" decoding="async" />
+      <figcaption>The Now tab: status band, Share switch, and a live preview of your Discord card.</figcaption>
+    </figure>
+    <h3>Step 4: Pick what owns your presence</h3>
+    <p>The <strong>Apps</strong> tab has two modes:</p>
+    <ul>
+      <li><strong>Dynamic</strong> follows the window you are using.</li>
+      <li><strong>Priority List</strong> keeps your highest-ranked running app shown.</li>
+    </ul>
+    <p>
+      You can reorder the list, switch any app off, and customize the details and state text per application. To keep it running after a restart, turn on <strong>Start on login</strong> in <strong>Settings</strong>.
+    </p>
+    <figure class="figure figure--tall">
+      <img src="/img/app/apps.webp" width="528" height="979"
+        alt="Better Rich Presence Apps tab showing the Dynamic and Priority List mode selector, the Add App button, and ranked rules for Claude Code, VS Code, Cursor, and Visual Studio"
+        loading="lazy" decoding="async" />
+      <figcaption>The Apps tab: choose the presence mode and rank your apps.</figcaption>
+    </figure>
+
+    <h2 id="custom-rpc">Add an app that is not listed (custom RPC)</h2>
+    <p>
+      If your app is not in the catalog, you can still set up a custom RPC in a minute. Open the <strong>Apps</strong> tab, click <strong>Add App</strong>, and enter the app's executable or its window title. Check the <strong>Now</strong> tab to confirm the card. The full walkthrough is in the <a href="/guides/custom-discord-rich-presence-any-app/">custom app guide</a>.
+    </p>
+    <p>
+      Code editors get one extra detail: Better Rich Presence reads the open file name from the window title and shows the matching programming language icon, with 90+ languages and special files covered. See the <a href="/guides/vscode-discord-rich-presence/">VS Code guide</a> for an example.
+    </p>
+
+    <h2 id="privacy">Privacy: who sees it and how to turn it off</h2>
+    <p>
+      Anyone who can see your Discord profile, friend list, or a server member list you appear in can see your Rich Presence, so think about what it reveals before you leave it on all day. You are in control of it:
+    </p>
+    <ul>
+      <li>The <strong>Share</strong> switch pauses or resumes presence instantly.</li>
+      <li>Any app in the Apps tab can be switched off so it never appears on your profile.</li>
+      <li>Better Rich Presence connects to your local Discord client over Discord IPC. The project states there is no telemetry and no accounts, and the source is on GitHub under the MIT License.</li>
+    </ul>
+
+    <h2 id="troubleshooting">If nothing shows up</h2>
+    <ul>
+      <li><strong>Not connected to Discord.</strong> Start or restart the Discord desktop app. The web and mobile apps do not work for this.</li>
+      <li><strong>Sharing off.</strong> Turn the Share switch back on.</li>
+      <li><strong>Paused for a game.</strong> Discord detected a game, and Better Rich Presence yields to it. Your game owns the presence for now.</li>
+      <li><strong>Your app is missing.</strong> Add it from the Apps tab, or open an issue on <a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues" target="_blank" rel="noopener noreferrer">GitHub</a>.</li>
+    </ul>
+
+    <div class="cta-band">
+      <p><strong>Free, open source (MIT), no accounts.</strong> Get Windows and Linux builds from the latest release.</p>
+      <a class="btn btn--white" href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest"
+        target="_blank" rel="noopener noreferrer">Download Better RPC</a>
+    </div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <div class="faq__item">
+        <h3>Is Discord Rich Presence free?</h3>
+        <p>Yes. Rich Presence is a Discord feature, and Better Rich Presence is free and open source under the MIT License, with no paywalls, no telemetry, and no accounts.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Does Discord Rich Presence work on mobile or in a browser?</h3>
+        <p>No. Discord's own documentation says Rich Presence set through RPC only works with a running Discord desktop client, and it does not support mobile, console, or web clients. Better Rich Presence is a Windows and Linux desktop app, so you need a computer with the Discord desktop app open.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Is it safe, and who can see it?</h3>
+        <p>Rich Presence shows on your Discord profile, friend list, and server member lists, so anyone who can see your profile can see it. Better Rich Presence connects to your local Discord client over Discord IPC, needs no token or account, and is open source. You can pause everything with the Share switch or turn off any single app.</p>
+      </div>
+      <div class="faq__item">
+        <h3>Do I need a Discord Developer Portal application or a token?</h3>
+        <p>No. Normally an app has to be registered with Discord and use an Application ID, but Better Rich Presence already handles that. It connects directly to your local Discord desktop client over Discord IPC, with no Developer Portal setup, no token, and no account to create.</p>
+      </div>
+      <div class="faq__item">
+        <h3>How do I get a custom Rich Presence for an app that has none?</h3>
+        <p>Use a custom RPC tool. In Better Rich Presence, check the built-in catalog of 280+ apps in the Apps tab first, and if your app is missing, click Add App and enter its executable or window title. The custom app guide walks through it.</p>
+      </div>
+    </div>
+
+    <h2 id="related">Related guides</h2>
+    <ul class="guide-grid">
+      <li>
+        <a class="guide-card" href="/guides/custom-discord-rich-presence-any-app/">
+          <span class="guide-card__title">Add any app</span>
+          <span class="guide-card__text">Custom Rich Presence with no Developer Portal.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/vscode-discord-rich-presence/">
+          <span class="guide-card__title">Show VS Code on Discord</span>
+          <span class="guide-card__text">Language icons for your editor.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/claude-code-discord-status/">
+          <span class="guide-card__title">Claude Code Discord status</span>
+          <span class="guide-card__text">Show your live Claude Code session on Discord.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/discord-rich-presence-linux/">
+          <span class="guide-card__title">Discord Rich Presence on Linux</span>
+          <span class="guide-card__text">X11, GNOME Wayland, Hyprland, and Sway.</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/lightweight-discord-rich-presence/">
+          <span class="guide-card__title">Lightweight Rich Presence</span>
+          <span class="guide-card__text">Why a Rust and Tauri core stays under 20 MB of RAM.</span>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand">
+            <img src="/logo-256.png" alt="Better Rich Presence logo" width="34" height="34" loading="lazy" decoding="async" />
+            <span>Better Rich Presence</span>
+          </div>
+          <p class="footer__desc">
+            Automatic Discord Rich Presence built with Rust and Tauri 2. By coders, for coders. Open source under the MIT License.
+          </p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <h2 class="footer__title">Product</h2>
+            <ul class="footer__list">
+              <li><a href="/">Home</a></li>
+              <li><a href="/guides/">Guides</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest" target="_blank" rel="noopener noreferrer">Download</a></li>
+              <li><a href="/llms.txt">llms.txt</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer__title">Open Source</h2>
+            <ul class="footer__list">
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues" target="_blank" rel="noopener noreferrer">Issues</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; 2026 João Camilo Mallmann &middot; MIT License</span>
+        <span>Not affiliated with Discord Inc. Logos belong to their respective owners.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

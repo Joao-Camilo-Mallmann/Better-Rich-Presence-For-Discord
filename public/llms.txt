@@ -29,6 +29,7 @@
 ## Guides
 
 - [All Guides](https://better-discord-rich-presence.netlify.app/guides/): Step-by-step Discord Rich Presence guides for developers
+- [What Is Discord Rich Presence? How to Get It (Free)](https://better-discord-rich-presence.netlify.app/guides/what-is-discord-rich-presence/): What the Playing card on your profile is, how it works, and how to get it for any app
 - [How to show VS Code on Discord (with language icons)](https://better-discord-rich-presence.netlify.app/guides/vscode-discord-rich-presence/): Install the app, open a file, and get a programming language icon on your Discord profile
 - [Claude Code Discord status](https://better-discord-rich-presence.netlify.app/guides/claude-code-discord-status/): Show your live Claude Code session as your Discord status
 - [Discord Rich Presence on Linux](https://better-discord-rich-presence.netlify.app/guides/discord-rich-presence-linux/): X11, GNOME Wayland, Hyprland, and Sway support
