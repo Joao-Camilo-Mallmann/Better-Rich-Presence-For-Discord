@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Discord Rich Presence Guides for Developers</title>
+  <meta name="description"
+    content="Step-by-step guides for Discord Rich Presence: VS Code, Claude Code, Linux, custom apps, JetBrains, Neovim, and a lightweight Rust core." />
+  <meta name="author" content="Better Rich Presence" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#5865f2" />
+  <link rel="canonical" href="https://better-discord-rich-presence.netlify.app/guides/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Better Rich Presence" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://better-discord-rich-presence.netlify.app/guides/" />
+  <meta property="og:title" content="Discord Rich Presence Guides for Developers" />
+  <meta property="og:description"
+    content="Step-by-step guides for Discord Rich Presence: VS Code, Claude Code, Linux, custom apps, JetBrains, Neovim, and a lightweight Rust core." />
+  <meta property="og:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Discord Rich Presence Guides for Developers" />
+  <meta name="twitter:description"
+    content="Step-by-step guides for Discord Rich Presence: VS Code, Claude Code, Linux, custom apps, JetBrains, Neovim, and a lightweight Rust core." />
+  <meta name="twitter:image" content="https://better-discord-rich-presence.netlify.app/img/og.jpg" />
+  <meta name="twitter:image:alt" content="Better Rich Presence preview showing Discord Rich Presence before and after automatic app detection" />
+
+  <link rel="icon" type="image/png" href="/logo-256.png" />
+  <link rel="apple-touch-icon" href="/logo-256.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+  </noscript>
+
+  <link rel="stylesheet" href="/guides/_shared/guide.css" />
+
+  <!-- JSON-LD: CollectionPage with the list of guides -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Discord Rich Presence Guides for Developers",
+      "description": "Step-by-step guides for Discord Rich Presence: VS Code, Claude Code, Linux, custom apps, JetBrains, Neovim, and a lightweight Rust core.",
+      "url": "https://better-discord-rich-presence.netlify.app/guides/",
+      "inLanguage": "en",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Better Rich Presence",
+        "url": "https://better-discord-rich-presence.netlify.app/"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "How to show VS Code on Discord (with language icons)",
+            "url": "https://better-discord-rich-presence.netlify.app/guides/vscode-discord-rich-presence/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Show your live Claude Code session as Discord status",
+            "url": "https://better-discord-rich-presence.netlify.app/guides/claude-code-discord-status/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Discord Rich Presence on Linux: X11, GNOME Wayland, Hyprland, Sway",
+            "url": "https://better-discord-rich-presence.netlify.app/guides/discord-rich-presence-linux/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Add any app to Discord Rich Presence, no Developer Portal",
+            "url": "https://better-discord-rich-presence.netlify.app/guides/custom-discord-rich-presence-any-app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "Discord presence for JetBrains IDEs, Neovim, Zed, Sublime Text, and Cursor",
+            "url": "https://better-discord-rich-presence.netlify.app/guides/jetbrains-neovim-discord-presence/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "name": "Lightweight Discord Rich Presence: a Rust and Tauri core under 20 MB of RAM",
+            "url": "https://better-discord-rich-presence.netlify.app/guides/lightweight-discord-rich-presence/"
+          }
+        ]
+      }
+    }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Better Rich Presence",
+          "item": "https://better-discord-rich-presence.netlify.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://better-discord-rich-presence.netlify.app/guides/"
+        }
+      ]
+    }
+  </script>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Primary">
+      <a href="/" class="nav__brand">
+        <img src="/logo-256.png" alt="Better Rich Presence logo" width="36" height="36" decoding="async" />
+        <span>Better RPC</span>
+      </a>
+      <div class="nav__actions">
+        <a class="nav__link" href="/guides/" aria-current="page">Guides</a>
+        <a class="btn btn--green" href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest"
+          target="_blank" rel="noopener noreferrer">Download</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Better Rich Presence</a></li>
+        <li aria-current="page">Guides</li>
+      </ol>
+    </nav>
+  </div>
+
+  <main id="main" class="hub">
+    <span class="eyebrow">Guides</span>
+    <h1>Discord Rich Presence guides for developers</h1>
+    <p class="lead hub__lead">
+      Better Rich Presence is a free, open-source desktop app that shows what you are working on in Discord, with language icons for your editor and live Claude Code status. Each guide answers one question, step by step.
+    </p>
+
+    <ul class="guide-grid">
+      <li>
+        <a class="guide-card" href="/guides/vscode-discord-rich-presence/">
+          <span class="guide-card__title">Show VS Code on Discord</span>
+          <span class="guide-card__text">Install the app, open a file, and get a language icon on your profile.</span>
+          <span class="guide-card__more">Read the guide</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/claude-code-discord-status/">
+          <span class="guide-card__title">Claude Code Discord status</span>
+          <span class="guide-card__text">Show your live Claude Code session as your Discord status, with one-click setup.</span>
+          <span class="guide-card__more">Read the guide</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/discord-rich-presence-linux/">
+          <span class="guide-card__title">Discord Rich Presence on Linux</span>
+          <span class="guide-card__text">What works on X11, GNOME Wayland, Hyprland, and Sway, and the fallback when nothing does.</span>
+          <span class="guide-card__more">Read the guide</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/custom-discord-rich-presence-any-app/">
+          <span class="guide-card__title">Add any app</span>
+          <span class="guide-card__text">Create a custom Rich Presence rule without touching the Discord Developer Portal.</span>
+          <span class="guide-card__more">Read the guide</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/jetbrains-neovim-discord-presence/">
+          <span class="guide-card__title">JetBrains, Neovim, Zed, Sublime, Cursor</span>
+          <span class="guide-card__text">Language icons and presence for the other editors and IDEs you use.</span>
+          <span class="guide-card__more">Read the guide</span>
+        </a>
+      </li>
+      <li>
+        <a class="guide-card" href="/guides/lightweight-discord-rich-presence/">
+          <span class="guide-card__title">Lightweight Rich Presence</span>
+          <span class="guide-card__text">Why a Rust and Tauri core stays under 20 MB of RAM.</span>
+          <span class="guide-card__more">Read the guide</span>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand">
+            <img src="/logo-256.png" alt="Better Rich Presence logo" width="34" height="34" loading="lazy" decoding="async" />
+            <span>Better Rich Presence</span>
+          </div>
+          <p class="footer__desc">
+            Automatic Discord Rich Presence built with Rust and Tauri 2. By coders, for coders. Open source under the MIT License.
+          </p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <h2 class="footer__title">Product</h2>
+            <ul class="footer__list">
+              <li><a href="/">Home</a></li>
+              <li><a href="/guides/">Guides</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/releases/latest" target="_blank" rel="noopener noreferrer">Download</a></li>
+              <li><a href="/llms.txt">llms.txt</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer__title">Open Source</h2>
+            <ul class="footer__list">
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/issues" target="_blank" rel="noopener noreferrer">Issues</a></li>
+              <li><a href="https://github.com/Joao-Camilo-Mallmann/Better-Rich-Presence-For-Discord/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; 2026 João Camilo Mallmann &middot; MIT License</span>
+        <span>Not affiliated with Discord Inc. Logos belong to their respective owners.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

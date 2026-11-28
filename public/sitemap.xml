@@ -2,8 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://better-discord-rich-presence.netlify.app/</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://better-discord-rich-presence.netlify.app/guides/</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://better-discord-rich-presence.netlify.app/guides/vscode-discord-rich-presence/</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://better-discord-rich-presence.netlify.app/guides/claude-code-discord-status/</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://better-discord-rich-presence.netlify.app/guides/discord-rich-presence-linux/</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://better-discord-rich-presence.netlify.app/guides/custom-discord-rich-presence-any-app/</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://better-discord-rich-presence.netlify.app/guides/jetbrains-neovim-discord-presence/</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://better-discord-rich-presence.netlify.app/guides/lightweight-discord-rich-presence/</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
