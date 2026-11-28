@@ -28,6 +28,15 @@
 - [x] 4.5 `npm run build` succeeds and `dist/guides/` contains all pages and the stylesheet
 - [x] 4.6 Open the hub and an article at mobile (375px) and desktop widths
 
+## 6. Search Console alignment (data: last 3 months to 2026-11-26)
+
+Only the home page has impressions (1,348; 64 clicks; avg position 11.6). Traffic comes from "custom" queries ("custom rpc discord" 8.9, "custom rich presence" 8.4, "discord custom rpc" 9.9); the head term "discord rich presence" sits at ~41.
+
+- [x] 6.1 Keep "Custom Discord Rich Presence" and "custom RPC" in the landing page title, meta description, Open Graph/Twitter titles, and h1 (the relaunch draft had dropped them)
+- [x] 6.2 Retarget `custom-discord-rich-presence-any-app` at "custom RPC for Discord" (title, headline, breadcrumb, lead)
+- [x] 6.3 Add `what-is-discord-rich-presence` for the head term and beginner queries; register it in the sitemap, llms.txt, hub, and related lists
+- [ ] 6.4 After deploy: request indexing for `/` and `/guides/` in Search Console, resubmit the sitemap, and compare query positions after 4 weeks
+
 ## 5. Documentation
 
 - [x] 5.1 Update `.agents/AGENTS.md` if conventions, workflows, or reference docs changed (mark N/A otherwise)
